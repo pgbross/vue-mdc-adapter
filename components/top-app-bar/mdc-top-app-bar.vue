@@ -27,8 +27,9 @@
 </template>
 
 <script>
-import MDCTopAppBarFoundation from '@material/top-app-bar/foundation'
+import MDCTopAppBarFoundation from '@material/top-app-bar/standard/foundation'
 import MDCShortTopAppBarFoundation from '@material/top-app-bar/short/foundation'
+import MDCFixedTopAppBarFoundation from '@material/top-app-bar/fixed/foundation'
 import { DispatchEventMixin } from '../base'
 
 export default {
@@ -49,7 +50,7 @@ export default {
   },
   data() {
     return {
-      rootStyles: {},
+      rootStyles: { top: '0' },
       rootClasses: {
         'mdc-top-app-bar': true,
         'mdc-top-app-bar--dense': this.dense,
@@ -123,7 +124,9 @@ export default {
 
     this.foundation = this.short
       ? new MDCShortTopAppBarFoundation(adapter)
-      : new MDCTopAppBarFoundation(adapter)
+      : this.fixed
+        ? new MDCFixedTopAppBarFoundation(adapter)
+        : new MDCTopAppBarFoundation(adapter)
 
     this.foundation.init()
   },
