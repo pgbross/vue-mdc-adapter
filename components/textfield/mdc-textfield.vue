@@ -130,7 +130,7 @@ export default {
     event: 'model'
   },
   props: {
-    value: String,
+    value: [String, Number],
     type: {
       type: String,
       default: 'text',

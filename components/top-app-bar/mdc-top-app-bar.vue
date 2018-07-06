@@ -42,7 +42,7 @@ export default {
     fixed: Boolean,
     title: String,
     icon: {
-      type: String,
+      type: [String, Boolean],
       default: 'menu'
     },
     iconClasses: Object,
