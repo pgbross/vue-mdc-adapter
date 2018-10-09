@@ -1,15 +1,15 @@
+/* eslint  no-console:0 */
 import os from 'os'
 import path from 'path'
 import resolve from 'rollup-plugin-node-resolve'
 import babel from 'rollup-plugin-babel'
 import commonjs from 'rollup-plugin-commonjs'
 import vue from 'rollup-plugin-vue'
-import uglify from 'rollup-plugin-uglify'
+import { terser } from 'rollup-plugin-terser'
 import sass from 'rollup-plugin-sass'
 import autoprefixer from 'autoprefixer'
 import postcss from 'postcss'
 import csso from 'postcss-csso'
-import { minify } from 'uglify-es'
 import pkg from './package.json'
 import replace from 'rollup-plugin-replace'
 
@@ -63,17 +63,14 @@ const babelConfig = {
   presets: [
     [
       // env preset https://github.com/babel/babel-preset-env
-      'env',
+      '@babel/preset-env',
       // let rollup take care of modules
       { modules: false }
     ]
   ],
   plugins: [
-    'transform-object-assign',
-    'transform-object-rest-spread',
-    // let rollup bundle helpers  once
-    // see https://github.com/rollup/rollup-plugin-babel#helpers
-    'external-helpers'
+    '@babel/transform-object-assign',
+    '@babel/proposal-object-rest-spread'
   ]
 }
 
@@ -152,22 +149,33 @@ function createUmdConfig(module, env, extract) {
 
   if (isProduction) {
     config.plugins.push(
-      uglify(
-        {
-          output: {
-            comments: function(node, comment) {
-              var text = comment.value
-              var type = comment.type
-              if (type == 'comment2') {
-                // multiline comment
-                return /@preserve|@license|@cc_on/i.test(text)
-              }
+      terser({
+        output: {
+          comments: function(node, comment) {
+            var text = comment.value
+            var type = comment.type
+            if (type == 'comment2') {
+              // multiline comment
+              return /@preserve|@license|@cc_on/i.test(text)
             }
           }
-        },
-        minify
-      )
+        }
+      })
     )
+    // config.plugins.push(
+    //   uglify({
+    //     output: {
+    //       comments: function(node, comment) {
+    //         var text = comment.value
+    //         var type = comment.type
+    //         if (type == 'comment2') {
+    //           // multiline comment
+    //           return /@preserve|@license|@cc_on/i.test(text)
+    //         }
+    //       }
+    //     }
+    //   })
+    // )
   }
   return config
 }

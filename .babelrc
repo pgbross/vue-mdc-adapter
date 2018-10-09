@@ -1,22 +1,21 @@
 {
   "comments": true,
   "plugins": [
-    "transform-object-assign",
-    "transform-object-rest-spread",
-    "syntax-dynamic-import"
+    "@babel/transform-object-assign",
+    "@babel/proposal-object-rest-spread",
+    "@babel/syntax-dynamic-import"
   ],
   "presets": [
-    ["env", { "modules": false }]
+    ["@babel/preset-env", { "modules": false }]
   ],
   "env": {
     "test": {
       "plugins": [
-        "transform-object-rest-spread",
-        "syntax-dynamic-import",
-        "transform-remove-strict-mode"
+        "@babel/proposal-object-rest-spread",
+        "@babel/syntax-dynamic-import",
       ],
       "presets": [
-        ["env", {
+        ["@babel/preset-env", {
           "targets": { "node": "current" },
         }]
       ]
