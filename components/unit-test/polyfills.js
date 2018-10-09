@@ -38,7 +38,6 @@
 
   window.MutationObserver = MutationObserver
 }.call(this))
-
 ;(function() {
   if (window.matchMedia) {
     return
@@ -54,7 +53,6 @@
     return mql
   }
 }.call(this))
-
 ;(function() {
   if (window.requestAnimationFrame) {
     return
@@ -62,7 +60,6 @@
 
   window.requestAnimationFrame = () => {}
 }.call(this))
-
 ;(function() {
   if (window.cancelAnimationFrame) {
     return
@@ -70,11 +67,18 @@
 
   window.cancelAnimationFrame = () => {}
 }.call(this))
-
 ;(function() {
   // global HTMLInputElement
-  HTMLInputElement.prototype.validity = {
-    badInput: false,
-    valid: true
-  }
+  Object.defineProperty(window.HTMLInputElement.prototype, 'validity', {
+    writable: true,
+    value: {
+      badInput: false,
+      valid: true
+    }
+  })
+
+  // HTMLInputElement.prototype.validity = {
+  //   badInput: false,
+  //   valid: true
+  // }
 }.call(this))

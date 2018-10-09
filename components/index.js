@@ -16,7 +16,7 @@ import VueMDCLayoutApp from './layout-app'
 import VueMDCLayoutGrid from './layout-grid'
 import VueMDCLinearProgress from './linear-progress'
 import VueMDCList from './list'
-import VueMDCMenu from './menu'
+// import VueMDCMenu from './menu'
 import VueMDCRadio from './radio'
 import VueMDCRipple from './ripple'
 import VueMDCSelect from './select'
@@ -49,7 +49,7 @@ export default {
     vm.use(VueMDCLayoutGrid)
     vm.use(VueMDCLinearProgress)
     vm.use(VueMDCList)
-    vm.use(VueMDCMenu)
+    // vm.use(VueMDCMenu)
     vm.use(VueMDCRadio)
     vm.use(VueMDCRipple)
     vm.use(VueMDCSelect)
