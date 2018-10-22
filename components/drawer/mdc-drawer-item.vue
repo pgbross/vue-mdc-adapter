@@ -28,7 +28,7 @@ export default {
   mixins: [DispatchEventMixin, CustomLinkMixin],
   props: {
     startIcon: String,
-    temporaryClose: {
+    modalClose: {
       type: Boolean,
       default: true
     },
@@ -49,9 +49,7 @@ export default {
       return {
         ...this.$listeners,
         click: e => {
-          this.mdcDrawer.isTemporary &&
-            this.temporaryClose &&
-            this.mdcDrawer.close()
+          this.mdcDrawer.isModal && this.modalClose && this.mdcDrawer.close()
           this.dispatchEvent(e)
         }
       }
@@ -66,8 +64,8 @@ export default {
     }
   },
   mounted() {
-    this.ripple = new RippleBase(this)
-    this.ripple.init()
+    // this.ripple = new RippleBase(this)
+    // this.ripple.init()
   },
   beforeDestroy() {
     this.ripple && this.ripple.destroy()

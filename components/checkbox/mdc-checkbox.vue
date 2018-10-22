@@ -39,7 +39,7 @@
 /* global HTMLElement */
 import MDCCheckboxFoundation from '@material/checkbox/foundation'
 import MDCFormFieldFoundation from '@material/form-field/foundation'
-import { getCorrectEventName } from '@material/animation'
+import { getCorrectEventName } from '@material/animation/index'
 import { DispatchFocusMixin, VMAUniqueIdMixin } from '../base'
 import { RippleBase } from '../ripple'
 import { applyPassive } from '../base'
@@ -88,7 +88,7 @@ export default {
       this.foundation.setDisabled(value)
     },
     indeterminate(value) {
-      this.foundation.setIndeterminate(value)
+      this.setIndeterminate(value)
     }
   },
   mounted() {
@@ -101,24 +101,22 @@ export default {
       removeNativeControlAttr: attr => {
         this.$refs.control.removeAttribute(attr)
       },
-      registerAnimationEndHandler: handler =>
-        this.$refs.root.addEventListener(
-          getCorrectEventName(window, 'animationend'),
-          handler
-        ),
-      deregisterAnimationEndHandler: handler =>
-        this.$refs.root.removeEventListener(
-          getCorrectEventName(window, 'animationend'),
-          handler
-        ),
-      registerChangeHandler: handler =>
-        this.$refs.control.addEventListener('change', handler),
-      deregisterChangeHandler: handler =>
-        this.$refs.control.removeEventListener('change', handler),
       getNativeControl: () => this.$refs.control,
+      isIndeterminate: () => this.$refs.control.indeterminate,
+      isChecked: () => this.checked,
+      hasNativeControl: () => !!this.$refs.control,
+      setNativeControlDisabled: disabled =>
+        (this.$refs.control.disabled = disabled),
       forceLayout: () => this.$refs.root.offsetWidth,
       isAttachedToDOM: () => Boolean(this.$el.parentNode)
     })
+
+    this.handleAnimationEnd_ = () => this.foundation.handleAnimationEnd()
+
+    this.$el.addEventListener(
+      getCorrectEventName(window, 'animationend'),
+      this.handleAnimationEnd_
+    )
 
     this.ripple = new RippleBase(this, {
       isUnbounded: () => true,
@@ -154,23 +152,31 @@ export default {
     this.formField.init()
     this.setChecked(this.checked)
     this.foundation.setDisabled(this.disabled)
-    this.foundation.setIndeterminate(this.indeterminate)
+    this.setIndeterminate(this.indeterminate)
   },
   beforeDestroy() {
+    this.$el.removeEventListener(
+      getCorrectEventName(window, 'animationend'),
+      this.handleAnimationEnd_
+    )
+
     this.formField.destroy()
     this.ripple.destroy()
     this.foundation.destroy()
   },
   methods: {
     setChecked(checked) {
-      this.foundation.setChecked(
-        Array.isArray(checked) ? checked.indexOf(this.value) > -1 : checked
-      )
+      this.$refs.control.checked = Array.isArray(checked)
+        ? checked.indexOf(this.value) > -1
+        : checked
+    },
+    setIndeterminate(indeterminate) {
+      this.$refs.control.indeterminate = indeterminate
     },
 
     onChange() {
-      this.$emit('update:indeterminate', this.foundation.isIndeterminate())
-      const isChecked = this.foundation.isChecked()
+      this.$emit('update:indeterminate', this.indeterminate)
+      const isChecked = this.$refs.control.checked
 
       if (Array.isArray(this.checked)) {
         const idx = this.checked.indexOf(this.value)

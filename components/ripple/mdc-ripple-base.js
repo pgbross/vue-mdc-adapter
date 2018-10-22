@@ -1,4 +1,4 @@
-import MDCRippleFoundation from '@material/ripple/foundation.js'
+import { MDCRippleFoundation } from '@material/ripple/dist/mdc.ripple.js'
 import {
   supportsCssVariables,
   getMatchesProperty,

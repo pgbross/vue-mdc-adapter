@@ -205,6 +205,7 @@ Configure Webpack with sass-loader and make sure sass modules can be resolved.
 > If you are using a vue-cli webpack template, sass loader config is usually located in [config/build/utils.js](https://github.com/stasson/vue-mdc-adapter-webpack/commit/51de905ea878c51ee293947d404d831d13c8b99a#diff-8b394e36c9b3687bafaebea4caa2ebf1)
 
 Or if using vue-cli 3,
+
 ```js
 // vue.config.js
 module.exports = {
@@ -212,11 +213,11 @@ module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        includePaths: [path.resolve(__dirname,'node_modules')],
-      },
-    },
-  },
-};
+        includePaths: [path.resolve(__dirname, 'node_modules')]
+      }
+    }
+  }
+}
 ```
 
 import styles

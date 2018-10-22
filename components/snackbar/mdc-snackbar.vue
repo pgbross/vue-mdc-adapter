@@ -1,17 +1,17 @@
 <template>
-  <div 
-    ref="root" 
-    :class="classes" 
-    :aria-hidden="hidden" 
-    class="mdc-snackbar" 
-    aria-live="assertive" 
+  <div
+    ref="root"
+    :class="classes"
+    :aria-hidden="hidden"
+    class="mdc-snackbar"
+    aria-live="assertive"
     aria-atomic="true">
     <div class="mdc-snackbar__text">{{ message }}</div>
     <div class="mdc-snackbar__action-wrapper">
-      <button 
-        ref="button" 
-        :aria-hidden="actionHidden" 
-        type="button" 
+      <button
+        ref="button"
+        :aria-hidden="actionHidden"
+        type="button"
         class="mdc-snackbar__action-button">{{ actionText }}</button>
     </div>
   </div>
@@ -72,6 +72,7 @@ export default {
         this.message = text
       },
       setFocus: () => this.$refs.button.focus(),
+      isFocused: () => document.activeElement === this.$refs.button,
       visibilityIsHidden: () => document.hidden,
       registerCapturedBlurHandler: handler =>
         this.$refs.button.addEventListener('blur', handler, true),

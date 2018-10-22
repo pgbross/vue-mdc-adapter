@@ -67,17 +67,13 @@ const rules = [
       {
         loader: 'vue-markdown-loader/lib/markdown-compiler',
         options: {
-          // raw: true,
+          raw: true,
+          preventExtract: true,
           wrapper: 'article',
           markdown
         }
       }
     ]
-    // options: {
-    //   preventExtract: true,
-    //   wrapper: 'article',
-    //   markdown
-    // }
   },
   {
     test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

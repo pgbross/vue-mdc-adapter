@@ -83,10 +83,8 @@ export default {
       removeClass: className => this.$delete(this.classes, className),
       setNativeControlChecked: checked =>
         (this.$refs.control.checked = checked),
-      isNativeControlChecked: () => this.$refs.control.checked,
       setNativeControlDisabled: disabled =>
-        (this.$refs.control.disabled = disabled),
-      isNativeControlDisabled: () => this.nativeControl_.disabled
+        (this.$refs.control.disabled = disabled)
     })
     this.foundation.init()
     this.foundation.setChecked(this.checked)
@@ -101,7 +99,7 @@ export default {
   },
   methods: {
     onChanged(event) {
-      this.foundation && this.foundation.handleChange()
+      this.foundation && this.foundation.handleChange(event)
       this.$emit('change', event.target.checked)
     }
   }

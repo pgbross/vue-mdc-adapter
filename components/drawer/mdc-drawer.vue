@@ -1,21 +1,10 @@
 <template>
 <div>
   <aside ref="drawer" :class="classes" class="mdc-drawer mdc-drawer--modal">
+    <slot v-if="$slots['header']" name="header"></slot>
+    <!-- <div v-if="$slots['header']" class="mdc-drawer__header"><</div> -->
     <div class="mdc-drawer__content">
-      <nav class="mdc-list">
-        <a class="mdc-list-item mdc-list-item--activated" href="#" aria-selected="true">
-        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">inbox</i>
-        <span class="mdc-list-item__text">Inbox</span>
-      </a>
-        <a class="mdc-list-item" href="#">
-        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">send</i>
-        <span class="mdc-list-item__text">Outgoing</span>
-      </a>
-        <a class="mdc-list-item" href="#">
-        <i class="material-icons mdc-list-item__graphic" aria-hidden="true">drafts</i>
-        <span class="mdc-list-item__text">Drafts</span>
-      </a>
-      </nav>
+      <slot></slot>
     </div>
   </aside>
   <div class="mdc-drawer-scrim"></div>
@@ -50,6 +39,7 @@ export default {
     event: 'change'
   },
   props: {
+    modal: Boolean,
     open: Boolean,
     toolbarSpacer: Boolean,
     toggleOn: String,
@@ -68,6 +58,9 @@ export default {
       required: false
     }
   },
+  provide() {
+    return { mdcDrawer: this }
+  },
   data() {
     return {
       // open_: false,
@@ -75,7 +68,10 @@ export default {
     }
   },
   computed: {
-    type() {}
+    type() {},
+    isModal() {
+      return this.modal
+    }
   },
   watch: {
     open: 'onOpen_'

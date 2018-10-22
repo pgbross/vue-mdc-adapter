@@ -1,12 +1,12 @@
 <template>
   <div class="mdc-demo mdc-demo--container">
-    <mdc-checkbox 
-      v-model="checked" 
+    <mdc-checkbox
+      v-model="checked"
       :indeterminate.sync="indeterminate"
       :label="checked?'checked':'unchecked'"
     />
-    <mdc-button 
-      dense 
+    <mdc-button
+      dense
       @click="indeterminate=true">make indeterminate</mdc-button>
   </div>
 </template>

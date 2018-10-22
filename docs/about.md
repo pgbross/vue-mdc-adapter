@@ -6,5 +6,5 @@ recommended by Google:
 This project aims to find the right balance between ease of use and customization, while sticking to the _Vue Spirit_ (approachable, versatile, and performant)
 
 > This project is under active development, do not hesitate to open issues on [GitHub](https://github.com/stasson/vue-mdc-adapter/issues),
-contact us on [Gitter](https://gitter.im/vue-mdc-adapter/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-and follow us on Twitter [@vuemdc](https://twitter.com/vuemdc)
+> contact us on [Gitter](https://gitter.im/vue-mdc-adapter/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+> and follow us on Twitter [@vuemdc](https://twitter.com/vuemdc)
