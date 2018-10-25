@@ -17,7 +17,7 @@ import icSwitch from './assets/ic_switch_24px.svg'
 import icTabs from './assets/ic_tabs_24px.svg'
 import icTextField from './assets/ic_text_field_24px.svg'
 import icToast from './assets/ic_toast_24px.svg'
-import icToolbar from './assets/ic_toolbar_24px.svg'
+// import icToolbar from './assets/ic_toolbar_24px.svg'
 import icTopAppBar from './assets/ic_toolbar_24px.svg'
 import icTypography from './assets/ic_typography_24px.svg'
 
@@ -57,7 +57,7 @@ export default [
   link('switch', icSwitch),
   link('tabs', icTabs),
   link('textfield', icTextField),
-  link('toolbar', icToolbar),
+  // link('toolbar', icToolbar),
   link('top-app-bar', icTopAppBar),
   link('typography', icTypography)
 ]
