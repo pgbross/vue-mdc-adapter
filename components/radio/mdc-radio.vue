@@ -1,29 +1,23 @@
 <template>
-  <div
-    :class="formFieldClasses"
-    class="mdc-radio-wrapper">
-    <div
-      ref="root"
-      :class="classes"
-      :style="styles"
-      class="mdc-radio">
+  <div :class="formFieldClasses" class="mdc-radio-wrapper">
+    <div ref="root" :class="classes" :style="styles" class="mdc-radio">
       <input
         ref="control"
         :id="vma_uid_"
         :name="name"
         type="radio"
         class="mdc-radio__native-control"
-        @change="sync">
+        @change="sync"
+      />
 
-      <div
-        class="mdc-radio__background">
-        <div class="mdc-radio__outer-circle"/>
-        <div class="mdc-radio__inner-circle"/>
+      <div class="mdc-radio__background">
+        <div class="mdc-radio__outer-circle" />
+        <div class="mdc-radio__inner-circle" />
       </div>
     </div>
-    <label
-      ref="label"
-      :for="vma_uid_"><slot>{{ label }}</slot></label>
+    <label ref="label" :for="vma_uid_"
+      ><slot>{{ label }}</slot></label
+    >
   </div>
 </template>
 
@@ -71,7 +65,9 @@ export default {
     this.foundation = new MDCRadioFoundation({
       addClass: className => this.$set(this.classes, className, true),
       removeClass: className => this.$delete(this.classes, className),
-      getNativeControl: () => this.$refs.control
+
+      setNativeControlDisabled: disabled =>
+        (this.$refs.control.disabled = disabled)
     })
 
     // add ripple
@@ -108,11 +104,16 @@ export default {
     this.ripple.init()
     this.formField.init()
 
-    this.foundation.setValue(this.value || this.label)
+    // this.foundation.setValue(this.value || this.label)
     this.foundation.setDisabled(this.disabled)
-    this.foundation.setChecked(
-      this.checked || this.picked == this.foundation.getValue()
-    )
+
+    this.$refs.control.value = this.value || this.label
+
+    this.setChecked(this.checked || this.picked == this.$refs.control.value)
+
+    // this.foundation.setChecked(
+    //   this.checked || this.picked == this.foundation.getValue()
+    // )
 
     // refresh model
     this.checked && this.sync()
@@ -124,13 +125,13 @@ export default {
   },
   methods: {
     setChecked(checked) {
-      this.foundation.setChecked(checked)
+      this.$refs.control.checked = checked
     },
     isChecked() {
-      return this.foundation.isChecked()
+      return this.$refs.control.checked
     },
-    sync() {
-      this.$emit('change', this.foundation.getValue())
+    sync(evt) {
+      this.$emit('change', this.$refs.control.value)
     }
   }
 }
