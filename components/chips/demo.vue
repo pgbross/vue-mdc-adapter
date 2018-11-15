@@ -11,12 +11,12 @@
     <section class="mdc-demo">
       <mdc-subheading>Entry Chips</mdc-subheading>
       <mdc-chip-set>
-        <mdc-chip
-          leading-icon="face"
-          trailing-icon="more_vert">Jane Smith</mdc-chip>
-        <mdc-chip
-          leading-icon="face"
-          trailing-icon="more_vert">John Doe</mdc-chip>
+        <mdc-chip leading-icon="face" trailing-icon="more_vert"
+          >Jane Smith</mdc-chip
+        >
+        <mdc-chip leading-icon="face" trailing-icon="more_vert"
+          >John Doe</mdc-chip
+        >
       </mdc-chip-set>
     </section>
 
@@ -24,11 +24,15 @@
       <mdc-subheading>Entry Chips (font-awesome)</mdc-subheading>
       <mdc-chip-set>
         <mdc-chip
-          :leading-icon-classes="{fa:1,'fa-font-awesome':1 }"
-          :trailing-icon-classes="{fa:1,'fa-ellipsis-v':1}">Jane Smith</mdc-chip>
+          :leading-icon-classes="{ fa: 1, 'fa-font-awesome': 1 }"
+          :trailing-icon-classes="{ fa: 1, 'fa-ellipsis-v': 1 }"
+          >Jane Smith</mdc-chip
+        >
         <mdc-chip
-          :leading-icon-classes="{fa:1, 'fa-smile-o':1}"
-          :trailing-icon-classes="{fa:1, 'fa-ellipsis-v':1}">John Doe</mdc-chip>
+          :leading-icon-classes="{ fa: 1, 'fa-smile-o': 1 }"
+          :trailing-icon-classes="{ fa: 1, 'fa-ellipsis-v': 1 }"
+          >John Doe</mdc-chip
+        >
       </mdc-chip-set>
     </section>
 
@@ -54,18 +58,12 @@
 
       <mdc-subheading>Filter Chips with leading icon</mdc-subheading>
       <mdc-chip-set filter>
-        <mdc-chip
-          leading-icon="face"
-          trailing-icon="cancel">Tops</mdc-chip>
-        <mdc-chip
-          leading-icon="face"
-          trailing-icon="cancel">Bottoms</mdc-chip>
-        <mdc-chip
-          leading-icon="face"
-          trailing-icon="cancel">Shoes</mdc-chip>
-        <mdc-chip
-          leading-icon="face"
-          trailing-icon="cancel">Accessories</mdc-chip>
+        <mdc-chip leading-icon="face" trailing-icon="cancel">Tops</mdc-chip>
+        <mdc-chip leading-icon="face" trailing-icon="cancel">Bottoms</mdc-chip>
+        <mdc-chip leading-icon="face" trailing-icon="cancel">Shoes</mdc-chip>
+        <mdc-chip leading-icon="face" trailing-icon="cancel"
+          >Accessories</mdc-chip
+        >
       </mdc-chip-set>
     </section>
 
@@ -78,7 +76,6 @@
         <mdc-chip class="custom-chip-primary">Get Directions</mdc-chip>
       </mdc-chip-set>
 
-
       <mdc-chip-set>
         <mdc-chip class="custom-chip-secondary">Add to Calendar</mdc-chip>
         <mdc-chip class="custom-chip-secondary">Bookmark</mdc-chip>
@@ -86,7 +83,6 @@
         <mdc-chip class="custom-chip-secondary">Get Directions</mdc-chip>
       </mdc-chip-set>
     </section>
-
   </div>
 </template>
 

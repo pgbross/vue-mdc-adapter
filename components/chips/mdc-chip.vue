@@ -1,5 +1,6 @@
 <template>
   <div
+    :id="id"
     :class="classes"
     :style="styles"
     tabindex="0"
@@ -12,23 +13,19 @@
       ref="leadingIcon"
       :class="leadingClasses"
       class="mdc-chip__icon mdc-chip__icon--leading"
-    >{{ leadingIcon }}</i>
-    <div
-      v-if="isFilter"
-      class="mdc-chip__checkmark">
-      <svg
-        class="mdc-chip__checkmark-svg"
-        viewBox="-2 -3 30 30">
+      >{{ leadingIcon }}</i
+    >
+    <div v-if="isFilter" class="mdc-chip__checkmark">
+      <svg class="mdc-chip__checkmark-svg" viewBox="-2 -3 30 30">
         <path
           class="mdc-chip__checkmark-path"
           fill="none"
           stroke="black"
-          d="M1.73,12.91 8.1,19.28 22.79,4.59"/>
+          d="M1.73,12.91 8.1,19.28 22.79,4.59"
+        />
       </svg>
     </div>
-    <div class="mdc-chip__text">
-      <slot/>
-    </div>
+    <div class="mdc-chip__text"><slot /></div>
     <i
       v-if="havetrailingIcon"
       ref="trailingIcon"
@@ -38,7 +35,8 @@
       role="button"
       @click="handleTrailingIconInteraction"
       @keydown="handleTrailingIconInteraction"
-    >{{ trailingIcon }}</i>
+      >{{ trailingIcon }}</i
+    >
   </div>
 </template>
 applyPassive
@@ -62,10 +60,19 @@ export default {
       classes: {
         'mdc-chip': true
       },
-      styles: {}
+      styles: {},
+      id: ''
     }
   },
   computed: {
+    selected: {
+      get() {
+        return this.foundation.isSelected()
+      },
+      set(nv) {
+        this.foundation.setSelected(nv)
+      }
+    },
     isFilter() {
       return this.mdcChipSet && this.mdcChipSet.filter
     },
@@ -94,6 +101,10 @@ export default {
       )
     }
   },
+
+  created() {
+    this.id = this.mdcChipSet.nextId()
+  },
   mounted() {
     this.foundation = new MDCChipFoundation({
       addClass: className => this.$set(this.classes, className, true),
@@ -116,18 +127,26 @@ export default {
           this.$el,
           MDCChipFoundation.strings.INTERACTION_EVENT,
           {
-            chip: this
+            chipId: this.id
           },
           true
         )
         this.mdcChipSet && this.mdcChipSet.handleInteraction
       },
+
+      notifySelection: selected =>
+        emitCustomEvent(
+          this.$el,
+          MDCChipFoundation.strings.SELECTION_EVENT,
+          { chipId: this.id, selected: selected },
+          true /* shouldBubble */
+        ),
       notifyTrailingIconInteraction: () => {
         emitCustomEvent(
           this.$el,
           MDCChipFoundation.strings.TRAILING_ICON_INTERACTION_EVENT,
           {
-            chip: this
+            chipId: this.id
           },
           true
         )
@@ -136,7 +155,7 @@ export default {
         emitCustomEvent(
           this.$el,
           MDCChipFoundation.strings.REMOVAL_EVENT,
-          { chip: this },
+          { chipId: this.id, root: this.$el },
           true
         )
       },
@@ -147,6 +166,8 @@ export default {
     })
 
     this.foundation.init()
+
+    this.mdcChipSet.chips.push(this)
 
     this.ripple = new RippleBase(this)
     this.ripple.init()
