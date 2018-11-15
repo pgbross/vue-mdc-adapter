@@ -73,6 +73,9 @@ export default {
     // add ripple
     this.ripple = new RippleBase(this, {
       isUnbounded: () => true,
+
+      // Radio buttons technically go "active" whenever there is *any* keyboard interaction. This is not the
+      // UI we desire.
       isSurfaceActive: () => false,
       registerInteractionHandler: (evt, handler) => {
         this.$refs.control.addEventListener(evt, handler, applyPassive())
@@ -104,16 +107,9 @@ export default {
     this.ripple.init()
     this.formField.init()
 
-    // this.foundation.setValue(this.value || this.label)
     this.foundation.setDisabled(this.disabled)
-
     this.$refs.control.value = this.value || this.label
-
     this.setChecked(this.checked || this.picked == this.$refs.control.value)
-
-    // this.foundation.setChecked(
-    //   this.checked || this.picked == this.foundation.getValue()
-    // )
 
     // refresh model
     this.checked && this.sync()
