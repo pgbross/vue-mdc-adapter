@@ -1,28 +1,27 @@
 <template>
-  <header
-    ref="root"
-    :class="rootClasses"
-    :style="rootStyles"
-    v-on="$listeners">
+  <header ref="root" :class="rootClasses" :style="rootStyles" v-on="$listeners">
     <div class="mdc-top-app-bar__row">
-      <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
-        <a
+      <section
+        class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start"
+      >
+        <button
           v-if="haveNavigationIcon"
           ref="navigationIcon"
           :class="naviconClasses"
-          href="#"
-          v-on="listeners">{{ icon }}</a>
-        <span
-          v-if="!!title"
-          class="mdc-top-app-bar__title">{{ title }}</span>
+          v-on="listeners"
+        >
+          {{ icon }}
+        </button>
+        <span v-if="!!title" class="mdc-top-app-bar__title">{{ title }}</span>
       </section>
       <section
         v-if="$slots.default"
-        class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end">
-        <slot/>
+        class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end"
+      >
+        <slot />
       </section>
     </div>
-    <slot name="tabs"/>
+    <slot name="tabs" />
   </header>
 </template>
 
@@ -125,8 +124,8 @@ export default {
     this.foundation = this.short
       ? new MDCShortTopAppBarFoundation(adapter)
       : this.fixed
-        ? new MDCFixedTopAppBarFoundation(adapter)
-        : new MDCTopAppBarFoundation(adapter)
+      ? new MDCFixedTopAppBarFoundation(adapter)
+      : new MDCTopAppBarFoundation(adapter)
 
     this.foundation.init()
   },
