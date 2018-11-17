@@ -6,7 +6,10 @@
           :disabled="!enabled"
           v-model="textField"
           label="textfield"
-          helptext="Help text..."/>
+          helptext="Help text..."
+          leading-icon="delete"
+          trailing-icon="event"
+        />
         <form>
           <mdc-textfield
             v-model="password"
@@ -17,7 +20,8 @@
             helptext="passord must be 8 to 10 characters"
             helptext-persistent
             helptext-validation
-            autocomplete/>
+            autocomplete
+          />
         </form>
         <mdc-textfield
           :disabled="!enabled"
@@ -25,29 +29,38 @@
           label="outlined"
           outline
           helptext="Help text..."
-          trailing-icon="event"/>
+          leading-icon="delete"
+          trailing-icon="event"
+        />
         <mdc-textfield
           :disabled="!enabled"
           v-model="textField"
-          :leading-icon="{className: 'fa fa-font-awesome'}"
+          :leading-icon="{ className: 'fa fa-font-awesome' }"
           label="in a box"
           helptext="Help text..."
-          box/>
+          box
+        />
       </mdc-layout-cell>
       <mdc-layout-cell span="6">
-        <p><mdc-textfield
-          :disabled="!enabled"
-          v-model="textField"
-          multiline
-          rows="15"
-          label="multiline" /></p>
+        <p>
+          <mdc-textfield
+            :disabled="!enabled"
+            v-model="textField"
+            multiline
+            rows="15"
+            label="multiline"
+          />
+        </p>
       </mdc-layout-cell>
       <mdc-layout-cell span="12">
-        <p><mdc-textfield
-          :disabled="!enabled"
-          v-model="textField"
-          fullwidth
-          label="full width" /></p>
+        <p>
+          <mdc-textfield
+            :disabled="!enabled"
+            v-model="textField"
+            fullwidth
+            label="full width"
+          />
+        </p>
       </mdc-layout-cell>
     </mdc-layout-grid>
   </div>

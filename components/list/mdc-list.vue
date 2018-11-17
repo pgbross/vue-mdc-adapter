@@ -23,7 +23,7 @@ export default {
     avatarList: Boolean,
     twoLine: Boolean,
     bordered: Boolean,
-    interactive: Boolean,
+    interactive: { type: Boolean, default: true },
     singleSelection: Boolean,
     vertical: { type: Boolean, default: true }
   },

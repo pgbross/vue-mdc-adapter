@@ -53,10 +53,11 @@ export default [
   link('radio', icRadioButton),
   link('select', icMenu),
   link('slider', icSlider),
+  link('textfield', icTextField),
   link('snackbar', icToast),
   link('switch', icSwitch),
   link('tabs', icTabs),
-  link('textfield', icTextField),
+
   // link('toolbar', icToolbar),
   link('top-app-bar', icTopAppBar),
   link('typography', icTypography)

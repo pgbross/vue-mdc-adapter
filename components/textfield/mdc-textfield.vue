@@ -1,23 +1,23 @@
 <template>
   <div
-    :style="{width:fullwidth?'100%':undefined}"
+    :style="{ width: fullwidth ? '100%' : undefined }"
     :id="id"
-    class="mdc-textfield-wrapper">
-
-    <div
-      ref="root"
-      :class="rootClasses">
-
+    class="mdc-textfield-wrapper"
+  >
+    <div ref="root" :class="rootClasses">
       <i
         v-if="!!hasLeadingIcon"
-        ref="icon"
+        ref="leadingIcon"
         :class="hasLeadingIcon.classes"
         tabindex="0"
-        class="mdc-text-field__icon">
+        class="mdc-text-field__icon"
+      >
         <slot name="leading-icon">{{ hasLeadingIcon.content }}</slot>
       </i>
 
-      <!-- workarround for https://github.com/vuejs/rollup-plugin-vue/issues/174 -->
+      <!--
+        workarround for https://github.com/vuejs/rollup-plugin-vue/issues/174
+      -->
       <!-- eslint-disable vue/html-self-closing -->
       <textarea
         v-if="multiline"
@@ -50,22 +50,24 @@
         :aria-controls="inputAriaControls"
         v-on="$listeners"
         @input="updateValue($event.target.value)"
-      >
+      />
 
       <label
         v-if="hasLabel"
         ref="label"
         :class="labelClassesUpgraded"
-        :for="vma_uid_">
+        :for="vma_uid_"
+      >
         {{ label }}
       </label>
 
       <i
         v-if="!!hasTrailingIcon"
-        ref="icon"
+        ref="trailingIcon"
         :class="hasTrailingIcon.classes"
         tabindex="0"
-        class="mdc-text-field__icon">
+        class="mdc-text-field__icon"
+      >
         <slot name="trailing-icon">{{ hasTrailingIcon.content }}</slot>
       </i>
 
@@ -73,34 +75,34 @@
         v-if="hasOutline"
         ref="outline"
         :class="outlineClasses"
-        class="mdc-notched-outline">
+        class="mdc-notched-outline"
+      >
         <svg>
-          <path
-            :d="outlinePathAttr"
-            class="mdc-notched-outline__path" />
+          <path :d="outlinePathAttr" class="mdc-notched-outline__path" />
         </svg>
       </div>
       <div
         v-if="hasOutline"
         ref="outlineIdle"
-        class="mdc-notched-outline__idle"/>
+        class="mdc-notched-outline__idle"
+      />
       <div
         v-if="hasLineRipple"
         ref="lineRipple"
         :class="lineRippleClasses"
-        :style="lineRippleStyles"/>
-
+        :style="lineRippleStyles"
+      />
     </div>
 
     <p
       v-if="helptext"
       ref="help"
-      :id="'help-'+vma_uid_"
+      :id="'help-' + vma_uid_"
       :class="helpClasses"
-      aria-hidden="true">
+      aria-hidden="true"
+    >
       {{ helptext }}
     </p>
-
   </div>
 </template>
 
@@ -153,7 +155,6 @@ export default {
     helptext: String,
     helptextPersistent: Boolean,
     helptextValidation: Boolean,
-    box: Boolean,
     outline: Boolean,
     disabled: Boolean,
     required: Boolean,
@@ -180,7 +181,6 @@ export default {
         'mdc-text-field--dense': this.dense,
         'mdc-text-field--fullwidth': this.fullwidth,
         'mdc-text-field--textarea': this.multiline,
-        'mdc-text-field--box': !this.fullwidth && this.box,
         'mdc-text-field--outlined': !this.fullwidth && this.outline
       },
       inputClasses: {
@@ -219,10 +219,7 @@ export default {
       return !this.hasOutline && !this.multiline
     },
     hasLeadingIcon() {
-      if (
-        (this.leadingIcon || this.$slots['leading-icon']) &&
-        !(this.trailingIcon || this.$slots['trailing-icon'])
-      ) {
+      if (this.leadingIcon || this.$slots['leading-icon']) {
         return this.leadingIcon ? extractIconProp(this.leadingIcon) : {}
       }
       return false
@@ -320,30 +317,48 @@ export default {
       this.helperTextFoundation.init()
     }
 
-    if (this.$refs.icon) {
-      if (this.hasLeadingIcon) {
-        this.$set(this.rootClasses, 'mdc-text-field--with-leading-icon', true)
-      } else if (this.hasTrailingIcon) {
-        this.$set(this.rootClasses, 'mdc-text-field--with-trailing-icon', true)
-      }
-
-      this.iconFoundation = new MDCTextFieldIconFoundation({
-        setAttr: (attr, value) => this.$refs.icon.setAttribute(attr, value),
-        getAttr: attr => this.$refs.icon.getAttribute(attr),
-        removeAttr: attr => this.$refs.icon.removeAttribute(attr),
+    if (this.hasLeadingIcon) {
+      this.$set(this.rootClasses, 'mdc-text-field--with-leading-icon', true)
+      this.leadingIconFoundation = new MDCTextFieldIconFoundation({
+        setAttr: (attr, value) =>
+          this.$refs.leadingIcon.setAttribute(attr, value),
+        getAttr: attr => this.$refs.leadingIcon.getAttribute(attr),
+        removeAttr: attr => this.$refs.leadingIcon.removeAttribute(attr),
         setContent: (/*content*/) => {
           // icon text get's updated from {{{{ hasTrailingIcon.content }}}}
           // this.$refs.icon.textContent = content;
         },
         registerInteractionHandler: (evtType, handler) => {
-          this.$refs.icon.addEventListener(evtType, handler)
+          this.$refs.leadingIcon.addEventListener(evtType, handler)
         },
         deregisterInteractionHandler: (evtType, handler) => {
-          this.$refs.icon.removeEventListener(evtType, handler)
+          this.$refs.leadingIcon.removeEventListener(evtType, handler)
         },
-        notifyIconAction: () => this.$emit('icon-action')
+        notifyIconAction: () => this.$emit('leadingicon-action')
       })
-      this.iconFoundation.init()
+      this.leadingIconFoundation.init()
+    }
+
+    if (this.hasTrailingIcon) {
+      this.$set(this.rootClasses, 'mdc-text-field--with-trailing-icon', true)
+      this.trailingIconFoundation = new MDCTextFieldIconFoundation({
+        setAttr: (attr, value) =>
+          this.$refs.trailingIcon.setAttribute(attr, value),
+        getAttr: attr => this.$refs.trailingIcon.getAttribute(attr),
+        removeAttr: attr => this.$refs.trailingIcon.removeAttribute(attr),
+        setContent: (/*content*/) => {
+          // icon text get's updated from {{{{ hasTrailingIcon.content }}}}
+          // this.$refs.icon.textContent = content;
+        },
+        registerInteractionHandler: (evtType, handler) => {
+          this.$refs.trailingIcon.addEventListener(evtType, handler)
+        },
+        deregisterInteractionHandler: (evtType, handler) => {
+          this.$refs.trailingIcon.removeEventListener(evtType, handler)
+        },
+        notifyIconAction: () => this.$emit('trainlingicon-action')
+      })
+      this.trailingIconFoundation.init()
     }
 
     if (this.$refs.label) {
@@ -391,87 +406,55 @@ export default {
     }
 
     this.foundation = new MDCTextfieldFoundation(
-      {
-        addClass: className => {
-          this.$set(this.rootClasses, className, true)
-        },
-        removeClass: className => {
-          this.$delete(this.rootClasses, className)
-        },
-        hasClass: className => {
-          this.$refs.root.classList.contains(className)
-        },
-        registerTextFieldInteractionHandler: (evtType, handler) => {
-          this.$refs.root.addEventListener(evtType, handler)
-        },
-        deregisterTextFieldInteractionHandler: (evtType, handler) => {
-          this.$refs.root.removeEventListener(evtType, handler)
-        },
-        isFocused: () => {
-          return document.activeElement === this.$refs.input
-        },
-        isRtl: () =>
-          window
-            .getComputedStyle(this.$refs.root)
-            .getPropertyValue('direction') === 'rtl',
-        deactivateLineRipple: () => {
-          if (this.lineRippleFoundation) {
-            this.lineRippleFoundation.deactivate()
+      Object.assign(
+        {
+          addClass: className => {
+            this.$set(this.rootClasses, className, true)
+          },
+          removeClass: className => {
+            this.$delete(this.rootClasses, className)
+          },
+          hasClass: className => {
+            this.$refs.root.classList.contains(className)
+          },
+          registerTextFieldInteractionHandler: (evtType, handler) => {
+            this.$refs.root.addEventListener(evtType, handler)
+          },
+          deregisterTextFieldInteractionHandler: (evtType, handler) => {
+            this.$refs.root.removeEventListener(evtType, handler)
+          },
+          isFocused: () => {
+            return document.activeElement === this.$refs.input
+          },
+          isRtl: () =>
+            window
+              .getComputedStyle(this.$refs.root)
+              .getPropertyValue('direction') === 'rtl',
+
+          registerValidationAttributeChangeHandler: handler => {
+            const getAttributesList = mutationsList =>
+              mutationsList.map(mutation => mutation.attributeName)
+            const observer = new MutationObserver(mutationsList =>
+              handler(getAttributesList(mutationsList))
+            )
+            const targetNode = this.$refs.input
+            const config = { attributes: true }
+            observer.observe(targetNode, config)
+            return observer
+          },
+          deregisterValidationAttributeChangeHandler: observer => {
+            observer.disconnect()
           }
         },
-        activateLineRipple: () => {
-          if (this.lineRippleFoundation) {
-            this.lineRippleFoundation.activate()
-          }
-        },
-        setLineRippleTransformOrigin: normalizedX => {
-          if (this.lineRippleFoundation) {
-            this.lineRippleFoundation.setRippleCenter(normalizedX)
-          }
-        },
-        registerInputInteractionHandler: (evtType, handler) => {
-          this.$refs.input.addEventListener(evtType, handler, applyPassive())
-        },
-        deregisterInputInteractionHandler: (evtType, handler) => {
-          this.$refs.input.removeEventListener(evtType, handler, applyPassive())
-        },
-        registerValidationAttributeChangeHandler: handler => {
-          const getAttributesList = mutationsList =>
-            mutationsList.map(mutation => mutation.attributeName)
-          const observer = new MutationObserver(mutationsList =>
-            handler(getAttributesList(mutationsList))
-          )
-          const targetNode = this.$refs.input
-          const config = { attributes: true }
-          observer.observe(targetNode, config)
-          return observer
-        },
-        deregisterValidationAttributeChangeHandler: observer => {
-          observer.disconnect()
-        },
-        shakeLabel: shouldShake => {
-          this.labelFoundation.shake(shouldShake)
-        },
-        floatLabel: shouldFloat => {
-          this.labelFoundation.float(shouldFloat)
-        },
-        hasLabel: () => {
-          return !!this.$refs.label
-        },
-        getLabelWidth: () => {
-          return this.labelFoundation.getWidth()
-        },
-        getNativeInput: () => {
-          return this.$refs.input
-        },
-        hasOutline: () => !!this.hasOutline,
-        notchOutline: (notchWidth, isRtl) =>
-          this.outlineFoundation.notch(notchWidth, isRtl),
-        closeOutline: () => this.outlineFoundation.closeNotch()
-      },
+        this.getInputAdapterMethods(),
+        this.getLabelAdapterMethods(),
+        this.getLineRippleAdapterMethods(),
+        this.getOutlineAdapterMethods()
+      ),
       {
         helperText: this.helperTextFoundation,
-        icon: this.iconFoundation
+        leadingIcon: this.leadingIconFoundation,
+        trailingIcon: this.trailingFoundation
       }
     )
 
@@ -492,12 +475,69 @@ export default {
     this.foundation && this.foundation.destroy()
     this.lineRippleFoundation && this.lineRippleFoundation.destroy()
     this.helperTextFoundation && this.helperTextFoundation.destroy()
-    this.iconFoundation && this.iconFoundation.destroy()
+    this.leadingIconFoundation && this.leadingIconFoundation.destroy()
+    this.trailingIconFoundation && this.trailingIconFoundation.destroy()
     this.labelFoundation && this.labelFoundation.destroy()
     this.outlineFoundation && this.outlineFoundation.destroy()
     this.ripple && this.ripple.destroy()
   },
   methods: {
+    getInputAdapterMethods() {
+      return {
+        registerInputInteractionHandler: (evtType, handler) => {
+          this.$refs.input.addEventListener(evtType, handler, applyPassive())
+        },
+        deregisterInputInteractionHandler: (evtType, handler) => {
+          this.$refs.input.removeEventListener(evtType, handler, applyPassive())
+        },
+        getNativeInput: () => {
+          return this.$refs.input
+        }
+      }
+    },
+    getLabelAdapterMethods() {
+      return {
+        shakeLabel: shouldShake => {
+          this.labelFoundation.shake(shouldShake)
+        },
+        floatLabel: shouldFloat => {
+          this.labelFoundation.float(shouldFloat)
+        },
+        hasLabel: () => {
+          return !!this.$refs.label
+        },
+        getLabelWidth: () => {
+          return this.labelFoundation.getWidth()
+        }
+      }
+    },
+    getLineRippleAdapterMethods() {
+      return {
+        deactivateLineRipple: () => {
+          if (this.lineRippleFoundation) {
+            this.lineRippleFoundation.deactivate()
+          }
+        },
+        activateLineRipple: () => {
+          if (this.lineRippleFoundation) {
+            this.lineRippleFoundation.activate()
+          }
+        },
+        setLineRippleTransformOrigin: normalizedX => {
+          if (this.lineRippleFoundation) {
+            this.lineRippleFoundation.setRippleCenter(normalizedX)
+          }
+        }
+      }
+    },
+    getOutlineAdapterMethods() {
+      return {
+        hasOutline: () => !!this.hasOutline,
+        notchOutline: (notchWidth, isRtl) =>
+          this.outlineFoundation.notch(notchWidth, isRtl),
+        closeOutline: () => this.outlineFoundation.closeNotch()
+      }
+    },
     updateValue(value) {
       this.$emit('model', value)
     },
