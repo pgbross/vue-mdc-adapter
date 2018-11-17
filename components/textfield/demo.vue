@@ -7,8 +7,6 @@
           v-model="textField"
           label="textfield"
           helptext="Help text..."
-          leading-icon="delete"
-          trailing-icon="event"
         />
         <form>
           <mdc-textfield
@@ -38,7 +36,6 @@
           :leading-icon="{ className: 'fa fa-font-awesome' }"
           label="in a box"
           helptext="Help text..."
-          box
         />
       </mdc-layout-cell>
       <mdc-layout-cell span="6">

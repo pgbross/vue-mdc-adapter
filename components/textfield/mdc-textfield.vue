@@ -9,7 +9,8 @@
         v-if="!!hasLeadingIcon"
         ref="leadingIcon"
         :class="hasLeadingIcon.classes"
-        tabindex="0"
+        :tabindex="leadingTabindex"
+        :role="leadingRole"
         class="mdc-text-field__icon"
       >
         <slot name="leading-icon">{{ hasLeadingIcon.content }}</slot>
@@ -65,7 +66,8 @@
         v-if="!!hasTrailingIcon"
         ref="trailingIcon"
         :class="hasTrailingIcon.classes"
-        tabindex="0"
+        :tabindex="trailingTabindex"
+        :role="trailingRole"
         class="mdc-text-field__icon"
       >
         <slot name="trailing-icon">{{ hasTrailingIcon.content }}</slot>
@@ -162,6 +164,8 @@ export default {
     fullwidth: Boolean,
     multiline: Boolean,
     leadingIcon: [String, Array, Object],
+    trailingNonInteractive: Boolean,
+    leadingNonInteractive: Boolean,
     trailingIcon: [String, Array, Object],
     size: { type: [Number, String], default: 20 },
     minlength: { type: [Number, String], default: undefined },
@@ -203,6 +207,29 @@ export default {
     }
   },
   computed: {
+    leadingTabindex() {
+      if (!this.leadingNonInteractive) {
+        return '0'
+      }
+    },
+
+    leadingRole() {
+      if (!this.leadingNonInteractive) {
+        return 'button'
+      }
+    },
+
+    trailingTabindex() {
+      if (!this.trailingNonInteractive) {
+        return '0'
+      }
+    },
+
+    trailingRole() {
+      if (!this.trailingNonInteractive) {
+        return 'button'
+      }
+    },
     inputPlaceHolder() {
       return this.fullwidth ? this.label : undefined
     },
