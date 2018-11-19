@@ -25,13 +25,12 @@
     </span>
 
     <mdc-tab-indicator ref="tabIndicator"></mdc-tab-indicator>
-    <span class="mdc-tab__ripple"></span>
+    <mdc-tab-ripple></mdc-tab-ripple>
   </custom-link>
 </template>
 
 <script>
 import MDCTabFoundation from '@material/tab/foundation'
-
 import {
   CustomLinkMixin,
   DispatchEventMixin,
@@ -103,14 +102,9 @@ export default {
     this.mdcTabBar.tabList.push(this)
 
     this.setActive(this.active)
-
-    // const ripple = this.$el.querySelector('mdc-tab__ripple')
-    // this.ripple = new RippleBase(ripple)
-    // this.ripple.init()
   },
   beforeDestroy() {
     this.foundation.destroy()
-    // this.ripple.destroy()
   },
   methods: {
     activate(computeIndicatorClientRect) {

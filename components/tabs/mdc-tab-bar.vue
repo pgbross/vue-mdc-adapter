@@ -1,10 +1,5 @@
 <template>
-  <div
-    :class="classes"
-    class="mdc-tab-bar"
-    @MDCTab:interacted="handleInteraction"
-    role="tablist"
-  >
+  <div :class="classes" class="mdc-tab-bar" v-on="listeners" role="tablist">
     <mdc-tab-scroller ref="scroller"> <slot></slot> </mdc-tab-scroller>
   </div>
 </template>
@@ -68,21 +63,33 @@ export default {
       },
       getIndexOfTab: tabToFind => this.tabList.indexOf(tabToFind),
       getTabListLength: () => this.tabList.length,
-      notifyTabActivated: index =>
+      notifyTabActivated: index => {
         emitCustomEvent(
           this.$el,
           MDCTabBarFoundation.strings.TAB_ACTIVATED_EVENT,
           { index },
           true
         )
+
+        this.$emit('change', index)
+      }
     })
     this.foundation.init()
   },
   beforeDestroy() {
     this.foundation.destroy()
   },
+  computed: {
+    listeners() {
+      return {
+        ...this.$listeners,
+        'MDCTab:interacted': event => this.handleInteraction(event)
+      }
+    }
+  },
   methods: {
     handleInteraction(evt) {
+      console.dir(evt)
       this.foundation.handleTabInteraction(evt)
     },
     onSelect({ detail }) {
