@@ -2,6 +2,7 @@
   <span class="mdc-tab-indicator" :class="classes">
     <span
       ref="tabindicatorcontent"
+      :style="styles"
       class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"
     ></span>
   </span>
@@ -13,7 +14,7 @@ import MDCSlidingTabIndicatorFoundation from '@material/tab-indicator/sliding-fo
 export default {
   name: 'mdc-tab-indicator',
   data() {
-    return { classes: {} }
+    return { classes: {}, styles: {} }
   },
 
   mounted() {
@@ -22,8 +23,9 @@ export default {
       removeClass: className => this.$delete(this.classes, className),
       computeContentClientRect: () =>
         this.$refs.tabindicatorcontent.getBoundingClientRect(),
-      setContentStyleProperty: (prop, value) =>
-        this.$refs.tabindicatorcontent.style.setProperty(prop, value)
+      setContentStyleProperty: (prop, value) => {
+        this.$set(this.styles, prop, value)
+      }
     })
 
     this.foundation.init()

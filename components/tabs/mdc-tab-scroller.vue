@@ -1,5 +1,5 @@
 <template>
-  <div class="mdc-tab-scroller">
+  <div class="mdc-tab-scroller" :class="classes">
     <div
       ref="area"
       class="mdc-tab-scroller__scroll-area"
@@ -8,10 +8,13 @@
       @pointerdown="handleInteraction"
       @touchstart="handleInteraction"
       @keydown="handleInteraction"
+      :class="areaClasses"
+      :style="areaStyles"
     >
       <div
         ref="content"
         class="mdc-tab-scroller__scroll-content"
+        :style="contentStyles"
         @transitionend="handleTransitionEnd"
       >
         <slot />
@@ -27,7 +30,7 @@ import * as util from '@material/tab-scroller/util'
 export default {
   name: 'mdc-tab-scroller',
   data() {
-    return {}
+    return { classes: {}, areaClasses: {}, areaStyles: {}, contentStyles: {} }
   },
 
   mounted() {
@@ -36,13 +39,15 @@ export default {
         const MATCHES = util.getMatchesProperty(HTMLElement.prototype)
         return evtTarget[MATCHES](selector)
       },
-      addClass: className => this.$el.classList.add(className),
-      removeClass: className => this.$el.classList.remove(className),
-      addScrollAreaClass: className => this.$refs.area.classList.add(className),
+      addClass: className => this.$set(this.classes, className, true),
+
+      removeClass: className => this.$delete(this.classes, className),
+      addScrollAreaClass: className =>
+        this.$set(this.areaClasses, className, true),
       setScrollAreaStyleProperty: (prop, value) =>
-        this.$refs.area.style.setProperty(prop, value),
+        this.$set(this.areaStyles, prop, value),
       setScrollContentStyleProperty: (prop, value) =>
-        this.$refs.content.style.setProperty(prop, value),
+        this.$set(this.contentStyles, prop, value),
       getScrollContentStyleValue: propName =>
         window.getComputedStyle(this.$refs.content).getPropertyValue(propName),
       setScrollAreaScrollLeft: scrollX =>

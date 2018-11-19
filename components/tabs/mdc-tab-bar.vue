@@ -89,7 +89,6 @@ export default {
   },
   methods: {
     handleInteraction(evt) {
-      console.dir(evt)
       this.foundation.handleTabInteraction(evt)
     },
     onSelect({ detail }) {

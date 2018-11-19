@@ -66,11 +66,7 @@ export default {
     }
   },
   watch: {
-    active(value) {
-      if (value) {
-        this.foundation.adapter_.notifySelected()
-      }
-    }
+    active(value) {}
   },
   mounted() {
     this.foundation = new MDCTabFoundation({
@@ -125,7 +121,6 @@ export default {
         this.$set(this.classes, 'mdc-tab--active', true),
           this.$refs.tabIndicator.activate()
       }
-      //  isActive && this.$refs.tabIndicator.activate()
     },
     computeIndicatorClientRect() {
       return this.$refs.tabIndicator.computeContentClientRect()
