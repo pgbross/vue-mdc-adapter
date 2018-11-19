@@ -5,15 +5,17 @@
       <mdc-tab-bar @change="onSelected">
         <mdc-tab
           v-for="item in items"
-          :key="item">{{ item }}</mdc-tab>
+          :key="item.label"
+          :active="item.active"
+          >{{ item.label }}</mdc-tab
+        >
       </mdc-tab-bar>
     </section>
-    <br>
-    <div
-      v-if="selectedItem"
-      style="text-align: right">
+    <br />
+    <div v-if="selectedItem" style="text-align: right">
       <mdc-caption>
-        Selected: <span class="demo-tabs-selected">{{ selectedItem }}</span>
+        Selected:
+        <span class="demo-tabs-selected">{{ selectedItem.label }}</span>
       </mdc-caption>
     </div>
     <mdc-subheading>With icons and text</mdc-subheading>
@@ -30,7 +32,11 @@
 <script>
 export default {
   data() {
-    const items = ['item one', 'item two', 'item three']
+    const items = [
+      { label: 'item one', active: true },
+      { label: 'item two', active: false },
+      { label: 'item three', active: false }
+    ]
     return {
       selectedItem: items[0],
       items

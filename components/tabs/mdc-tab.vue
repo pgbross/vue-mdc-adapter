@@ -1,31 +1,37 @@
 <template>
-  <custom-link 
+  <custom-link
     :class="classes"
-    :style="styles" 
+    :style="styles"
     :link="link"
     class="mdc-tab"
-    v-on="listeners">
+    @click="handleClick"
+    role="tab"
+    aria-selected="false"
+    tabindex="-1"
+  >
+    <span ref="content" class="mdc-tab__content">
+      <i
+        v-if="!!hasIcon"
+        ref="icon"
+        :class="hasIcon.classes"
+        tabindex="0"
+        class="mdc-tab__icon"
+        aria-hidden="true"
+      >
+        <slot name="icon">{{ hasIcon.content }}</slot>
+      </i>
 
-    <i 
-      v-if="!!hasIcon" 
-      ref="icon"
-      :class="hasIcon.classes"
-      tabindex="0"
-      class="mdc-tab__icon">
-      <slot name="icon">{{ hasIcon.content }}</slot>
-    </i>
-
-    <span 
-      v-if="hasText" 
-      :class="{'mdc-tab__icon-text': !!hasIcon}">
-      <slot/>
+      <span v-if="hasText" class="mdc-tab__text-label"> <slot /> </span>
     </span>
 
+    <mdc-tab-indicator ref="tabIndicator"></mdc-tab-indicator>
+    <span class="mdc-tab__ripple"></span>
   </custom-link>
 </template>
 
 <script>
-import MDCTabFoundation from '@material/tabs/tab/foundation'
+import MDCTabFoundation from '@material/tab/foundation'
+
 import {
   CustomLinkMixin,
   DispatchEventMixin,
@@ -47,6 +53,8 @@ export default {
       styles: {}
     }
   },
+
+  inject: ['mdcTabBar'],
   computed: {
     hasIcon() {
       if (this.icon || this.$slots.icon) {
@@ -67,55 +75,74 @@ export default {
   },
   mounted() {
     this.foundation = new MDCTabFoundation({
+      setAttr: (attr, value) => this.$el.setAttribute(attr, value),
       addClass: className => this.$set(this.classes, className, true),
       removeClass: className => this.$delete(this.classes, className),
-      registerInteractionHandler: (type, handler) =>
-        this.$el.addEventListener(type, handler),
-      deregisterInteractionHandler: (type, handler) =>
-        this.$el.removeEventListener(type, handler),
-      getOffsetWidth: () => {
-        return this.$el.offsetWidth
+      hasClass: className => this.$el.classList.contains(className),
+      activateIndicator: previousIndicatorClientRect => {
+        this.$refs.tabIndicator.activate(previousIndicatorClientRect)
       },
-      getOffsetLeft: () => this.$el.offsetLeft,
-      notifySelected: () => {
+      deactivateIndicator: () => {
+        this.$refs.tabIndicator.deactivate()
+      },
+      notifyInteracted: () =>
         emitCustomEvent(
           this.$el,
-          MDCTabFoundation.strings.SELECTED_EVENT,
+          MDCTabFoundation.strings.INTERACTED_EVENT,
           { tab: this },
-          true
-        )
-      }
+          true /* bubble */
+        ),
+      getOffsetLeft: () => this.$el.offsetLeft,
+      getOffsetWidth: () => this.$el.offsetWidth,
+      getContentOffsetLeft: () => this.$refs.content.offsetLeft,
+      getContentOffsetWidth: () => this.$refs.content.offsetWidth,
+      focus: () => this.$el.focus()
     })
     this.foundation.init()
+
+    this.mdcTabBar.tabList.push(this)
+
     this.setActive(this.active)
-    this.ripple = new RippleBase(this)
-    this.ripple.init()
+
+    // const ripple = this.$el.querySelector('mdc-tab__ripple')
+    // this.ripple = new RippleBase(ripple)
+    // this.ripple.init()
   },
   beforeDestroy() {
     this.foundation.destroy()
-    this.ripple.destroy()
+    // this.ripple.destroy()
   },
   methods: {
-    getComputedWidth() {
-      return this.foundation.getComputedWidth()
+    activate(computeIndicatorClientRect) {
+      this.foundation.activate(computeIndicatorClientRect)
     },
-    getComputedLeft() {
-      return this.foundation.getComputedLeft()
+
+    deactivate() {
+      this.foundation.deactivate()
+    },
+    handleClick(evt) {
+      this.foundation.handleClick(evt)
     },
     isActive() {
       return this.foundation.isActive()
     },
     setActive(isActive) {
-      this.foundation.setActive(isActive)
+      if (isActive) {
+        this.$set(this.classes, 'mdc-tab--active', true),
+          this.$refs.tabIndicator.activate()
+      }
+      //  isActive && this.$refs.tabIndicator.activate()
     },
-    isDefaultPreventedOnClick() {
-      return this.foundation.preventsDefaultOnClick()
+    computeIndicatorClientRect() {
+      return this.$refs.tabIndicator.computeContentClientRect()
     },
-    setPreventDefaultOnClick(preventDefaultOnClick) {
-      this.foundation.setPreventDefaultOnClick(preventDefaultOnClick)
+
+    computeDimensions() {
+      return this.foundation.computeDimensions()
     },
-    measureSelf() {
-      this.foundation.measureSelf()
+
+    focus() {
+      this.$el.focus()
     }
   }
 }

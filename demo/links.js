@@ -51,12 +51,12 @@ export default [
   link('list', icList),
   link('menu', icMenu),
   link('radio', icRadioButton),
+  link('tabs', icTabs),
   link('select', icMenu),
   link('slider', icSlider),
   link('textfield', icTextField),
   link('snackbar', icToast),
   link('switch', icSwitch),
-  link('tabs', icTabs),
 
   // link('toolbar', icToolbar),
   link('top-app-bar', icTopAppBar),
