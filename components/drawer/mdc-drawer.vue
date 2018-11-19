@@ -1,14 +1,14 @@
 <template>
-<div>
-  <aside ref="drawer" :class="classes" class="mdc-drawer mdc-drawer--modal">
-    <slot v-if="$slots['header']" name="header"></slot>
-    <!-- <div v-if="$slots['header']" class="mdc-drawer__header"><</div> -->
-    <div class="mdc-drawer__content">
-      <slot></slot>
-    </div>
-  </aside>
-  <div class="mdc-drawer-scrim"></div>
-</div>
+  <div>
+    <aside ref="drawer" :class="classes" class="mdc-drawer mdc-drawer--modal">
+      <slot v-if="$slots['header']" name="header"></slot>
+      <!-- <div v-if="$slots['header']" class="mdc-drawer__header"><</div> -->
+      <div class="mdc-drawer__content"><slot></slot></div>
+    </aside>
+    <div class="mdc-drawer-scrim"></div>
+
+    <div v-if="toolbarSpacer" class="mdc-top-app-bar--fixed-adjust" />
+  </div>
 </template>
 
 <script>
@@ -76,24 +76,12 @@ export default {
   watch: {
     open: 'onOpen_'
   },
-  created() {
-    // if (typeof window !== 'undefined' && window.matchMedia) {
-    //   this.small = media.small.matches
-    //   this.large = media.large.matches
-    // }
-  },
   mounted() {
-    this.root_ = this.$refs.drawer
+    this.drawer_ = this.$refs.drawer
     const adapter = {
-      addClass: className => {
-        this.$set(this.classes, className, true)
-      },
-      removeClass: className => {
-        this.$delete(this.classes, className)
-      },
-      hasClass: className => {
-        return this.root_.classList.contains(className)
-      },
+      addClass: className => this.$set(this.classes, className, true),
+      removeClass: className => this.$delete(this.classes, className),
+      hasClass: className => this.drawer_.classList.contains(className),
       elementHasClass: (element, className) =>
         element.classList.contains(className),
       saveFocus: () => {
@@ -101,12 +89,12 @@ export default {
       },
       restoreFocus: () => {
         const previousFocus = this.previousFocus_ && this.previousFocus_.focus
-        if (this.root_.contains(document.activeElement) && previousFocus) {
+        if (this.drawer_.contains(document.activeElement) && previousFocus) {
           this.previousFocus_.focus()
         }
       },
       focusActiveNavigationItem: () => {
-        const activeNavItemEl = this.root_.querySelector(
+        const activeNavItemEl = this.drawer_.querySelector(
           `.${MDCListFoundation.cssClasses.LIST_ITEM_ACTIVATED_CLASS}`
         )
         if (activeNavItemEl) {
@@ -126,9 +114,9 @@ export default {
     }
 
     const { DISMISSIBLE, MODAL } = MDCDismissibleDrawerFoundation.cssClasses
-    if (this.root_.classList.contains(DISMISSIBLE)) {
+    if (this.drawer_.classList.contains(DISMISSIBLE)) {
       this.foundation = new MDCDismissibleDrawerFoundation(adapter)
-    } else if (this.root_.classList.contains(MODAL)) {
+    } else if (this.drawer_.classList.contains(MODAL)) {
       this.foundation = new MDCModalDrawerFoundation(adapter)
     } else {
       throw new Error(
@@ -174,13 +162,13 @@ export default {
     initialSyncWithDOM() {
       const { MODAL } = MDCDismissibleDrawerFoundation.cssClasses
 
-      if (this.root_.classList.contains(MODAL)) {
+      if (this.drawer_.classList.contains(MODAL)) {
         const { SCRIM_SELECTOR } = MDCDismissibleDrawerFoundation.strings
-        this.scrim_ = this.root_.parentElement.querySelector(SCRIM_SELECTOR)
+        this.scrim_ = this.drawer_.parentElement.querySelector(SCRIM_SELECTOR)
         this.handleScrimClick_ = () => this.foundation.handleScrimClick()
         this.scrim_.addEventListener('click', this.handleScrimClick_)
         this.focusTrap_ = createFocusTrapInstance(
-          this.root_,
+          this.drawer_,
           this.focusTrapFactory_
         )
       }

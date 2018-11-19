@@ -1,11 +1,11 @@
 <template>
-  <li 
-    :tabindex="disabled?'-1':'0'" 
-    :aria-disabled="disabled" 
+  <li
+    :tabindex="disabled ? '-1' : '0'"
+    :aria-disabled="disabled"
     class="mdc-menu-item mdc-list-item"
     role="menuitem"
   >
-    <slot/>
+    <slot />
   </li>
 </template>
 
@@ -14,6 +14,12 @@ export default {
   name: 'mdc-menu-item',
   props: {
     disabled: Boolean
+  },
+  inject: ['mdcMenu'],
+
+  mounted() {
+    console.dir(this.mdcMenu)
+    this.mdcMenu.items.push(this.$el)
   }
 }
 </script>

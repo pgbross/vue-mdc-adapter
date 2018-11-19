@@ -1,7 +1,5 @@
 <template>
-  <div class="mdc-menu-anchor">
-    <slot/>
-  </div>
+  <div class="mdc-menu-surface--anchor"><slot /></div>
 </template>
 
 <script>

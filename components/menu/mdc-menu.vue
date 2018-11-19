@@ -1,23 +1,17 @@
 <template>
-  <div 
-    ref="root" 
-    :class="classes" 
-    :style="styles" 
-    class="mdc-menu mdc-simple-menu" 
-    tabindex="-1">
-    <ul 
-      ref="items" 
-      class="mdc-simple-menu__items mdc-list" 
-      role="menu" 
-      aria-hidden="true">
-      <slot/>
-    </ul>
-  </div>
+  <mdc-menu-surface
+    ref="root"
+    :quick-open="quickOpen"
+    :open="open"
+    @change="onChange"
+    @click.native="handleClick"
+  >
+    <mdc-list ref="list"> <slot /> </mdc-list>
+  </mdc-menu-surface>
 </template>
 
 <script>
 import { MDCMenuFoundation } from '@material/menu/foundation'
-import { getTransformPropertyName } from '@material/menu/util'
 import { emitCustomEvent } from '../base'
 
 export default {
@@ -35,158 +29,106 @@ export default {
   data() {
     return {
       classes: {},
-      styles: {},
-      items: []
+      styles: {}
     }
+  },
+  provide() {
+    return { mdcMenu: this }
   },
   watch: {
-    open: 'onOpen_',
-    quickOpen(nv) {
-      this.foundation.setQuickOpen(nv)
-    },
-    anchorCorner(nv) {
-      this.foundation.setAnchorCorner(Number(nv))
-    },
-    anchorMargin(nv) {
-      this.foundation.setAnchorMargin(nv)
-    }
+    // anchorCorner(nv) {
+    //   this.foundation.setAnchorCorner(Number(nv))
+    // },
+    // anchorMargin(nv) {
+    //   this.foundation.setAnchorMargin(nv)
+    // }
   },
   mounted() {
-    const refreshItems = () => {
-      this.items = [].slice.call(
-        this.$refs.items.querySelectorAll('.mdc-list-item[role]')
-      )
-      this.$emit('update')
-    }
-    this.slotObserver = new MutationObserver(() => refreshItems())
-    this.slotObserver.observe(this.$el, {
-      childList: true,
-      subtree: true
-    })
-
     this._previousFocus = undefined
 
     this.foundation = new MDCMenuFoundation({
-      addClass: className => this.$set(this.classes, className, true),
-      removeClass: className => this.$delete(this.classes, className),
-      hasClass: className => this.$refs.root.classList.contains(className),
-      hasNecessaryDom: () => Boolean(this.$refs.items),
-      getAttributeForEventTarget: (target, attributeName) =>
-        target.getAttribute(attributeName),
-      getInnerDimensions: () => ({
-        width: this.$refs.items.offsetWidth,
-        height: this.$refs.items.offsetHeight
-      }),
-      hasAnchor: () =>
-        this.$refs.root.parentElement &&
-        this.$refs.root.parentElement.classList.contains('mdc-menu-anchor'),
-      getAnchorDimensions: () =>
-        this.$refs.root.parentElement.getBoundingClientRect(),
-      getWindowDimensions: () => ({
-        width: window.innerWidth,
-        height: window.innerHeight
-      }),
-      getNumberOfItems: () => this.items.length,
-      registerInteractionHandler: (type, handler) =>
-        this.$refs.root.addEventListener(type, handler),
-      deregisterInteractionHandler: (type, handler) =>
-        this.$refs.root.removeEventListener(type, handler),
-      registerBodyClickHandler: handler =>
-        document.body.addEventListener('click', handler),
-      deregisterBodyClickHandler: handler =>
-        document.body.removeEventListener('click', handler),
-      getIndexForEventTarget: target => this.items.indexOf(target),
+      addClassToElementAtIndex: (index, className) => {
+        const list = this.items
+        list[index].classList.add(className)
+      },
+      removeClassFromElementAtIndex: (index, className) => {
+        const list = this.items
+        list[index].classList.remove(className)
+      },
+      addAttributeToElementAtIndex: (index, attr, value) => {
+        const list = this.items
+        list[index].setAttribute(attr, value)
+      },
+      removeAttributeFromElementAtIndex: (index, attr) => {
+        const list = this.items
+        list[index].removeAttribute(attr)
+      },
+      elementContainsClass: (element, className) =>
+        element.classList.contains(className),
+      closeSurface: () => {
+        this.$emit('change', false)
+      },
+      getElementIndex: element => {
+        return this.items.indexOf(element)
+      },
+      getParentElement: element => element.parentElement,
+      getSelectedElementIndex: selectionGroup => {
+        const idx = this.items.indexOf(
+          selectionGroup.querySelector(
+            `.${MDCMenuFoundation.cssClasses.MENU_SELECTED_LIST_ITEM}`
+          )
+        )
+        return idx
+      },
       notifySelected: evtData => {
-        const evt = {
+        emitCustomEvent(this.$el, MDCMenuFoundation.strings.SELECTED_EVENT, {
           index: evtData.index,
           item: this.items[evtData.index]
-        }
-        this.$emit('change', false)
-        this.$emit('select', evt)
-        emitCustomEvent(this.$el, MDCMenuFoundation.strings.SELECTED_EVENT, evt)
-      },
-      notifyCancel: () => {
-        this.$emit('change', false)
-        this.$emit('cancel')
-        emitCustomEvent(this.$el, MDCMenuFoundation.strings.CANCEL_EVENT, {})
-      },
-      saveFocus: () => {
-        this._previousFocus = document.activeElement
-      },
-      restoreFocus: () => {
-        if (this._previousFocus) {
-          this._previousFocus.focus()
-        }
-      },
-      isFocused: () => document.activeElement === this.$refs.root,
-      focus: () => this.$refs.root.focus(),
-      getFocusedItemIndex: () => this.items.indexOf(document.activeElement),
-      focusItemAtIndex: index => this.items[index].focus(),
-      isRtl: () =>
-        getComputedStyle(this.$refs.root).getPropertyValue('direction') ===
-        'rtl',
-      setTransformOrigin: origin => {
-        this.$set(
-          this.styles,
-          `${getTransformPropertyName(window)}-origin`,
-          origin
-        )
-      },
-      setPosition: position => {
-        this.$set(this.styles, 'left', position.left)
-        this.$set(this.styles, 'right', position.right)
-        this.$set(this.styles, 'top', position.top)
-        this.$set(this.styles, 'bottom', position.bottom)
-      },
-      setMaxHeight: height => {
-        this.$set(this.styles, 'max-height', height)
-      },
-      setAttrForOptionAtIndex: (index, attr, value) => {
-        this.items[index].setAttribute(attr, value)
-      },
-      rmAttrForOptionAtIndex: (index, attr) => {
-        this.items[index].removeAttribute(attr)
-      },
-      addClassForOptionAtIndex: (index, className) => {
-        this.items[index].classList.add(className)
-      },
-      rmClassForOptionAtIndex: (index, className) => {
-        this.items[index].classList.remove(className)
+        })
+
+        this.$emit('select', {
+          index: evtData.index,
+          item: this.items[evtData.index]
+        })
       }
     })
 
-    refreshItems()
     this.foundation.init()
-    if (this.anchorCorner !== void 0) {
-      this.foundation.setAnchorCorner(Number(this.anchorCorner))
-    }
-    if (this.anchorMargin !== void 0) {
-      this.foundation.setAnchorMargin(this.anchorMargin)
-    }
   },
   beforeDestroy() {
     this._previousFocus = null
-    this.slotObserver.disconnect()
     this.foundation.destroy()
   },
 
-  methods: {
-    onOpen_(value) {
-      if (value) {
-        this.foundation.open(typeof value === 'object' ? value : void 0)
-      } else {
-        this.foundation.close()
-      }
-    },
-    show(options) {
-      this.foundation.open(options)
-    },
-    hide() {
-      this.foundation.close()
-    },
-    isOpen() {
-      return this.foundation ? this.foundation.isOpen() : false
+  computed: {
+    items() {
+      return this.$refs.list.listElements
     }
+  },
+
+  methods: {
+    handleClick(evt) {
+      this.foundation.handleClick(evt)
+    },
+    onChange(item) {
+      this.$emit('change', item)
+    }
+    // onOpen_(value) {
+    //   if (value) {
+    //     this.foundation.open(typeof value === 'object' ? value : void 0)
+    //   } else {
+    //     this.foundation.close()
+    //   }
+    // },
+    // show(options) {
+    //   this.foundation.open(options)
+    // },
+    // hide() {
+    //   this.foundation.close()
+    // },
+    // isOpen() {
+    //   return this.foundation ? this.foundation.isOpen() : false
+    // }
   }
 }
 </script>

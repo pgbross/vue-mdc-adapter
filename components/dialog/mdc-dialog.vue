@@ -1,27 +1,49 @@
 <template>
-<div ref="root" :class="classes" :style="styles"
- aria-modal="true"
-  :aria-labelledby="'label' + vma_uid_"
-  :aria-describedby="'desc' + vma_uid_"
-   class="mdc-dialog" role="alertdialog"
+  <div
+    ref="root"
+    :class="classes"
+    :style="styles"
+    aria-modal="true"
+    :aria-labelledby="'label' + vma_uid_"
+    :aria-describedby="'desc' + vma_uid_"
+    class="mdc-dialog"
+    role="alertdialog"
     @click="onClick"
-    @keydown="onClick">
-  <div ref="container" class="mdc-dialog__container">
-    <div ref="surface" :class="surfaceClasses" class="mdc-dialog__surface">
-      <h2 v-if="title" class="mdc-dialog__title" :id="'label' + vma_uid_"><!--
-      -->{{ title }}<!--
-      --></h2>
-      <div ref="content" class="mdc-dialog__content" :id="'desc' + vma_uid_">
+    @keydown="onClick"
+  >
+    <div ref="container" class="mdc-dialog__container">
+      <div ref="surface" :class="surfaceClasses" class="mdc-dialog__surface">
+        <h2 v-if="title" class="mdc-dialog__title" :id="'label' + vma_uid_">
+          <!--
+          -->{{ title
+          }}<!---->
+        </h2>
+        <div ref="content" class="mdc-dialog__content" :id="'desc' + vma_uid_">
           <slot />
+        </div>
+        <footer v-if="accept || cancel" class="mdc-dialog__actions">
+          <button
+            type="button"
+            v-if="cancel"
+            class="mdc-button mdc-dialog__button"
+            data-mdc-dialog-action="no"
+          >
+            {{ cancel }}
+          </button>
+          <button
+            type="button"
+            ref="defaultButton"
+            :disabled="acceptDisabled"
+            class="mdc-button mdc-dialog__button "
+            data-mdc-dialog-action="yes"
+          >
+            {{ accept }}
+          </button>
+        </footer>
       </div>
-      <footer v-if="accept||cancel" class="mdc-dialog__actions">
-        <button type="button" v-if="cancel" class="mdc-button mdc-dialog__button" data-mdc-dialog-action="no">{{ cancel }}</button>
-        <button type="button" ref="defaultButton" :disabled="acceptDisabled" class="mdc-button mdc-dialog__button " data-mdc-dialog-action="yes">{{ accept }}</button>
-      </footer>
     </div>
+    <div class="mdc-dialog__scrim" />
   </div>
-  <div class="mdc-dialog__scrim" />
-</div>
 </template>
 
 <script>
