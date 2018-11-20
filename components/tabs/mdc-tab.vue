@@ -44,11 +44,16 @@ export default {
   mixins: [CustomLinkMixin, DispatchEventMixin],
   props: {
     active: Boolean,
-    icon: [String, Array, Object]
+    icon: [String, Array, Object],
+    stacked: Boolean,
+    minWidth: Boolean
   },
   data() {
     return {
-      classes: {},
+      classes: {
+        'mdc-tab--stacked': this.stacked,
+        'mdc-tab--min-width': this.minWidth
+      },
       styles: {}
     }
   },

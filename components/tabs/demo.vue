@@ -16,7 +16,7 @@
     <section class="mdc-demo mdc-demo--container">
       <mdc-tab-bar>
         <mdc-tab icon="phone">Recents</mdc-tab>
-        <mdc-tab icon="favorite">Favorites</mdc-tab>
+        <mdc-tab icon="favorite" stacked>Favorites</mdc-tab>
         <mdc-tab icon="personal_pin">Nearby</mdc-tab>
       </mdc-tab-bar>
     </section>
