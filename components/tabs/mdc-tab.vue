@@ -95,9 +95,11 @@ export default {
     })
     this.foundation.init()
 
+    // console.log('tab mounted')
+
     this.mdcTabBar.tabList.push(this)
 
-    this.setActive(this.active)
+    // this.setActive(this.active)
   },
   beforeDestroy() {
     this.foundation.destroy()

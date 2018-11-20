@@ -1,7 +1,7 @@
 <template>
   <span class="mdc-tab-indicator" :class="classes">
     <span
-      ref="tabindicatorcontent"
+      ref="content"
       :style="styles"
       class="mdc-tab-indicator__content mdc-tab-indicator__content--underline"
     ></span>
@@ -22,7 +22,7 @@ export default {
       addClass: className => this.$set(this.classes, className, true),
       removeClass: className => this.$delete(this.classes, className),
       computeContentClientRect: () =>
-        this.$refs.tabindicatorcontent.getBoundingClientRect(),
+        this.$refs.content.getBoundingClientRect(),
       setContentStyleProperty: (prop, value) => {
         this.$set(this.styles, prop, value)
       }

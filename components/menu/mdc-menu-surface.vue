@@ -1,7 +1,7 @@
 <template>
   <div
     :class="classes"
-    class="mdc-menu-surface"
+    class="mdc-menu mdc-menu-surface"
     @keydown="handleKeydown"
     @MDCMenuSurface:opened="registerBodyClickListener"
     @MDCMenuSurface:closed="deregisterBodyClickListener"

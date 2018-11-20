@@ -5,19 +5,20 @@
     "@babel/proposal-object-rest-spread",
     "@babel/syntax-dynamic-import"
   ],
-  "presets": [
-    ["@babel/preset-env", { "modules": false }]
-  ],
+  "presets": [["@babel/preset-env", { "modules": false }]],
   "env": {
     "test": {
       "plugins": [
         "@babel/proposal-object-rest-spread",
-        "@babel/syntax-dynamic-import",
+        "@babel/syntax-dynamic-import"
       ],
       "presets": [
-        ["@babel/preset-env", {
-          "targets": { "node": "current" },
-        }]
+        [
+          "@babel/preset-env",
+          {
+            "targets": { "node": "current" }
+          }
+        ]
       ]
     }
   }

@@ -17,10 +17,11 @@ export default {
       tabList: []
     }
   },
-
+  props: { activeTabIndex: [Number, String] },
   provide() {
     return { mdcTabBar: this }
   },
+
   mounted() {
     this.foundation = new MDCTabBarFoundation({
       scrollTo: scrollX => this.$refs.scroller.scrollTo(scrollX),
@@ -39,11 +40,14 @@ export default {
         this.tabList[index].activate(clientRect)
       },
       deactivateTabAtIndex: index => {
-        this.tabList[index].deactivate()
+        this.tabList[index] && this.tabList[index].deactivate()
       },
       focusTabAtIndex: index => this.tabList[index].focus(),
       getTabIndicatorClientRectAtIndex: index => {
-        return this.tabList[index].computeIndicatorClientRect()
+        return (
+          this.tabList[index] &&
+          this.tabList[index].computeIndicatorClientRect()
+        )
       },
       getTabDimensionsAtIndex: index => {
         return this.tabList[index].computeDimensions()
@@ -75,6 +79,8 @@ export default {
       }
     })
     this.foundation.init()
+    // ensure active tab
+    this.foundation.activateTab(this.activeTabIndex || 0)
   },
   beforeDestroy() {
     this.foundation.destroy()
@@ -90,14 +96,6 @@ export default {
   methods: {
     handleInteraction(evt) {
       this.foundation.handleTabInteraction(evt)
-    },
-    onSelect({ detail }) {
-      const { tab } = detail
-      const index = this.tabs.indexOf(tab)
-      if (index < 0) {
-        throw new Error('mdc-tab-bar internal error: index not found')
-      }
-      this.foundation.switchToTabAtIndex(index, true)
     }
   }
 }

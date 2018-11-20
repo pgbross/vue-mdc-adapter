@@ -2,26 +2,20 @@
   <div class="">
     <mdc-subheading>Simple</mdc-subheading>
     <section class="mdc-demo mdc-demo--container">
-      <mdc-tab-bar @change="onSelected">
-        <mdc-tab
-          v-for="item in items"
-          :key="item.label"
-          :active="item.active"
-          >{{ item.label }}</mdc-tab
-        >
+      <mdc-tab-bar @change="onSelected" activeTabIndex="1">
+        <mdc-tab v-for="item in items" :key="item.label">{{ item }}</mdc-tab>
       </mdc-tab-bar>
     </section>
     <br />
     <div v-if="selectedItem" style="text-align: right">
       <mdc-caption>
-        Selected:
-        <span class="demo-tabs-selected">{{ selectedItem.label }}</span>
+        Selected: <span class="demo-tabs-selected">{{ selectedItem }}</span>
       </mdc-caption>
     </div>
     <mdc-subheading>With icons and text</mdc-subheading>
     <section class="mdc-demo mdc-demo--container">
       <mdc-tab-bar>
-        <mdc-tab icon="phone" :active="true">Recents</mdc-tab>
+        <mdc-tab icon="phone">Recents</mdc-tab>
         <mdc-tab icon="favorite">Favorites</mdc-tab>
         <mdc-tab icon="personal_pin">Nearby</mdc-tab>
       </mdc-tab-bar>
@@ -32,11 +26,7 @@
 <script>
 export default {
   data() {
-    const items = [
-      { label: 'item one', active: true },
-      { label: 'item two', active: false },
-      { label: 'item three', active: false }
-    ]
+    const items = ['item one', 'item two', 'item three']
     return {
       selectedItem: items[0],
       items
