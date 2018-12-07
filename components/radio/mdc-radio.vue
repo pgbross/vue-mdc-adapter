@@ -56,6 +56,8 @@ export default {
   },
   watch: {
     checked: 'setChecked',
+
+    picked: 'setPicked',
     disabled(value) {
       this.foundation.setDisabled(value)
     }
@@ -120,6 +122,13 @@ export default {
     this.foundation.destroy()
   },
   methods: {
+    setPicked(picked) {
+      const checked = picked == this.$refs.control.value
+      if (checked !== this.$refs.control.checked) {
+        this.setChecked(checked)
+      }
+      //
+    },
     setChecked(checked) {
       this.$refs.control.checked = checked
     },
