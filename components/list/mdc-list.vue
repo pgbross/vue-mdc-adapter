@@ -205,25 +205,35 @@ export default {
           listItem.click()
         }
       },
-      toggleCheckbox: index => {
-        let checkboxOrRadioExists = false
+      hasCheckboxAtIndex: index => {
         const listItem = this.listElements[index]
-        const elementsToToggle = [].slice.call(
-          listItem.querySelectorAll(
-            MDCListFoundation.strings.CHECKBOX_RADIO_SELECTOR
-          )
+        return !!listItem.querySelector(
+          MDCListFoundation.strings.CHECKBOX_SELECTOR
         )
-        elementsToToggle.forEach(element => {
-          const event = document.createEvent('Event')
-          event.initEvent('change', true, true)
+      },
+      hasRadioAtIndex: index => {
+        const listItem = this.listElements[index]
+        return !!listItem.querySelector(
+          MDCListFoundation.strings.RADIO_SELECTOR
+        )
+      },
+      isCheckboxCheckedAtIndex: index => {
+        const listItem = this.listElements[index]
+        const toggleEl = listItem.querySelector(
+          MDCListFoundation.strings.CHECKBOX_SELECTOR
+        )
+        return toggleEl.checked
+      },
+      setCheckedCheckboxOrRadioAtIndex: (index, isChecked) => {
+        const listItem = this.listElements[index]
+        const toggleEl = listItem.querySelector(
+          MDCListFoundation.strings.CHECKBOX_RADIO_SELECTOR
+        )
+        toggleEl.checked = isChecked
 
-          if (!element.checked || element.type !== 'radio') {
-            element.checked = !element.checked
-            element.dispatchEvent(event)
-          }
-          checkboxOrRadioExists = true
-        })
-        return checkboxOrRadioExists
+        const event = document.createEvent('Event')
+        event.initEvent('change', true, true)
+        toggleEl.dispatchEvent(event)
       }
     })
 
