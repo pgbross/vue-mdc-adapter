@@ -4,17 +4,14 @@
     :class="[classes, itemClasses]"
     :style="styles"
     class="mdc-drawer-item mdc-list-item"
-    v-on="mylisteners">
-    <span
-      v-if="hasStartDetail"
-      class="mdc-list-item__graphic">
+    v-on="mylisteners"
+  >
+    <span v-if="hasStartDetail" class="mdc-list-item__graphic">
       <slot name="start-detail">
-        <i
-          class="material-icons"
-          aria-hidden="true">{{ startIcon }}</i>
+        <i class="material-icons" aria-hidden="true">{{ startIcon }}</i>
       </slot>
     </span>
-    <slot/>
+    <slot />
   </custom-link>
 </template>
 
@@ -64,8 +61,8 @@ export default {
     }
   },
   mounted() {
-    // this.ripple = new RippleBase(this)
-    // this.ripple.init()
+    this.ripple = new RippleBase(this)
+    this.ripple.init()
   },
   beforeDestroy() {
     this.ripple && this.ripple.destroy()
