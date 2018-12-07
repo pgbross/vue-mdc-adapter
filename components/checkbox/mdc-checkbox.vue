@@ -37,6 +37,8 @@ import { DispatchFocusMixin, VMAUniqueIdMixin } from '../base'
 import { RippleBase } from '../ripple'
 import { applyPassive } from '../base'
 
+const CB_PROTO_PROPS = ['checked', 'indeterminate']
+
 export default {
   name: 'mdc-checkbox',
   mixins: [DispatchFocusMixin, VMAUniqueIdMixin],
@@ -94,7 +96,7 @@ export default {
       removeNativeControlAttr: attr => {
         this.$refs.control.removeAttribute(attr)
       },
-      getNativeControl: () => this.$refs.control,
+      // getNativeControl: () => this.$refs.control,
       isIndeterminate: () => this.$refs.control.indeterminate,
       isChecked: () => this.checked,
       hasNativeControl: () => !!this.$refs.control,
@@ -110,6 +112,8 @@ export default {
       getCorrectEventName(window, 'animationend'),
       this.handleAnimationEnd_
     )
+
+    this.installPropertyChangeHooks_()
 
     this.ripple = new RippleBase(this, {
       isUnbounded: () => true,
@@ -155,6 +159,8 @@ export default {
 
     this.formField.destroy()
     this.ripple.destroy()
+
+    this.uninstallPropertyChangeHooks_()
     this.foundation.destroy()
   },
   methods: {
@@ -185,7 +191,53 @@ export default {
       } else {
         this.$emit('change', isChecked)
       }
+    },
+
+    installPropertyChangeHooks_() {
+      const nativeCb = this.$refs.control
+      const cbProto = Object.getPrototypeOf(nativeCb)
+
+      CB_PROTO_PROPS.forEach(controlState => {
+        const desc = Object.getOwnPropertyDescriptor(cbProto, controlState)
+        // We have to check for this descriptor, since some browsers (Safari) don't support its return.
+        // See: https://bugs.webkit.org/show_bug.cgi?id=49739
+        if (validDescriptor(desc)) {
+          const nativeCbDesc = /** @type {!ObjectPropertyDescriptor} */ ({
+            get: desc.get,
+            set: state => {
+              desc.set.call(nativeCb, state)
+              this.foundation.handleChange()
+            },
+            configurable: desc.configurable,
+            enumerable: desc.enumerable
+          })
+          Object.defineProperty(nativeCb, controlState, nativeCbDesc)
+        }
+      })
+    },
+
+    uninstallPropertyChangeHooks_() {
+      const nativeCb = this.$refs.control
+      const cbProto = Object.getPrototypeOf(nativeCb)
+
+      CB_PROTO_PROPS.forEach(controlState => {
+        const desc = /** @type {!ObjectPropertyDescriptor} */ (Object.getOwnPropertyDescriptor(
+          cbProto,
+          controlState
+        ))
+        if (validDescriptor(desc)) {
+          Object.defineProperty(nativeCb, controlState, desc)
+        }
+      })
     }
   }
+}
+
+// ===
+// Private functions
+// ===
+
+function validDescriptor(inputPropDesc) {
+  return !!inputPropDesc && typeof inputPropDesc.set === 'function'
 }
 </script>
