@@ -148,7 +148,7 @@ export default {
       notifyOpened: () => this.$emit(strings.OPENED_EVENT, {}),
       notifyClosing: action => {
         this.$emit('change', false)
-        console.log(action)
+        // console.log(action)
         this.$emit(strings.CLOSING_EVENT, action ? { action } : {})
       },
       notifyClosed: action =>

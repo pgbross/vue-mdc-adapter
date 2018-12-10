@@ -79,15 +79,25 @@
         :class="outlineClasses"
         class="mdc-notched-outline"
       >
-        <svg>
-          <path :d="outlinePathAttr" class="mdc-notched-outline__path" />
-        </svg>
+        <div class="mdc-notched-outline__leading"></div>
+        <div :style="notchStyles" class="mdc-notched-outline__notch">
+          <label
+            v-if="hasOutlineLabel"
+            ref="label-outline"
+            :class="labelClassesUpgraded"
+            :for="vma_uid_"
+          >
+            {{ label }}
+          </label>
+          <label class="mdc-floating-label"></label>
+        </div>
+        <div class="mdc-notched-outline__trailing"></div>
       </div>
-      <div
+      <!-- <div
         v-if="hasOutline"
         ref="outlineIdle"
         class="mdc-notched-outline__idle"
-      />
+      /> -->
       <div
         v-if="hasLineRipple"
         ref="lineRipple"
@@ -203,7 +213,7 @@ export default {
         'mdc-text-field-helper-text--validation-msg': this.helptextValidation
       },
       outlineClasses: {},
-      outlinePathAttr: undefined
+      notchStyles: {}
     }
   },
   computed: {
@@ -237,7 +247,11 @@ export default {
       return this.help ? 'help-' + this.vma_uid_ : undefined
     },
     hasLabel() {
-      return !this.fullwidth && this.label
+      return !this.fullwidth && !this.outline && this.label
+    },
+
+    hasOutlineLabel() {
+      return this.hasOutline && this.label
     },
     hasOutline() {
       return !this.fullwidth && this.outline
@@ -388,7 +402,8 @@ export default {
       this.trailingIconFoundation.init()
     }
 
-    if (this.$refs.label) {
+    if (this.$refs.label || this.$refs['label-outline']) {
+      const label = this.$refs.label || this.$refs['label-outline']
       this.labelFoundation = new MDCFloatingLabelFoundation({
         addClass: className => {
           this.$set(this.labelClasses, className, true)
@@ -396,12 +411,12 @@ export default {
         removeClass: className => {
           this.$delete(this.labelClasses, className)
         },
-        getWidth: () => this.$refs.label.offsetWidth,
+        getWidth: () => label.offsetWidth,
         registerInteractionHandler: (evtType, handler) => {
-          this.$refs.label.addEventListener(evtType, handler)
+          label.addEventListener(evtType, handler)
         },
         deregisterInteractionHandler: (evtType, handler) => {
-          this.$refs.label.removeEventListener(evtType, handler)
+          label.removeEventListener(evtType, handler)
         }
       })
       this.labelFoundation.init()
@@ -409,25 +424,14 @@ export default {
 
     if (this.$refs.outline) {
       this.outlineFoundation = new MDCNotchedOutlineFoundation({
-        getWidth: () => this.$refs.outline.offsetWidth,
-        getHeight: () => this.$refs.outline.offsetHeight,
         addClass: className => {
           this.$set(this.outlineClasses, className, true)
         },
         removeClass: className => {
           this.$delete(this.outlineClasses, className)
         },
-        setOutlinePathAttr: value => {
-          this.outlinePathAttr = value
-        },
-        getIdleOutlineStyleValue: propertyName => {
-          const idleOutlineElement = this.$refs.outlineIdle
-          if (idleOutlineElement) {
-            return window
-              .getComputedStyle(idleOutlineElement)
-              .getPropertyValue(propertyName)
-          }
-        }
+        setNotchWidthProperty: width =>
+          this.$set(this.notchStyles, 'width', width > 0 ? width + 'px' : '0')
       })
       this.outlineFoundation.init()
     }
@@ -531,7 +535,7 @@ export default {
           this.labelFoundation.float(shouldFloat)
         },
         hasLabel: () => {
-          return !!this.$refs.label
+          return !!this.$refs.label || !!this.$refs['label-outline']
         },
         getLabelWidth: () => {
           return this.labelFoundation.getWidth()

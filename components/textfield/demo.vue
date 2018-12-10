@@ -21,6 +21,8 @@
             autocomplete
           />
         </form>
+
+        <p></p>
         <mdc-textfield
           :disabled="!enabled"
           v-model="textField"
