@@ -5,21 +5,25 @@
     :aria-hidden="hidden"
     class="mdc-snackbar"
     aria-live="assertive"
-    aria-atomic="true">
+    aria-atomic="true"
+  >
     <div class="mdc-snackbar__text">{{ message }}</div>
     <div class="mdc-snackbar__action-wrapper">
       <button
         ref="button"
         :aria-hidden="actionHidden"
         type="button"
-        class="mdc-snackbar__action-button">{{ actionText }}</button>
+        class="mdc-snackbar__action-button"
+      >
+        {{ actionText }}
+      </button>
     </div>
   </div>
 </template>
 
 <script>
 import MDCSnackbarFoundation from '@material/snackbar/foundation'
-import { getCorrectEventName } from '@material/animation'
+import { getCorrectEventName } from '@material/animation/index'
 
 export default {
   name: 'mdc-snackbar',

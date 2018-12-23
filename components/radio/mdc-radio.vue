@@ -56,6 +56,7 @@ export default {
   },
   watch: {
     checked: 'setChecked',
+    picked: 'onPicked',
     disabled(value) {
       this.foundation.setDisabled(value)
     }
@@ -109,6 +110,7 @@ export default {
 
     this.foundation.setDisabled(this.disabled)
     this.$refs.control.value = this.value || this.label
+
     this.setChecked(this.checked || this.picked == this.$refs.control.value)
 
     // refresh model
@@ -120,6 +122,9 @@ export default {
     this.foundation.destroy()
   },
   methods: {
+    onPicked(nv) {
+      this.setChecked(this.picked == this.$refs.control.value)
+    },
     setChecked(checked) {
       this.$refs.control.checked = checked
     },

@@ -1,6 +1,6 @@
 /* eslint  no-console:0 */
-import os from 'os'
-import path from 'path'
+// import os from 'os'
+// import path from 'path'
 import resolve from 'rollup-plugin-node-resolve'
 import babel from 'rollup-plugin-babel'
 import commonjs from 'rollup-plugin-commonjs'
@@ -180,92 +180,92 @@ function createUmdConfig(module, env, extract) {
   return config
 }
 
-function createEsmConfig(module) {
-  const isModule = PLUGINS.includes(module)
-  const dist = isModule ? `dist/${module}/index.js` : 'dist/index.js'
-  const input = 'components/' + (isModule ? module + '/' : '') + 'index.js'
-  const banner = BANNER.replace('{{module}}', isModule ? module : '').replace(
-    '{{name}}',
-    'default'
-  )
-
-  let external = []
-  let paths = {}
-  let outro = ''
-
-  if (isModule) {
-    PLUGINS.forEach(folder => {
-      if (folder != module) {
-        let id = path.resolve('.', 'components', folder, 'index.js')
-        external.push(id)
-        paths[id] = `../${folder}`
-      }
-    })
-  } else {
-    PLUGINS.forEach(folder => {
-      if (folder != module) {
-        let id = path.resolve('.', 'components', folder, 'index.js')
-        external.push(id)
-        paths[id] = `./${folder}`
-      }
-    })
-
-    PLUGINS.forEach(folder => {
-      let exportName = 'VueMDC' + capitalize(folder)
-      outro += `export { ${exportName} }` + os.EOL
-    })
-
-    outro += os.EOL
-    PLUGINS.forEach(folder => {
-      outro += `export * from './${folder}'` + os.EOL
-    })
-  }
-
-  const output = {
-    file: dist,
-    format: 'es',
-    sourcemap: true,
-    banner,
-    paths,
-    outro
-  }
-
-  const config = {
-    input,
-    output,
-    external,
-    plugins: [
-      vue({ autoStyles: false, styleToImports: true }),
-      resolve({ jsnext: true, main: true, browser: true }),
-      babel(babelConfig),
-      commonjs(),
-      replace({
-        __VERSION__: pkg.version
-      })
-    ],
-    onwarn
-  }
-  return config
-}
+// function createEsmConfig(module) {
+//   const isModule = PLUGINS.includes(module)
+//   const dist = isModule ? `dist/${module}/index.js` : 'dist/index.js'
+//   const input = 'components/' + (isModule ? module + '/' : '') + 'index.js'
+//   const banner = BANNER.replace('{{module}}', isModule ? module : '').replace(
+//     '{{name}}',
+//     'default'
+//   )
+//
+//   let external = []
+//   let paths = {}
+//   let outro = ''
+//
+//   if (isModule) {
+//     PLUGINS.forEach(folder => {
+//       if (folder != module) {
+//         let id = path.resolve('.', 'components', folder, 'index.js')
+//         external.push(id)
+//         paths[id] = `../${folder}`
+//       }
+//     })
+//   } else {
+//     PLUGINS.forEach(folder => {
+//       if (folder != module) {
+//         let id = path.resolve('.', 'components', folder, 'index.js')
+//         external.push(id)
+//         paths[id] = `./${folder}`
+//       }
+//     })
+//
+//     PLUGINS.forEach(folder => {
+//       let exportName = 'VueMDC' + capitalize(folder)
+//       outro += `export { ${exportName} }` + os.EOL
+//     })
+//
+//     outro += os.EOL
+//     PLUGINS.forEach(folder => {
+//       outro += `export * from './${folder}'` + os.EOL
+//     })
+//   }
+//
+//   const output = {
+//     file: dist,
+//     format: 'es',
+//     sourcemap: true,
+//     banner,
+//     paths,
+//     outro
+//   }
+//
+//   const config = {
+//     input,
+//     output,
+//     external,
+//     plugins: [
+//       vue({ autoStyles: false, styleToImports: true }),
+//       resolve({ jsnext: true, main: true, browser: true }),
+//       babel(babelConfig),
+//       commonjs(),
+//       replace({
+//         __VERSION__: pkg.version
+//       })
+//     ],
+//     onwarn
+//   }
+//   return config
+// }
 
 const configs = []
 
-// ESM
-PLUGINS.forEach(module => {
-  configs.push(createEsmConfig(module))
-})
-configs.push(createEsmConfig('index'))
+// // ESM
+// PLUGINS.forEach(module => {
+//   configs.push(createEsmConfig(module))
+// })
+// configs.push(createEsmConfig('index'))
+//
+// // UMD
+// PLUGINS.forEach(module => {
+//   configs.push(createUmdConfig(module, 'development', true))
+//   configs.push(createUmdConfig(module, 'production', true))
+// })
 
-// UMD
-PLUGINS.forEach(module => {
-  configs.push(createUmdConfig(module, 'development', true))
-  configs.push(createUmdConfig(module, 'production', true))
-})
-
-configs.push(createUmdConfig('vue-mdc-adapter', 'development', true))
 configs.push(createUmdConfig('vue-mdc-adapter', 'production', true))
-configs.push(createUmdConfig('vue-mdc-adapter.umd', 'development', false))
-configs.push(createUmdConfig('vue-mdc-adapter.umd', 'production', false))
+configs.push(createUmdConfig('vue-mdc-adapter', 'development', true))
+// configs.push(createUmdConfig('vue-mdc-adapter.umd', 'development', false))
+// configs.push(createUmdConfig('vue-mdc-adapter.umd', 'production', false))
 
 function onwarn(warning) {
   // skip certain warnings
