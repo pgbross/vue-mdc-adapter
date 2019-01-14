@@ -16,12 +16,11 @@
   "license": "MIT",
   "main": "dist/vue-mdc-adapter.js",
   "style": "dist/vue-mdc-adapter.css",
-  "module": "components/index.js",
+  "module": "dist/index.js",
   "unpkg": "dist/vue-mdc-adapter.umd.min.js",
   "jsdelivr": "dist/vue-mdc-adapter.umd.min.js",
   "files": [
     "dist",
-    "components",
     "static",
     "LICENSE",
     "README.md"
