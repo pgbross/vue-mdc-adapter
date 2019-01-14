@@ -21,6 +21,7 @@
   "jsdelivr": "dist/vue-mdc-adapter.umd.min.js",
   "files": [
     "dist",
+    "components",
     "static",
     "LICENSE",
     "README.md"
