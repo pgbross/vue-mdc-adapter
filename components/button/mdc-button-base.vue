@@ -1,12 +1,13 @@
 <template>
-  <custom-button 
+  <custom-button
     ref="root"
-    :class="classes" 
+    :class="classes"
     :style="styles"
-    :href="href" 
-    :link="link" 
+    :href="href"
+    :link="link"
     :disabled="disabled"
-    v-on="listeners">
+    v-on="listeners"
+  >
     <slot />
   </custom-button>
 </template>

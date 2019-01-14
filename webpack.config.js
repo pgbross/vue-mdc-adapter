@@ -17,8 +17,7 @@ const cssLoaders = [
     loader: 'css-loader',
     options: {
       sourceMap: false,
-      import: false,
-      minimize: false // isProduction
+      import: false
     }
   },
   {
@@ -53,6 +52,14 @@ const rules = [
   {
     test: /\.js$/,
     loader: 'babel-loader',
+    query: {
+      presets: ['@babel/preset-env'],
+      plugins: [
+        '@babel/transform-object-assign',
+        '@babel/proposal-object-rest-spread',
+        '@babel/syntax-dynamic-import'
+      ]
+    },
     include: [
       path.resolve(__dirname, 'components'),
       path.resolve(__dirname, 'demo'),
