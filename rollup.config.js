@@ -24,6 +24,7 @@ const PLUGINS = [
   'fab',
   'grid-list',
   'icon-toggle',
+  'icon-button',
   'icon',
   'layout-app',
   'layout-grid',

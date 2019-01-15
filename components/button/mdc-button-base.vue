@@ -8,7 +8,7 @@
     :disabled="disabled"
     v-on="listeners"
   >
-    <slot />
+    <span class="mdc-button__label"> <slot /> </span>
   </custom-button>
 </template>
 

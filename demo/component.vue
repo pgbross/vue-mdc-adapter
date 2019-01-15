@@ -1,20 +1,10 @@
 <template>
   <section>
-    <div
-      :style="'background-image: url('+icon+')'"
-      class="demo-icon"/>
+    <div :style="'background-image: url(' + icon + ')'" class="demo-icon" />
 
-    <mdc-display
-      v-if="title"
-      ref="title">{{ title }} </mdc-display>
-    <article
-      v-if="demo"
-      class="demo-article" >
-      <component :is="demo" />
-    </article>
-    <article
-      v-if="readme"
-      class="doc-article markdown">
+    <mdc-display v-if="title" ref="title">{{ title }} </mdc-display>
+    <article v-if="demo" class="demo-article"><component :is="demo" /></article>
+    <article v-if="readme" class="doc-article markdown">
       <component :is="readme" />
     </article>
   </section>
@@ -43,6 +33,7 @@ export default {
     'fab-readme': () => import('../components/fab/README.md'),
     'grid-list-readme': () => import('../components/grid-list/README.md'),
     'icon-readme': () => import('../components/icon/README.md'),
+    'icon-button-readme': () => import('../components/icon-button/README.md'),
     'icon-toggle-readme': () => import('../components/icon-toggle/README.md'),
     'layout-app-readme': () => import('../components/layout-app/README.md'),
     'layout-grid-readme': () => import('../components/layout-grid/README.md'),
@@ -71,6 +62,7 @@ export default {
     'fab-demo': () => import('../components/fab/demo.vue'),
     'grid-list-demo': () => import('../components/grid-list/demo.vue'),
     'icon-demo': () => import('../components/icon/demo.vue'),
+    'icon-button-demo': () => import('../components/icon-button/demo.vue'),
     'icon-toggle-demo': () => import('../components/icon-toggle/demo.vue'),
     'layout-app-demo': () => import('../components/layout-app/demo.vue'),
     'layout-grid-demo': () => import('../components/layout-grid/demo.vue'),
