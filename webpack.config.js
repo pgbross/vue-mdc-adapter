@@ -68,7 +68,6 @@ const rules = [
   },
   {
     test: /\.md$/,
-    // loader: 'vue-markdown-loader',
     use: [
       { loader: 'vue-loader' },
       {
@@ -166,11 +165,11 @@ if (isProduction) {
     use: [MiniCssExtractPlugin.loader].concat(cssLoaders)
   })
 
-  // // laod css rule
-  // config.module.rules.push({
-  //   test: /\.(css|scss)$/,
-  //   use: ['style-loader'].concat(cssLoaders)
-  // })
+  // laod css rule
+  config.module.rules.push({
+    test: /\.(css|scss)$/,
+    use: ['style-loader'].concat(cssLoaders)
+  })
 
   config.plugins.push(
     // clean output path
