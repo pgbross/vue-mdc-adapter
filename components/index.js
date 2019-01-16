@@ -12,11 +12,12 @@ import VueMDCFab from './fab'
 import VueMDCGridList from './grid-list'
 import VueMDCIcon from './icon'
 import VueMDCIconButton from './icon-button'
-import VueMDCIconToggle from './icon-toggle'
+// import VueMDCIconToggle from './icon-toggle'
 import VueMDCLayoutApp from './layout-app'
 import VueMDCLayoutGrid from './layout-grid'
 import VueMDCLinearProgress from './linear-progress'
 import VueMDCList from './list'
+import VueMDCMaterialIcon from './material-icon'
 import VueMDCMenu from './menu'
 import VueMDCRadio from './radio'
 import VueMDCRipple from './ripple'
@@ -46,12 +47,13 @@ export default {
     vm.use(VueMDCGridList)
     vm.use(VueMDCIcon)
     vm.use(VueMDCIconButton)
-    vm.use(VueMDCIconToggle)
+    // vm.use(VueMDCIconToggle)
     vm.use(VueMDCLayoutApp)
     vm.use(VueMDCLayoutGrid)
     vm.use(VueMDCLinearProgress)
     vm.use(VueMDCList)
     vm.use(VueMDCMenu)
+    vm.use(VueMDCMaterialIcon)
     vm.use(VueMDCRadio)
     vm.use(VueMDCRipple)
     vm.use(VueMDCSelect)

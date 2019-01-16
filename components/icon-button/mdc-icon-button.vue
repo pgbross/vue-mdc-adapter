@@ -6,6 +6,7 @@
     @click="onClick"
     v-if="isLink"
     v-bind="$attrs"
+    aria-pressed="false"
   >
     <slot />
   </a>
@@ -15,6 +16,7 @@
     class="mdc-icon-button material-icons"
     @click="onClick"
     v-bind="$attrs"
+    aria-pressed="false"
     v-else
   >
     <slot />
@@ -48,7 +50,7 @@ export default {
     this.foundation = new MDCIconButtonToggleFoundation({
       addClass: className => this.$set(this.classes, className, true),
       removeClass: className => this.$delete(this.classes, className),
-      hasClass: className => this.$el.classList.contains(className),
+      hasClass: className => Boolean(this.classes[className]),
       setAttr: (attrName, attrValue) =>
         this.$el.setAttribute(attrName, attrValue),
       notifyChange: evtData => {

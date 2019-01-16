@@ -30,6 +30,7 @@ const PLUGINS = [
   'layout-grid',
   'linear-progress',
   'list',
+  'material-icon',
   'menu',
   'radio',
   'ripple',
