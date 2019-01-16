@@ -19,11 +19,11 @@ import VueMDCFab from './fab';
 import VueMDCGridList from './grid-list';
 import VueMDCIcon from './icon';
 import VueMDCIconButton from './icon-button';
-import VueMDCIconToggle from './icon-toggle';
 import VueMDCLayoutApp from './layout-app';
 import VueMDCLayoutGrid from './layout-grid';
 import VueMDCLinearProgress from './linear-progress';
 import VueMDCList from './list';
+import VueMDCMaterialIcon from './material-icon';
 import VueMDCMenu from './menu';
 import VueMDCRadio from './radio';
 import VueMDCRipple, { RippleMixin } from './ripple';
@@ -1424,13 +1424,14 @@ var index = {
     vm.use(VueMDCFab);
     vm.use(VueMDCGridList);
     vm.use(VueMDCIcon);
-    vm.use(VueMDCIconButton);
-    vm.use(VueMDCIconToggle);
+    vm.use(VueMDCIconButton); // vm.use(VueMDCIconToggle)
+
     vm.use(VueMDCLayoutApp);
     vm.use(VueMDCLayoutGrid);
     vm.use(VueMDCLinearProgress);
     vm.use(VueMDCList);
     vm.use(VueMDCMenu);
+    vm.use(VueMDCMaterialIcon);
     vm.use(VueMDCRadio);
     vm.use(VueMDCRipple);
     vm.use(VueMDCSelect);
@@ -1457,13 +1458,13 @@ export { VueMDCDrawer }
 export { VueMDCElevation }
 export { VueMDCFab }
 export { VueMDCGridList }
-export { VueMDCIconToggle }
 export { VueMDCIconButton }
 export { VueMDCIcon }
 export { VueMDCLayoutApp }
 export { VueMDCLayoutGrid }
 export { VueMDCLinearProgress }
 export { VueMDCList }
+export { VueMDCMaterialIcon }
 export { VueMDCMenu }
 export { VueMDCRadio }
 export { VueMDCRipple }
@@ -1486,13 +1487,13 @@ export * from './drawer'
 export * from './elevation'
 export * from './fab'
 export * from './grid-list'
-export * from './icon-toggle'
 export * from './icon-button'
 export * from './icon'
 export * from './layout-app'
 export * from './layout-grid'
 export * from './linear-progress'
 export * from './list'
+export * from './material-icon'
 export * from './menu'
 export * from './radio'
 export * from './ripple'

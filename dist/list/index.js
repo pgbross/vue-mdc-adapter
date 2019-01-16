@@ -1206,6 +1206,9 @@ var script = {
         var event = document.createEvent('Event');
         event.initEvent('change', true, true);
         toggleEl.dispatchEvent(event);
+      },
+      isFocusInsideList: function isFocusInsideList() {
+        return _this.$el.contains(document.activeElement);
       }
     });
     this.foundation.init();

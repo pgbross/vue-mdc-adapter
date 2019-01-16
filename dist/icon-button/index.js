@@ -445,7 +445,7 @@ var script = {
         return _this.$delete(_this.classes, className);
       },
       hasClass: function hasClass(className) {
-        return _this.$el.classList.contains(className);
+        return Boolean(_this.classes[className]);
       },
       setAttr: function setAttr(attrName, attrValue) {
         return _this.$el.setAttribute(attrName, attrValue);
@@ -587,6 +587,7 @@ var __vue_render__ = function() {
             staticClass: "mdc-icon-button material-icons",
             class: _vm.classes,
             style: _vm.styles,
+            attrs: { "aria-pressed": "false" },
             on: { click: _vm.onClick }
           },
           "a",
@@ -603,6 +604,7 @@ var __vue_render__ = function() {
             staticClass: "mdc-icon-button material-icons",
             class: _vm.classes,
             style: _vm.styles,
+            attrs: { "aria-pressed": "false" },
             on: { click: _vm.onClick }
           },
           "button",
@@ -641,10 +643,74 @@ __vue_render__._withStripped = true;
     undefined
   );
 
+//
+//
+//
+//
+var script$1 = {
+  name: 'mdc-icon-toggle',
+  props: {
+    isOn: Boolean
+  },
+  data: function data() {
+    return {
+      classes: {
+        'mdc-icon-button__icon': true,
+        'mdc-icon-button__icon--on': this.isOn
+      }
+    };
+  },
+  mounted: function mounted() {},
+  beforeDestroy: function beforeDestroy() {},
+  methods: {},
+  computed: {}
+};
+
+/* script */
+const __vue_script__$1 = script$1;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$1.__file = "/ddata/extra/vma/components/icon-button/mdc-icon-toggle.vue";
+
+/* template */
+var __vue_render__$1 = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c("div", { class: _vm.classes }, [_vm._t("default")], 2)
+};
+var __vue_staticRenderFns__$1 = [];
+__vue_render__$1._withStripped = true;
+
+  /* style */
+  const __vue_inject_styles__$1 = undefined;
+  /* scoped */
+  const __vue_scope_id__$1 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$1 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$1 = false;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var mdcIconToggle = normalizeComponent(
+    { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
+    __vue_inject_styles__$1,
+    __vue_script__$1,
+    __vue_scope_id__$1,
+    __vue_is_functional_template__$1,
+    __vue_module_identifier__$1,
+    undefined,
+    undefined
+  );
+
 var index = BasePlugin({
-  mdcIconButton: mdcIconButton
+  mdcIconButton: mdcIconButton,
+  mdcIconToggle: mdcIconToggle
 });
 
 export default index;
-export { mdcIconButton };
+export { mdcIconButton, mdcIconToggle };
 //# sourceMappingURL=index.js.map

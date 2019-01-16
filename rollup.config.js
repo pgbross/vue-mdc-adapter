@@ -23,7 +23,7 @@ const PLUGINS = [
   'elevation',
   'fab',
   'grid-list',
-  'icon-toggle',
+  // 'icon-toggle',
   'icon-button',
   'icon',
   'layout-app',
