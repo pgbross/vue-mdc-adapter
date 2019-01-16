@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.42.0","material-components-web":"^0.42.1"}
+* @implements {"@material/tabs":"^0.43.0","material-components-web":"^0.43.0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -18,6 +18,7 @@ import VueMDCElevation from './elevation';
 import VueMDCFab from './fab';
 import VueMDCGridList from './grid-list';
 import VueMDCIcon from './icon';
+import VueMDCIconButton from './icon-button';
 import VueMDCIconToggle from './icon-toggle';
 import VueMDCLayoutApp from './layout-app';
 import VueMDCLayoutGrid from './layout-grid';
@@ -1161,9 +1162,94 @@ var script = {
   }
 };
 
+function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeId, isFunctionalTemplate, moduleIdentifier
+/* server only */
+, isShadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+  if (typeof isShadowMode === 'function') {
+    createInjectorSSR = createInjector;
+    createInjector = isShadowMode;
+    isShadowMode = false;
+  } // Vue.extend constructor export interop
+
+
+  var options = typeof defaultExport === 'function' ? defaultExport.options : defaultExport; // render functions
+
+  if (compiledTemplate && compiledTemplate.render) {
+    options.render = compiledTemplate.render;
+    options.staticRenderFns = compiledTemplate.staticRenderFns;
+    options._compiled = true; // functional template
+
+    if (isFunctionalTemplate) {
+      options.functional = true;
+    }
+  } // scopedId
+
+
+  if (scopeId) {
+    options._scopeId = scopeId;
+  }
+
+  var hook;
+
+  if (moduleIdentifier) {
+    // server build
+    hook = function hook(context) {
+      // 2.3 injection
+      context = context || // cached call
+      this.$vnode && this.$vnode.ssrContext || // stateful
+      this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext; // functional
+      // 2.2 with runInNewContext: true
+
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__;
+      } // inject component styles
+
+
+      if (injectStyle) {
+        injectStyle.call(this, createInjectorSSR(context));
+      } // register component module identifier for async chunk inference
+
+
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier);
+      }
+    }; // used by ssr in case component is cached and beforeCreate
+    // never gets called
+
+
+    options._ssrRegister = hook;
+  } else if (injectStyle) {
+    hook = isShadowMode ? function () {
+      injectStyle.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
+    } : function (context) {
+      injectStyle.call(this, createInjector(context));
+    };
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // register for functional component in vue file
+      var originalRender = options.render;
+
+      options.render = function renderWithStyleInjection(h, context) {
+        hook.call(context);
+        return originalRender(h, context);
+      };
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate;
+      options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
+    }
+  }
+
+  return defaultExport;
+}
+
 /* script */
-            const __vue_script__ = script;
-            
+const __vue_script__ = script;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script.__file = "/ddata/extra/vma/components/top-app-bar/mdc-top-app-bar.vue";
+
 /* template */
 var __vue_render__ = function() {
   var _vm = this;
@@ -1232,36 +1318,13 @@ __vue_render__._withStripped = true;
   const __vue_module_identifier__ = undefined;
   /* functional template */
   const __vue_is_functional_template__ = false;
-  /* component normalizer */
-  function __vue_normalize__(
-    template, style, script$$1,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script$$1 === 'function' ? script$$1.options : script$$1) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/top-app-bar/mdc-top-app-bar.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcTopAppBar = __vue_normalize__(
+  var mdcTopAppBar = normalizeComponent(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
@@ -1289,8 +1352,10 @@ var script$1 = {
 };
 
 /* script */
-            const __vue_script__$1 = script$1;
-            
+const __vue_script__$1 = script$1;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$1.__file = "/ddata/extra/vma/components/top-app-bar/mdc-top-app-bar-action.vue";
+
 /* template */
 var __vue_render__$1 = function() {
   var _vm = this;
@@ -1322,36 +1387,13 @@ __vue_render__$1._withStripped = true;
   const __vue_module_identifier__$1 = undefined;
   /* functional template */
   const __vue_is_functional_template__$1 = false;
-  /* component normalizer */
-  function __vue_normalize__$1(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/top-app-bar/mdc-top-app-bar-action.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcTopAppBarAction = __vue_normalize__$1(
+  var mdcTopAppBarAction = normalizeComponent(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
@@ -1382,6 +1424,7 @@ var index = {
     vm.use(VueMDCFab);
     vm.use(VueMDCGridList);
     vm.use(VueMDCIcon);
+    vm.use(VueMDCIconButton);
     vm.use(VueMDCIconToggle);
     vm.use(VueMDCLayoutApp);
     vm.use(VueMDCLayoutGrid);
@@ -1415,6 +1458,7 @@ export { VueMDCElevation }
 export { VueMDCFab }
 export { VueMDCGridList }
 export { VueMDCIconToggle }
+export { VueMDCIconButton }
 export { VueMDCIcon }
 export { VueMDCLayoutApp }
 export { VueMDCLayoutGrid }
@@ -1443,6 +1487,7 @@ export * from './elevation'
 export * from './fab'
 export * from './grid-list'
 export * from './icon-toggle'
+export * from './icon-button'
 export * from './icon'
 export * from './layout-app'
 export * from './layout-grid'

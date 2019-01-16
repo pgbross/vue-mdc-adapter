@@ -1,27 +1,92 @@
 <template>
-  <button class="mdc-icon-button material-icons">{{ icon }}</button>
+  <a
+    :class="classes"
+    :style="styles"
+    class="mdc-icon-button material-icons"
+    @click="onClick"
+    v-if="isLink"
+    v-bind="$attrs"
+  >
+    <slot />
+  </a>
+  <button
+    :class="classes"
+    :style="styles"
+    class="mdc-icon-button material-icons"
+    @click="onClick"
+    v-bind="$attrs"
+    v-else
+  >
+    <slot />
+  </button>
 </template>
 
 <script>
+import MDCIconButtonToggleFoundation from '@material/icon-button/foundation'
+import { RippleBase } from '../ripple'
+
 export default {
   name: 'mdc-icon-button',
-  // model: {
-  //   prop: 'open',
-  //   event: 'change'
-  // },
+  model: {
+    prop: 'isOn',
+    event: 'change'
+  },
   props: {
-    icon: String
-    //   open: Boolean,
-    //   stacked: Boolean,
-    //   leading: Boolean,
-    //   labelText: String,
-    //   actionText: String,
-    //   timeoutMs: [String, Number],
-    //
-    //   dismissAction: { type: [String, Boolean], default: true }
+    isOn: Boolean
   },
   data() {
-    return {}
+    return {
+      classes: {},
+      styles: {}
+    }
+  },
+
+  watch: {
+    isOn: 'onOn_'
+  },
+  mounted() {
+    this.foundation = new MDCIconButtonToggleFoundation({
+      addClass: className => this.$set(this.classes, className, true),
+      removeClass: className => this.$delete(this.classes, className),
+      hasClass: className => this.$el.classList.contains(className),
+      setAttr: (attrName, attrValue) =>
+        this.$el.setAttribute(attrName, attrValue),
+      notifyChange: evtData => {
+        this.$emit(MDCIconButtonToggleFoundation.strings.CHANGE_EVENT, evtData)
+
+        this.$emit('change', evtData.isOn)
+      }
+    })
+    this.foundation.init()
+
+    this.ripple = new RippleBase(this, {
+      isUnbounded: () => true
+    })
+    this.ripple.init()
+
+    this.foundation.toggle(this.isOn)
+  },
+
+  beforeDestroy() {
+    this.ripple.destroy()
+    this.foundation.destroy()
+  },
+  methods: {
+    onOn_(isOn) {
+      if (this.isOn !== isOn) {
+        this.foundation.toggle(isOn)
+      }
+    },
+
+    onClick(evt) {
+      this.foundation.handleClick(evt)
+    }
+  },
+
+  computed: {
+    isLink() {
+      return this.$el && Boolean(this.$el.getAttribute('href'))
+    }
   }
 }
 </script>

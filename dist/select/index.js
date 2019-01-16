@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.42.0","material-components-web":"^0.42.1"}
+* @implements {"@material/tabs":"^0.43.0","material-components-web":"^0.43.0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -400,29 +400,6 @@ function () {
 
   return MDCComponent;
 }();
-
-/**
- * @license
- * Copyright 2016 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
 
 /**
  * @license
@@ -1948,9 +1925,94 @@ var script = {
   }
 };
 
+function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeId, isFunctionalTemplate, moduleIdentifier
+/* server only */
+, isShadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+  if (typeof isShadowMode === 'function') {
+    createInjectorSSR = createInjector;
+    createInjector = isShadowMode;
+    isShadowMode = false;
+  } // Vue.extend constructor export interop
+
+
+  var options = typeof defaultExport === 'function' ? defaultExport.options : defaultExport; // render functions
+
+  if (compiledTemplate && compiledTemplate.render) {
+    options.render = compiledTemplate.render;
+    options.staticRenderFns = compiledTemplate.staticRenderFns;
+    options._compiled = true; // functional template
+
+    if (isFunctionalTemplate) {
+      options.functional = true;
+    }
+  } // scopedId
+
+
+  if (scopeId) {
+    options._scopeId = scopeId;
+  }
+
+  var hook;
+
+  if (moduleIdentifier) {
+    // server build
+    hook = function hook(context) {
+      // 2.3 injection
+      context = context || // cached call
+      this.$vnode && this.$vnode.ssrContext || // stateful
+      this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext; // functional
+      // 2.2 with runInNewContext: true
+
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__;
+      } // inject component styles
+
+
+      if (injectStyle) {
+        injectStyle.call(this, createInjectorSSR(context));
+      } // register component module identifier for async chunk inference
+
+
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier);
+      }
+    }; // used by ssr in case component is cached and beforeCreate
+    // never gets called
+
+
+    options._ssrRegister = hook;
+  } else if (injectStyle) {
+    hook = isShadowMode ? function () {
+      injectStyle.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
+    } : function (context) {
+      injectStyle.call(this, createInjector(context));
+    };
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // register for functional component in vue file
+      var originalRender = options.render;
+
+      options.render = function renderWithStyleInjection(h, context) {
+        hook.call(context);
+        return originalRender(h, context);
+      };
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate;
+      options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
+    }
+  }
+
+  return defaultExport;
+}
+
 /* script */
-            const __vue_script__ = script;
-            
+const __vue_script__ = script;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script.__file = "/ddata/extra/vma/components/select/mdc-select-label.vue";
+
 /* template */
 var __vue_render__ = function() {
   var _vm = this;
@@ -1974,36 +2036,13 @@ __vue_render__._withStripped = true;
   const __vue_module_identifier__ = undefined;
   /* functional template */
   const __vue_is_functional_template__ = false;
-  /* component normalizer */
-  function __vue_normalize__(
-    template, style, script$$1,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script$$1 === 'function' ? script$$1.options : script$$1) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/select/mdc-select-label.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var SelectLabel = __vue_normalize__(
+  var SelectLabel = normalizeComponent(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
@@ -2305,8 +2344,10 @@ var script$1 = {
 };
 
 /* script */
-            const __vue_script__$1 = script$1;
-            
+const __vue_script__$1 = script$1;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$1.__file = "/ddata/extra/vma/components/select/mdc-select-line-ripple.vue";
+
 /* template */
 var __vue_render__$1 = function() {
   var _vm = this;
@@ -2329,36 +2370,13 @@ __vue_render__$1._withStripped = true;
   const __vue_module_identifier__$1 = undefined;
   /* functional template */
   const __vue_is_functional_template__$1 = false;
-  /* component normalizer */
-  function __vue_normalize__$1(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/select/mdc-select-line-ripple.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var SelectLineRiple = __vue_normalize__$1(
+  var SelectLineRiple = normalizeComponent(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
@@ -2435,6 +2453,13 @@ function () {
   }, {
     key: "setNotchWidthProperty",
     value: function setNotchWidthProperty(width) {}
+    /**
+     * Removes the width style property from the notch element.
+     */
+
+  }, {
+    key: "removeNotchWidthProperty",
+    value: function removeNotchWidthProperty() {}
   }]);
 
   return MDCNotchedOutlineAdapter;
@@ -2526,7 +2551,8 @@ function (_MDCFoundation) {
         {
           addClass: function addClass() {},
           removeClass: function removeClass() {},
-          setNotchWidthProperty: function setNotchWidthProperty() {}
+          setNotchWidthProperty: function setNotchWidthProperty() {},
+          removeNotchWidthProperty: function removeNotchWidthProperty() {}
         }
       );
     }
@@ -2569,7 +2595,7 @@ function (_MDCFoundation) {
     value: function closeNotch() {
       var OUTLINE_NOTCHED = MDCNotchedOutlineFoundation.cssClasses.OUTLINE_NOTCHED;
       this.adapter_.removeClass(OUTLINE_NOTCHED);
-      this.adapter_.setNotchWidthProperty(0);
+      this.adapter_.removeNotchWidthProperty();
     }
   }]);
 
@@ -2618,8 +2644,10 @@ var script$2 = {
 };
 
 /* script */
-            const __vue_script__$2 = script$2;
-            
+const __vue_script__$2 = script$2;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$2.__file = "/ddata/extra/vma/components/select/mdc-select-notched-outline.vue";
+
 /* template */
 var __vue_render__$2 = function() {
   var _vm = this;
@@ -2657,36 +2685,13 @@ __vue_render__$2._withStripped = true;
   const __vue_module_identifier__$2 = undefined;
   /* functional template */
   const __vue_is_functional_template__$2 = false;
-  /* component normalizer */
-  function __vue_normalize__$2(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/select/mdc-select-notched-outline.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var SelectNotchedOutline = __vue_normalize__$2(
+  var SelectNotchedOutline = normalizeComponent(
     { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
     __vue_inject_styles__$2,
     __vue_script__$2,
@@ -2848,8 +2853,10 @@ var script$3 = {
 };
 
 /* script */
-            const __vue_script__$3 = script$3;
-            
+const __vue_script__$3 = script$3;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$3.__file = "/ddata/extra/vma/components/select/mdc-select.vue";
+
 /* template */
 var __vue_render__$3 = function() {
   var _vm = this;
@@ -2914,36 +2921,13 @@ __vue_render__$3._withStripped = true;
   const __vue_module_identifier__$3 = undefined;
   /* functional template */
   const __vue_is_functional_template__$3 = false;
-  /* component normalizer */
-  function __vue_normalize__$3(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/select/mdc-select.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcSelect = __vue_normalize__$3(
+  var mdcSelect = normalizeComponent(
     { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
     __vue_inject_styles__$3,
     __vue_script__$3,

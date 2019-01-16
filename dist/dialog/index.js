@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.42.0","material-components-web":"^0.42.1"}
+* @implements {"@material/tabs":"^0.43.0","material-components-web":"^0.43.0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -212,168 +212,6 @@ function () {
 
   return MDCFoundation;
 }();
-
-/**
- * @template F
- */
-
-var MDCComponent =
-/*#__PURE__*/
-function () {
-  _createClass(MDCComponent, null, [{
-    key: "attachTo",
-
-    /**
-     * @param {!Element} root
-     * @return {!MDCComponent}
-     */
-    value: function attachTo(root) {
-      // Subclasses which extend MDCBase should provide an attachTo() method that takes a root element and
-      // returns an instantiated component with its root set to that element. Also note that in the cases of
-      // subclasses, an explicit foundation class will not have to be passed in; it will simply be initialized
-      // from getDefaultFoundation().
-      return new MDCComponent(root, new MDCFoundation());
-    }
-    /**
-     * @param {!Element} root
-     * @param {F=} foundation
-     * @param {...?} args
-     */
-
-  }]);
-
-  function MDCComponent(root) {
-    var foundation = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
-
-    _classCallCheck(this, MDCComponent);
-
-    /** @protected {!Element} */
-    this.root_ = root;
-
-    for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-      args[_key - 2] = arguments[_key];
-    }
-
-    this.initialize.apply(this, args); // Note that we initialize foundation here and not within the constructor's default param so that
-    // this.root_ is defined and can be used within the foundation class.
-
-    /** @protected {!F} */
-
-    this.foundation_ = foundation === undefined ? this.getDefaultFoundation() : foundation;
-    this.foundation_.init();
-    this.initialSyncWithDOM();
-  }
-
-  _createClass(MDCComponent, [{
-    key: "initialize",
-    value: function initialize()
-    /* ...args */
-    {} // Subclasses can override this to do any additional setup work that would be considered part of a
-    // "constructor". Essentially, it is a hook into the parent constructor before the foundation is
-    // initialized. Any additional arguments besides root and foundation will be passed in here.
-
-    /**
-     * @return {!F} foundation
-     */
-
-  }, {
-    key: "getDefaultFoundation",
-    value: function getDefaultFoundation() {
-      // Subclasses must override this method to return a properly configured foundation class for the
-      // component.
-      throw new Error('Subclasses must override getDefaultFoundation to return a properly configured ' + 'foundation class');
-    }
-  }, {
-    key: "initialSyncWithDOM",
-    value: function initialSyncWithDOM() {// Subclasses should override this method if they need to perform work to synchronize with a host DOM
-      // object. An example of this would be a form control wrapper that needs to synchronize its internal state
-      // to some property or attribute of the host DOM. Please note: this is *not* the place to perform DOM
-      // reads/writes that would cause layout / paint, as this is called synchronously from within the constructor.
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      // Subclasses may implement this method to release any resources / deregister any listeners they have
-      // attached. An example of this might be deregistering a resize event from the window object.
-      this.foundation_.destroy();
-    }
-    /**
-     * Wrapper method to add an event listener to the component's root element. This is most useful when
-     * listening for custom events.
-     * @param {string} evtType
-     * @param {!Function} handler
-     */
-
-  }, {
-    key: "listen",
-    value: function listen(evtType, handler) {
-      this.root_.addEventListener(evtType, handler);
-    }
-    /**
-     * Wrapper method to remove an event listener to the component's root element. This is most useful when
-     * unlistening for custom events.
-     * @param {string} evtType
-     * @param {!Function} handler
-     */
-
-  }, {
-    key: "unlisten",
-    value: function unlisten(evtType, handler) {
-      this.root_.removeEventListener(evtType, handler);
-    }
-    /**
-     * Fires a cross-browser-compatible custom event from the component root of the given type,
-     * with the given data.
-     * @param {string} evtType
-     * @param {!Object} evtData
-     * @param {boolean=} shouldBubble
-     */
-
-  }, {
-    key: "emit",
-    value: function emit(evtType, evtData) {
-      var shouldBubble = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      var evt;
-
-      if (typeof CustomEvent === 'function') {
-        evt = new CustomEvent(evtType, {
-          detail: evtData,
-          bubbles: shouldBubble
-        });
-      } else {
-        evt = document.createEvent('CustomEvent');
-        evt.initCustomEvent(evtType, shouldBubble, false, evtData);
-      }
-
-      this.root_.dispatchEvent(evt);
-    }
-  }]);
-
-  return MDCComponent;
-}();
-
-/**
- * @license
- * Copyright 2016 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
 
 /**
  * @license
@@ -918,465 +756,11 @@ function (_MDCFoundation) {
   return MDCDialogFoundation;
 }(MDCFoundation);
 
-var tabbable = function (el, options) {
-  options = options || {};
-  var elementDocument = el.ownerDocument || el;
-  var basicTabbables = [];
-  var orderedTabbables = []; // A node is "available" if
-  // - it's computed style
-
-  var isUnavailable = createIsUnavailable(elementDocument);
-  var candidateSelectors = ['input', 'select', 'a[href]', 'textarea', 'button', '[tabindex]'];
-  var candidates = el.querySelectorAll(candidateSelectors.join(','));
-
-  if (options.includeContainer) {
-    var matches = Element.prototype.matches || Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
-
-    if (candidateSelectors.some(function (candidateSelector) {
-      return matches.call(el, candidateSelector);
-    })) {
-      candidates = Array.prototype.slice.apply(candidates);
-      candidates.unshift(el);
-    }
-  }
-
-  var candidate, candidateIndexAttr, candidateIndex;
-
-  for (var i = 0, l = candidates.length; i < l; i++) {
-    candidate = candidates[i];
-    candidateIndexAttr = parseInt(candidate.getAttribute('tabindex'), 10);
-    candidateIndex = isNaN(candidateIndexAttr) ? candidate.tabIndex : candidateIndexAttr;
-
-    if (candidateIndex < 0 || candidate.tagName === 'INPUT' && candidate.type === 'hidden' || candidate.disabled || isUnavailable(candidate, elementDocument)) {
-      continue;
-    }
-
-    if (candidateIndex === 0) {
-      basicTabbables.push(candidate);
-    } else {
-      orderedTabbables.push({
-        index: i,
-        tabIndex: candidateIndex,
-        node: candidate
-      });
-    }
-  }
-
-  var tabbableNodes = orderedTabbables.sort(function (a, b) {
-    return a.tabIndex === b.tabIndex ? a.index - b.index : a.tabIndex - b.tabIndex;
-  }).map(function (a) {
-    return a.node;
-  });
-  Array.prototype.push.apply(tabbableNodes, basicTabbables);
-  return tabbableNodes;
-};
-
-function createIsUnavailable(elementDocument) {
-  // Node cache must be refreshed on every check, in case
-  // the content of the element has changed
-  var isOffCache = []; // "off" means `display: none;`, as opposed to "hidden",
-  // which means `visibility: hidden;`. getComputedStyle
-  // accurately reflects visiblity in context but not
-  // "off" state, so we need to recursively check parents.
-
-  function isOff(node, nodeComputedStyle) {
-    if (node === elementDocument.documentElement) return false; // Find the cached node (Array.prototype.find not available in IE9)
-
-    for (var i = 0, length = isOffCache.length; i < length; i++) {
-      if (isOffCache[i][0] === node) return isOffCache[i][1];
-    }
-
-    nodeComputedStyle = nodeComputedStyle || elementDocument.defaultView.getComputedStyle(node);
-    var result = false;
-
-    if (nodeComputedStyle.display === 'none') {
-      result = true;
-    } else if (node.parentNode) {
-      result = isOff(node.parentNode);
-    }
-
-    isOffCache.push([node, result]);
-    return result;
-  }
-
-  return function isUnavailable(node) {
-    if (node === elementDocument.documentElement) return false;
-    var computedStyle = elementDocument.defaultView.getComputedStyle(node);
-    if (isOff(node, computedStyle)) return true;
-    return computedStyle.visibility === 'hidden';
-  };
-}
-
-var listeningFocusTrap = null;
-
-function focusTrap(element, userOptions) {
-  var tabbableNodes = [];
-  var firstTabbableNode = null;
-  var lastTabbableNode = null;
-  var nodeFocusedBeforeActivation = null;
-  var active = false;
-  var paused = false;
-  var tabEvent = null;
-  var container = typeof element === 'string' ? document.querySelector(element) : element;
-  var config = userOptions || {};
-  config.returnFocusOnDeactivate = userOptions && userOptions.returnFocusOnDeactivate !== undefined ? userOptions.returnFocusOnDeactivate : true;
-  config.escapeDeactivates = userOptions && userOptions.escapeDeactivates !== undefined ? userOptions.escapeDeactivates : true;
-  var trap = {
-    activate: activate,
-    deactivate: deactivate,
-    pause: pause,
-    unpause: unpause
-  };
-  return trap;
-
-  function activate(activateOptions) {
-    if (active) return;
-    var defaultedActivateOptions = {
-      onActivate: activateOptions && activateOptions.onActivate !== undefined ? activateOptions.onActivate : config.onActivate
-    };
-    active = true;
-    paused = false;
-    nodeFocusedBeforeActivation = document.activeElement;
-
-    if (defaultedActivateOptions.onActivate) {
-      defaultedActivateOptions.onActivate();
-    }
-
-    addListeners();
-    return trap;
-  }
-
-  function deactivate(deactivateOptions) {
-    if (!active) return;
-    var defaultedDeactivateOptions = {
-      returnFocus: deactivateOptions && deactivateOptions.returnFocus !== undefined ? deactivateOptions.returnFocus : config.returnFocusOnDeactivate,
-      onDeactivate: deactivateOptions && deactivateOptions.onDeactivate !== undefined ? deactivateOptions.onDeactivate : config.onDeactivate
-    };
-    removeListeners();
-
-    if (defaultedDeactivateOptions.onDeactivate) {
-      defaultedDeactivateOptions.onDeactivate();
-    }
-
-    if (defaultedDeactivateOptions.returnFocus) {
-      setTimeout(function () {
-        tryFocus(nodeFocusedBeforeActivation);
-      }, 0);
-    }
-
-    active = false;
-    paused = false;
-    return this;
-  }
-
-  function pause() {
-    if (paused || !active) return;
-    paused = true;
-    removeListeners();
-  }
-
-  function unpause() {
-    if (!paused || !active) return;
-    paused = false;
-    addListeners();
-  }
-
-  function addListeners() {
-    if (!active) return; // There can be only one listening focus trap at a time
-
-    if (listeningFocusTrap) {
-      listeningFocusTrap.pause();
-    }
-
-    listeningFocusTrap = trap;
-    updateTabbableNodes(); // Ensure that the focused element doesn't capture the event that caused the focus trap activation
-
-    setTimeout(function () {
-      tryFocus(firstFocusNode());
-    }, 0);
-    document.addEventListener('focus', checkFocus, true);
-    document.addEventListener('click', checkClick, true);
-    document.addEventListener('mousedown', checkPointerDown, true);
-    document.addEventListener('touchstart', checkPointerDown, true);
-    document.addEventListener('keydown', checkKey, true);
-    return trap;
-  }
-
-  function removeListeners() {
-    if (!active || listeningFocusTrap !== trap) return;
-    document.removeEventListener('focus', checkFocus, true);
-    document.removeEventListener('click', checkClick, true);
-    document.removeEventListener('mousedown', checkPointerDown, true);
-    document.removeEventListener('touchstart', checkPointerDown, true);
-    document.removeEventListener('keydown', checkKey, true);
-    listeningFocusTrap = null;
-    return trap;
-  }
-
-  function getNodeForOption(optionName) {
-    var optionValue = config[optionName];
-    var node = optionValue;
-
-    if (!optionValue) {
-      return null;
-    }
-
-    if (typeof optionValue === 'string') {
-      node = document.querySelector(optionValue);
-
-      if (!node) {
-        throw new Error('`' + optionName + '` refers to no known node');
-      }
-    }
-
-    if (typeof optionValue === 'function') {
-      node = optionValue();
-
-      if (!node) {
-        throw new Error('`' + optionName + '` did not return a node');
-      }
-    }
-
-    return node;
-  }
-
-  function firstFocusNode() {
-    var node;
-
-    if (getNodeForOption('initialFocus') !== null) {
-      node = getNodeForOption('initialFocus');
-    } else if (container.contains(document.activeElement)) {
-      node = document.activeElement;
-    } else {
-      node = tabbableNodes[0] || getNodeForOption('fallbackFocus');
-    }
-
-    if (!node) {
-      throw new Error('You can\'t have a focus-trap without at least one focusable element');
-    }
-
-    return node;
-  } // This needs to be done on mousedown and touchstart instead of click
-  // so that it precedes the focus event
-
-
-  function checkPointerDown(e) {
-    if (config.clickOutsideDeactivates && !container.contains(e.target)) {
-      deactivate({
-        returnFocus: false
-      });
-    }
-  }
-
-  function checkClick(e) {
-    if (config.clickOutsideDeactivates) return;
-    if (container.contains(e.target)) return;
-    e.preventDefault();
-    e.stopImmediatePropagation();
-  }
-
-  function checkFocus(e) {
-    if (container.contains(e.target)) return;
-    e.preventDefault();
-    e.stopImmediatePropagation(); // Checking for a blur method here resolves a Firefox issue (#15)
-
-    if (typeof e.target.blur === 'function') e.target.blur();
-
-    if (tabEvent) {
-      readjustFocus(tabEvent);
-    }
-  }
-
-  function checkKey(e) {
-    if (e.key === 'Tab' || e.keyCode === 9) {
-      handleTab(e);
-    }
-
-    if (config.escapeDeactivates !== false && isEscapeEvent(e)) {
-      deactivate();
-    }
-  }
-
-  function handleTab(e) {
-    updateTabbableNodes();
-
-    if (e.target.hasAttribute('tabindex') && Number(e.target.getAttribute('tabindex')) < 0) {
-      return tabEvent = e;
-    }
-
-    e.preventDefault();
-    var currentFocusIndex = tabbableNodes.indexOf(e.target);
-
-    if (e.shiftKey) {
-      if (e.target === firstTabbableNode || tabbableNodes.indexOf(e.target) === -1) {
-        return tryFocus(lastTabbableNode);
-      }
-
-      return tryFocus(tabbableNodes[currentFocusIndex - 1]);
-    }
-
-    if (e.target === lastTabbableNode) return tryFocus(firstTabbableNode);
-    tryFocus(tabbableNodes[currentFocusIndex + 1]);
-  }
-
-  function updateTabbableNodes() {
-    tabbableNodes = tabbable(container);
-    firstTabbableNode = tabbableNodes[0];
-    lastTabbableNode = tabbableNodes[tabbableNodes.length - 1];
-  }
-
-  function readjustFocus(e) {
-    if (e.shiftKey) return tryFocus(lastTabbableNode);
-    tryFocus(firstTabbableNode);
-  }
-}
-
-function isEscapeEvent(e) {
-  return e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27;
-}
-
-function tryFocus(node) {
-  if (!node || !node.focus) return;
-  if (node === document.activeElement) return;
-  node.focus();
-
-  if (node.tagName.toLowerCase() === 'input') {
-    node.select();
-  }
-}
-
-var focusTrap_1 = focusTrap;
-
-/**
- * @license
- * Copyright 2016 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-/**
- * @param {!Element} surfaceEl
- * @param {?Element=} initialFocusEl
- * @param {function(!Element, !FocusTrapCreateOptions): !FocusTrapInstance} focusTrapFactory
- * @return {!FocusTrapInstance}
- */
-
-function createFocusTrapInstance(surfaceEl) {
-  var focusTrapFactory = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : focusTrap_1;
-  var initialFocusEl = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
-  return focusTrapFactory(surfaceEl, {
-    initialFocus: initialFocusEl,
-    escapeDeactivates: false,
-    // Dialog foundation handles escape key
-    clickOutsideDeactivates: true // Allow handling of scrim clicks
-
-  });
-}
-/**
- * @param {!Element} el
- * @return {boolean}
- */
-
-
-function isScrollable(el) {
-  return el.scrollHeight > el.offsetHeight;
-}
-/**
- * @param {!Array<!Element>|!NodeList} els
- * @return {boolean}
- */
-
-
-function areTopsMisaligned(els) {
-  var tops = new Set();
-  [].forEach.call(els, function (el) {
-    return tops.add(el.offsetTop);
-  });
-  return tops.size > 1;
-}
-
-/**
- * @license
- * Copyright 2018 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/**
- * @fileoverview A "ponyfill" is a polyfill that doesn't modify the global prototype chain.
- * This makes ponyfills safer than traditional polyfills, especially for libraries like MDC.
- */
-
-/**
- * @param {!Element} element
- * @param {string} selector
- * @return {?Element}
- */
-function closest(element, selector) {
-  if (element.closest) {
-    return element.closest(selector);
-  }
-
-  var el = element;
-
-  while (el) {
-    if (matches(el, selector)) {
-      return el;
-    }
-
-    el = el.parentElement;
-  }
-
-  return null;
-}
-/**
- * @param {!Element} element
- * @param {string} selector
- * @return {boolean}
- */
-
-
-function matches(element, selector) {
-  var nativeMatches = element.matches || element.webkitMatchesSelector || element.msMatchesSelector;
-  return nativeMatches.call(element, selector);
-}
-
 var candidateSelectors = ['input', 'select', 'textarea', 'a[href]', 'button', '[tabindex]', 'audio[controls]', 'video[controls]', '[contenteditable]:not([contenteditable="false"])'];
 var candidateSelector = candidateSelectors.join(',');
-var matches$1 = typeof Element === 'undefined' ? function () {} : Element.prototype.matches || Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+var matches = typeof Element === 'undefined' ? function () {} : Element.prototype.matches || Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
 
-function tabbable$1(el, options) {
+function tabbable(el, options) {
   options = options || {};
   var elementDocument = el.ownerDocument || el;
   var regularTabbables = [];
@@ -1385,7 +769,7 @@ function tabbable$1(el, options) {
   var candidates = el.querySelectorAll(candidateSelector);
 
   if (options.includeContainer) {
-    if (matches$1.call(el, candidateSelector)) {
+    if (matches.call(el, candidateSelector)) {
       candidates = Array.prototype.slice.apply(candidates);
       candidates.unshift(el);
     }
@@ -1415,8 +799,8 @@ function tabbable$1(el, options) {
   return tabbableNodes;
 }
 
-tabbable$1.isTabbable = isTabbable;
-tabbable$1.isFocusable = isFocusable;
+tabbable.isTabbable = isTabbable;
+tabbable.isFocusable = isFocusable;
 
 function isNodeMatchingSelectorTabbable(node, untouchabilityChecker) {
   if (!isNodeMatchingSelectorFocusable(node, untouchabilityChecker) || isNonTabbableRadio(node) || getTabindex(node) < 0) {
@@ -1428,7 +812,7 @@ function isNodeMatchingSelectorTabbable(node, untouchabilityChecker) {
 
 function isTabbable(node, untouchabilityChecker) {
   if (!node) throw new Error('No node provided');
-  if (matches$1.call(node, candidateSelector) === false) return false;
+  if (matches.call(node, candidateSelector) === false) return false;
   return isNodeMatchingSelectorTabbable(node, untouchabilityChecker);
 }
 
@@ -1446,7 +830,7 @@ var focusableCandidateSelector = candidateSelectors.concat('iframe').join(',');
 
 function isFocusable(node, untouchabilityChecker) {
   if (!node) throw new Error('No node provided');
-  if (matches$1.call(node, focusableCandidateSelector) === false) return false;
+  if (matches.call(node, focusableCandidateSelector) === false) return false;
   return isNodeMatchingSelectorFocusable(node, untouchabilityChecker);
 }
 
@@ -1520,7 +904,7 @@ function UntouchabilityChecker(elementDocument) {
 
 
 UntouchabilityChecker.prototype.hasDisplayNone = function hasDisplayNone(node, nodeComputedStyle) {
-  if (node === this.doc.documentElement) return false; // Search for a cached result.
+  if (node.nodeType !== Node.ELEMENT_NODE) return false; // Search for a cached result.
 
   var cached = find(this.cache, function (item) {
     return item === node;
@@ -1546,7 +930,7 @@ UntouchabilityChecker.prototype.isUntouchable = function isUntouchable(node) {
   return computedStyle.visibility === 'hidden';
 };
 
-var tabbable_1 = tabbable$1;
+var tabbable_1 = tabbable;
 
 var immutable = extend;
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -1603,7 +987,7 @@ var activeFocusTraps = function () {
   };
 }();
 
-function focusTrap$1(element, userOptions) {
+function focusTrap(element, userOptions) {
   var doc = document;
   var container = typeof element === 'string' ? doc.querySelector(element) : element;
   var config = immutable({
@@ -1776,7 +1160,7 @@ function focusTrap$1(element, userOptions) {
   }
 
   function checkKey(e) {
-    if (config.escapeDeactivates !== false && isEscapeEvent$1(e)) {
+    if (config.escapeDeactivates !== false && isEscapeEvent(e)) {
       e.preventDefault();
       deactivate();
       return;
@@ -1842,7 +1226,7 @@ function isSelectableInput(node) {
   return node.tagName && node.tagName.toLowerCase() === 'input' && typeof node.select === 'function';
 }
 
-function isEscapeEvent$1(e) {
+function isEscapeEvent(e) {
   return e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27;
 }
 
@@ -1851,6 +1235,420 @@ function isTabEvent(e) {
 }
 
 function delay(fn) {
+  return setTimeout(fn, 0);
+}
+
+var focusTrap_1 = focusTrap;
+
+/**
+ * @license
+ * Copyright 2016 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+/**
+ * @param {!Element} surfaceEl
+ * @param {?Element=} initialFocusEl
+ * @param {function(!Element, !FocusTrapCreateOptions): !FocusTrapInstance} focusTrapFactory
+ * @return {!FocusTrapInstance}
+ */
+
+function createFocusTrapInstance(surfaceEl) {
+  var focusTrapFactory = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : focusTrap_1;
+  var initialFocusEl = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+  return focusTrapFactory(surfaceEl, {
+    initialFocus: initialFocusEl,
+    escapeDeactivates: false,
+    // Dialog foundation handles escape key
+    clickOutsideDeactivates: true // Allow handling of scrim clicks
+
+  });
+}
+/**
+ * @param {!Element} el
+ * @return {boolean}
+ */
+
+
+function isScrollable(el) {
+  return el.scrollHeight > el.offsetHeight;
+}
+/**
+ * @param {!Array<!Element>|!NodeList} els
+ * @return {boolean}
+ */
+
+
+function areTopsMisaligned(els) {
+  var tops = new Set();
+  [].forEach.call(els, function (el) {
+    return tops.add(el.offsetTop);
+  });
+  return tops.size > 1;
+}
+
+/**
+ * @license
+ * Copyright 2018 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+/**
+ * @fileoverview A "ponyfill" is a polyfill that doesn't modify the global prototype chain.
+ * This makes ponyfills safer than traditional polyfills, especially for libraries like MDC.
+ */
+
+/**
+ * @param {!Element} element
+ * @param {string} selector
+ * @return {?Element}
+ */
+function closest(element, selector) {
+  if (element.closest) {
+    return element.closest(selector);
+  }
+
+  var el = element;
+
+  while (el) {
+    if (matches$1(el, selector)) {
+      return el;
+    }
+
+    el = el.parentElement;
+  }
+
+  return null;
+}
+/**
+ * @param {!Element} element
+ * @param {string} selector
+ * @return {boolean}
+ */
+
+
+function matches$1(element, selector) {
+  var nativeMatches = element.matches || element.webkitMatchesSelector || element.msMatchesSelector;
+  return nativeMatches.call(element, selector);
+}
+
+var activeFocusTraps$1 = function () {
+  var trapQueue = [];
+  return {
+    activateTrap: function activateTrap(trap) {
+      if (trapQueue.length > 0) {
+        var activeTrap = trapQueue[trapQueue.length - 1];
+
+        if (activeTrap !== trap) {
+          activeTrap.pause();
+        }
+      }
+
+      var trapIndex = trapQueue.indexOf(trap);
+
+      if (trapIndex === -1) {
+        trapQueue.push(trap);
+      } else {
+        // move this existing trap to the front of the queue
+        trapQueue.splice(trapIndex, 1);
+        trapQueue.push(trap);
+      }
+    },
+    deactivateTrap: function deactivateTrap(trap) {
+      var trapIndex = trapQueue.indexOf(trap);
+
+      if (trapIndex !== -1) {
+        trapQueue.splice(trapIndex, 1);
+      }
+
+      if (trapQueue.length > 0) {
+        trapQueue[trapQueue.length - 1].unpause();
+      }
+    }
+  };
+}();
+
+function focusTrap$1(element, userOptions) {
+  var doc = document;
+  var container = typeof element === 'string' ? doc.querySelector(element) : element;
+  var config = immutable({
+    returnFocusOnDeactivate: true,
+    escapeDeactivates: true
+  }, userOptions);
+  var state = {
+    firstTabbableNode: null,
+    lastTabbableNode: null,
+    nodeFocusedBeforeActivation: null,
+    mostRecentlyFocusedNode: null,
+    active: false,
+    paused: false
+  };
+  var trap = {
+    activate: activate,
+    deactivate: deactivate,
+    pause: pause,
+    unpause: unpause
+  };
+  return trap;
+
+  function activate(activateOptions) {
+    if (state.active) return;
+    updateTabbableNodes();
+    state.active = true;
+    state.paused = false;
+    state.nodeFocusedBeforeActivation = doc.activeElement;
+    var onActivate = activateOptions && activateOptions.onActivate ? activateOptions.onActivate : config.onActivate;
+
+    if (onActivate) {
+      onActivate();
+    }
+
+    addListeners();
+    return trap;
+  }
+
+  function deactivate(deactivateOptions) {
+    if (!state.active) return;
+    removeListeners();
+    state.active = false;
+    state.paused = false;
+    activeFocusTraps$1.deactivateTrap(trap);
+    var onDeactivate = deactivateOptions && deactivateOptions.onDeactivate !== undefined ? deactivateOptions.onDeactivate : config.onDeactivate;
+
+    if (onDeactivate) {
+      onDeactivate();
+    }
+
+    var returnFocus = deactivateOptions && deactivateOptions.returnFocus !== undefined ? deactivateOptions.returnFocus : config.returnFocusOnDeactivate;
+
+    if (returnFocus) {
+      delay$1(function () {
+        tryFocus(state.nodeFocusedBeforeActivation);
+      });
+    }
+
+    return trap;
+  }
+
+  function pause() {
+    if (state.paused || !state.active) return;
+    state.paused = true;
+    removeListeners();
+  }
+
+  function unpause() {
+    if (!state.paused || !state.active) return;
+    state.paused = false;
+    addListeners();
+  }
+
+  function addListeners() {
+    if (!state.active) return; // There can be only one listening focus trap at a time
+
+    activeFocusTraps$1.activateTrap(trap);
+    updateTabbableNodes(); // Delay ensures that the focused element doesn't capture the event
+    // that caused the focus trap activation.
+
+    delay$1(function () {
+      tryFocus(getInitialFocusNode());
+    });
+    doc.addEventListener('focusin', checkFocusIn, true);
+    doc.addEventListener('mousedown', checkPointerDown, true);
+    doc.addEventListener('touchstart', checkPointerDown, true);
+    doc.addEventListener('click', checkClick, true);
+    doc.addEventListener('keydown', checkKey, true);
+    return trap;
+  }
+
+  function removeListeners() {
+    if (!state.active) return;
+    doc.removeEventListener('focusin', checkFocusIn, true);
+    doc.removeEventListener('mousedown', checkPointerDown, true);
+    doc.removeEventListener('touchstart', checkPointerDown, true);
+    doc.removeEventListener('click', checkClick, true);
+    doc.removeEventListener('keydown', checkKey, true);
+    return trap;
+  }
+
+  function getNodeForOption(optionName) {
+    var optionValue = config[optionName];
+    var node = optionValue;
+
+    if (!optionValue) {
+      return null;
+    }
+
+    if (typeof optionValue === 'string') {
+      node = doc.querySelector(optionValue);
+
+      if (!node) {
+        throw new Error('`' + optionName + '` refers to no known node');
+      }
+    }
+
+    if (typeof optionValue === 'function') {
+      node = optionValue();
+
+      if (!node) {
+        throw new Error('`' + optionName + '` did not return a node');
+      }
+    }
+
+    return node;
+  }
+
+  function getInitialFocusNode() {
+    var node;
+
+    if (getNodeForOption('initialFocus') !== null) {
+      node = getNodeForOption('initialFocus');
+    } else if (container.contains(doc.activeElement)) {
+      node = doc.activeElement;
+    } else {
+      node = state.firstTabbableNode || getNodeForOption('fallbackFocus');
+    }
+
+    if (!node) {
+      throw new Error("You can't have a focus-trap without at least one focusable element");
+    }
+
+    return node;
+  } // This needs to be done on mousedown and touchstart instead of click
+  // so that it precedes the focus event.
+
+
+  function checkPointerDown(e) {
+    if (container.contains(e.target)) return;
+
+    if (config.clickOutsideDeactivates) {
+      deactivate({
+        returnFocus: !tabbable_1.isFocusable(e.target)
+      });
+    } else {
+      e.preventDefault();
+    }
+  } // In case focus escapes the trap for some strange reason, pull it back in.
+
+
+  function checkFocusIn(e) {
+    // In Firefox when you Tab out of an iframe the Document is briefly focused.
+    if (container.contains(e.target) || e.target instanceof Document) {
+      return;
+    }
+
+    e.stopImmediatePropagation();
+    tryFocus(state.mostRecentlyFocusedNode || getInitialFocusNode());
+  }
+
+  function checkKey(e) {
+    if (config.escapeDeactivates !== false && isEscapeEvent$1(e)) {
+      e.preventDefault();
+      deactivate();
+      return;
+    }
+
+    if (isTabEvent$1(e)) {
+      checkTab(e);
+      return;
+    }
+  } // Hijack Tab events on the first and last focusable nodes of the trap,
+  // in order to prevent focus from escaping. If it escapes for even a
+  // moment it can end up scrolling the page and causing confusion so we
+  // kind of need to capture the action at the keydown phase.
+
+
+  function checkTab(e) {
+    updateTabbableNodes();
+
+    if (e.shiftKey && e.target === state.firstTabbableNode) {
+      e.preventDefault();
+      tryFocus(state.lastTabbableNode);
+      return;
+    }
+
+    if (!e.shiftKey && e.target === state.lastTabbableNode) {
+      e.preventDefault();
+      tryFocus(state.firstTabbableNode);
+      return;
+    }
+  }
+
+  function checkClick(e) {
+    if (config.clickOutsideDeactivates) return;
+    if (container.contains(e.target)) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+  }
+
+  function updateTabbableNodes() {
+    var tabbableNodes = tabbable_1(container);
+    state.firstTabbableNode = tabbableNodes[0] || getInitialFocusNode();
+    state.lastTabbableNode = tabbableNodes[tabbableNodes.length - 1] || getInitialFocusNode();
+  }
+
+  function tryFocus(node) {
+    if (node === doc.activeElement) return;
+
+    if (!node || !node.focus) {
+      tryFocus(getInitialFocusNode());
+      return;
+    }
+
+    node.focus();
+    state.mostRecentlyFocusedNode = node;
+
+    if (isSelectableInput$1(node)) {
+      node.select();
+    }
+  }
+}
+
+function isSelectableInput$1(node) {
+  return node.tagName && node.tagName.toLowerCase() === 'input' && typeof node.select === 'function';
+}
+
+function isEscapeEvent$1(e) {
+  return e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27;
+}
+
+function isTabEvent$1(e) {
+  return e.key === 'Tab' || e.keyCode === 9;
+}
+
+function delay$1(fn) {
   return setTimeout(fn, 0);
 }
 
@@ -1932,7 +1730,7 @@ var script = {
         return document.body.classList.remove(className);
       },
       eventTargetMatches: function eventTargetMatches(target, selector) {
-        return matches(target, selector);
+        return matches$1(target, selector);
       },
       trapFocus: function trapFocus() {
         return _this.focusTrap && _this.focusTrap.activate();
@@ -2054,9 +1852,94 @@ var script = {
   }
 };
 
+function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeId, isFunctionalTemplate, moduleIdentifier
+/* server only */
+, isShadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+  if (typeof isShadowMode === 'function') {
+    createInjectorSSR = createInjector;
+    createInjector = isShadowMode;
+    isShadowMode = false;
+  } // Vue.extend constructor export interop
+
+
+  var options = typeof defaultExport === 'function' ? defaultExport.options : defaultExport; // render functions
+
+  if (compiledTemplate && compiledTemplate.render) {
+    options.render = compiledTemplate.render;
+    options.staticRenderFns = compiledTemplate.staticRenderFns;
+    options._compiled = true; // functional template
+
+    if (isFunctionalTemplate) {
+      options.functional = true;
+    }
+  } // scopedId
+
+
+  if (scopeId) {
+    options._scopeId = scopeId;
+  }
+
+  var hook;
+
+  if (moduleIdentifier) {
+    // server build
+    hook = function hook(context) {
+      // 2.3 injection
+      context = context || // cached call
+      this.$vnode && this.$vnode.ssrContext || // stateful
+      this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext; // functional
+      // 2.2 with runInNewContext: true
+
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__;
+      } // inject component styles
+
+
+      if (injectStyle) {
+        injectStyle.call(this, createInjectorSSR(context));
+      } // register component module identifier for async chunk inference
+
+
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier);
+      }
+    }; // used by ssr in case component is cached and beforeCreate
+    // never gets called
+
+
+    options._ssrRegister = hook;
+  } else if (injectStyle) {
+    hook = isShadowMode ? function () {
+      injectStyle.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
+    } : function (context) {
+      injectStyle.call(this, createInjector(context));
+    };
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // register for functional component in vue file
+      var originalRender = options.render;
+
+      options.render = function renderWithStyleInjection(h, context) {
+        hook.call(context);
+        return originalRender(h, context);
+      };
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate;
+      options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
+    }
+  }
+
+  return defaultExport;
+}
+
 /* script */
-            const __vue_script__ = script;
-            
+const __vue_script__ = script;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script.__file = "/ddata/extra/vma/components/dialog/mdc-dialog.vue";
+
 /* template */
 var __vue_render__ = function() {
   var _vm = this;
@@ -2163,36 +2046,13 @@ __vue_render__._withStripped = true;
   const __vue_module_identifier__ = undefined;
   /* functional template */
   const __vue_is_functional_template__ = false;
-  /* component normalizer */
-  function __vue_normalize__(
-    template, style, script$$1,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script$$1 === 'function' ? script$$1.options : script$$1) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/dialog/mdc-dialog.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcDialog = __vue_normalize__(
+  var mdcDialog = normalizeComponent(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,

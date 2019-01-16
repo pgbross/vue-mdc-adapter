@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.42.0","material-components-web":"^0.42.1"}
+* @implements {"@material/tabs":"^0.43.0","material-components-web":"^0.43.0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -206,9 +206,94 @@ var script = {
   }
 };
 
+function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeId, isFunctionalTemplate, moduleIdentifier
+/* server only */
+, isShadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+  if (typeof isShadowMode === 'function') {
+    createInjectorSSR = createInjector;
+    createInjector = isShadowMode;
+    isShadowMode = false;
+  } // Vue.extend constructor export interop
+
+
+  var options = typeof defaultExport === 'function' ? defaultExport.options : defaultExport; // render functions
+
+  if (compiledTemplate && compiledTemplate.render) {
+    options.render = compiledTemplate.render;
+    options.staticRenderFns = compiledTemplate.staticRenderFns;
+    options._compiled = true; // functional template
+
+    if (isFunctionalTemplate) {
+      options.functional = true;
+    }
+  } // scopedId
+
+
+  if (scopeId) {
+    options._scopeId = scopeId;
+  }
+
+  var hook;
+
+  if (moduleIdentifier) {
+    // server build
+    hook = function hook(context) {
+      // 2.3 injection
+      context = context || // cached call
+      this.$vnode && this.$vnode.ssrContext || // stateful
+      this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext; // functional
+      // 2.2 with runInNewContext: true
+
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__;
+      } // inject component styles
+
+
+      if (injectStyle) {
+        injectStyle.call(this, createInjectorSSR(context));
+      } // register component module identifier for async chunk inference
+
+
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier);
+      }
+    }; // used by ssr in case component is cached and beforeCreate
+    // never gets called
+
+
+    options._ssrRegister = hook;
+  } else if (injectStyle) {
+    hook = isShadowMode ? function () {
+      injectStyle.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
+    } : function (context) {
+      injectStyle.call(this, createInjector(context));
+    };
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // register for functional component in vue file
+      var originalRender = options.render;
+
+      options.render = function renderWithStyleInjection(h, context) {
+        hook.call(context);
+        return originalRender(h, context);
+      };
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate;
+      options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
+    }
+  }
+
+  return defaultExport;
+}
+
 /* script */
-            const __vue_script__ = script;
-            
+const __vue_script__ = script;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script.__file = "/ddata/extra/vma/components/card/mdc-card.vue";
+
 /* template */
 var __vue_render__ = function() {
   var _vm = this;
@@ -232,36 +317,13 @@ __vue_render__._withStripped = true;
   const __vue_module_identifier__ = undefined;
   /* functional template */
   const __vue_is_functional_template__ = false;
-  /* component normalizer */
-  function __vue_normalize__(
-    template, style, script$$1,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script$$1 === 'function' ? script$$1.options : script$$1) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/card/mdc-card.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcCard = __vue_normalize__(
+  var mdcCard = normalizeComponent(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
@@ -285,8 +347,10 @@ var script$1 = {
 };
 
 /* script */
-            const __vue_script__$1 = script$1;
-            
+const __vue_script__$1 = script$1;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$1.__file = "/ddata/extra/vma/components/card/mdc-card-primary-action.vue";
+
 /* template */
 var __vue_render__$1 = function() {
   var _vm = this;
@@ -318,36 +382,13 @@ __vue_render__$1._withStripped = true;
   const __vue_module_identifier__$1 = undefined;
   /* functional template */
   const __vue_is_functional_template__$1 = false;
-  /* component normalizer */
-  function __vue_normalize__$1(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/card/mdc-card-primary-action.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcCardPrimaryAction = __vue_normalize__$1(
+  var mdcCardPrimaryAction = normalizeComponent(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
@@ -391,8 +432,10 @@ var script$2 = {
 };
 
 /* script */
-            const __vue_script__$2 = script$2;
-            
+const __vue_script__$2 = script$2;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$2.__file = "/ddata/extra/vma/components/card/mdc-card-media.vue";
+
 /* template */
 var __vue_render__$2 = function() {
   var _vm = this;
@@ -428,36 +471,13 @@ __vue_render__$2._withStripped = true;
   const __vue_module_identifier__$2 = undefined;
   /* functional template */
   const __vue_is_functional_template__$2 = false;
-  /* component normalizer */
-  function __vue_normalize__$2(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/card/mdc-card-media.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcCardMedia = __vue_normalize__$2(
+  var mdcCardMedia = normalizeComponent(
     { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
     __vue_inject_styles__$2,
     __vue_script__$2,
@@ -501,8 +521,10 @@ var script$3 = {
 };
 
 /* script */
-            const __vue_script__$3 = script$3;
-            
+const __vue_script__$3 = script$3;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$3.__file = "/ddata/extra/vma/components/card/mdc-card-header.vue";
+
 /* template */
 var __vue_render__$3 = function() {
   var _vm = this;
@@ -545,36 +567,13 @@ __vue_render__$3._withStripped = true;
   const __vue_module_identifier__$3 = undefined;
   /* functional template */
   const __vue_is_functional_template__$3 = false;
-  /* component normalizer */
-  function __vue_normalize__$3(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/card/mdc-card-header.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcCardHeader = __vue_normalize__$3(
+  var mdcCardHeader = normalizeComponent(
     { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
     __vue_inject_styles__$3,
     __vue_script__$3,
@@ -601,8 +600,10 @@ var script$4 = {
 };
 
 /* script */
-            const __vue_script__$4 = script$4;
-            
+const __vue_script__$4 = script$4;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$4.__file = "/ddata/extra/vma/components/card/mdc-card-title.vue";
+
 /* template */
 var __vue_render__$4 = function() {
   var _vm = this;
@@ -629,36 +630,13 @@ __vue_render__$4._withStripped = true;
   const __vue_module_identifier__$4 = undefined;
   /* functional template */
   const __vue_is_functional_template__$4 = false;
-  /* component normalizer */
-  function __vue_normalize__$4(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/card/mdc-card-title.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcCardTitle = __vue_normalize__$4(
+  var mdcCardTitle = normalizeComponent(
     { render: __vue_render__$4, staticRenderFns: __vue_staticRenderFns__$4 },
     __vue_inject_styles__$4,
     __vue_script__$4,
@@ -682,8 +660,10 @@ var script$5 = {
 };
 
 /* script */
-            const __vue_script__$5 = script$5;
-            
+const __vue_script__$5 = script$5;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$5.__file = "/ddata/extra/vma/components/card/mdc-card-subtitle.vue";
+
 /* template */
 var __vue_render__$5 = function() {
   var _vm = this;
@@ -707,36 +687,13 @@ __vue_render__$5._withStripped = true;
   const __vue_module_identifier__$5 = undefined;
   /* functional template */
   const __vue_is_functional_template__$5 = false;
-  /* component normalizer */
-  function __vue_normalize__$5(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/card/mdc-card-subtitle.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcCardSubtitle = __vue_normalize__$5(
+  var mdcCardSubtitle = normalizeComponent(
     { render: __vue_render__$5, staticRenderFns: __vue_staticRenderFns__$5 },
     __vue_inject_styles__$5,
     __vue_script__$5,
@@ -758,8 +715,10 @@ var script$6 = {
 };
 
 /* script */
-            const __vue_script__$6 = script$6;
-            
+const __vue_script__$6 = script$6;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$6.__file = "/ddata/extra/vma/components/card/mdc-card-text.vue";
+
 /* template */
 var __vue_render__$6 = function() {
   var _vm = this;
@@ -783,36 +742,13 @@ __vue_render__$6._withStripped = true;
   const __vue_module_identifier__$6 = undefined;
   /* functional template */
   const __vue_is_functional_template__$6 = false;
-  /* component normalizer */
-  function __vue_normalize__$6(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/card/mdc-card-text.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcCardText = __vue_normalize__$6(
+  var mdcCardText = normalizeComponent(
     { render: __vue_render__$6, staticRenderFns: __vue_staticRenderFns__$6 },
     __vue_inject_styles__$6,
     __vue_script__$6,
@@ -846,8 +782,10 @@ var script$7 = {
 };
 
 /* script */
-            const __vue_script__$7 = script$7;
-            
+const __vue_script__$7 = script$7;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$7.__file = "/ddata/extra/vma/components/card/mdc-card-actions.vue";
+
 /* template */
 var __vue_render__$7 = function() {
   var _vm = this;
@@ -871,36 +809,13 @@ __vue_render__$7._withStripped = true;
   const __vue_module_identifier__$7 = undefined;
   /* functional template */
   const __vue_is_functional_template__$7 = false;
-  /* component normalizer */
-  function __vue_normalize__$7(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/card/mdc-card-actions.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcCardActions = __vue_normalize__$7(
+  var mdcCardActions = normalizeComponent(
     { render: __vue_render__$7, staticRenderFns: __vue_staticRenderFns__$7 },
     __vue_inject_styles__$7,
     __vue_script__$7,
@@ -922,8 +837,10 @@ var script$8 = {
 };
 
 /* script */
-            const __vue_script__$8 = script$8;
-            
+const __vue_script__$8 = script$8;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$8.__file = "/ddata/extra/vma/components/card/mdc-card-action-buttons.vue";
+
 /* template */
 var __vue_render__$8 = function() {
   var _vm = this;
@@ -947,36 +864,13 @@ __vue_render__$8._withStripped = true;
   const __vue_module_identifier__$8 = undefined;
   /* functional template */
   const __vue_is_functional_template__$8 = false;
-  /* component normalizer */
-  function __vue_normalize__$8(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/card/mdc-card-action-buttons.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcCardActionButtons = __vue_normalize__$8(
+  var mdcCardActionButtons = normalizeComponent(
     { render: __vue_render__$8, staticRenderFns: __vue_staticRenderFns__$8 },
     __vue_inject_styles__$8,
     __vue_script__$8,
@@ -1002,8 +896,10 @@ var script$9 = {
 };
 
 /* script */
-            const __vue_script__$9 = script$9;
-            
+const __vue_script__$9 = script$9;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$9.__file = "/ddata/extra/vma/components/card/mdc-card-action-button.vue";
+
 /* template */
 
   /* style */
@@ -1014,36 +910,13 @@ var script$9 = {
   const __vue_module_identifier__$9 = undefined;
   /* functional template */
   const __vue_is_functional_template__$9 = undefined;
-  /* component normalizer */
-  function __vue_normalize__$9(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/card/mdc-card-action-button.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcCardActionButton = __vue_normalize__$9(
+  var mdcCardActionButton = normalizeComponent(
     {},
     __vue_inject_styles__$9,
     __vue_script__$9,
@@ -1065,8 +938,10 @@ var script$a = {
 };
 
 /* script */
-            const __vue_script__$a = script$a;
-            
+const __vue_script__$a = script$a;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$a.__file = "/ddata/extra/vma/components/card/mdc-card-action-icons.vue";
+
 /* template */
 var __vue_render__$9 = function() {
   var _vm = this;
@@ -1090,36 +965,13 @@ __vue_render__$9._withStripped = true;
   const __vue_module_identifier__$a = undefined;
   /* functional template */
   const __vue_is_functional_template__$a = false;
-  /* component normalizer */
-  function __vue_normalize__$a(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/card/mdc-card-action-icons.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcCardActionIcons = __vue_normalize__$a(
+  var mdcCardActionIcons = normalizeComponent(
     { render: __vue_render__$9, staticRenderFns: __vue_staticRenderFns__$9 },
     __vue_inject_styles__$a,
     __vue_script__$a,
@@ -1168,8 +1020,10 @@ var script$b = {
 };
 
 /* script */
-            const __vue_script__$b = script$b;
-            
+const __vue_script__$b = script$b;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$b.__file = "/ddata/extra/vma/components/card/mdc-card-action-icon.vue";
+
 /* template */
 var __vue_render__$a = function() {
   var _vm = this;
@@ -1193,36 +1047,13 @@ __vue_render__$a._withStripped = true;
   const __vue_module_identifier__$b = undefined;
   /* functional template */
   const __vue_is_functional_template__$b = false;
-  /* component normalizer */
-  function __vue_normalize__$b(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/card/mdc-card-action-icon.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcCardActionIcon = __vue_normalize__$b(
+  var mdcCardActionIcon = normalizeComponent(
     { render: __vue_render__$a, staticRenderFns: __vue_staticRenderFns__$a },
     __vue_inject_styles__$b,
     __vue_script__$b,

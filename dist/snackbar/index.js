@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.42.0","material-components-web":"^0.42.1"}
+* @implements {"@material/tabs":"^0.43.0","material-components-web":"^0.43.0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -207,147 +207,8 @@ function () {
 }();
 
 /**
- * @template F
- */
-
-var MDCComponent =
-/*#__PURE__*/
-function () {
-  _createClass(MDCComponent, null, [{
-    key: "attachTo",
-
-    /**
-     * @param {!Element} root
-     * @return {!MDCComponent}
-     */
-    value: function attachTo(root) {
-      // Subclasses which extend MDCBase should provide an attachTo() method that takes a root element and
-      // returns an instantiated component with its root set to that element. Also note that in the cases of
-      // subclasses, an explicit foundation class will not have to be passed in; it will simply be initialized
-      // from getDefaultFoundation().
-      return new MDCComponent(root, new MDCFoundation());
-    }
-    /**
-     * @param {!Element} root
-     * @param {F=} foundation
-     * @param {...?} args
-     */
-
-  }]);
-
-  function MDCComponent(root) {
-    var foundation = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
-
-    _classCallCheck(this, MDCComponent);
-
-    /** @protected {!Element} */
-    this.root_ = root;
-
-    for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-      args[_key - 2] = arguments[_key];
-    }
-
-    this.initialize.apply(this, args); // Note that we initialize foundation here and not within the constructor's default param so that
-    // this.root_ is defined and can be used within the foundation class.
-
-    /** @protected {!F} */
-
-    this.foundation_ = foundation === undefined ? this.getDefaultFoundation() : foundation;
-    this.foundation_.init();
-    this.initialSyncWithDOM();
-  }
-
-  _createClass(MDCComponent, [{
-    key: "initialize",
-    value: function initialize()
-    /* ...args */
-    {} // Subclasses can override this to do any additional setup work that would be considered part of a
-    // "constructor". Essentially, it is a hook into the parent constructor before the foundation is
-    // initialized. Any additional arguments besides root and foundation will be passed in here.
-
-    /**
-     * @return {!F} foundation
-     */
-
-  }, {
-    key: "getDefaultFoundation",
-    value: function getDefaultFoundation() {
-      // Subclasses must override this method to return a properly configured foundation class for the
-      // component.
-      throw new Error('Subclasses must override getDefaultFoundation to return a properly configured ' + 'foundation class');
-    }
-  }, {
-    key: "initialSyncWithDOM",
-    value: function initialSyncWithDOM() {// Subclasses should override this method if they need to perform work to synchronize with a host DOM
-      // object. An example of this would be a form control wrapper that needs to synchronize its internal state
-      // to some property or attribute of the host DOM. Please note: this is *not* the place to perform DOM
-      // reads/writes that would cause layout / paint, as this is called synchronously from within the constructor.
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      // Subclasses may implement this method to release any resources / deregister any listeners they have
-      // attached. An example of this might be deregistering a resize event from the window object.
-      this.foundation_.destroy();
-    }
-    /**
-     * Wrapper method to add an event listener to the component's root element. This is most useful when
-     * listening for custom events.
-     * @param {string} evtType
-     * @param {!Function} handler
-     */
-
-  }, {
-    key: "listen",
-    value: function listen(evtType, handler) {
-      this.root_.addEventListener(evtType, handler);
-    }
-    /**
-     * Wrapper method to remove an event listener to the component's root element. This is most useful when
-     * unlistening for custom events.
-     * @param {string} evtType
-     * @param {!Function} handler
-     */
-
-  }, {
-    key: "unlisten",
-    value: function unlisten(evtType, handler) {
-      this.root_.removeEventListener(evtType, handler);
-    }
-    /**
-     * Fires a cross-browser-compatible custom event from the component root of the given type,
-     * with the given data.
-     * @param {string} evtType
-     * @param {!Object} evtData
-     * @param {boolean=} shouldBubble
-     */
-
-  }, {
-    key: "emit",
-    value: function emit(evtType, evtData) {
-      var shouldBubble = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      var evt;
-
-      if (typeof CustomEvent === 'function') {
-        evt = new CustomEvent(evtType, {
-          detail: evtData,
-          bubbles: shouldBubble
-        });
-      } else {
-        evt = document.createEvent('CustomEvent');
-        evt.initCustomEvent(evtType, shouldBubble, false, evtData);
-      }
-
-      this.root_.dispatchEvent(evt);
-    }
-  }]);
-
-  return MDCComponent;
-}();
-
-/**
  * @license
- * Copyright 2016 Google Inc.
+ * Copyright 2018 Google Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -368,9 +229,71 @@ function () {
  * THE SOFTWARE.
  */
 
+/* eslint no-unused-vars: [2, {"args": "none"}] */
+
+/**
+ * Adapter for MDC Snackbar. Provides an interface for managing:
+ * - CSS classes
+ * - Event handlers
+ *
+ * Additionally, provides type information for the adapter to the Closure
+ * compiler.
+ *
+ * Implement this adapter for your framework of choice to delegate updates to
+ * the component in your framework of choice. See architecture documentation
+ * for more details.
+ * https://github.com/material-components/material-components-web/blob/master/docs/code/architecture.md
+ *
+ * @record
+ */
+var MDCSnackbarAdapter =
+/*#__PURE__*/
+function () {
+  function MDCSnackbarAdapter() {
+    _classCallCheck(this, MDCSnackbarAdapter);
+  }
+
+  _createClass(MDCSnackbarAdapter, [{
+    key: "addClass",
+
+    /** @param {string} className */
+    value: function addClass(className) {}
+    /** @param {string} className */
+
+  }, {
+    key: "removeClass",
+    value: function removeClass(className) {}
+  }, {
+    key: "announce",
+    value: function announce() {}
+  }, {
+    key: "notifyOpening",
+    value: function notifyOpening() {}
+  }, {
+    key: "notifyOpened",
+    value: function notifyOpened() {}
+    /**
+     * @param {string} reason
+     */
+
+  }, {
+    key: "notifyClosing",
+    value: function notifyClosing(reason) {}
+    /**
+     * @param {string} reason
+     */
+
+  }, {
+    key: "notifyClosed",
+    value: function notifyClosed(reason) {}
+  }]);
+
+  return MDCSnackbarAdapter;
+}();
+
 /**
  * @license
- * Copyright 2016 Google Inc.
+ * Copyright 2018 Google Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -391,36 +314,51 @@ function () {
  * THE SOFTWARE.
  */
 var cssClasses = {
-  ROOT: 'mdc-snackbar',
-  TEXT: 'mdc-snackbar__text',
-  ACTION_WRAPPER: 'mdc-snackbar__action-wrapper',
-  ACTION_BUTTON: 'mdc-snackbar__action-button',
-  ACTIVE: 'mdc-snackbar--active',
-  MULTILINE: 'mdc-snackbar--multiline',
-  ACTION_ON_BOTTOM: 'mdc-snackbar--action-on-bottom'
+  OPENING: 'mdc-snackbar--opening',
+  OPEN: 'mdc-snackbar--open',
+  CLOSING: 'mdc-snackbar--closing'
 };
 var strings = {
-  TEXT_SELECTOR: '.mdc-snackbar__text',
-  ACTION_WRAPPER_SELECTOR: '.mdc-snackbar__action-wrapper',
-  ACTION_BUTTON_SELECTOR: '.mdc-snackbar__action-button',
-  SHOW_EVENT: 'MDCSnackbar:show',
-  HIDE_EVENT: 'MDCSnackbar:hide'
+  SURFACE_SELECTOR: '.mdc-snackbar__surface',
+  LABEL_SELECTOR: '.mdc-snackbar__label',
+  ACTION_SELECTOR: '.mdc-snackbar__action',
+  DISMISS_SELECTOR: '.mdc-snackbar__dismiss',
+  OPENING_EVENT: 'MDCSnackbar:opening',
+  OPENED_EVENT: 'MDCSnackbar:opened',
+  CLOSING_EVENT: 'MDCSnackbar:closing',
+  CLOSED_EVENT: 'MDCSnackbar:closed',
+  REASON_ACTION: 'action',
+  REASON_DISMISS: 'dismiss',
+  ARIA_LIVE_LABEL_TEXT_ATTR: 'data-mdc-snackbar-label-text'
 };
 var numbers = {
-  MESSAGE_TIMEOUT: 2750
+  MIN_AUTO_DISMISS_TIMEOUT_MS: 4000,
+  MAX_AUTO_DISMISS_TIMEOUT_MS: 10000,
+  DEFAULT_AUTO_DISMISS_TIMEOUT_MS: 5000,
+  // These variables need to be kept in sync with the values in _variables.scss.
+  SNACKBAR_ANIMATION_OPEN_TIME_MS: 150,
+  SNACKBAR_ANIMATION_CLOSE_TIME_MS: 75,
+
+  /**
+   * Number of milliseconds to wait between temporarily clearing the label text
+   * in the DOM and subsequently restoring it. This is necessary to force IE 11
+   * to pick up the `aria-live` content change and announce it to the user.
+   */
+  ARIA_LIVE_DELAY_MS: 1000
 };
+
+var OPENING = cssClasses.OPENING,
+    OPEN = cssClasses.OPEN,
+    CLOSING = cssClasses.CLOSING;
+var REASON_ACTION = strings.REASON_ACTION,
+    REASON_DISMISS = strings.REASON_DISMISS;
 
 var MDCSnackbarFoundation =
 /*#__PURE__*/
 function (_MDCFoundation) {
   _inherits(MDCSnackbarFoundation, _MDCFoundation);
 
-  _createClass(MDCSnackbarFoundation, [{
-    key: "active",
-    get: function get() {
-      return this.active_;
-    }
-  }], [{
+  _createClass(MDCSnackbarFoundation, null, [{
     key: "cssClasses",
     get: function get() {
       return cssClasses;
@@ -431,72 +369,42 @@ function (_MDCFoundation) {
       return strings;
     }
   }, {
+    key: "numbers",
+    get: function get() {
+      return numbers;
+    }
+    /**
+     * @return {!MDCSnackbarAdapter}
+     */
+
+  }, {
     key: "defaultAdapter",
     get: function get() {
-      return {
-        addClass: function addClass()
-        /* className: string */
-        {},
-        removeClass: function removeClass()
-        /* className: string */
-        {},
-        setAriaHidden: function setAriaHidden() {},
-        unsetAriaHidden: function unsetAriaHidden() {},
-        setActionAriaHidden: function setActionAriaHidden() {},
-        unsetActionAriaHidden: function unsetActionAriaHidden() {},
-        setActionText: function setActionText()
-        /* actionText: string */
-        {},
-        setMessageText: function setMessageText()
-        /* message: string */
-        {},
-        setFocus: function setFocus() {},
-        isFocused: function isFocused() {
-          return (
-            /* boolean */
-            false
-          );
-        },
-        visibilityIsHidden: function visibilityIsHidden() {
-          return (
-            /* boolean */
-            false
-          );
-        },
-        registerCapturedBlurHandler: function registerCapturedBlurHandler()
-        /* handler: EventListener */
-        {},
-        deregisterCapturedBlurHandler: function deregisterCapturedBlurHandler()
-        /* handler: EventListener */
-        {},
-        registerVisibilityChangeHandler: function registerVisibilityChangeHandler()
-        /* handler: EventListener */
-        {},
-        deregisterVisibilityChangeHandler: function deregisterVisibilityChangeHandler()
-        /* handler: EventListener */
-        {},
-        registerCapturedInteractionHandler: function registerCapturedInteractionHandler()
-        /* evtType: string, handler: EventListener */
-        {},
-        deregisterCapturedInteractionHandler: function deregisterCapturedInteractionHandler()
-        /* evtType: string, handler: EventListener */
-        {},
-        registerActionClickHandler: function registerActionClickHandler()
-        /* handler: EventListener */
-        {},
-        deregisterActionClickHandler: function deregisterActionClickHandler()
-        /* handler: EventListener */
-        {},
-        registerTransitionEndHandler: function registerTransitionEndHandler()
-        /* handler: EventListener */
-        {},
-        deregisterTransitionEndHandler: function deregisterTransitionEndHandler()
-        /* handler: EventListener */
-        {},
-        notifyShow: function notifyShow() {},
-        notifyHide: function notifyHide() {}
-      };
+      return (
+        /** @type {!MDCSnackbarAdapter} */
+        {
+          addClass: function addClass()
+          /* className: string */
+          {},
+          removeClass: function removeClass()
+          /* className: string */
+          {},
+          announce: function announce() {},
+          notifyOpening: function notifyOpening() {},
+          notifyOpened: function notifyOpened() {},
+          notifyClosing: function notifyClosing()
+          /* reason: string */
+          {},
+          notifyClosed: function notifyClosed()
+          /* reason: string */
+          {}
+        }
+      );
     }
+    /**
+     * @param {!MDCSnackbarAdapter=} adapter
+     */
+
   }]);
 
   function MDCSnackbarFoundation(adapter) {
@@ -505,230 +413,214 @@ function (_MDCFoundation) {
     _classCallCheck(this, MDCSnackbarFoundation);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCSnackbarFoundation).call(this, _extends(MDCSnackbarFoundation.defaultAdapter, adapter)));
-    _this.active_ = false;
-    _this.actionWasClicked_ = false;
-    _this.dismissOnAction_ = true;
-    _this.firstFocus_ = true;
-    _this.pointerDownRecognized_ = false;
-    _this.snackbarHasFocus_ = false;
-    _this.snackbarData_ = null;
-    _this.queue_ = [];
+    /** @private {boolean} */
 
-    _this.actionClickHandler_ = function () {
-      _this.actionWasClicked_ = true;
+    _this.isOpen_ = false;
+    /** @private {number} */
 
-      _this.invokeAction_();
-    };
+    _this.animationFrame_ = 0;
+    /** @private {number} */
 
-    _this.visibilitychangeHandler_ = function () {
-      clearTimeout(_this.timeoutId_);
-      _this.snackbarHasFocus_ = true;
+    _this.animationTimer_ = 0;
+    /** @private {number} */
 
-      if (!_this.adapter_.visibilityIsHidden()) {
-        setTimeout(_this.cleanup_.bind(_assertThisInitialized(_assertThisInitialized(_this))), _this.snackbarData_.timeout || numbers.MESSAGE_TIMEOUT);
-      }
-    };
+    _this.autoDismissTimer_ = 0;
+    /** @private {number} */
 
-    _this.interactionHandler_ = function (evt) {
-      if (evt.type === 'focus' && !_this.adapter_.isFocused()) {
-        return;
-      }
+    _this.autoDismissTimeoutMs_ = numbers.DEFAULT_AUTO_DISMISS_TIMEOUT_MS;
+    /** @private {boolean} */
 
-      if (evt.type === 'touchstart' || evt.type === 'mousedown') {
-        _this.pointerDownRecognized_ = true;
-      }
-
-      _this.handlePossibleTabKeyboardFocus_(evt);
-
-      if (evt.type === 'focus') {
-        _this.pointerDownRecognized_ = false;
-      }
-    };
-
-    _this.blurHandler_ = function () {
-      clearTimeout(_this.timeoutId_);
-      _this.snackbarHasFocus_ = false;
-      _this.timeoutId_ = setTimeout(_this.cleanup_.bind(_assertThisInitialized(_assertThisInitialized(_this))), _this.snackbarData_.timeout || numbers.MESSAGE_TIMEOUT);
-    };
-
+    _this.closeOnEscape_ = true;
     return _this;
   }
 
   _createClass(MDCSnackbarFoundation, [{
-    key: "init",
-    value: function init() {
-      this.adapter_.registerActionClickHandler(this.actionClickHandler_);
-      this.adapter_.setAriaHidden();
-      this.adapter_.setActionAriaHidden();
-    }
-  }, {
     key: "destroy",
     value: function destroy() {
+      this.clearAutoDismissTimer_();
+      cancelAnimationFrame(this.animationFrame_);
+      this.animationFrame_ = 0;
+      clearTimeout(this.animationTimer_);
+      this.animationTimer_ = 0;
+      this.adapter_.removeClass(OPENING);
+      this.adapter_.removeClass(OPEN);
+      this.adapter_.removeClass(CLOSING);
+    }
+  }, {
+    key: "open",
+    value: function open() {
       var _this2 = this;
 
-      this.adapter_.deregisterActionClickHandler(this.actionClickHandler_);
-      this.adapter_.deregisterCapturedBlurHandler(this.blurHandler_);
-      this.adapter_.deregisterVisibilityChangeHandler(this.visibilitychangeHandler_);
-      ['touchstart', 'mousedown', 'focus'].forEach(function (evtType) {
-        _this2.adapter_.deregisterCapturedInteractionHandler(evtType, _this2.interactionHandler_);
+      this.clearAutoDismissTimer_();
+      this.isOpen_ = true;
+      this.adapter_.notifyOpening();
+      this.adapter_.removeClass(CLOSING);
+      this.adapter_.addClass(OPENING);
+      this.adapter_.announce(); // Wait a frame once display is no longer "none", to establish basis for animation
+
+      this.runNextAnimationFrame_(function () {
+        _this2.adapter_.addClass(OPEN);
+
+        _this2.animationTimer_ = setTimeout(function () {
+          _this2.handleAnimationTimerEnd_();
+
+          _this2.adapter_.notifyOpened();
+
+          _this2.autoDismissTimer_ = setTimeout(function () {
+            _this2.close(REASON_DISMISS);
+          }, _this2.getTimeoutMs());
+        }, numbers.SNACKBAR_ANIMATION_OPEN_TIME_MS);
       });
     }
+    /**
+     * @param {string=} reason Why the snackbar was closed. Value will be passed to CLOSING_EVENT and CLOSED_EVENT via the
+     *     `event.detail.reason` property. Standard values are REASON_ACTION and REASON_DISMISS, but custom
+     *     client-specific values may also be used if desired.
+     */
+
   }, {
-    key: "dismissesOnAction",
-    value: function dismissesOnAction() {
-      return this.dismissOnAction_;
-    }
-  }, {
-    key: "setDismissOnAction",
-    value: function setDismissOnAction(dismissOnAction) {
-      this.dismissOnAction_ = !!dismissOnAction;
-    }
-  }, {
-    key: "show",
-    value: function show(data) {
+    key: "close",
+    value: function close() {
       var _this3 = this;
 
-      if (!data) {
-        throw new Error('Please provide a data object with at least a message to display.');
-      }
+      var reason = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
-      if (!data.message) {
-        throw new Error('Please provide a message to be displayed.');
-      }
-
-      if (data.actionHandler && !data.actionText) {
-        throw new Error('Please provide action text with the handler.');
-      }
-
-      if (this.active) {
-        this.queue_.push(data);
+      if (!this.isOpen_) {
+        // Avoid redundant close calls (and events), e.g. repeated interactions as the snackbar is animating closed
         return;
       }
 
-      clearTimeout(this.timeoutId_);
-      this.snackbarData_ = data;
-      this.firstFocus_ = true;
-      this.adapter_.registerVisibilityChangeHandler(this.visibilitychangeHandler_);
-      this.adapter_.registerCapturedBlurHandler(this.blurHandler_);
-      ['touchstart', 'mousedown', 'focus'].forEach(function (evtType) {
-        _this3.adapter_.registerCapturedInteractionHandler(evtType, _this3.interactionHandler_);
-      });
-      var ACTIVE = cssClasses.ACTIVE,
-          MULTILINE = cssClasses.MULTILINE,
-          ACTION_ON_BOTTOM = cssClasses.ACTION_ON_BOTTOM;
-      this.adapter_.setMessageText(this.snackbarData_.message);
+      cancelAnimationFrame(this.animationFrame_);
+      this.animationFrame_ = 0;
+      this.clearAutoDismissTimer_();
+      this.isOpen_ = false;
+      this.adapter_.notifyClosing(reason);
+      this.adapter_.addClass(cssClasses.CLOSING);
+      this.adapter_.removeClass(cssClasses.OPEN);
+      this.adapter_.removeClass(cssClasses.OPENING);
+      clearTimeout(this.animationTimer_);
+      this.animationTimer_ = setTimeout(function () {
+        _this3.handleAnimationTimerEnd_();
 
-      if (this.snackbarData_.multiline) {
-        this.adapter_.addClass(MULTILINE);
+        _this3.adapter_.notifyClosed(reason);
+      }, numbers.SNACKBAR_ANIMATION_CLOSE_TIME_MS);
+    }
+    /**
+     * @return {boolean}
+     */
 
-        if (this.snackbarData_.actionOnBottom) {
-          this.adapter_.addClass(ACTION_ON_BOTTOM);
-        }
-      }
+  }, {
+    key: "isOpen",
+    value: function isOpen() {
+      return this.isOpen_;
+    }
+    /**
+     * @return {number}
+     */
 
-      if (this.snackbarData_.actionHandler) {
-        this.adapter_.setActionText(this.snackbarData_.actionText);
-        this.actionHandler_ = this.snackbarData_.actionHandler;
-        this.setActionHidden_(false);
+  }, {
+    key: "getTimeoutMs",
+    value: function getTimeoutMs() {
+      return this.autoDismissTimeoutMs_;
+    }
+    /**
+     * @param {number} timeoutMs
+     */
+
+  }, {
+    key: "setTimeoutMs",
+    value: function setTimeoutMs(timeoutMs) {
+      // Use shorter variable names to make the code more readable
+      var minValue = numbers.MIN_AUTO_DISMISS_TIMEOUT_MS;
+      var maxValue = numbers.MAX_AUTO_DISMISS_TIMEOUT_MS;
+
+      if (timeoutMs <= maxValue && timeoutMs >= minValue) {
+        this.autoDismissTimeoutMs_ = timeoutMs;
       } else {
-        this.setActionHidden_(true);
-        this.actionHandler_ = null;
-        this.adapter_.setActionText(null);
-      }
-
-      this.active_ = true;
-      this.adapter_.addClass(ACTIVE);
-      this.adapter_.unsetAriaHidden();
-      this.adapter_.notifyShow();
-      this.timeoutId_ = setTimeout(this.cleanup_.bind(this), this.snackbarData_.timeout || numbers.MESSAGE_TIMEOUT);
-    }
-  }, {
-    key: "handlePossibleTabKeyboardFocus_",
-    value: function handlePossibleTabKeyboardFocus_() {
-      var hijackFocus = this.firstFocus_ && !this.pointerDownRecognized_;
-
-      if (hijackFocus) {
-        this.setFocusOnAction_();
-      }
-
-      this.firstFocus_ = false;
-    }
-  }, {
-    key: "setFocusOnAction_",
-    value: function setFocusOnAction_() {
-      this.adapter_.setFocus();
-      this.snackbarHasFocus_ = true;
-      this.firstFocus_ = false;
-    }
-  }, {
-    key: "invokeAction_",
-    value: function invokeAction_() {
-      try {
-        if (!this.actionHandler_) {
-          return;
-        }
-
-        this.actionHandler_();
-      } finally {
-        if (this.dismissOnAction_) {
-          this.cleanup_();
-        }
+        throw new Error("timeoutMs must be an integer in the range ".concat(minValue, "\u2013").concat(maxValue, ", but got '").concat(timeoutMs, "'"));
       }
     }
+    /**
+     * @return {boolean}
+     */
+
   }, {
-    key: "cleanup_",
-    value: function cleanup_() {
+    key: "getCloseOnEscape",
+    value: function getCloseOnEscape() {
+      return this.closeOnEscape_;
+    }
+    /**
+     * @param {boolean} closeOnEscape
+     */
+
+  }, {
+    key: "setCloseOnEscape",
+    value: function setCloseOnEscape(closeOnEscape) {
+      this.closeOnEscape_ = closeOnEscape;
+    }
+    /**
+     * @param {!KeyboardEvent} evt
+     */
+
+  }, {
+    key: "handleKeyDown",
+    value: function handleKeyDown(evt) {
+      if (this.getCloseOnEscape() && (evt.key === 'Escape' || evt.keyCode === 27)) {
+        this.close(REASON_DISMISS);
+      }
+    }
+    /**
+     * @param {!MouseEvent} evt
+     */
+
+  }, {
+    key: "handleActionButtonClick",
+    value: function handleActionButtonClick(evt) {
+      this.close(REASON_ACTION);
+    }
+    /**
+     * @param {!MouseEvent} evt
+     */
+
+  }, {
+    key: "handleActionIconClick",
+    value: function handleActionIconClick(evt) {
+      this.close(REASON_DISMISS);
+    }
+    /** @private */
+
+  }, {
+    key: "clearAutoDismissTimer_",
+    value: function clearAutoDismissTimer_() {
+      clearTimeout(this.autoDismissTimer_);
+      this.autoDismissTimer_ = 0;
+    }
+    /** @private */
+
+  }, {
+    key: "handleAnimationTimerEnd_",
+    value: function handleAnimationTimerEnd_() {
+      this.animationTimer_ = 0;
+      this.adapter_.removeClass(cssClasses.OPENING);
+      this.adapter_.removeClass(cssClasses.CLOSING);
+    }
+    /**
+     * Runs the given logic on the next animation frame, using setTimeout to factor in Firefox reflow behavior.
+     * @param {Function} callback
+     * @private
+     */
+
+  }, {
+    key: "runNextAnimationFrame_",
+    value: function runNextAnimationFrame_(callback) {
       var _this4 = this;
 
-      var allowDismissal = !this.snackbarHasFocus_ || this.actionWasClicked_;
-
-      if (allowDismissal) {
-        var ACTIVE = cssClasses.ACTIVE,
-            MULTILINE = cssClasses.MULTILINE,
-            ACTION_ON_BOTTOM = cssClasses.ACTION_ON_BOTTOM;
-        this.adapter_.removeClass(ACTIVE);
-
-        var handler = function handler() {
-          clearTimeout(_this4.timeoutId_);
-
-          _this4.adapter_.deregisterTransitionEndHandler(handler);
-
-          _this4.adapter_.removeClass(MULTILINE);
-
-          _this4.adapter_.removeClass(ACTION_ON_BOTTOM);
-
-          _this4.setActionHidden_(true);
-
-          _this4.adapter_.setAriaHidden();
-
-          _this4.active_ = false;
-          _this4.snackbarHasFocus_ = false;
-
-          _this4.adapter_.notifyHide();
-
-          _this4.showNext_();
-        };
-
-        this.adapter_.registerTransitionEndHandler(handler);
-      }
-    }
-  }, {
-    key: "showNext_",
-    value: function showNext_() {
-      if (!this.queue_.length) {
-        return;
-      }
-
-      this.show(this.queue_.shift());
-    }
-  }, {
-    key: "setActionHidden_",
-    value: function setActionHidden_(isHidden) {
-      if (isHidden) {
-        this.adapter_.setActionAriaHidden();
-      } else {
-        this.adapter_.unsetActionAriaHidden();
-      }
+      cancelAnimationFrame(this.animationFrame_);
+      this.animationFrame_ = requestAnimationFrame(function () {
+        _this4.animationFrame_ = 0;
+        clearTimeout(_this4.animationTimer_);
+        _this4.animationTimer_ = setTimeout(callback, 0);
+      });
     }
   }]);
 
@@ -757,152 +649,107 @@ function (_MDCFoundation) {
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-/** @const {Object<string, !VendorPropertyMapType>} */
 
-var eventTypeMap = {
-  'animationstart': {
-    noPrefix: 'animationstart',
-    webkitPrefix: 'webkitAnimationStart',
-    styleProperty: 'animation'
-  },
-  'animationend': {
-    noPrefix: 'animationend',
-    webkitPrefix: 'webkitAnimationEnd',
-    styleProperty: 'animation'
-  },
-  'animationiteration': {
-    noPrefix: 'animationiteration',
-    webkitPrefix: 'webkitAnimationIteration',
-    styleProperty: 'animation'
-  },
-  'transitionend': {
-    noPrefix: 'transitionend',
-    webkitPrefix: 'webkitTransitionEnd',
-    styleProperty: 'transition'
-  }
-};
-/** @const {Object<string, !VendorPropertyMapType>} */
-
-var cssPropertyMap = {
-  'animation': {
-    noPrefix: 'animation',
-    webkitPrefix: '-webkit-animation'
-  },
-  'transform': {
-    noPrefix: 'transform',
-    webkitPrefix: '-webkit-transform'
-  },
-  'transition': {
-    noPrefix: 'transition',
-    webkitPrefix: '-webkit-transition'
-  }
-};
 /**
- * @param {!Object} windowObj
+ * @license
+ * Copyright 2018 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+/**
+ * @fileoverview A "ponyfill" is a polyfill that doesn't modify the global prototype chain.
+ * This makes ponyfills safer than traditional polyfills, especially for libraries like MDC.
+ */
+
+/**
+ * @param {!Element} element
+ * @param {string} selector
+ * @return {?Element}
+ */
+function closest(element, selector) {
+  if (element.closest) {
+    return element.closest(selector);
+  }
+
+  var el = element;
+
+  while (el) {
+    if (matches(el, selector)) {
+      return el;
+    }
+
+    el = el.parentElement;
+  }
+
+  return null;
+}
+/**
+ * @param {!Element} element
+ * @param {string} selector
  * @return {boolean}
  */
 
-function hasProperShape(windowObj) {
-  return windowObj['document'] !== undefined && typeof windowObj['document']['createElement'] === 'function';
-}
-/**
- * @param {string} eventType
- * @return {boolean}
- */
 
-
-function eventFoundInMaps(eventType) {
-  return eventType in eventTypeMap || eventType in cssPropertyMap;
-}
-/**
- * @param {string} eventType
- * @param {!Object<string, !VendorPropertyMapType>} map
- * @param {!Element} el
- * @return {string}
- */
-
-
-function getJavaScriptEventName(eventType, map, el) {
-  return map[eventType].styleProperty in el.style ? map[eventType].noPrefix : map[eventType].webkitPrefix;
-}
-/**
- * Helper function to determine browser prefix for CSS3 animation events
- * and property names.
- * @param {!Object} windowObj
- * @param {string} eventType
- * @return {string}
- */
-
-
-function getAnimationName(windowObj, eventType) {
-  if (!hasProperShape(windowObj) || !eventFoundInMaps(eventType)) {
-    return eventType;
-  }
-
-  var map =
-  /** @type {!Object<string, !VendorPropertyMapType>} */
-  eventType in eventTypeMap ? eventTypeMap : cssPropertyMap;
-  var el = windowObj['document']['createElement']('div');
-  var eventName = '';
-
-  if (map === eventTypeMap) {
-    eventName = getJavaScriptEventName(eventType, map, el);
-  } else {
-    eventName = map[eventType].noPrefix in el.style ? map[eventType].noPrefix : map[eventType].webkitPrefix;
-  }
-
-  return eventName;
-} // Public functions to access getAnimationName() for JavaScript events or CSS
-/**
- * @param {!Object} windowObj
- * @param {string} eventType
- * @return {string}
- */
-
-function getCorrectEventName(windowObj, eventType) {
-  return getAnimationName(windowObj, eventType);
+function matches(element, selector) {
+  var nativeMatches = element.matches || element.webkitMatchesSelector || element.msMatchesSelector;
+  return nativeMatches.call(element, selector);
 }
 
 //
 var script = {
   name: 'mdc-snackbar',
   model: {
-    prop: 'snack',
-    event: 'queued'
+    prop: 'open',
+    event: 'change'
   },
   props: {
-    'align-start': Boolean,
-    snack: Object,
-    event: String,
-    'event-source': {
-      type: Object,
-      required: false,
-      default: function _default() {
-        return this.$root;
-      }
-    },
-    'dismisses-on-action': {
-      type: Boolean,
+    open: Boolean,
+    stacked: Boolean,
+    leading: Boolean,
+    labelText: String,
+    actionText: String,
+    timeoutMs: [String, Number],
+    dismissAction: {
+      type: [String, Boolean],
       default: true
     }
   },
   data: function data() {
     return {
       classes: {
-        'mdc-snackbar--align-start': this.alignStart
+        'mdc-snackbar--leading': this.leading,
+        'mdc-snackbar--stacked': this.stacked
       },
-      message: '',
-      actionText: '',
       hidden: false,
-      actionHidden: false
+      actionHidden: false,
+      showLabelText: true
     };
   },
   watch: {
-    snack: 'onSnack'
+    open: 'onOpen_',
+    timeoutMs: 'onTimeoutMs_'
   },
   mounted: function mounted() {
     var _this = this;
 
+    window.addEventListener('keydown', this.handleKeydownEvent);
     this.foundation = new MDCSnackbarFoundation({
       addClass: function addClass(className) {
         return _this.$set(_this.classes, className, true);
@@ -910,105 +757,224 @@ var script = {
       removeClass: function removeClass(className) {
         return _this.$delete(_this.classes, className);
       },
-      setAriaHidden: function setAriaHidden() {
-        return _this.hidden = true;
+      announce: function announce() {
+        return _this.announce(_this.$refs.labelEl);
       },
-      unsetAriaHidden: function unsetAriaHidden() {
-        return _this.hidden = false;
+      notifyOpening: function notifyOpening() {
+        return _this.$emit(MDCSnackbarFoundation.strings.OPENING_EVENT, {});
       },
-      setActionAriaHidden: function setActionAriaHidden() {
-        return _this.actionHidden = true;
+      notifyOpened: function notifyOpened() {
+        _this.$emit(MDCSnackbarFoundation.strings.OPENED_EVENT, {});
+
+        _this.$emit('change', true);
+
+        _this.$emit('show', {});
       },
-      unsetActionAriaHidden: function unsetActionAriaHidden() {
-        return _this.actionHidden = false;
+      notifyClosing: function notifyClosing(reason) {
+        return _this.$emit(MDCSnackbarFoundation.strings.CLOSING_EVENT, reason ? {
+          reason: reason
+        } : {});
       },
-      setActionText: function setActionText(text) {
-        _this.actionText = text;
-      },
-      setMessageText: function setMessageText(text) {
-        _this.message = text;
-      },
-      setFocus: function setFocus() {
-        return _this.$refs.button.focus();
-      },
-      isFocused: function isFocused() {
-        return document.activeElement === _this.$refs.button;
-      },
-      visibilityIsHidden: function visibilityIsHidden() {
-        return document.hidden;
-      },
-      registerCapturedBlurHandler: function registerCapturedBlurHandler(handler) {
-        return _this.$refs.button.addEventListener('blur', handler, true);
-      },
-      deregisterCapturedBlurHandler: function deregisterCapturedBlurHandler(handler) {
-        return _this.$refs.button.removeEventListener('blur', handler, true);
-      },
-      registerVisibilityChangeHandler: function registerVisibilityChangeHandler(handler) {
-        return document.addEventListener('visibilitychange', handler);
-      },
-      deregisterVisibilityChangeHandler: function deregisterVisibilityChangeHandler(handler) {
-        return document.removeEventListener('visibilitychange', handler);
-      },
-      registerCapturedInteractionHandler: function registerCapturedInteractionHandler(evt, handler) {
-        return document.body.addEventListener(evt, handler, true);
-      },
-      deregisterCapturedInteractionHandler: function deregisterCapturedInteractionHandler(evt, handler) {
-        return document.body.removeEventListener(evt, handler, true);
-      },
-      registerActionClickHandler: function registerActionClickHandler(handler) {
-        return _this.$refs.button.addEventListener('click', handler);
-      },
-      deregisterActionClickHandler: function deregisterActionClickHandler(handler) {
-        return _this.$refs.button.removeEventListener('click', handler);
-      },
-      registerTransitionEndHandler: function registerTransitionEndHandler(handler) {
-        var root = _this.$refs.root;
-        root && root.addEventListener(getCorrectEventName(window, 'transitionend'), handler);
-      },
-      deregisterTransitionEndHandler: function deregisterTransitionEndHandler(handler) {
-        var root = _this.$refs.root;
-        root && root.removeEventListener(getCorrectEventName(window, 'transitionend'), handler);
-      },
-      notifyShow: function notifyShow() {
-        return _this.$emit('show');
-      },
-      notifyHide: function notifyHide() {
-        return _this.$emit('hide');
+      notifyClosed: function notifyClosed(reason) {
+        _this.$emit(MDCSnackbarFoundation.strings.CLOSED_EVENT, reason ? {
+          reason: reason
+        } : {});
+
+        _this.$emit('change', false);
+
+        _this.$emit('hide');
       }
     });
-    this.foundation.init(); // if event specified use it, else if no snack prop then use default.
+    this.foundation.init();
 
-    this.eventName = this.event || (this.snack === void 0 ? 'show-snackbar' : null);
-
-    if (this.eventName) {
-      this.eventSource.$on(this.eventName, this.show);
+    if (this.timeoutMs !== void 0) {
+      this.foundation.setTimeoutMs(this.timeoutMs);
     }
-
-    this.foundation.setDismissOnAction(this.dismissesOnAction);
+  },
+  computed: {
+    showDismissAction: function showDismissAction() {
+      return typeof this.dismissAction === 'string' ? this.dismissAction != 'false' : this.dismissAction;
+    }
   },
   beforeDestroy: function beforeDestroy() {
-    if (this.eventSource) {
-      this.eventSource.$off(this.eventName, this.show);
-    }
-
+    window.removeEventListener('keydown', this.handleKeydownEvent);
     this.foundation.destroy();
   },
   methods: {
-    onSnack: function onSnack(snack) {
-      if (snack && snack.message) {
-        this.foundation.show(snack);
-        this.$emit('queued', snack);
+    onTimeoutMs_: function onTimeoutMs_(value) {
+      if (value !== void 0) {
+        this.foundation.setTimeoutMs(value);
       }
     },
-    show: function show(data) {
-      this.foundation.show(data);
+    onOpen_: function onOpen_(value) {
+      if (value) {
+        this.foundation.open();
+      } else {
+        this.foundation.close();
+      }
+    },
+    surfaceClickHandler: function surfaceClickHandler(evt) {
+      if (this.isActionButton_(evt.target)) {
+        this.foundation.handleActionButtonClick(evt);
+      } else if (this.isActionIcon_(evt.target)) {
+        this.foundation.handleActionIconClick(evt);
+      }
+    },
+    handleKeydownEvent: function handleKeydownEvent(evt) {
+      this.foundation.handleKeyDown(evt);
+    },
+    isActionButton_: function isActionButton_(target) {
+      return Boolean(closest(target, MDCSnackbarFoundation.strings.ACTION_SELECTOR));
+    },
+    isActionIcon_: function isActionIcon_(target) {
+      return Boolean(closest(target, MDCSnackbarFoundation.strings.DISMISS_SELECTOR));
+    },
+    announce: function announce(ariaEl) {
+      var _this2 = this;
+
+      var labelEl = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : ariaEl;
+      var priority = ariaEl.getAttribute('aria-live');
+      var text = this.labelText;
+
+      if (!text) {
+        return;
+      } // Temporarily disable `aria-live` to prevent JAWS+Firefox from announcing the message twice.
+
+
+      ariaEl.setAttribute('aria-live', 'off'); // Temporarily clear `textContent` to force a DOM mutation event that will be detected by screen readers.
+      // `aria-live` elements are only announced when the element's `textContent` *changes*, so snackbars
+      // sent to the browser in the initial HTML response won't be read unless we clear the element's `textContent` first.
+      // Similarly, displaying the same snackbar message twice in a row doesn't trigger a DOM mutation event,
+      // so screen readers won't announce the second message unless we first clear `textContent`.
+      //
+      // We have to clear the label text two different ways to make it work in all browsers and screen readers:
+      //
+      //   1. `textContent = ''` is required for IE11 + JAWS
+      //   2. `innerHTML = '&nbsp;'` is required for Chrome + JAWS and NVDA
+      //
+      // All other browser/screen reader combinations support both methods.
+      //
+      // The wrapper `<span>` visually hides the space character so that it doesn't cause jank when added/removed.
+      // N.B.: Setting `position: absolute`, `opacity: 0`, or `height: 0` prevents Chrome from detecting the DOM change.
+      //
+      // This technique has been tested in:
+      //
+      //   * JAWS 2019:
+      //       - Chrome 70
+      //       - Firefox 60 (ESR)
+      //       - IE 11
+      //   * NVDA 2018:
+      //       - Chrome 70
+      //       - Firefox 60 (ESR)
+      //       - IE 11
+      //   * ChromeVox 53
+
+      this.showLabelText = false; // Prevent visual jank by temporarily displaying the label text in the ::before pseudo-element.
+      // CSS generated content is normally announced by screen readers
+      // (except in IE 11; see https://tink.uk/accessibility-support-for-css-generated-content/);
+      // however, `aria-live` is turned off, so this DOM update will be ignored by screen readers.
+
+      labelEl.setAttribute(MDCSnackbarFoundation.strings.ARIA_LIVE_LABEL_TEXT_ATTR, this.labelText);
+      setTimeout(function () {
+        // Allow screen readers to announce changes to the DOM again.
+        ariaEl.setAttribute('aria-live', priority); // Remove the message from the ::before pseudo-element.
+
+        labelEl.removeAttribute(MDCSnackbarFoundation.strings.ARIA_LIVE_LABEL_TEXT_ATTR); // Restore the original label text, which will be announced by screen readers.
+
+        _this2.showLabelText = true;
+      }, MDCSnackbarFoundation.numbers.ARIA_LIVE_DELAY_MS);
     }
   }
 };
 
+function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeId, isFunctionalTemplate, moduleIdentifier
+/* server only */
+, isShadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+  if (typeof isShadowMode === 'function') {
+    createInjectorSSR = createInjector;
+    createInjector = isShadowMode;
+    isShadowMode = false;
+  } // Vue.extend constructor export interop
+
+
+  var options = typeof defaultExport === 'function' ? defaultExport.options : defaultExport; // render functions
+
+  if (compiledTemplate && compiledTemplate.render) {
+    options.render = compiledTemplate.render;
+    options.staticRenderFns = compiledTemplate.staticRenderFns;
+    options._compiled = true; // functional template
+
+    if (isFunctionalTemplate) {
+      options.functional = true;
+    }
+  } // scopedId
+
+
+  if (scopeId) {
+    options._scopeId = scopeId;
+  }
+
+  var hook;
+
+  if (moduleIdentifier) {
+    // server build
+    hook = function hook(context) {
+      // 2.3 injection
+      context = context || // cached call
+      this.$vnode && this.$vnode.ssrContext || // stateful
+      this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext; // functional
+      // 2.2 with runInNewContext: true
+
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__;
+      } // inject component styles
+
+
+      if (injectStyle) {
+        injectStyle.call(this, createInjectorSSR(context));
+      } // register component module identifier for async chunk inference
+
+
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier);
+      }
+    }; // used by ssr in case component is cached and beforeCreate
+    // never gets called
+
+
+    options._ssrRegister = hook;
+  } else if (injectStyle) {
+    hook = isShadowMode ? function () {
+      injectStyle.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
+    } : function (context) {
+      injectStyle.call(this, createInjector(context));
+    };
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // register for functional component in vue file
+      var originalRender = options.render;
+
+      options.render = function renderWithStyleInjection(h, context) {
+        hook.call(context);
+        return originalRender(h, context);
+      };
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate;
+      options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
+    }
+  }
+
+  return defaultExport;
+}
+
 /* script */
-            const __vue_script__ = script;
-            
+const __vue_script__ = script;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script.__file = "/ddata/extra/vma/components/snackbar/mdc-snackbar.vue";
+
 /* template */
 var __vue_render__ = function() {
   var _vm = this;
@@ -1016,32 +982,68 @@ var __vue_render__ = function() {
   var _c = _vm._self._c || _h;
   return _c(
     "div",
-    {
-      ref: "root",
-      staticClass: "mdc-snackbar",
-      class: _vm.classes,
-      attrs: {
-        "aria-hidden": _vm.hidden,
-        "aria-live": "assertive",
-        "aria-atomic": "true"
-      }
-    },
+    { ref: "root", staticClass: "mdc-snackbar", class: _vm.classes },
     [
-      _c("div", { staticClass: "mdc-snackbar__text" }, [
-        _vm._v(_vm._s(_vm.message))
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "mdc-snackbar__action-wrapper" }, [
-        _c(
-          "button",
-          {
-            ref: "button",
-            staticClass: "mdc-snackbar__action-button",
-            attrs: { "aria-hidden": _vm.actionHidden, type: "button" }
-          },
-          [_vm._v("\n      " + _vm._s(_vm.actionText) + "\n    ")]
-        )
-      ])
+      _c(
+        "div",
+        {
+          staticClass: "mdc-snackbar__surface",
+          on: { click: _vm.surfaceClickHandler }
+        },
+        [
+          _c(
+            "div",
+            {
+              ref: "labelEl",
+              staticClass: "mdc-snackbar__label",
+              attrs: { role: "status", "aria-live": "polite" }
+            },
+            [
+              _vm.showLabelText
+                ? [_vm._v("\n        " + _vm._s(_vm.labelText) + "\n      ")]
+                : _c(
+                    "span",
+                    {
+                      staticStyle: {
+                        display: "inline-block",
+                        width: "0",
+                        height: "1px"
+                      }
+                    },
+                    [_vm._v(" ")]
+                  )
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "mdc-snackbar__actions" }, [
+            _c(
+              "button",
+              _vm._g(
+                {
+                  ref: "actionEl",
+                  staticClass: "mdc-button mdc-snackbar__action",
+                  attrs: { type: "button" }
+                },
+                _vm.$listeners
+              ),
+              [_vm._v("\n        " + _vm._s(_vm.actionText) + "\n      ")]
+            ),
+            _vm._v(" "),
+            _vm.showDismissAction
+              ? _c(
+                  "button",
+                  {
+                    staticClass:
+                      "mdc-icon-button mdc-snackbar__dismiss material-icons",
+                    attrs: { title: "Dismiss" }
+                  },
+                  [_vm._v("\n        close\n      ")]
+                )
+              : _vm._e()
+          ])
+        ]
+      )
     ]
   )
 };
@@ -1056,36 +1058,13 @@ __vue_render__._withStripped = true;
   const __vue_module_identifier__ = undefined;
   /* functional template */
   const __vue_is_functional_template__ = false;
-  /* component normalizer */
-  function __vue_normalize__(
-    template, style, script$$1,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script$$1 === 'function' ? script$$1.options : script$$1) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/snackbar/mdc-snackbar.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcSnackbar = __vue_normalize__(
+  var mdcSnackbar = normalizeComponent(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,

@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.42.0","material-components-web":"^0.42.1"}
+* @implements {"@material/tabs":"^0.43.0","material-components-web":"^0.43.0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -1474,6 +1474,13 @@ function () {
   }, {
     key: "setCheckedCheckboxOrRadioAtIndex",
     value: function setCheckedCheckboxOrRadioAtIndex(index, isChecked) {}
+    /**
+     * @return {boolean} Returns true when the current focused element is inside list root.
+     */
+
+  }, {
+    key: "isFocusInsideList",
+    value: function isFocusInsideList() {}
   }]);
 
   return MDCListAdapter;
@@ -1517,6 +1524,8 @@ var strings$2 = {
   ARIA_SELECTED: 'aria-selected',
   ARIA_CHECKED: 'aria-checked',
   ARIA_CHECKED_RADIO_SELECTOR: '[role="radio"][aria-checked="true"]',
+  ARIA_ROLE_CHECKBOX_SELECTOR: '[role="checkbox"]',
+  ARIA_CHECKED_CHECKBOX_SELECTOR: '[role="checkbox"][aria-checked="true"]',
   RADIO_SELECTOR: 'input[type="radio"]:not(:disabled)',
   CHECKBOX_SELECTOR: 'input[type="checkbox"]:not(:disabled)',
   CHECKBOX_RADIO_SELECTOR: 'input[type="checkbox"]:not(:disabled), input[type="radio"]:not(:disabled)',
@@ -1570,7 +1579,8 @@ function (_MDCFoundation) {
           hasRadioAtIndex: function hasRadioAtIndex() {},
           hasCheckboxAtIndex: function hasCheckboxAtIndex() {},
           isCheckboxCheckedAtIndex: function isCheckboxCheckedAtIndex() {},
-          setCheckedCheckboxOrRadioAtIndex: function setCheckedCheckboxOrRadioAtIndex() {}
+          setCheckedCheckboxOrRadioAtIndex: function setCheckedCheckboxOrRadioAtIndex() {},
+          isFocusInsideList: function isFocusInsideList() {}
         }
       );
     }
@@ -1586,30 +1596,50 @@ function (_MDCFoundation) {
     _classCallCheck(this, MDCListFoundation);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCListFoundation).call(this, _extends(MDCListFoundation.defaultAdapter, adapter)));
-    /** {boolean} */
+    /** @private {boolean} */
 
     _this.wrapFocus_ = false;
-    /** {boolean} */
+    /** @private {boolean} */
 
     _this.isVertical_ = true;
-    /** {boolean} */
+    /** @private {boolean} */
 
     _this.isSingleSelectionList_ = false;
-    /** {number} */
+    /** @private {!Index} */
 
     _this.selectedIndex_ = -1;
-    /** {boolean} */
+    /** @private {number} */
+
+    _this.focusedItemIndex_ = -1;
+    /** @private {boolean} */
 
     _this.useActivatedClass_ = false;
+    /** @private {boolean} */
+
+    _this.isCheckboxList_ = false;
+    /** @private {boolean} */
+
+    _this.isRadioList_ = false;
     return _this;
   }
-  /**
-   * Sets the private wrapFocus_ variable.
-   * @param {boolean} value
-   */
-
 
   _createClass(MDCListFoundation, [{
+    key: "layout",
+    value: function layout() {
+      if (this.adapter_.getListItemCount() === 0) return;
+
+      if (this.adapter_.hasCheckboxAtIndex(0)) {
+        this.isCheckboxList_ = true;
+      } else if (this.adapter_.hasRadioAtIndex(0)) {
+        this.isRadioList_ = true;
+      }
+    }
+    /**
+     * Sets the private wrapFocus_ variable.
+     * @param {boolean} value
+     */
+
+  }, {
     key: "setWrapFocus",
     value: function setWrapFocus(value) {
       this.wrapFocus_ = value;
@@ -1644,91 +1674,33 @@ function (_MDCFoundation) {
     value: function setUseActivatedClass(useActivated) {
       this.useActivatedClass_ = useActivated;
     }
-    /** @param {number} index */
+    /** @return {!Index} */
+
+  }, {
+    key: "getSelectedIndex",
+    value: function getSelectedIndex() {
+      return this.selectedIndex_;
+    }
+    /** @param {!Index} index */
 
   }, {
     key: "setSelectedIndex",
     value: function setSelectedIndex(index) {
-      if (index < 0 || index >= this.adapter_.getListItemCount()) return;
+      if (!this.isIndexValid_(index)) return;
 
-      if (this.adapter_.hasCheckboxAtIndex(index)) {
-        this.setAriaAttributesForCheckbox_(index);
-      } else if (this.adapter_.hasRadioAtIndex(index)) {
-        this.setAriaAttributesForRadio_(index);
+      if (this.isCheckboxList_) {
+        this.setCheckboxAtIndex_(
+        /** @type {!Array<number>} */
+        index);
+      } else if (this.isRadioList_) {
+        this.setRadioAtIndex_(
+        /** @type {number} */
+        index);
       } else {
-        this.setAriaAttributesForSingleSelect_(index);
-        this.setClassNamesForSingleSelect_(index);
+        this.setSingleSelectionAtIndex_(
+        /** @type {number} */
+        index);
       }
-
-      if (this.selectedIndex_ >= 0 && this.selectedIndex_ !== index) {
-        this.adapter_.setAttributeForElementIndex(this.selectedIndex_, 'tabindex', -1);
-      } else if (this.selectedIndex_ === -1 && index !== 0) {
-        // If no list item was selected set first list item's tabindex to -1.
-        // Generally, tabindex is set to 0 on first list item of list that has no preselected items.
-        this.adapter_.setAttributeForElementIndex(0, 'tabindex', -1);
-      }
-
-      this.adapter_.setAttributeForElementIndex(index, 'tabindex', 0);
-      this.selectedIndex_ = index;
-    }
-    /**
-     * @param {number} index
-     * @private
-     */
-
-  }, {
-    key: "setAriaAttributesForCheckbox_",
-    value: function setAriaAttributesForCheckbox_(index) {
-      var ariaAttributeValue = this.adapter_.isCheckboxCheckedAtIndex(index) ? 'true' : 'false';
-      this.adapter_.setAttributeForElementIndex(index, strings$2.ARIA_CHECKED, ariaAttributeValue);
-    }
-    /**
-     * @param {number} index
-     * @private
-     */
-
-  }, {
-    key: "setAriaAttributesForRadio_",
-    value: function setAriaAttributesForRadio_(index) {
-      if (this.selectedIndex_ >= 0) {
-        this.adapter_.setAttributeForElementIndex(this.selectedIndex_, strings$2.ARIA_CHECKED, 'false');
-      }
-
-      this.adapter_.setAttributeForElementIndex(index, strings$2.ARIA_CHECKED, 'true');
-    }
-    /**
-    * @param {number} index
-    * @private
-    */
-
-  }, {
-    key: "setAriaAttributesForSingleSelect_",
-    value: function setAriaAttributesForSingleSelect_(index) {
-      if (this.selectedIndex_ >= 0 && this.selectedIndex_ !== index) {
-        this.adapter_.setAttributeForElementIndex(this.selectedIndex_, strings$2.ARIA_SELECTED, 'false');
-      }
-
-      this.adapter_.setAttributeForElementIndex(index, strings$2.ARIA_SELECTED, 'true');
-    }
-    /**
-     * @param {number} index
-     * @private
-     */
-
-  }, {
-    key: "setClassNamesForSingleSelect_",
-    value: function setClassNamesForSingleSelect_(index) {
-      var selectedClassName = cssClasses$3.LIST_ITEM_SELECTED_CLASS;
-
-      if (this.useActivatedClass_) {
-        selectedClassName = cssClasses$3.LIST_ITEM_ACTIVATED_CLASS;
-      }
-
-      if (this.selectedIndex_ >= 0) {
-        this.adapter_.removeClassForElementIndex(this.selectedIndex_, selectedClassName);
-      }
-
-      this.adapter_.addClassForElementIndex(index, selectedClassName);
     }
     /**
      * Focus in handler for the list items.
@@ -1752,9 +1724,22 @@ function (_MDCFoundation) {
   }, {
     key: "handleFocusOut",
     value: function handleFocusOut(evt, listItemIndex) {
+      var _this2 = this;
+
       if (listItemIndex >= 0) {
         this.adapter_.setTabIndexForListItemChildren(listItemIndex, -1);
       }
+      /**
+       * Between Focusout & Focusin some browsers do not have focus on any element. Setting a delay to wait till the focus
+       * is moved to next element.
+       */
+
+
+      setTimeout(function () {
+        if (!_this2.adapter_.isFocusInsideList()) {
+          _this2.setTabindexToFirstSelectedItem_();
+        }
+      }, 0);
     }
     /**
      * Key handler for the list.
@@ -1775,6 +1760,7 @@ function (_MDCFoundation) {
       var isEnter = evt.key === 'Enter' || evt.keyCode === 13;
       var isSpace = evt.key === 'Space' || evt.keyCode === 32;
       var currentIndex = this.adapter_.getFocusedElementIndex();
+      var nextIndex = -1;
 
       if (currentIndex === -1) {
         currentIndex = listItemIndex;
@@ -1788,37 +1774,33 @@ function (_MDCFoundation) {
 
       if (this.isVertical_ && arrowDown || !this.isVertical_ && arrowRight) {
         this.preventDefaultEvent_(evt);
-        this.focusNextElement(currentIndex);
+        nextIndex = this.focusNextElement(currentIndex);
       } else if (this.isVertical_ && arrowUp || !this.isVertical_ && arrowLeft) {
         this.preventDefaultEvent_(evt);
-        this.focusPrevElement(currentIndex);
+        nextIndex = this.focusPrevElement(currentIndex);
       } else if (isHome) {
         this.preventDefaultEvent_(evt);
-        this.focusFirstElement();
+        nextIndex = this.focusFirstElement();
       } else if (isEnd) {
         this.preventDefaultEvent_(evt);
-        this.focusLastElement();
+        nextIndex = this.focusLastElement();
       } else if (isEnter || isSpace) {
         if (isRootListItem) {
-          if (this.isSingleSelectionList_) {
-            // Check if the space key was pressed on the list item or a child element.
+          if (this.isSelectableList_()) {
+            this.setSelectedIndexOnAction_(currentIndex);
             this.preventDefaultEvent_(evt);
-          }
-
-          var hasCheckboxOrRadio = this.hasCheckboxOrRadioAtIndex_(listItemIndex);
-
-          if (hasCheckboxOrRadio) {
-            this.toggleCheckboxOrRadioAtIndex_(listItemIndex);
-            this.preventDefaultEvent_(evt);
-          }
-
-          if (this.isSingleSelectionList_ || hasCheckboxOrRadio) {
-            this.setSelectedIndex(currentIndex);
           } // Explicitly activate links, since we're preventing default on Enter, and Space doesn't activate them.
 
 
           this.adapter_.followHref(currentIndex);
         }
+      }
+
+      this.focusedItemIndex_ = currentIndex;
+
+      if (nextIndex >= 0) {
+        this.setTabindexAtIndex_(nextIndex);
+        this.focusedItemIndex_ = nextIndex;
       }
     }
     /**
@@ -1832,13 +1814,12 @@ function (_MDCFoundation) {
     value: function handleClick(index, toggleCheckbox) {
       if (index === -1) return;
 
-      if (toggleCheckbox) {
-        this.toggleCheckboxOrRadioAtIndex_(index);
+      if (this.isSelectableList_()) {
+        this.setSelectedIndexOnAction_(index, toggleCheckbox);
       }
 
-      if (this.isSingleSelectionList_ || this.hasCheckboxOrRadioAtIndex_(index)) {
-        this.setSelectedIndex(index);
-      }
+      this.setTabindexAtIndex_(index);
+      this.focusedItemIndex_ = index;
     }
     /**
      * Ensures that preventDefault is only called if the containing element doesn't
@@ -1859,6 +1840,7 @@ function (_MDCFoundation) {
     /**
      * Focuses the next element on the list.
      * @param {number} index
+     * @return {number}
      */
 
   }, {
@@ -1872,15 +1854,17 @@ function (_MDCFoundation) {
           nextIndex = 0;
         } else {
           // Return early because last item is already focused.
-          return;
+          return index;
         }
       }
 
       this.adapter_.focusItemAtIndex(nextIndex);
+      return nextIndex;
     }
     /**
      * Focuses the previous element on the list.
      * @param {number} index
+     * @return {number}
      */
 
   }, {
@@ -1893,55 +1877,234 @@ function (_MDCFoundation) {
           prevIndex = this.adapter_.getListItemCount() - 1;
         } else {
           // Return early because first item is already focused.
-          return;
+          return index;
         }
       }
 
       this.adapter_.focusItemAtIndex(prevIndex);
+      return prevIndex;
     }
+    /**
+     * @return {number}
+     */
+
   }, {
     key: "focusFirstElement",
     value: function focusFirstElement() {
-      if (this.adapter_.getListItemCount() > 0) {
-        this.adapter_.focusItemAtIndex(0);
-      }
+      this.adapter_.focusItemAtIndex(0);
+      return 0;
     }
+    /**
+     * @return {number}
+     */
+
   }, {
     key: "focusLastElement",
     value: function focusLastElement() {
       var lastIndex = this.adapter_.getListItemCount() - 1;
-
-      if (lastIndex >= 0) {
-        this.adapter_.focusItemAtIndex(lastIndex);
-      }
+      this.adapter_.focusItemAtIndex(lastIndex);
+      return lastIndex;
     }
     /**
-     * Toggles checkbox or radio at give index. Radio doesn't change the checked state if it is already checked.
      * @param {number} index
      * @private
      */
 
   }, {
-    key: "toggleCheckboxOrRadioAtIndex_",
-    value: function toggleCheckboxOrRadioAtIndex_(index) {
-      if (!this.hasCheckboxOrRadioAtIndex_(index)) return;
-      var isChecked = true;
+    key: "setSingleSelectionAtIndex_",
+    value: function setSingleSelectionAtIndex_(index) {
+      var selectedClassName = cssClasses$3.LIST_ITEM_SELECTED_CLASS;
 
-      if (this.adapter_.hasCheckboxAtIndex(index)) {
-        isChecked = !this.adapter_.isCheckboxCheckedAtIndex(index);
+      if (this.useActivatedClass_) {
+        selectedClassName = cssClasses$3.LIST_ITEM_ACTIVATED_CLASS;
       }
 
-      this.adapter_.setCheckedCheckboxOrRadioAtIndex(index, isChecked);
+      if (this.selectedIndex_ >= 0 && this.selectedIndex_ !== index) {
+        this.adapter_.removeClassForElementIndex(this.selectedIndex_, selectedClassName);
+        this.adapter_.setAttributeForElementIndex(this.selectedIndex_, strings$2.ARIA_SELECTED, 'false');
+      }
+
+      this.adapter_.addClassForElementIndex(index, selectedClassName);
+      this.adapter_.setAttributeForElementIndex(index, strings$2.ARIA_SELECTED, 'true');
+      this.selectedIndex_ = index;
     }
     /**
+     * Toggles radio at give index. Radio doesn't change the checked state if it is already checked.
      * @param {number} index
-     * @return {boolean} Return true if list item contains checkbox or radio input at given index.
+     * @private
      */
 
   }, {
-    key: "hasCheckboxOrRadioAtIndex_",
-    value: function hasCheckboxOrRadioAtIndex_(index) {
-      return this.adapter_.hasCheckboxAtIndex(index) || this.adapter_.hasRadioAtIndex(index);
+    key: "setRadioAtIndex_",
+    value: function setRadioAtIndex_(index) {
+      this.adapter_.setCheckedCheckboxOrRadioAtIndex(index, true);
+
+      if (this.selectedIndex_ >= 0) {
+        this.adapter_.setAttributeForElementIndex(this.selectedIndex_, strings$2.ARIA_CHECKED, 'false');
+      }
+
+      this.adapter_.setAttributeForElementIndex(index, strings$2.ARIA_CHECKED, 'true');
+      this.selectedIndex_ = index;
+    }
+    /**
+     * @param {!Array<number>} index
+     * @private
+     */
+
+  }, {
+    key: "setCheckboxAtIndex_",
+    value: function setCheckboxAtIndex_(index) {
+      for (var i = 0; i < this.adapter_.getListItemCount(); i++) {
+        var isChecked = false;
+
+        if (index.indexOf(i) >= 0) {
+          isChecked = true;
+        }
+
+        this.adapter_.setCheckedCheckboxOrRadioAtIndex(i, isChecked);
+        this.adapter_.setAttributeForElementIndex(i, strings$2.ARIA_CHECKED, isChecked ? 'true' : 'false');
+      }
+
+      this.selectedIndex_ = index;
+    }
+    /**
+     * @param {number} index
+     * @private
+     */
+
+  }, {
+    key: "setTabindexAtIndex_",
+    value: function setTabindexAtIndex_(index) {
+      if (this.focusedItemIndex_ === -1 && index !== 0) {
+        // If no list item was selected set first list item's tabindex to -1.
+        // Generally, tabindex is set to 0 on first list item of list that has no preselected items.
+        this.adapter_.setAttributeForElementIndex(0, 'tabindex', -1);
+      } else if (this.focusedItemIndex_ >= 0 && this.focusedItemIndex_ !== index) {
+        this.adapter_.setAttributeForElementIndex(this.focusedItemIndex_, 'tabindex', -1);
+      }
+
+      this.adapter_.setAttributeForElementIndex(index, 'tabindex', 0);
+    }
+    /**
+     * @return {boolean} Return true if it is single selectin list, checkbox list or radio list.
+     * @private
+     */
+
+  }, {
+    key: "isSelectableList_",
+    value: function isSelectableList_() {
+      return this.isSingleSelectionList_ || this.isCheckboxList_ || this.isRadioList_;
+    }
+    /** @private */
+
+  }, {
+    key: "setTabindexToFirstSelectedItem_",
+    value: function setTabindexToFirstSelectedItem_() {
+      var targetIndex = 0;
+
+      if (this.isSelectableList_()) {
+        if (typeof this.selectedIndex_ === 'number' && this.selectedIndex_ !== -1) {
+          targetIndex = this.selectedIndex_;
+        } else if (this.selectedIndex_ instanceof Array && this.selectedIndex_.length > 0) {
+          targetIndex = this.selectedIndex_.reduce(function (currentIndex, minIndex) {
+            return Math.min(currentIndex, minIndex);
+          });
+        }
+      }
+
+      this.setTabindexAtIndex_(targetIndex);
+    }
+    /**
+     * @param {!Index} index
+     * @return {boolean}
+     * @private
+     */
+
+  }, {
+    key: "isIndexValid_",
+    value: function isIndexValid_(index) {
+      var _this3 = this;
+
+      if (index instanceof Array) {
+        if (!this.isCheckboxList_) {
+          throw new Error('MDCListFoundation: Array of index is only supported for checkbox based list');
+        }
+
+        if (index.length === 0) {
+          return true;
+        } else {
+          return index.some(function (i) {
+            return _this3.isIndexInRange_(i);
+          });
+        }
+      } else if (typeof index === 'number') {
+        if (this.isCheckboxList_) {
+          throw new Error('MDCListFoundation: Expected array of index for checkbox based list but got number: ' + index);
+        }
+
+        return this.isIndexInRange_(index);
+      } else {
+        return false;
+      }
+    }
+    /**
+     * @param {number} index
+     * @return {boolean}
+     * @private
+     */
+
+  }, {
+    key: "isIndexInRange_",
+    value: function isIndexInRange_(index) {
+      var listSize = this.adapter_.getListItemCount();
+      return index >= 0 && index < listSize;
+    }
+    /**
+     * @param {number} index
+     * @param {boolean=} toggleCheckbox
+     * @private
+     */
+
+  }, {
+    key: "setSelectedIndexOnAction_",
+    value: function setSelectedIndexOnAction_(index) {
+      var toggleCheckbox = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
+      if (this.isCheckboxList_) {
+        this.toggleCheckboxAtIndex_(index, toggleCheckbox);
+      } else {
+        this.setSelectedIndex(index);
+      }
+    }
+    /**
+     * @param {number} index
+     * @param {boolean} toggleCheckbox
+     * @private
+     */
+
+  }, {
+    key: "toggleCheckboxAtIndex_",
+    value: function toggleCheckboxAtIndex_(index, toggleCheckbox) {
+      var isChecked = this.adapter_.isCheckboxCheckedAtIndex(index);
+
+      if (toggleCheckbox) {
+        isChecked = !isChecked;
+        this.adapter_.setCheckedCheckboxOrRadioAtIndex(index, isChecked);
+      }
+
+      this.adapter_.setAttributeForElementIndex(index, strings$2.ARIA_CHECKED, isChecked ? 'true' : 'false'); // If none of the checkbox items are selected and selectedIndex is not initialized then provide a default value.
+
+      if (this.selectedIndex_ === -1) {
+        this.selectedIndex_ = [];
+      }
+
+      if (isChecked) {
+        this.selectedIndex_.push(index);
+      } else {
+        this.selectedIndex_ = this.selectedIndex_.filter(function (i) {
+          return i !== index;
+        });
+      }
     }
   }]);
 
@@ -2315,9 +2478,94 @@ var script = {
   }
 };
 
+function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeId, isFunctionalTemplate, moduleIdentifier
+/* server only */
+, isShadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+  if (typeof isShadowMode === 'function') {
+    createInjectorSSR = createInjector;
+    createInjector = isShadowMode;
+    isShadowMode = false;
+  } // Vue.extend constructor export interop
+
+
+  var options = typeof defaultExport === 'function' ? defaultExport.options : defaultExport; // render functions
+
+  if (compiledTemplate && compiledTemplate.render) {
+    options.render = compiledTemplate.render;
+    options.staticRenderFns = compiledTemplate.staticRenderFns;
+    options._compiled = true; // functional template
+
+    if (isFunctionalTemplate) {
+      options.functional = true;
+    }
+  } // scopedId
+
+
+  if (scopeId) {
+    options._scopeId = scopeId;
+  }
+
+  var hook;
+
+  if (moduleIdentifier) {
+    // server build
+    hook = function hook(context) {
+      // 2.3 injection
+      context = context || // cached call
+      this.$vnode && this.$vnode.ssrContext || // stateful
+      this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext; // functional
+      // 2.2 with runInNewContext: true
+
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__;
+      } // inject component styles
+
+
+      if (injectStyle) {
+        injectStyle.call(this, createInjectorSSR(context));
+      } // register component module identifier for async chunk inference
+
+
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier);
+      }
+    }; // used by ssr in case component is cached and beforeCreate
+    // never gets called
+
+
+    options._ssrRegister = hook;
+  } else if (injectStyle) {
+    hook = isShadowMode ? function () {
+      injectStyle.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
+    } : function (context) {
+      injectStyle.call(this, createInjector(context));
+    };
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // register for functional component in vue file
+      var originalRender = options.render;
+
+      options.render = function renderWithStyleInjection(h, context) {
+        hook.call(context);
+        return originalRender(h, context);
+      };
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate;
+      options.beforeCreate = existing ? [].concat(existing, hook) : [hook];
+    }
+  }
+
+  return defaultExport;
+}
+
 /* script */
-            const __vue_script__ = script;
-            
+const __vue_script__ = script;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script.__file = "/ddata/extra/vma/components/menu/mdc-menu.vue";
+
 /* template */
 var __vue_render__ = function() {
   var _vm = this;
@@ -2350,36 +2598,13 @@ __vue_render__._withStripped = true;
   const __vue_module_identifier__ = undefined;
   /* functional template */
   const __vue_is_functional_template__ = false;
-  /* component normalizer */
-  function __vue_normalize__(
-    template, style, script$$1,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script$$1 === 'function' ? script$$1.options : script$$1) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/menu/mdc-menu.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcMenu = __vue_normalize__(
+  var mdcMenu = normalizeComponent(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
@@ -2649,8 +2874,10 @@ var script$1 = {
 };
 
 /* script */
-            const __vue_script__$1 = script$1;
-            
+const __vue_script__$1 = script$1;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$1.__file = "/ddata/extra/vma/components/menu/mdc-menu-surface.vue";
+
 /* template */
 var __vue_render__$1 = function() {
   var _vm = this;
@@ -2682,36 +2909,13 @@ __vue_render__$1._withStripped = true;
   const __vue_module_identifier__$1 = undefined;
   /* functional template */
   const __vue_is_functional_template__$1 = false;
-  /* component normalizer */
-  function __vue_normalize__$1(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/menu/mdc-menu-surface.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcMenuSurface = __vue_normalize__$1(
+  var mdcMenuSurface = normalizeComponent(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
@@ -2746,8 +2950,10 @@ var script$2 = {
 };
 
 /* script */
-            const __vue_script__$2 = script$2;
-            
+const __vue_script__$2 = script$2;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$2.__file = "/ddata/extra/vma/components/menu/mdc-menu-item.vue";
+
 /* template */
 var __vue_render__$2 = function() {
   var _vm = this;
@@ -2778,36 +2984,13 @@ __vue_render__$2._withStripped = true;
   const __vue_module_identifier__$2 = undefined;
   /* functional template */
   const __vue_is_functional_template__$2 = false;
-  /* component normalizer */
-  function __vue_normalize__$2(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/menu/mdc-menu-item.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcMenuItem = __vue_normalize__$2(
+  var mdcMenuItem = normalizeComponent(
     { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
     __vue_inject_styles__$2,
     __vue_script__$2,
@@ -2829,8 +3012,10 @@ var script$3 = {
 };
 
 /* script */
-            const __vue_script__$3 = script$3;
-            
+const __vue_script__$3 = script$3;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$3.__file = "/ddata/extra/vma/components/menu/mdc-menu-divider.vue";
+
 /* template */
 var __vue_render__$3 = function() {
   var _vm = this;
@@ -2852,36 +3037,13 @@ __vue_render__$3._withStripped = true;
   const __vue_module_identifier__$3 = undefined;
   /* functional template */
   const __vue_is_functional_template__$3 = false;
-  /* component normalizer */
-  function __vue_normalize__$3(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/menu/mdc-menu-divider.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcMenuDivider = __vue_normalize__$3(
+  var mdcMenuDivider = normalizeComponent(
     { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
     __vue_inject_styles__$3,
     __vue_script__$3,
@@ -2901,8 +3063,10 @@ var script$4 = {
 };
 
 /* script */
-            const __vue_script__$4 = script$4;
-            
+const __vue_script__$4 = script$4;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$4.__file = "/ddata/extra/vma/components/menu/mdc-menu-anchor.vue";
+
 /* template */
 var __vue_render__$4 = function() {
   var _vm = this;
@@ -2926,36 +3090,13 @@ __vue_render__$4._withStripped = true;
   const __vue_module_identifier__$4 = undefined;
   /* functional template */
   const __vue_is_functional_template__$4 = false;
-  /* component normalizer */
-  function __vue_normalize__$4(
-    template, style, script,
-    scope, functional, moduleIdentifier,
-    createInjector, createInjectorSSR
-  ) {
-    const component = (typeof script === 'function' ? script.options : script) || {};
-
-    // For security concerns, we use only base name in production mode.
-    component.__file = "/ddata/extra/vma/components/menu/mdc-menu-anchor.vue";
-
-    if (!component.render) {
-      component.render = template.render;
-      component.staticRenderFns = template.staticRenderFns;
-      component._compiled = true;
-
-      if (functional) component.functional = true;
-    }
-
-    component._scopeId = scope;
-
-    return component
-  }
   /* style inject */
   
   /* style inject SSR */
   
 
   
-  var mdcMenuAnchor = __vue_normalize__$4(
+  var mdcMenuAnchor = normalizeComponent(
     { render: __vue_render__$4, staticRenderFns: __vue_staticRenderFns__$4 },
     __vue_inject_styles__$4,
     __vue_script__$4,
