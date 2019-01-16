@@ -234,6 +234,9 @@ export default {
         const event = document.createEvent('Event')
         event.initEvent('change', true, true)
         toggleEl.dispatchEvent(event)
+      },
+      isFocusInsideList: () => {
+        return this.$el.contains(document.activeElement)
       }
     })
 
