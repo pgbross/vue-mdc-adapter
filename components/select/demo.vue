@@ -1,36 +1,33 @@
 <template>
   <div class="mdc-demo mdc-demo--container">
     <div>
-      <mdc-select
-        v-model="selectedType"
-        label="Pick up a food type">
-        <option
-          v-for="type in types"
-          :value="type"
-          :key="type">{{ type }}</option>
+      <mdc-select v-model="selectedType" label="Food">
+        <option v-for="type in types" :value="type" :key="type">{{
+          type
+        }}</option>
       </mdc-select>
 
-      <mdc-caption
-        v-if="selectedType"
-        tag="p" >Selected Type: {{ selectedType }}
+      <mdc-caption v-if="selectedType" tag="p"
+        >Selected Type: {{ selectedType }}
       </mdc-caption>
 
-      <br><br><br>
+      <br /><br /><br />
       <mdc-select
         v-if="selectedType"
         v-model="selectedValue"
         outlined
-        label="Pick up a food">
+        label="Kind"
+      >
         <option
           v-for="option of options"
           :key="option"
-          :value="option.toLowerCase()">{{ option }}</option>
+          :value="option.toLowerCase()"
+          >{{ option }}</option
+        >
       </mdc-select>
-      <mdc-caption
-        v-if="selectedValue"
-        tag="p">Selected Value: {{ selectedValue }}
+      <mdc-caption v-if="selectedValue" tag="p"
+        >Selected Value: {{ selectedValue }}
       </mdc-caption>
-
     </div>
   </div>
 </template>

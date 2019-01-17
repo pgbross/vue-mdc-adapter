@@ -39,10 +39,15 @@ export default {
     'layout-grid-readme': () => import('../components/layout-grid/README.md'),
     'linear-progress-readme': () =>
       import('../components/linear-progress/README.md'),
+    'line-ripple': () => import('../components/line-ripple/README.md'),
+
     'list-readme': () => import('../components/list/README.md'),
     'material-icon-readme': () =>
       import('../components/material-icon/README.md'),
     'menu-readme': () => import('../components/menu/README.md'),
+
+    'notched-outline-readme': () =>
+      import('../components/notched-outline/README.md'),
     'radio-readme': () => import('../components/radio/README.md'),
     'select-readme': () => import('../components/select/README.md'),
     'slider-readme': () => import('../components/slider/README.md'),
@@ -70,9 +75,14 @@ export default {
     'layout-grid-demo': () => import('../components/layout-grid/demo.vue'),
     'linear-progress-demo': () =>
       import('../components/linear-progress/demo.vue'),
+
+    'line-ripple-demo': () => import('../components/line-ripple/demo.vue'),
     'list-demo': () => import('../components/list/demo.vue'),
     'material-icon-demo': () => import('../components/material-icon/demo.vue'),
     'menu-demo': () => import('../components/menu/demo.vue'),
+
+    'notched-outline-demo': () =>
+      import('../components/notched-outline/demo.vue'),
     'radio-demo': () => import('../components/radio/demo.vue'),
     'select-demo': () => import('../components/select/demo.vue'),
     'slider-demo': () => import('../components/slider/demo.vue'),

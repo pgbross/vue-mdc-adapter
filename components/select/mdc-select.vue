@@ -1,36 +1,23 @@
 <template>
-  <div
-    :id="id"
-    :class="rootClasses"
-    :style="styles"
-    class="mdc-select">
+  <div :id="id" :class="rootClasses" :style="styles">
+    <i class="mdc-select__dropdown-icon"></i>
     <select
       ref="native_control"
       :disabled="disabled"
       v-bind="$attrs"
       class="mdc-select__native-control"
-      v-on="listeners">
-      <option
-        v-if="!!label"
-        class="mdc-option"
-        value=""
-        disabled
-        selected/>
-      <slot/>
+      v-on="listeners"
+    >
+      <option v-if="!value" class="mdc-option" value="" disabled selected />
+      <slot />
     </select>
-    <!-- label -->
-    <select-label
-      v-if="label"
-      ref="label">{{ label }}</select-label>
-    <!-- line ripple -->
-    <select-line-riple
-      v-if="!outlined"
-      ref="line"/>
-    <!-- outline -->
-    <select-notched-outline
-      v-if="outlined"
-      ref="outline"
-    />
+    <mdc-floating-label v-if="!outlined" ref="labelEl">{{
+      label
+    }}</mdc-floating-label>
+    <mdc-line-ripple v-if="!outlined" ref="lineRippleEl" />
+    <mdc-notched-outline v-if="outlined" ref="outlineEl">{{
+      label
+    }}</mdc-notched-outline>
   </div>
 </template>
 
@@ -38,17 +25,10 @@
 import MDCSelectFoundation from '@material/select/foundation'
 import { RippleBase } from '../ripple'
 
-import SelectLabel from './mdc-select-label.vue'
-import SelectLineRiple from './mdc-select-line-ripple.vue'
-import SelectNotchedOutline from './mdc-select-notched-outline.vue'
+import { emitCustomEvent } from '../base'
 
 export default {
   name: 'mdc-select',
-  components: {
-    SelectLabel,
-    SelectLineRiple,
-    SelectNotchedOutline
-  },
   inheritAttrs: false,
   model: {
     prop: 'value',
@@ -70,7 +50,7 @@ export default {
   computed: {
     rootClasses() {
       return {
-        'mdc-select--box': !this.outlined,
+        'mdc-select': true,
         'mdc-select--outlined': this.outlined,
         ...this.classes
       }
@@ -78,7 +58,11 @@ export default {
     listeners() {
       return {
         ...this.$listeners,
-        change: event => this.onChange(event)
+        change: event => this.handleChange(event),
+        blur: event => this.handleBlur(event),
+        focus: event => this.handleFocus(event),
+        mousedown: event => this.handleClick(event),
+        touchstart: event => this.handleClick(event)
       }
     }
   },
@@ -88,54 +72,89 @@ export default {
     },
     value: 'refreshIndex'
   },
+
   mounted() {
     this.foundation = new MDCSelectFoundation({
+      // common methods
       addClass: className => this.$set(this.classes, className, true),
       removeClass: className => this.$delete(this.classes, className),
-      hasClass: className => this.$el.classList.contains(className),
+      hasClass: className => Boolean(this.classes[className]),
+      setRippleCenter: normalizedX =>
+        this.$refs.lineRippleEl &&
+        this.$refs.lineRippleEl.setRippleCenter(normalizedX),
       activateBottomLine: () => {
-        if (this.$refs.line) {
-          this.$refs.line.foundation.activate()
+        if (this.$refs.lineRippleEl) {
+          this.$refs.lineRippleEl.foundation.activate()
         }
       },
       deactivateBottomLine: () => {
-        if (this.$refs.line) {
-          this.$refs.line.foundation.deactivate()
+        if (this.$refs.lineRippleEl) {
+          this.$refs.lineRippleEl.foundation.deactivate()
         }
       },
-      getValue: () => this.$refs.native_control.value,
-      isRtl: () => {
-        return (
-          window.getComputedStyle(this.$el).getPropertyValue('direction') ===
-          'rtl'
+
+      notifyChange: value => {
+        const index = this.selectedIndex
+        emitCustomEvent(
+          this.$el,
+          MDCSelectFoundation.strings.CHANGE_EVENT,
+          { value, index },
+          true /* shouldBubble  */
         )
+
+        this.$emit('change', value)
       },
-      notchOutline: (labelWidth, isRtl) => {
-        if (this.$refs.outline) {
-          this.$refs.outline.foundation.notch(labelWidth, isRtl)
+
+      // native methods
+      getValue: () => this.$refs.native_control.value,
+      setValue: value => (this.$refs.native_control.value = value),
+      openMenu: () => {},
+      closeMenu: () => {},
+      isMenuOpen: () => false,
+      setSelectedIndex: index => {
+        this.$refs.native_control.selectedIndex = index
+      },
+      setDisabled: isDisabled =>
+        (this.$refs.native_control.disabled = isDisabled),
+      setValid: isValid => {
+        isValid
+          ? this.$delete(this.classes, MDCSelectFoundation.cssClasses.INVALID)
+          : this.set(this.classes, MDCSelectFoundation.cssClasses.INVALID)
+      },
+      checkValidity: () => this.$refs.native_control.checkValidity(),
+
+      // outline methods
+
+      hasOutline: () => this.outlined,
+      notchOutline: labelWidth => {
+        if (this.$refs.outlineEl) {
+          this.$refs.outlineEl.notch(labelWidth)
         }
       },
       closeOutline: () => {
-        if (this.$refs.outline) {
-          this.$refs.outline.foundation.closeNotch()
+        if (this.$refs.outlineEl) {
+          this.$refs.outlineEl.closeNotch()
         }
       },
-      hasOutline: () => !!this.$refs.outline,
+
+      // label methods
       floatLabel: value => {
-        if (this.$refs.label) {
-          this.$refs.label.foundation.float(value)
+        if (this.$refs.labelEl) {
+          this.$refs.labelEl.float(value)
+        } else {
+          this.$refs.outlineEl.float(value)
         }
       },
-      hasLabel: () => !!this.$refs.label,
+
       getLabelWidth: () => {
-        if (this.$refs.label) {
-          return this.$refs.label.foundation.getWidth()
+        if (this.$refs.labelEl) {
+          return this.$refs.labelEl.getWidth()
         }
       }
     })
 
     this.foundation.init()
-    this.foundation.handleChange()
+    this.foundation.handleChange(false)
 
     // initial sync with DOM
     this.refreshIndex()
@@ -148,6 +167,7 @@ export default {
     this.ripple = new RippleBase(this)
     this.ripple.init()
   },
+
   beforeDestroy() {
     this.slotObserver.disconnect()
 
@@ -157,7 +177,23 @@ export default {
 
     this.ripple && this.ripple.destroy()
   },
+
   methods: {
+    handleChange() {
+      this.foundation.handleChange(true)
+    },
+
+    handleFocus() {
+      this.foundation.handleFocus()
+    },
+
+    handleBlur() {
+      this.foundation.handleBlur()
+    },
+
+    handleClick(evt) {
+      this.foundation.handleClick(this.getNormalizedXCoordinate(evt))
+    },
     refreshIndex() {
       const options = [...this.$refs.native_control.querySelectorAll('option')]
 
@@ -167,12 +203,14 @@ export default {
 
       if (this.$refs.native_control.selectedIndex !== idx) {
         this.$refs.native_control.selectedIndex = idx
-        this.foundation.handleChange()
+        this.foundation.handleChange(false)
       }
     },
-    onChange(event) {
-      this.foundation.handleChange()
-      this.$emit('change', event.target.value)
+
+    getNormalizedXCoordinate(evt) {
+      const targetClientRect = evt.target.getBoundingClientRect()
+      const xCoordinate = evt.clientX
+      return xCoordinate - targetClientRect.left
     }
   }
 }
