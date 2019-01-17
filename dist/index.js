@@ -16,15 +16,18 @@ import VueMDCDialog from './dialog';
 import VueMDCDrawer from './drawer';
 import VueMDCElevation from './elevation';
 import VueMDCFab from './fab';
+import VueMDCFloatingLabel from './floating-label';
 import VueMDCGridList from './grid-list';
 import VueMDCIcon from './icon';
 import VueMDCIconButton from './icon-button';
 import VueMDCLayoutApp from './layout-app';
 import VueMDCLayoutGrid from './layout-grid';
 import VueMDCLinearProgress from './linear-progress';
+import VueMDCLineRipple from './line-ripple';
 import VueMDCList from './list';
 import VueMDCMaterialIcon from './material-icon';
 import VueMDCMenu from './menu';
+import VueMDCNotchedOutline from './notched-outline';
 import VueMDCRadio from './radio';
 import VueMDCRipple, { RippleMixin } from './ripple';
 import VueMDCSelect from './select';
@@ -1422,6 +1425,7 @@ var index = {
     vm.use(VueMDCDrawer);
     vm.use(VueMDCElevation);
     vm.use(VueMDCFab);
+    vm.use(VueMDCFloatingLabel);
     vm.use(VueMDCGridList);
     vm.use(VueMDCIcon);
     vm.use(VueMDCIconButton); // vm.use(VueMDCIconToggle)
@@ -1430,8 +1434,10 @@ var index = {
     vm.use(VueMDCLayoutGrid);
     vm.use(VueMDCLinearProgress);
     vm.use(VueMDCList);
+    vm.use(VueMDCLineRipple);
     vm.use(VueMDCMenu);
     vm.use(VueMDCMaterialIcon);
+    vm.use(VueMDCNotchedOutline);
     vm.use(VueMDCRadio);
     vm.use(VueMDCRipple);
     vm.use(VueMDCSelect);
@@ -1457,15 +1463,18 @@ export { VueMDCDialog }
 export { VueMDCDrawer }
 export { VueMDCElevation }
 export { VueMDCFab }
+export { VueMDCFloatingLabel }
 export { VueMDCGridList }
 export { VueMDCIconButton }
 export { VueMDCIcon }
 export { VueMDCLayoutApp }
 export { VueMDCLayoutGrid }
 export { VueMDCLinearProgress }
+export { VueMDCLineRipple }
 export { VueMDCList }
 export { VueMDCMaterialIcon }
 export { VueMDCMenu }
+export { VueMDCNotchedOutline }
 export { VueMDCRadio }
 export { VueMDCRipple }
 export { VueMDCSelect }
@@ -1486,15 +1495,18 @@ export * from './dialog'
 export * from './drawer'
 export * from './elevation'
 export * from './fab'
+export * from './floating-label'
 export * from './grid-list'
 export * from './icon-button'
 export * from './icon'
 export * from './layout-app'
 export * from './layout-grid'
 export * from './linear-progress'
+export * from './line-ripple'
 export * from './list'
 export * from './material-icon'
 export * from './menu'
+export * from './notched-outline'
 export * from './radio'
 export * from './ripple'
 export * from './select'

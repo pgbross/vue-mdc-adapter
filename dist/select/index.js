@@ -165,6 +165,22 @@ function _nonIterableSpread() {
 }
 
 /* global CustomEvent */
+function emitCustomEvent(el, evtType, evtData) {
+  var shouldBubble = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+  var evt;
+
+  if (typeof CustomEvent === 'function') {
+    evt = new CustomEvent(evtType, {
+      detail: evtData,
+      bubbles: shouldBubble
+    });
+  } else {
+    evt = document.createEvent('CustomEvent');
+    evt.initCustomEvent(evtType, shouldBubble, false, evtData);
+  }
+
+  el.dispatchEvent(evt);
+}
 
 var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
 
@@ -1639,289 +1655,207 @@ function (_MDCFoundation) {
   return MDCSelectFoundation;
 }(MDCFoundation);
 
-/**
- * @license
- * Copyright 2017 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/* eslint no-unused-vars: [2, {"args": "none"}] */
-
-/**
- * Adapter for MDC Floating Label.
- *
- * Defines the shape of the adapter expected by the foundation. Implement this
- * adapter to integrate the floating label into your framework. See
- * https://github.com/material-components/material-components-web/blob/master/docs/authoring-components.md
- * for more information.
- *
- * @record
- */
-var MDCFloatingLabelAdapter =
-/*#__PURE__*/
-function () {
-  function MDCFloatingLabelAdapter() {
-    _classCallCheck(this, MDCFloatingLabelAdapter);
-  }
-
-  _createClass(MDCFloatingLabelAdapter, [{
-    key: "addClass",
-
-    /**
-     * Adds a class to the label element.
-     * @param {string} className
-     */
-    value: function addClass(className) {}
-    /**
-     * Removes a class from the label element.
-     * @param {string} className
-     */
-
-  }, {
-    key: "removeClass",
-    value: function removeClass(className) {}
-    /**
-     * Returns the width of the label element.
-     * @return {number}
-     */
-
-  }, {
-    key: "getWidth",
-    value: function getWidth() {}
-    /**
-     * Registers an event listener on the root element for a given event.
-     * @param {string} evtType
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "registerInteractionHandler",
-    value: function registerInteractionHandler(evtType, handler) {}
-    /**
-     * Deregisters an event listener on the root element for a given event.
-     * @param {string} evtType
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "deregisterInteractionHandler",
-    value: function deregisterInteractionHandler(evtType, handler) {}
-  }]);
-
-  return MDCFloatingLabelAdapter;
-}();
-
-/**
- * @license
- * Copyright 2016 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/** @enum {string} */
-var cssClasses$2 = {
-  LABEL_FLOAT_ABOVE: 'mdc-floating-label--float-above',
-  LABEL_SHAKE: 'mdc-floating-label--shake',
-  ROOT: 'mdc-floating-label'
-};
-
-/**
- * @extends {MDCFoundation<!MDCFloatingLabelAdapter>}
- * @final
- */
-
-var MDCFloatingLabelFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCFloatingLabelFoundation, _MDCFoundation);
-
-  _createClass(MDCFloatingLabelFoundation, null, [{
-    key: "cssClasses",
-
-    /** @return enum {string} */
-    get: function get() {
-      return cssClasses$2;
-    }
-    /**
-     * {@see MDCFloatingLabelAdapter} for typing information on parameters and return
-     * types.
-     * @return {!MDCFloatingLabelAdapter}
-     */
-
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCFloatingLabelAdapter} */
-        {
-          addClass: function addClass() {},
-          removeClass: function removeClass() {},
-          getWidth: function getWidth() {},
-          registerInteractionHandler: function registerInteractionHandler() {},
-          deregisterInteractionHandler: function deregisterInteractionHandler() {}
-        }
-      );
-    }
-    /**
-     * @param {!MDCFloatingLabelAdapter} adapter
-     */
-
-  }]);
-
-  function MDCFloatingLabelFoundation(adapter) {
-    var _this;
-
-    _classCallCheck(this, MDCFloatingLabelFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCFloatingLabelFoundation).call(this, _extends(MDCFloatingLabelFoundation.defaultAdapter, adapter)));
-    /** @private {function(!Event): undefined} */
-
-    _this.shakeAnimationEndHandler_ = function () {
-      return _this.handleShakeAnimationEnd_();
-    };
-
-    return _this;
-  }
-
-  _createClass(MDCFloatingLabelFoundation, [{
-    key: "init",
-    value: function init() {
-      this.adapter_.registerInteractionHandler('animationend', this.shakeAnimationEndHandler_);
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      this.adapter_.deregisterInteractionHandler('animationend', this.shakeAnimationEndHandler_);
-    }
-    /**
-     * Returns the width of the label element.
-     * @return {number}
-     */
-
-  }, {
-    key: "getWidth",
-    value: function getWidth() {
-      return this.adapter_.getWidth();
-    }
-    /**
-     * Styles the label to produce the label shake for errors.
-     * @param {boolean} shouldShake adds shake class if true,
-     * otherwise removes shake class.
-     */
-
-  }, {
-    key: "shake",
-    value: function shake(shouldShake) {
-      var LABEL_SHAKE = MDCFloatingLabelFoundation.cssClasses.LABEL_SHAKE;
-
-      if (shouldShake) {
-        this.adapter_.addClass(LABEL_SHAKE);
-      } else {
-        this.adapter_.removeClass(LABEL_SHAKE);
-      }
-    }
-    /**
-     * Styles the label to float or dock.
-     * @param {boolean} shouldFloat adds float class if true, otherwise remove
-     * float and shake class to dock label.
-     */
-
-  }, {
-    key: "float",
-    value: function float(shouldFloat) {
-      var _MDCFloatingLabelFoun = MDCFloatingLabelFoundation.cssClasses,
-          LABEL_FLOAT_ABOVE = _MDCFloatingLabelFoun.LABEL_FLOAT_ABOVE,
-          LABEL_SHAKE = _MDCFloatingLabelFoun.LABEL_SHAKE;
-
-      if (shouldFloat) {
-        this.adapter_.addClass(LABEL_FLOAT_ABOVE);
-      } else {
-        this.adapter_.removeClass(LABEL_FLOAT_ABOVE);
-        this.adapter_.removeClass(LABEL_SHAKE);
-      }
-    }
-    /**
-     * Handles an interaction event on the root element.
-     */
-
-  }, {
-    key: "handleShakeAnimationEnd_",
-    value: function handleShakeAnimationEnd_() {
-      var LABEL_SHAKE = MDCFloatingLabelFoundation.cssClasses.LABEL_SHAKE;
-      this.adapter_.removeClass(LABEL_SHAKE);
-    }
-  }]);
-
-  return MDCFloatingLabelFoundation;
-}(MDCFoundation);
-
-//
 var script = {
-  name: 'mdc-select-label',
+  name: 'mdc-select',
+  inheritAttrs: false,
+  model: {
+    prop: 'value',
+    event: 'change'
+  },
+  props: {
+    value: String,
+    disabled: Boolean,
+    label: String,
+    outlined: Boolean,
+    id: {
+      type: String
+    }
+  },
   data: function data() {
     return {
-      labelClasses: {}
+      styles: {},
+      classes: {}
     };
   },
-  mounted: function mounted() {
-    var _this = this;
+  computed: {
+    rootClasses: function rootClasses() {
+      return _objectSpread({
+        'mdc-select': true,
+        'mdc-select--outlined': this.outlined
+      }, this.classes);
+    },
+    listeners: function listeners() {
+      var _this = this;
 
-    this.foundation = new MDCFloatingLabelFoundation({
+      return _objectSpread({}, this.$listeners, {
+        change: function change(event) {
+          return _this.handleChange(event);
+        },
+        blur: function blur(event) {
+          return _this.handleBlur(event);
+        },
+        focus: function focus(event) {
+          return _this.handleFocus(event);
+        },
+        mousedown: function mousedown(event) {
+          return _this.handleClick(event);
+        },
+        touchstart: function touchstart(event) {
+          return _this.handleClick(event);
+        }
+      });
+    }
+  },
+  watch: {
+    disabled: function disabled(value) {
+      this.foundation && this.foundation.updateDisabledStyle(value);
+    },
+    value: 'refreshIndex'
+  },
+  mounted: function mounted() {
+    var _this2 = this;
+
+    this.foundation = new MDCSelectFoundation({
+      // common methods
       addClass: function addClass(className) {
-        _this.$set(_this.labelClasses, className, true);
+        return _this2.$set(_this2.classes, className, true);
       },
       removeClass: function removeClass(className) {
-        _this.$delete(_this.labelClasses, className);
+        return _this2.$delete(_this2.classes, className);
       },
-      getWidth: function getWidth() {
-        return _this.$el.offsetWidth;
+      hasClass: function hasClass(className) {
+        return Boolean(_this2.classes[className]);
       },
-      registerInteractionHandler: function registerInteractionHandler(evtType, handler) {
-        _this.$el.addEventListener(evtType, handler);
+      setRippleCenter: function setRippleCenter(normalizedX) {
+        return _this2.$refs.lineRippleEl && _this2.$refs.lineRippleEl.setRippleCenter(normalizedX);
       },
-      deregisterInteractionHandler: function deregisterInteractionHandler(evtType, handler) {
-        _this.$el.removeEventListener(evtType, handler);
+      activateBottomLine: function activateBottomLine() {
+        if (_this2.$refs.lineRippleEl) {
+          _this2.$refs.lineRippleEl.foundation.activate();
+        }
+      },
+      deactivateBottomLine: function deactivateBottomLine() {
+        if (_this2.$refs.lineRippleEl) {
+          _this2.$refs.lineRippleEl.foundation.deactivate();
+        }
+      },
+      notifyChange: function notifyChange(value) {
+        var index = _this2.selectedIndex;
+        emitCustomEvent(_this2.$el, MDCSelectFoundation.strings.CHANGE_EVENT, {
+          value: value,
+          index: index
+        }, true
+        /* shouldBubble  */
+        );
+
+        _this2.$emit('change', value);
+      },
+      // native methods
+      getValue: function getValue() {
+        return _this2.$refs.native_control.value;
+      },
+      setValue: function setValue(value) {
+        return _this2.$refs.native_control.value = value;
+      },
+      openMenu: function openMenu() {},
+      closeMenu: function closeMenu() {},
+      isMenuOpen: function isMenuOpen() {
+        return false;
+      },
+      setSelectedIndex: function setSelectedIndex(index) {
+        _this2.$refs.native_control.selectedIndex = index;
+      },
+      setDisabled: function setDisabled(isDisabled) {
+        return _this2.$refs.native_control.disabled = isDisabled;
+      },
+      setValid: function setValid(isValid) {
+        isValid ? _this2.$delete(_this2.classes, MDCSelectFoundation.cssClasses.INVALID) : _this2.set(_this2.classes, MDCSelectFoundation.cssClasses.INVALID);
+      },
+      checkValidity: function checkValidity() {
+        return _this2.$refs.native_control.checkValidity();
+      },
+      // outline methods
+      hasOutline: function hasOutline() {
+        return _this2.outlined;
+      },
+      notchOutline: function notchOutline(labelWidth) {
+        if (_this2.$refs.outlineEl) {
+          _this2.$refs.outlineEl.notch(labelWidth);
+        }
+      },
+      closeOutline: function closeOutline() {
+        if (_this2.$refs.outlineEl) {
+          _this2.$refs.outlineEl.closeNotch();
+        }
+      },
+      // label methods
+      floatLabel: function floatLabel(value) {
+        if (_this2.$refs.labelEl) {
+          _this2.$refs.labelEl.float(value);
+        } else {
+          _this2.$refs.outlineEl.float(value);
+        }
+      },
+      getLabelWidth: function getLabelWidth() {
+        if (_this2.$refs.labelEl) {
+          return _this2.$refs.labelEl.getWidth();
+        }
       }
     });
     this.foundation.init();
+    this.foundation.handleChange(false); // initial sync with DOM
+
+    this.refreshIndex();
+    this.slotObserver = new MutationObserver(function () {
+      return _this2.refreshIndex();
+    });
+    this.slotObserver.observe(this.$refs.native_control, {
+      childList: true,
+      subtree: true
+    });
+    this.ripple = new RippleBase(this);
+    this.ripple.init();
   },
   beforeDestroy: function beforeDestroy() {
+    this.slotObserver.disconnect();
     var foundation = this.foundation;
     this.foundation = null;
     foundation.destroy();
+    this.ripple && this.ripple.destroy();
+  },
+  methods: {
+    handleChange: function handleChange() {
+      this.foundation.handleChange(true);
+    },
+    handleFocus: function handleFocus() {
+      this.foundation.handleFocus();
+    },
+    handleBlur: function handleBlur() {
+      this.foundation.handleBlur();
+    },
+    handleClick: function handleClick(evt) {
+      this.foundation.handleClick(this.getNormalizedXCoordinate(evt));
+    },
+    refreshIndex: function refreshIndex() {
+      var _this3 = this;
+
+      var options = _toConsumableArray(this.$refs.native_control.querySelectorAll('option'));
+
+      var idx = options.findIndex(function (_ref) {
+        var value = _ref.value;
+        return _this3.value === value;
+      });
+
+      if (this.$refs.native_control.selectedIndex !== idx) {
+        this.$refs.native_control.selectedIndex = idx;
+        this.foundation.handleChange(false);
+      }
+    },
+    getNormalizedXCoordinate: function getNormalizedXCoordinate(evt) {
+      var targetClientRect = evt.target.getBoundingClientRect();
+      var xCoordinate = evt.clientX;
+      return xCoordinate - targetClientRect.left;
+    }
   }
 };
 
@@ -2011,7 +1945,7 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
 /* script */
 const __vue_script__ = script;
 // For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script.__file = "/ddata/extra/vma/components/select/mdc-select-label.vue";
+script.__file = "/ddata/extra/vma/components/select/mdc-select.vue";
 
 /* template */
 var __vue_render__ = function() {
@@ -2019,10 +1953,54 @@ var __vue_render__ = function() {
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
   return _c(
-    "label",
-    { staticClass: "mdc-floating-label", class: _vm.labelClasses },
-    [_vm._t("default")],
-    2
+    "div",
+    { class: _vm.rootClasses, style: _vm.styles, attrs: { id: _vm.id } },
+    [
+      _c("i", { staticClass: "mdc-select__dropdown-icon" }),
+      _vm._v(" "),
+      _c(
+        "select",
+        _vm._g(
+          _vm._b(
+            {
+              ref: "native_control",
+              staticClass: "mdc-select__native-control",
+              attrs: { disabled: _vm.disabled }
+            },
+            "select",
+            _vm.$attrs,
+            false
+          ),
+          _vm.listeners
+        ),
+        [
+          !_vm.value
+            ? _c("option", {
+                staticClass: "mdc-option",
+                attrs: { value: "", disabled: "", selected: "" }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm._t("default")
+        ],
+        2
+      ),
+      _vm._v(" "),
+      !_vm.outlined
+        ? _c("mdc-floating-label", { ref: "labelEl" }, [
+            _vm._v(_vm._s(_vm.label))
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      !_vm.outlined ? _c("mdc-line-ripple", { ref: "lineRippleEl" }) : _vm._e(),
+      _vm._v(" "),
+      _vm.outlined
+        ? _c("mdc-notched-outline", { ref: "outlineEl" }, [
+            _vm._v(_vm._s(_vm.label))
+          ])
+        : _vm._e()
+    ],
+    1
   )
 };
 var __vue_staticRenderFns__ = [];
@@ -2042,898 +2020,13 @@ __vue_render__._withStripped = true;
   
 
   
-  var SelectLabel = normalizeComponent(
+  var mdcSelect = normalizeComponent(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
-    undefined,
-    undefined
-  );
-
-/**
- * @license
- * Copyright 2018 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/* eslint no-unused-vars: [2, {"args": "none"}] */
-
-/**
- * Adapter for MDC TextField Line Ripple.
- *
- * Defines the shape of the adapter expected by the foundation. Implement this
- * adapter to integrate the line ripple into your framework. See
- * https://github.com/material-components/material-components-web/blob/master/docs/authoring-components.md
- * for more information.
- *
- * @record
- */
-var MDCLineRippleAdapter =
-/*#__PURE__*/
-function () {
-  function MDCLineRippleAdapter() {
-    _classCallCheck(this, MDCLineRippleAdapter);
-  }
-
-  _createClass(MDCLineRippleAdapter, [{
-    key: "addClass",
-
-    /**
-     * Adds a class to the line ripple element.
-     * @param {string} className
-     */
-    value: function addClass(className) {}
-    /**
-     * Removes a class from the line ripple element.
-     * @param {string} className
-     */
-
-  }, {
-    key: "removeClass",
-    value: function removeClass(className) {}
-    /**
-     * @param {string} className
-     * @return {boolean}
-     */
-
-  }, {
-    key: "hasClass",
-    value: function hasClass(className) {}
-    /**
-     * Sets the style property with propertyName to value on the root element.
-     * @param {string} propertyName
-     * @param {string} value
-     */
-
-  }, {
-    key: "setStyle",
-    value: function setStyle(propertyName, value) {}
-    /**
-     * Registers an event listener on the line ripple element for a given event.
-     * @param {string} evtType
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "registerEventHandler",
-    value: function registerEventHandler(evtType, handler) {}
-    /**
-     * Deregisters an event listener on the line ripple element for a given event.
-     * @param {string} evtType
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "deregisterEventHandler",
-    value: function deregisterEventHandler(evtType, handler) {}
-  }]);
-
-  return MDCLineRippleAdapter;
-}();
-
-/**
- * @license
- * Copyright 2018 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/** @enum {string} */
-var cssClasses$3 = {
-  LINE_RIPPLE_ACTIVE: 'mdc-line-ripple--active',
-  LINE_RIPPLE_DEACTIVATING: 'mdc-line-ripple--deactivating'
-};
-
-/**
- * @extends {MDCFoundation<!MDCLineRippleAdapter>}
- * @final
- */
-
-var MDCLineRippleFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCLineRippleFoundation, _MDCFoundation);
-
-  _createClass(MDCLineRippleFoundation, null, [{
-    key: "cssClasses",
-
-    /** @return enum {string} */
-    get: function get() {
-      return cssClasses$3;
-    }
-    /**
-     * {@see MDCLineRippleAdapter} for typing information on parameters and return
-     * types.
-     * @return {!MDCLineRippleAdapter}
-     */
-
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCLineRippleAdapter} */
-        {
-          addClass: function addClass() {},
-          removeClass: function removeClass() {},
-          hasClass: function hasClass() {},
-          setStyle: function setStyle() {},
-          registerEventHandler: function registerEventHandler() {},
-          deregisterEventHandler: function deregisterEventHandler() {}
-        }
-      );
-    }
-    /**
-     * @param {!MDCLineRippleAdapter=} adapter
-     */
-
-  }]);
-
-  function MDCLineRippleFoundation(adapter) {
-    var _this;
-
-    _classCallCheck(this, MDCLineRippleFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCLineRippleFoundation).call(this, _extends(MDCLineRippleFoundation.defaultAdapter, adapter)));
-    /** @private {function(!Event): undefined} */
-
-    _this.transitionEndHandler_ = function (evt) {
-      return _this.handleTransitionEnd(evt);
-    };
-
-    return _this;
-  }
-
-  _createClass(MDCLineRippleFoundation, [{
-    key: "init",
-    value: function init() {
-      this.adapter_.registerEventHandler('transitionend', this.transitionEndHandler_);
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      this.adapter_.deregisterEventHandler('transitionend', this.transitionEndHandler_);
-    }
-    /**
-     * Activates the line ripple
-     */
-
-  }, {
-    key: "activate",
-    value: function activate() {
-      this.adapter_.removeClass(cssClasses$3.LINE_RIPPLE_DEACTIVATING);
-      this.adapter_.addClass(cssClasses$3.LINE_RIPPLE_ACTIVE);
-    }
-    /**
-     * Sets the center of the ripple animation to the given X coordinate.
-     * @param {number} xCoordinate
-     */
-
-  }, {
-    key: "setRippleCenter",
-    value: function setRippleCenter(xCoordinate) {
-      this.adapter_.setStyle('transform-origin', "".concat(xCoordinate, "px center"));
-    }
-    /**
-     * Deactivates the line ripple
-     */
-
-  }, {
-    key: "deactivate",
-    value: function deactivate() {
-      this.adapter_.addClass(cssClasses$3.LINE_RIPPLE_DEACTIVATING);
-    }
-    /**
-     * Handles a transition end event
-     * @param {!Event} evt
-     */
-
-  }, {
-    key: "handleTransitionEnd",
-    value: function handleTransitionEnd(evt) {
-      // Wait for the line ripple to be either transparent or opaque
-      // before emitting the animation end event
-      var isDeactivating = this.adapter_.hasClass(cssClasses$3.LINE_RIPPLE_DEACTIVATING);
-
-      if (evt.propertyName === 'opacity') {
-        if (isDeactivating) {
-          this.adapter_.removeClass(cssClasses$3.LINE_RIPPLE_ACTIVE);
-          this.adapter_.removeClass(cssClasses$3.LINE_RIPPLE_DEACTIVATING);
-        }
-      }
-    }
-  }]);
-
-  return MDCLineRippleFoundation;
-}(MDCFoundation);
-
-//
-var script$1 = {
-  name: 'mdc-select-line-ripple',
-  data: function data() {
-    return {
-      lineClasses: {},
-      lineStyles: {}
-    };
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    this.foundation = new MDCLineRippleFoundation({
-      addClass: function addClass(className) {
-        _this.$set(_this.lineClasses, className, true);
-      },
-      removeClass: function removeClass(className) {
-        _this.$delete(_this.lineClasses, className);
-      },
-      hasClass: function hasClass(className) {
-        _this.$el.classList.contains(className);
-      },
-      setStyle: function setStyle(name, value) {
-        _this.$set(_this.lineStyles, name, value);
-      },
-      registerEventHandler: function registerEventHandler(evtType, handler) {
-        _this.$el.addEventListener(evtType, handler);
-      },
-      deregisterEventHandler: function deregisterEventHandler(evtType, handler) {
-        _this.$el.removeEventListener(evtType, handler);
-      }
-    });
-    this.foundation.init();
-  },
-  beforeDestroy: function beforeDestroy() {
-    var foundation = this.foundation;
-    this.foundation = null;
-    foundation.destroy();
-  }
-};
-
-/* script */
-const __vue_script__$1 = script$1;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$1.__file = "/ddata/extra/vma/components/select/mdc-select-line-ripple.vue";
-
-/* template */
-var __vue_render__$1 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c("div", {
-    staticClass: "mdc-line-ripple",
-    class: _vm.lineClasses,
-    style: _vm.lineStyles
-  })
-};
-var __vue_staticRenderFns__$1 = [];
-__vue_render__$1._withStripped = true;
-
-  /* style */
-  const __vue_inject_styles__$1 = undefined;
-  /* scoped */
-  const __vue_scope_id__$1 = undefined;
-  /* module identifier */
-  const __vue_module_identifier__$1 = undefined;
-  /* functional template */
-  const __vue_is_functional_template__$1 = false;
-  /* style inject */
-  
-  /* style inject SSR */
-  
-
-  
-  var SelectLineRiple = normalizeComponent(
-    { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
-    __vue_inject_styles__$1,
-    __vue_script__$1,
-    __vue_scope_id__$1,
-    __vue_is_functional_template__$1,
-    __vue_module_identifier__$1,
-    undefined,
-    undefined
-  );
-
-/**
- * @license
- * Copyright 2017 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/* eslint no-unused-vars: [2, {"args": "none"}] */
-
-/**
- * Adapter for MDC Notched Outline.
- *
- * Defines the shape of the adapter expected by the foundation. Implement this
- * adapter to integrate the Notched Outline into your framework. See
- * https://github.com/material-components/material-components-web/blob/master/docs/authoring-components.md
- * for more information.
- *
- * @record
- */
-var MDCNotchedOutlineAdapter =
-/*#__PURE__*/
-function () {
-  function MDCNotchedOutlineAdapter() {
-    _classCallCheck(this, MDCNotchedOutlineAdapter);
-  }
-
-  _createClass(MDCNotchedOutlineAdapter, [{
-    key: "addClass",
-
-    /**
-     * Adds a class to the root element.
-     * @param {string} className
-     */
-    value: function addClass(className) {}
-    /**
-     * Removes a class from the root element.
-     * @param {string} className
-     */
-
-  }, {
-    key: "removeClass",
-    value: function removeClass(className) {}
-    /**
-     * Sets the width style property of the notch element.
-     * @param {number} width
-     */
-
-  }, {
-    key: "setNotchWidthProperty",
-    value: function setNotchWidthProperty(width) {}
-    /**
-     * Removes the width style property from the notch element.
-     */
-
-  }, {
-    key: "removeNotchWidthProperty",
-    value: function removeNotchWidthProperty() {}
-  }]);
-
-  return MDCNotchedOutlineAdapter;
-}();
-
-/**
- * @license
- * Copyright 2018 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/** @enum {string} */
-var strings$3 = {
-  NOTCH_ELEMENT_SELECTOR: '.mdc-notched-outline__notch'
-};
-/** @enum {number} */
-
-var numbers$1 = {
-  // This should stay in sync with $mdc-notched-outline-padding * 2.
-  NOTCH_ELEMENT_PADDING: 8
-};
-/** @enum {string} */
-
-var cssClasses$4 = {
-  OUTLINE_NOTCHED: 'mdc-notched-outline--notched',
-  OUTLINE_UPGRADED: 'mdc-notched-outline--upgraded',
-  NO_LABEL: 'mdc-notched-outline--no-label'
-};
-
-/**
- * @extends {MDCFoundation<!MDCNotchedOutlineAdapter>}
- * @final
- */
-
-var MDCNotchedOutlineFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCNotchedOutlineFoundation, _MDCFoundation);
-
-  _createClass(MDCNotchedOutlineFoundation, null, [{
-    key: "strings",
-
-    /** @return enum {string} */
-    get: function get() {
-      return strings$3;
-    }
-    /** @return enum {string} */
-
-  }, {
-    key: "cssClasses",
-    get: function get() {
-      return cssClasses$4;
-    }
-    /** @return enum {number} */
-
-  }, {
-    key: "numbers",
-    get: function get() {
-      return numbers$1;
-    }
-    /**
-     * {@see MDCNotchedOutlineAdapter} for typing information on parameters and return
-     * types.
-     * @return {!MDCNotchedOutlineAdapter}
-     */
-
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCNotchedOutlineAdapter} */
-        {
-          addClass: function addClass() {},
-          removeClass: function removeClass() {},
-          setNotchWidthProperty: function setNotchWidthProperty() {},
-          removeNotchWidthProperty: function removeNotchWidthProperty() {}
-        }
-      );
-    }
-    /**
-     * @param {!MDCNotchedOutlineAdapter} adapter
-     */
-
-  }]);
-
-  function MDCNotchedOutlineFoundation(adapter) {
-    _classCallCheck(this, MDCNotchedOutlineFoundation);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(MDCNotchedOutlineFoundation).call(this, _extends(MDCNotchedOutlineFoundation.defaultAdapter, adapter)));
-  }
-  /**
-   * Adds the outline notched selector and updates the notch width
-   * calculated based off of notchWidth.
-   * @param {number} notchWidth
-   */
-
-
-  _createClass(MDCNotchedOutlineFoundation, [{
-    key: "notch",
-    value: function notch(notchWidth) {
-      var OUTLINE_NOTCHED = MDCNotchedOutlineFoundation.cssClasses.OUTLINE_NOTCHED;
-
-      if (notchWidth > 0) {
-        notchWidth += numbers$1.NOTCH_ELEMENT_PADDING; // Add padding from left/right.
-      }
-
-      this.adapter_.setNotchWidthProperty(notchWidth);
-      this.adapter_.addClass(OUTLINE_NOTCHED);
-    }
-    /**
-     * Removes notched outline selector to close the notch in the outline.
-     */
-
-  }, {
-    key: "closeNotch",
-    value: function closeNotch() {
-      var OUTLINE_NOTCHED = MDCNotchedOutlineFoundation.cssClasses.OUTLINE_NOTCHED;
-      this.adapter_.removeClass(OUTLINE_NOTCHED);
-      this.adapter_.removeNotchWidthProperty();
-    }
-  }]);
-
-  return MDCNotchedOutlineFoundation;
-}(MDCFoundation);
-
-//
-var script$2 = {
-  name: 'mdc-select-notched-outline',
-  data: function data() {
-    return {
-      outlinedClasses: {}
-    };
-  },
-  mounted: function mounted() {
-    var _this = this;
-
-    this.foundation = new MDCNotchedOutlineFoundation({
-      getWidth: function getWidth() {
-        return _this.$refs.outlined.offsetWidth;
-      },
-      getHeight: function getHeight() {
-        return _this.$refs.outlined.offsetHeight;
-      },
-      addClass: function addClass(className) {
-        _this.$set(_this.outlinedClasses, className, true);
-      },
-      removeClass: function removeClass(className) {
-        _this.$delete(_this.outlinedClasses, className);
-      },
-      setOutlinePathAttr: function setOutlinePathAttr(value) {
-        var path = _this.$refs.outlinedPath;
-        path.setAttribute('d', value);
-      },
-      getIdleOutlineStyleValue: function getIdleOutlineStyleValue(propertyName) {
-        return window.getComputedStyle(_this.$refs.outlinedIdle).getPropertyValue(propertyName);
-      }
-    });
-    this.foundation.init();
-  },
-  beforeDestroy: function beforeDestroy() {
-    var foundation = this.foundation;
-    this.foundation = null;
-    foundation.destroy();
-  }
-};
-
-/* script */
-const __vue_script__$2 = script$2;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$2.__file = "/ddata/extra/vma/components/select/mdc-select-notched-outline.vue";
-
-/* template */
-var __vue_render__$2 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c("div", [
-    _c(
-      "div",
-      {
-        ref: "outlined",
-        staticClass: "mdc-notched-outline",
-        class: _vm.outlinedClasses
-      },
-      [
-        _c("svg", [
-          _c("path", {
-            ref: "outlinedPath",
-            staticClass: "mdc-notched-outline__path"
-          })
-        ])
-      ]
-    ),
-    _vm._v(" "),
-    _c("div", { ref: "outlinedIdle", staticClass: "mdc-notched-outline__idle" })
-  ])
-};
-var __vue_staticRenderFns__$2 = [];
-__vue_render__$2._withStripped = true;
-
-  /* style */
-  const __vue_inject_styles__$2 = undefined;
-  /* scoped */
-  const __vue_scope_id__$2 = undefined;
-  /* module identifier */
-  const __vue_module_identifier__$2 = undefined;
-  /* functional template */
-  const __vue_is_functional_template__$2 = false;
-  /* style inject */
-  
-  /* style inject SSR */
-  
-
-  
-  var SelectNotchedOutline = normalizeComponent(
-    { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
-    __vue_inject_styles__$2,
-    __vue_script__$2,
-    __vue_scope_id__$2,
-    __vue_is_functional_template__$2,
-    __vue_module_identifier__$2,
-    undefined,
-    undefined
-  );
-
-var script$3 = {
-  name: 'mdc-select',
-  components: {
-    SelectLabel: SelectLabel,
-    SelectLineRiple: SelectLineRiple,
-    SelectNotchedOutline: SelectNotchedOutline
-  },
-  inheritAttrs: false,
-  model: {
-    prop: 'value',
-    event: 'change'
-  },
-  props: {
-    value: String,
-    disabled: Boolean,
-    label: String,
-    outlined: Boolean,
-    id: {
-      type: String
-    }
-  },
-  data: function data() {
-    return {
-      styles: {},
-      classes: {}
-    };
-  },
-  computed: {
-    rootClasses: function rootClasses() {
-      return _objectSpread({
-        'mdc-select--box': !this.outlined,
-        'mdc-select--outlined': this.outlined
-      }, this.classes);
-    },
-    listeners: function listeners() {
-      var _this = this;
-
-      return _objectSpread({}, this.$listeners, {
-        change: function change(event) {
-          return _this.onChange(event);
-        }
-      });
-    }
-  },
-  watch: {
-    disabled: function disabled(value) {
-      this.foundation && this.foundation.updateDisabledStyle(value);
-    },
-    value: 'refreshIndex'
-  },
-  mounted: function mounted() {
-    var _this2 = this;
-
-    this.foundation = new MDCSelectFoundation({
-      addClass: function addClass(className) {
-        return _this2.$set(_this2.classes, className, true);
-      },
-      removeClass: function removeClass(className) {
-        return _this2.$delete(_this2.classes, className);
-      },
-      hasClass: function hasClass(className) {
-        return _this2.$el.classList.contains(className);
-      },
-      activateBottomLine: function activateBottomLine() {
-        if (_this2.$refs.line) {
-          _this2.$refs.line.foundation.activate();
-        }
-      },
-      deactivateBottomLine: function deactivateBottomLine() {
-        if (_this2.$refs.line) {
-          _this2.$refs.line.foundation.deactivate();
-        }
-      },
-      getValue: function getValue() {
-        return _this2.$refs.native_control.value;
-      },
-      isRtl: function isRtl() {
-        return window.getComputedStyle(_this2.$el).getPropertyValue('direction') === 'rtl';
-      },
-      notchOutline: function notchOutline(labelWidth, isRtl) {
-        if (_this2.$refs.outline) {
-          _this2.$refs.outline.foundation.notch(labelWidth, isRtl);
-        }
-      },
-      closeOutline: function closeOutline() {
-        if (_this2.$refs.outline) {
-          _this2.$refs.outline.foundation.closeNotch();
-        }
-      },
-      hasOutline: function hasOutline() {
-        return !!_this2.$refs.outline;
-      },
-      floatLabel: function floatLabel(value) {
-        if (_this2.$refs.label) {
-          _this2.$refs.label.foundation.float(value);
-        }
-      },
-      hasLabel: function hasLabel() {
-        return !!_this2.$refs.label;
-      },
-      getLabelWidth: function getLabelWidth() {
-        if (_this2.$refs.label) {
-          return _this2.$refs.label.foundation.getWidth();
-        }
-      }
-    });
-    this.foundation.init();
-    this.foundation.handleChange(); // initial sync with DOM
-
-    this.refreshIndex();
-    this.slotObserver = new MutationObserver(function () {
-      return _this2.refreshIndex();
-    });
-    this.slotObserver.observe(this.$refs.native_control, {
-      childList: true,
-      subtree: true
-    });
-    this.ripple = new RippleBase(this);
-    this.ripple.init();
-  },
-  beforeDestroy: function beforeDestroy() {
-    this.slotObserver.disconnect();
-    var foundation = this.foundation;
-    this.foundation = null;
-    foundation.destroy();
-    this.ripple && this.ripple.destroy();
-  },
-  methods: {
-    refreshIndex: function refreshIndex() {
-      var _this3 = this;
-
-      var options = _toConsumableArray(this.$refs.native_control.querySelectorAll('option'));
-
-      var idx = options.findIndex(function (_ref) {
-        var value = _ref.value;
-        return _this3.value === value;
-      });
-
-      if (this.$refs.native_control.selectedIndex !== idx) {
-        this.$refs.native_control.selectedIndex = idx;
-        this.foundation.handleChange();
-      }
-    },
-    onChange: function onChange(event) {
-      this.foundation.handleChange();
-      this.$emit('change', event.target.value);
-    }
-  }
-};
-
-/* script */
-const __vue_script__$3 = script$3;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$3.__file = "/ddata/extra/vma/components/select/mdc-select.vue";
-
-/* template */
-var __vue_render__$3 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c(
-    "div",
-    {
-      staticClass: "mdc-select",
-      class: _vm.rootClasses,
-      style: _vm.styles,
-      attrs: { id: _vm.id }
-    },
-    [
-      _c(
-        "select",
-        _vm._g(
-          _vm._b(
-            {
-              ref: "native_control",
-              staticClass: "mdc-select__native-control",
-              attrs: { disabled: _vm.disabled }
-            },
-            "select",
-            _vm.$attrs,
-            false
-          ),
-          _vm.listeners
-        ),
-        [
-          !!_vm.label
-            ? _c("option", {
-                staticClass: "mdc-option",
-                attrs: { value: "", disabled: "", selected: "" }
-              })
-            : _vm._e(),
-          _vm._v(" "),
-          _vm._t("default")
-        ],
-        2
-      ),
-      _vm._v(" "),
-      _vm.label
-        ? _c("select-label", { ref: "label" }, [_vm._v(_vm._s(_vm.label))])
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.outlined ? _c("select-line-riple", { ref: "line" }) : _vm._e(),
-      _vm._v(" "),
-      _vm.outlined ? _c("select-notched-outline", { ref: "outline" }) : _vm._e()
-    ],
-    1
-  )
-};
-var __vue_staticRenderFns__$3 = [];
-__vue_render__$3._withStripped = true;
-
-  /* style */
-  const __vue_inject_styles__$3 = undefined;
-  /* scoped */
-  const __vue_scope_id__$3 = undefined;
-  /* module identifier */
-  const __vue_module_identifier__$3 = undefined;
-  /* functional template */
-  const __vue_is_functional_template__$3 = false;
-  /* style inject */
-  
-  /* style inject SSR */
-  
-
-  
-  var mdcSelect = normalizeComponent(
-    { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
-    __vue_inject_styles__$3,
-    __vue_script__$3,
-    __vue_scope_id__$3,
-    __vue_is_functional_template__$3,
-    __vue_module_identifier__$3,
     undefined,
     undefined
   );
