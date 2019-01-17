@@ -312,6 +312,11 @@ var DispatchEventMixin = {
 };
 
 var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
+var VMAUniqueIdMixin = {
+  beforeCreate: function beforeCreate() {
+    this.vma_uid_ = scope + this._uid;
+  }
+};
 
 /**
  * @license
@@ -719,7 +724,7 @@ function (_MDCFoundation) {
 //
 var script = {
   name: 'mdc-tab',
-  mixins: [CustomLinkMixin, DispatchEventMixin],
+  mixins: [CustomLinkMixin, DispatchEventMixin, VMAUniqueIdMixin],
   props: {
     active: Boolean,
     icon: [String, Array, Object],
@@ -754,6 +759,7 @@ var script = {
   mounted: function mounted() {
     var _this = this;
 
+    this.id = this.vma_uid_;
     this.foundation = new MDCTabFoundation({
       setAttr: function setAttr(attr, value) {
         return _this.$el.setAttribute(attr, value);
@@ -775,7 +781,7 @@ var script = {
       },
       notifyInteracted: function notifyInteracted() {
         return emitCustomEvent(_this.$el, MDCTabFoundation.strings.INTERACTED_EVENT, {
-          tab: _this
+          tabId: _this.id
         }, true
         /* bubble */
         );
@@ -1756,8 +1762,14 @@ var script$1 = {
         var activeElement = document.activeElement;
         return tabElements.indexOf(activeElement);
       },
-      getIndexOfTab: function getIndexOfTab(tabToFind) {
-        return _this.tabList.indexOf(tabToFind);
+      getIndexOfTabById: function getIndexOfTabById(id) {
+        for (var i = 0; i < _this.tabList.length; i++) {
+          if (_this.tabList[i].id === id) {
+            return i;
+          }
+        }
+
+        return -1;
       },
       getTabListLength: function getTabListLength() {
         return _this.tabList.length;
@@ -1784,6 +1796,9 @@ var script$1 = {
       return _objectSpread({}, this.$listeners, {
         'MDCTab:interacted': function MDCTabInteracted(event) {
           return _this2.handleInteraction(event);
+        },
+        keydown: function keydown(event) {
+          return _this2.handleKeyDown(event);
         }
       });
     }
@@ -1791,6 +1806,9 @@ var script$1 = {
   methods: {
     handleInteraction: function handleInteraction(evt) {
       this.foundation.handleTabInteraction(evt);
+    },
+    handleKeyDown: function handleKeyDown(evt) {
+      this.foundation.handleKeyDown(evt);
     }
   }
 };
