@@ -1,6 +1,13 @@
 <template>
   <div>
     <div ref="root" :id="id" :class="rootClasses" :style="styles">
+      <select-icon
+        ref="leadingIconEl"
+        v-if="leadingIcon"
+        :icon="leadingIcon"
+        tab-index="0"
+        role="button"
+      ></select-icon>
       <i class="mdc-select__dropdown-icon"></i>
       <select
         ref="native_control"
@@ -38,6 +45,8 @@
 import MDCSelectFoundation from '@material/select/foundation'
 import { RippleBase } from '../ripple'
 import SelectHelperText from './select-helper-text.vue'
+
+import SelectIcon from './select-icon.vue'
 import { emitCustomEvent, VMAUniqueIdMixin } from '../base'
 
 export default {
@@ -51,6 +60,8 @@ export default {
     value: String,
     helptext: String,
 
+    leadingIcon: String,
+    icon: String,
     helptextPersistent: Boolean,
     helptextValidation: Boolean,
     disabled: Boolean,
@@ -66,12 +77,14 @@ export default {
     }
   },
 
-  components: { SelectHelperText },
+  components: { SelectHelperText, SelectIcon },
   computed: {
     rootClasses() {
       return {
         'mdc-select': true,
         'mdc-select--outlined': this.outlined,
+
+        'mdc-select--with-leading-icon': this.leadingIcon,
         ...this.classes
       }
     },
@@ -180,7 +193,11 @@ export default {
       {
         helperText: this.$refs.helpertextEl
           ? this.$refs.helpertextEl.foundation
-          : void 0
+          : void 0,
+
+        leadingIcon: this.$refs.leadingIconEl
+          ? this.$refs.leadingIconEl.foundation
+          : undefined
       }
     )
 

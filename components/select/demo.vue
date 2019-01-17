@@ -5,7 +5,6 @@
         v-model="selectedType"
         label="Food"
         helptext="Pick a food group"
-        helptextPersistent
       >
         <option v-for="type in types" :value="type" :key="type">{{
           type

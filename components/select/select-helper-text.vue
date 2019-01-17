@@ -30,12 +30,17 @@ export default {
   },
   mounted() {
     this.foundation = new MDCSelectHelperTextFoundation({
-      addClass: className => this.root_.classList.add(className),
-      removeClass: className => this.root_.classList.remove(className),
+      addClass: className => this.$set(this.classes, className, true),
+      removeClass: className => this.$delete(this.classes, className),
+
       hasClass: className => Boolean(this.classes[className]),
 
-      setAttr: (attr, value) => this.$el.setAttribute(attr, value),
-      removeAttr: attr => this.$el.removeAttribute(attr),
+      setAttr: (attr, value) => {
+        this.$el.setAttribute(attr, value)
+      },
+      removeAttr: attr => {
+        this.$el.removeAttribute(attr)
+      },
       setContent: content => {
         this.$el.textContent = content
       }
