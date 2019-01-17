@@ -65,7 +65,14 @@ export default {
         const activeElement = document.activeElement
         return tabElements.indexOf(activeElement)
       },
-      getIndexOfTab: tabToFind => this.tabList.indexOf(tabToFind),
+      getIndexOfTabById: id => {
+        for (let i = 0; i < this.tabList.length; i++) {
+          if (this.tabList[i].id === id) {
+            return i
+          }
+        }
+        return -1
+      },
       getTabListLength: () => this.tabList.length,
       notifyTabActivated: index => {
         emitCustomEvent(
@@ -89,13 +96,18 @@ export default {
     listeners() {
       return {
         ...this.$listeners,
-        'MDCTab:interacted': event => this.handleInteraction(event)
+        'MDCTab:interacted': event => this.handleInteraction(event),
+        keydown: event => this.handleKeyDown(event)
       }
     }
   },
   methods: {
     handleInteraction(evt) {
       this.foundation.handleTabInteraction(evt)
+    },
+
+    handleKeyDown(evt) {
+      this.foundation.handleKeyDown(evt)
     }
   }
 }

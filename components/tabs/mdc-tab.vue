@@ -35,13 +35,14 @@ import {
   CustomLinkMixin,
   DispatchEventMixin,
   emitCustomEvent,
-  extractIconProp
+  extractIconProp,
+  VMAUniqueIdMixin
 } from '../base'
 import { RippleBase } from '../ripple'
 
 export default {
   name: 'mdc-tab',
-  mixins: [CustomLinkMixin, DispatchEventMixin],
+  mixins: [CustomLinkMixin, DispatchEventMixin, VMAUniqueIdMixin],
   props: {
     active: Boolean,
     icon: [String, Array, Object],
@@ -74,6 +75,7 @@ export default {
     active(value) {}
   },
   mounted() {
+    this.id = this.vma_uid_
     this.foundation = new MDCTabFoundation({
       setAttr: (attr, value) => this.$el.setAttribute(attr, value),
       addClass: className => this.$set(this.classes, className, true),
@@ -89,7 +91,7 @@ export default {
         emitCustomEvent(
           this.$el,
           MDCTabFoundation.strings.INTERACTED_EVENT,
-          { tab: this },
+          { tabId: this.id },
           true /* bubble */
         ),
       getOffsetLeft: () => this.$el.offsetLeft,
