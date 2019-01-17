@@ -183,6 +183,11 @@ function emitCustomEvent(el, evtType, evtData) {
 }
 
 var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
+var VMAUniqueIdMixin = {
+  beforeCreate: function beforeCreate() {
+    this.vma_uid_ = scope + this._uid;
+  }
+};
 
 /**
  * @license
@@ -1655,207 +1660,57 @@ function (_MDCFoundation) {
   return MDCSelectFoundation;
 }(MDCFoundation);
 
+//
 var script = {
-  name: 'mdc-select',
-  inheritAttrs: false,
-  model: {
-    prop: 'value',
-    event: 'change'
-  },
+  name: 'select-helper-text',
   props: {
-    value: String,
-    disabled: Boolean,
-    label: String,
-    outlined: Boolean,
-    id: {
-      type: String
-    }
+    helptextPersistent: Boolean,
+    helptextValidation: Boolean
   },
   data: function data() {
     return {
-      styles: {},
-      classes: {}
+      classes: {
+        'mdc-select-helper-text': true,
+        'mdc-select-helper-text--persistent': this.helptextPersistent,
+        'mdc-select-helper-text--validation-msg': this.helptextValidation
+      }
     };
   },
-  computed: {
-    rootClasses: function rootClasses() {
-      return _objectSpread({
-        'mdc-select': true,
-        'mdc-select--outlined': this.outlined
-      }, this.classes);
+  watch: {
+    helptextPersistent: function helptextPersistent() {
+      this.foundation.setPersistent(this.helptextPersistent);
     },
-    listeners: function listeners() {
-      var _this = this;
-
-      return _objectSpread({}, this.$listeners, {
-        change: function change(event) {
-          return _this.handleChange(event);
-        },
-        blur: function blur(event) {
-          return _this.handleBlur(event);
-        },
-        focus: function focus(event) {
-          return _this.handleFocus(event);
-        },
-        mousedown: function mousedown(event) {
-          return _this.handleClick(event);
-        },
-        touchstart: function touchstart(event) {
-          return _this.handleClick(event);
-        }
-      });
+    helptextValidation: function helptextValidation() {
+      this.foundation.setValidation(this.helptextValidation);
     }
   },
-  watch: {
-    disabled: function disabled(value) {
-      this.foundation && this.foundation.updateDisabledStyle(value);
-    },
-    value: 'refreshIndex'
-  },
   mounted: function mounted() {
-    var _this2 = this;
+    var _this = this;
 
-    this.foundation = new MDCSelectFoundation({
-      // common methods
+    this.foundation = new MDCSelectHelperTextFoundation({
       addClass: function addClass(className) {
-        return _this2.$set(_this2.classes, className, true);
+        return _this.$set(_this.classes, className, true);
       },
       removeClass: function removeClass(className) {
-        return _this2.$delete(_this2.classes, className);
+        return _this.$delete(_this.classes, className);
       },
       hasClass: function hasClass(className) {
-        return Boolean(_this2.classes[className]);
+        return Boolean(_this.classes[className]);
       },
-      setRippleCenter: function setRippleCenter(normalizedX) {
-        return _this2.$refs.lineRippleEl && _this2.$refs.lineRippleEl.setRippleCenter(normalizedX);
+      setAttr: function setAttr(attr, value) {
+        _this.$el.setAttribute(attr, value);
       },
-      activateBottomLine: function activateBottomLine() {
-        if (_this2.$refs.lineRippleEl) {
-          _this2.$refs.lineRippleEl.foundation.activate();
-        }
+      removeAttr: function removeAttr(attr) {
+        _this.$el.removeAttribute(attr);
       },
-      deactivateBottomLine: function deactivateBottomLine() {
-        if (_this2.$refs.lineRippleEl) {
-          _this2.$refs.lineRippleEl.foundation.deactivate();
-        }
-      },
-      notifyChange: function notifyChange(value) {
-        var index = _this2.selectedIndex;
-        emitCustomEvent(_this2.$el, MDCSelectFoundation.strings.CHANGE_EVENT, {
-          value: value,
-          index: index
-        }, true
-        /* shouldBubble  */
-        );
-
-        _this2.$emit('change', value);
-      },
-      // native methods
-      getValue: function getValue() {
-        return _this2.$refs.native_control.value;
-      },
-      setValue: function setValue(value) {
-        return _this2.$refs.native_control.value = value;
-      },
-      openMenu: function openMenu() {},
-      closeMenu: function closeMenu() {},
-      isMenuOpen: function isMenuOpen() {
-        return false;
-      },
-      setSelectedIndex: function setSelectedIndex(index) {
-        _this2.$refs.native_control.selectedIndex = index;
-      },
-      setDisabled: function setDisabled(isDisabled) {
-        return _this2.$refs.native_control.disabled = isDisabled;
-      },
-      setValid: function setValid(isValid) {
-        isValid ? _this2.$delete(_this2.classes, MDCSelectFoundation.cssClasses.INVALID) : _this2.set(_this2.classes, MDCSelectFoundation.cssClasses.INVALID);
-      },
-      checkValidity: function checkValidity() {
-        return _this2.$refs.native_control.checkValidity();
-      },
-      // outline methods
-      hasOutline: function hasOutline() {
-        return _this2.outlined;
-      },
-      notchOutline: function notchOutline(labelWidth) {
-        if (_this2.$refs.outlineEl) {
-          _this2.$refs.outlineEl.notch(labelWidth);
-        }
-      },
-      closeOutline: function closeOutline() {
-        if (_this2.$refs.outlineEl) {
-          _this2.$refs.outlineEl.closeNotch();
-        }
-      },
-      // label methods
-      floatLabel: function floatLabel(value) {
-        if (_this2.$refs.labelEl) {
-          _this2.$refs.labelEl.float(value);
-        } else {
-          _this2.$refs.outlineEl.float(value);
-        }
-      },
-      getLabelWidth: function getLabelWidth() {
-        if (_this2.$refs.labelEl) {
-          return _this2.$refs.labelEl.getWidth();
-        }
+      setContent: function setContent(content) {
+        _this.$el.textContent = content;
       }
     });
     this.foundation.init();
-    this.foundation.handleChange(false); // initial sync with DOM
-
-    this.refreshIndex();
-    this.slotObserver = new MutationObserver(function () {
-      return _this2.refreshIndex();
-    });
-    this.slotObserver.observe(this.$refs.native_control, {
-      childList: true,
-      subtree: true
-    });
-    this.ripple = new RippleBase(this);
-    this.ripple.init();
   },
   beforeDestroy: function beforeDestroy() {
-    this.slotObserver.disconnect();
-    var foundation = this.foundation;
-    this.foundation = null;
-    foundation.destroy();
-    this.ripple && this.ripple.destroy();
-  },
-  methods: {
-    handleChange: function handleChange() {
-      this.foundation.handleChange(true);
-    },
-    handleFocus: function handleFocus() {
-      this.foundation.handleFocus();
-    },
-    handleBlur: function handleBlur() {
-      this.foundation.handleBlur();
-    },
-    handleClick: function handleClick(evt) {
-      this.foundation.handleClick(this.getNormalizedXCoordinate(evt));
-    },
-    refreshIndex: function refreshIndex() {
-      var _this3 = this;
-
-      var options = _toConsumableArray(this.$refs.native_control.querySelectorAll('option'));
-
-      var idx = options.findIndex(function (_ref) {
-        var value = _ref.value;
-        return _this3.value === value;
-      });
-
-      if (this.$refs.native_control.selectedIndex !== idx) {
-        this.$refs.native_control.selectedIndex = idx;
-        this.foundation.handleChange(false);
-      }
-    },
-    getNormalizedXCoordinate: function getNormalizedXCoordinate(evt) {
-      var targetClientRect = evt.target.getBoundingClientRect();
-      var xCoordinate = evt.clientX;
-      return xCoordinate - targetClientRect.left;
-    }
+    this.foundation.destroy();
   }
 };
 
@@ -1945,7 +1800,7 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
 /* script */
 const __vue_script__ = script;
 // For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script.__file = "/ddata/extra/vma/components/select/mdc-select.vue";
+script.__file = "/ddata/extra/vma/components/select/select-helper-text.vue";
 
 /* template */
 var __vue_render__ = function() {
@@ -1953,54 +1808,10 @@ var __vue_render__ = function() {
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
   return _c(
-    "div",
-    { class: _vm.rootClasses, style: _vm.styles, attrs: { id: _vm.id } },
-    [
-      _c("i", { staticClass: "mdc-select__dropdown-icon" }),
-      _vm._v(" "),
-      _c(
-        "select",
-        _vm._g(
-          _vm._b(
-            {
-              ref: "native_control",
-              staticClass: "mdc-select__native-control",
-              attrs: { disabled: _vm.disabled }
-            },
-            "select",
-            _vm.$attrs,
-            false
-          ),
-          _vm.listeners
-        ),
-        [
-          !_vm.value
-            ? _c("option", {
-                staticClass: "mdc-option",
-                attrs: { value: "", disabled: "", selected: "" }
-              })
-            : _vm._e(),
-          _vm._v(" "),
-          _vm._t("default")
-        ],
-        2
-      ),
-      _vm._v(" "),
-      !_vm.outlined
-        ? _c("mdc-floating-label", { ref: "labelEl" }, [
-            _vm._v(_vm._s(_vm.label))
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      !_vm.outlined ? _c("mdc-line-ripple", { ref: "lineRippleEl" }) : _vm._e(),
-      _vm._v(" "),
-      _vm.outlined
-        ? _c("mdc-notched-outline", { ref: "outlineEl" }, [
-            _vm._v(_vm._s(_vm.label))
-          ])
-        : _vm._e()
-    ],
-    1
+    "p",
+    { ref: "helptextEl", class: _vm.classes, attrs: { "aria-hidden": "true" } },
+    [_vm._t("default")],
+    2
   )
 };
 var __vue_staticRenderFns__ = [];
@@ -2020,13 +1831,463 @@ __vue_render__._withStripped = true;
   
 
   
-  var mdcSelect = normalizeComponent(
+  var SelectHelperText = normalizeComponent(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
     __vue_scope_id__,
     __vue_is_functional_template__,
     __vue_module_identifier__,
+    undefined,
+    undefined
+  );
+
+var script$1 = {
+  name: 'select-icon',
+  props: {
+    icon: String
+  },
+  data: function data() {
+    return {
+      classes: {
+        'material-icons': true,
+        'mdc-select__icon': true
+      },
+      styles: {}
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    this.foundation = new MDCSelectIconFoundation(_extends({
+      getAttr: function getAttr(attr) {
+        return _this.$el.getAttribute(attr);
+      },
+      setAttr: function setAttr(attr, value) {
+        return _this.$el.setAttribute(attr, value);
+      },
+      removeAttr: function removeAttr(attr) {
+        return _this.$el.removeAttribute(attr);
+      },
+      setContent: function setContent(content) {
+        _this.$el.textContent = content;
+      },
+      registerInteractionHandler: function registerInteractionHandler(evtType, handler) {
+        return _this.$el.addEventListener(evtType, handler);
+      },
+      deregisterInteractionHandler: function deregisterInteractionHandler(evtType, handler) {
+        return _this.$el.removeEventListener(evtType, handler);
+      },
+      notifyIconAction: function notifyIconAction() {
+        _this.$emit('click');
+
+        emitCustomEvent(_this.$el, MDCSelectIconFoundation.strings.ICON_EVENT, {}, true
+        /* shouldBubble  */
+        );
+      }
+    }));
+    this.foundation.init();
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.foundation.destroy();
+  }
+};
+
+/* script */
+const __vue_script__$1 = script$1;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$1.__file = "/ddata/extra/vma/components/select/select-icon.vue";
+
+/* template */
+var __vue_render__$1 = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c(
+    "i",
+    _vm._g(
+      _vm._b({ class: _vm.classes, style: _vm.styles }, "i", _vm.$attrs, false),
+      _vm.$listeners
+    ),
+    [_vm._v("\n  " + _vm._s(_vm.icon) + "\n")]
+  )
+};
+var __vue_staticRenderFns__$1 = [];
+__vue_render__$1._withStripped = true;
+
+  /* style */
+  const __vue_inject_styles__$1 = undefined;
+  /* scoped */
+  const __vue_scope_id__$1 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$1 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$1 = false;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var SelectIcon = normalizeComponent(
+    { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
+    __vue_inject_styles__$1,
+    __vue_script__$1,
+    __vue_scope_id__$1,
+    __vue_is_functional_template__$1,
+    __vue_module_identifier__$1,
+    undefined,
+    undefined
+  );
+
+var script$2 = {
+  name: 'mdc-select',
+  inheritAttrs: false,
+  model: {
+    prop: 'value',
+    event: 'change'
+  },
+  props: {
+    value: String,
+    helptext: String,
+    leadingIcon: String,
+    icon: String,
+    helptextPersistent: Boolean,
+    helptextValidation: Boolean,
+    disabled: Boolean,
+    label: String,
+    outlined: Boolean,
+    id: {
+      type: String
+    }
+  },
+  mixins: [VMAUniqueIdMixin],
+  data: function data() {
+    return {
+      styles: {},
+      classes: {}
+    };
+  },
+  components: {
+    SelectHelperText: SelectHelperText,
+    SelectIcon: SelectIcon
+  },
+  computed: {
+    rootClasses: function rootClasses() {
+      return _objectSpread({
+        'mdc-select': true,
+        'mdc-select--outlined': this.outlined,
+        'mdc-select--with-leading-icon': this.leadingIcon
+      }, this.classes);
+    },
+    listeners: function listeners() {
+      var _this = this;
+
+      return _objectSpread({}, this.$listeners, {
+        change: function change(event) {
+          return _this.handleChange(event);
+        },
+        blur: function blur(event) {
+          return _this.handleBlur(event);
+        },
+        focus: function focus(event) {
+          return _this.handleFocus(event);
+        },
+        mousedown: function mousedown(event) {
+          return _this.handleClick(event);
+        },
+        touchstart: function touchstart(event) {
+          return _this.handleClick(event);
+        }
+      });
+    },
+    selectAriaControls: function selectAriaControls() {
+      return this.helptext ? 'help-' + this.vma_uid_ : undefined;
+    }
+  },
+  watch: {
+    disabled: function disabled(value) {
+      this.foundation && this.foundation.updateDisabledStyle(value);
+    },
+    value: 'refreshIndex'
+  },
+  mounted: function mounted() {
+    var _this2 = this;
+
+    this.foundation = new MDCSelectFoundation(_extends({
+      // common methods
+      addClass: function addClass(className) {
+        return _this2.$set(_this2.classes, className, true);
+      },
+      removeClass: function removeClass(className) {
+        return _this2.$delete(_this2.classes, className);
+      },
+      hasClass: function hasClass(className) {
+        return Boolean(_this2.classes[className]);
+      },
+      setRippleCenter: function setRippleCenter(normalizedX) {
+        return _this2.$refs.lineRippleEl && _this2.$refs.lineRippleEl.setRippleCenter(normalizedX);
+      },
+      activateBottomLine: function activateBottomLine() {
+        if (_this2.$refs.lineRippleEl) {
+          _this2.$refs.lineRippleEl.foundation.activate();
+        }
+      },
+      deactivateBottomLine: function deactivateBottomLine() {
+        if (_this2.$refs.lineRippleEl) {
+          _this2.$refs.lineRippleEl.foundation.deactivate();
+        }
+      },
+      notifyChange: function notifyChange(value) {
+        var index = _this2.selectedIndex;
+        emitCustomEvent(_this2.$refs.root, MDCSelectFoundation.strings.CHANGE_EVENT, {
+          value: value,
+          index: index
+        }, true
+        /* shouldBubble  */
+        );
+
+        _this2.$emit('change', value);
+      },
+      // native methods
+      getValue: function getValue() {
+        return _this2.$refs.native_control.value;
+      },
+      setValue: function setValue(value) {
+        return _this2.$refs.native_control.value = value;
+      },
+      openMenu: function openMenu() {},
+      closeMenu: function closeMenu() {},
+      isMenuOpen: function isMenuOpen() {
+        return false;
+      },
+      setSelectedIndex: function setSelectedIndex(index) {
+        _this2.$refs.native_control.selectedIndex = index;
+      },
+      setDisabled: function setDisabled(isDisabled) {
+        return _this2.$refs.native_control.disabled = isDisabled;
+      },
+      setValid: function setValid(isValid) {
+        isValid ? _this2.$delete(_this2.classes, MDCSelectFoundation.cssClasses.INVALID) : _this2.set(_this2.classes, MDCSelectFoundation.cssClasses.INVALID);
+      },
+      checkValidity: function checkValidity() {
+        return _this2.$refs.native_control.checkValidity();
+      },
+      // outline methods
+      hasOutline: function hasOutline() {
+        return _this2.outlined;
+      },
+      notchOutline: function notchOutline(labelWidth) {
+        if (_this2.$refs.outlineEl) {
+          _this2.$refs.outlineEl.notch(labelWidth);
+        }
+      },
+      closeOutline: function closeOutline() {
+        if (_this2.$refs.outlineEl) {
+          _this2.$refs.outlineEl.closeNotch();
+        }
+      },
+      // label methods
+      floatLabel: function floatLabel(value) {
+        if (_this2.$refs.labelEl) {
+          _this2.$refs.labelEl.float(value);
+        } else {
+          _this2.$refs.outlineEl.float(value);
+        }
+      },
+      getLabelWidth: function getLabelWidth() {
+        if (_this2.$refs.labelEl) {
+          return _this2.$refs.labelEl.getWidth();
+        }
+      }
+    }), {
+      helperText: this.$refs.helpertextEl ? this.$refs.helpertextEl.foundation : void 0,
+      leadingIcon: this.$refs.leadingIconEl ? this.$refs.leadingIconEl.foundation : undefined
+    });
+    this.foundation.init();
+    this.foundation.handleChange(false); // initial sync with DOM
+
+    this.refreshIndex();
+    this.slotObserver = new MutationObserver(function () {
+      return _this2.refreshIndex();
+    });
+    this.slotObserver.observe(this.$refs.native_control, {
+      childList: true,
+      subtree: true
+    });
+    this.ripple = new RippleBase(this);
+    this.ripple.init();
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.slotObserver.disconnect();
+    var foundation = this.foundation;
+    this.foundation = null;
+    foundation.destroy();
+    this.ripple && this.ripple.destroy();
+  },
+  methods: {
+    handleChange: function handleChange() {
+      this.foundation.handleChange(true);
+    },
+    handleFocus: function handleFocus() {
+      this.foundation.handleFocus();
+    },
+    handleBlur: function handleBlur() {
+      this.foundation.handleBlur();
+    },
+    handleClick: function handleClick(evt) {
+      this.foundation.handleClick(this.getNormalizedXCoordinate(evt));
+    },
+    refreshIndex: function refreshIndex() {
+      var _this3 = this;
+
+      var options = _toConsumableArray(this.$refs.native_control.querySelectorAll('option'));
+
+      var idx = options.findIndex(function (_ref) {
+        var value = _ref.value;
+        return _this3.value === value;
+      });
+
+      if (this.$refs.native_control.selectedIndex !== idx) {
+        this.$refs.native_control.selectedIndex = idx;
+        this.foundation.handleChange(false);
+      }
+    },
+    getNormalizedXCoordinate: function getNormalizedXCoordinate(evt) {
+      var targetClientRect = evt.target.getBoundingClientRect();
+      var xCoordinate = evt.clientX;
+      return xCoordinate - targetClientRect.left;
+    }
+  }
+};
+
+/* script */
+const __vue_script__$2 = script$2;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$2.__file = "/ddata/extra/vma/components/select/mdc-select.vue";
+
+/* template */
+var __vue_render__$2 = function() {
+  var _vm = this;
+  var _h = _vm.$createElement;
+  var _c = _vm._self._c || _h;
+  return _c(
+    "div",
+    [
+      _c(
+        "div",
+        {
+          ref: "root",
+          class: _vm.rootClasses,
+          style: _vm.styles,
+          attrs: { id: _vm.id }
+        },
+        [
+          _vm.leadingIcon
+            ? _c("select-icon", {
+                ref: "leadingIconEl",
+                attrs: {
+                  icon: _vm.leadingIcon,
+                  "tab-index": "0",
+                  role: "button"
+                }
+              })
+            : _vm._e(),
+          _vm._v(" "),
+          _c("i", { staticClass: "mdc-select__dropdown-icon" }),
+          _vm._v(" "),
+          _c(
+            "select",
+            _vm._g(
+              _vm._b(
+                {
+                  ref: "native_control",
+                  staticClass: "mdc-select__native-control",
+                  attrs: {
+                    disabled: _vm.disabled,
+                    "aria-controls": _vm.selectAriaControls
+                  }
+                },
+                "select",
+                _vm.$attrs,
+                false
+              ),
+              _vm.listeners
+            ),
+            [
+              !_vm.value
+                ? _c("option", {
+                    staticClass: "mdc-option",
+                    attrs: { value: "", disabled: "", selected: "" }
+                  })
+                : _vm._e(),
+              _vm._v(" "),
+              _vm._t("default")
+            ],
+            2
+          ),
+          _vm._v(" "),
+          !_vm.outlined
+            ? _c("mdc-floating-label", { ref: "labelEl" }, [
+                _vm._v(_vm._s(_vm.label))
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          !_vm.outlined
+            ? _c("mdc-line-ripple", { ref: "lineRippleEl" })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.outlined
+            ? _c("mdc-notched-outline", { ref: "outlineEl" }, [
+                _vm._v(_vm._s(_vm.label))
+              ])
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _vm.helptext
+        ? _c(
+            "select-helper-text",
+            {
+              ref: "helpertextEl",
+              attrs: {
+                helptextPersistent: _vm.helptextPersistent,
+                helptextValidation: _vm.helptextValidation,
+                id: "help-" + _vm.vma_uid_
+              }
+            },
+            [_vm._v("\n    " + _vm._s(_vm.helptext) + "\n  ")]
+          )
+        : _vm._e()
+    ],
+    1
+  )
+};
+var __vue_staticRenderFns__$2 = [];
+__vue_render__$2._withStripped = true;
+
+  /* style */
+  const __vue_inject_styles__$2 = undefined;
+  /* scoped */
+  const __vue_scope_id__$2 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$2 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$2 = false;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var mdcSelect = normalizeComponent(
+    { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
+    __vue_inject_styles__$2,
+    __vue_script__$2,
+    __vue_scope_id__$2,
+    __vue_is_functional_template__$2,
+    __vue_module_identifier__$2,
     undefined,
     undefined
   );
