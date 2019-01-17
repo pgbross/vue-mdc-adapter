@@ -1,31 +1,44 @@
 <template>
-  <div :id="id" :class="rootClasses" :style="styles">
-    <i class="mdc-select__dropdown-icon"></i>
-    <select
-      ref="native_control"
-      :disabled="disabled"
-      v-bind="$attrs"
-      class="mdc-select__native-control"
-      v-on="listeners"
+  <div>
+    <div ref="root" :id="id" :class="rootClasses" :style="styles">
+      <i class="mdc-select__dropdown-icon"></i>
+      <select
+        ref="native_control"
+        :disabled="disabled"
+        v-bind="$attrs"
+        class="mdc-select__native-control"
+        :aria-controls="selectAriaControls"
+        v-on="listeners"
+      >
+        <option v-if="!value" class="mdc-option" value="" disabled selected />
+        <slot />
+      </select>
+      <mdc-floating-label v-if="!outlined" ref="labelEl">{{
+        label
+      }}</mdc-floating-label>
+      <mdc-line-ripple v-if="!outlined" ref="lineRippleEl" />
+      <mdc-notched-outline v-if="outlined" ref="outlineEl">{{
+        label
+      }}</mdc-notched-outline>
+    </div>
+
+    <select-helper-text
+      :helptextPersistent="helptextPersistent"
+      :helptextValidation="helptextValidation"
+      ref="helpertextEl"
+      v-if="helptext"
+      :id="'help-' + vma_uid_"
     >
-      <option v-if="!value" class="mdc-option" value="" disabled selected />
-      <slot />
-    </select>
-    <mdc-floating-label v-if="!outlined" ref="labelEl">{{
-      label
-    }}</mdc-floating-label>
-    <mdc-line-ripple v-if="!outlined" ref="lineRippleEl" />
-    <mdc-notched-outline v-if="outlined" ref="outlineEl">{{
-      label
-    }}</mdc-notched-outline>
+      {{ helptext }}
+    </select-helper-text>
   </div>
 </template>
 
 <script>
 import MDCSelectFoundation from '@material/select/foundation'
 import { RippleBase } from '../ripple'
-
-import { emitCustomEvent } from '../base'
+import SelectHelperText from './select-helper-text.vue'
+import { emitCustomEvent, VMAUniqueIdMixin } from '../base'
 
 export default {
   name: 'mdc-select',
@@ -36,17 +49,24 @@ export default {
   },
   props: {
     value: String,
+    helptext: String,
+
+    helptextPersistent: Boolean,
+    helptextValidation: Boolean,
     disabled: Boolean,
     label: String,
     outlined: Boolean,
     id: { type: String }
   },
+  mixins: [VMAUniqueIdMixin],
   data() {
     return {
       styles: {},
       classes: {}
     }
   },
+
+  components: { SelectHelperText },
   computed: {
     rootClasses() {
       return {
@@ -64,6 +84,10 @@ export default {
         mousedown: event => this.handleClick(event),
         touchstart: event => this.handleClick(event)
       }
+    },
+
+    selectAriaControls() {
+      return this.helptext ? 'help-' + this.vma_uid_ : undefined
     }
   },
   watch: {
@@ -74,84 +98,91 @@ export default {
   },
 
   mounted() {
-    this.foundation = new MDCSelectFoundation({
-      // common methods
-      addClass: className => this.$set(this.classes, className, true),
-      removeClass: className => this.$delete(this.classes, className),
-      hasClass: className => Boolean(this.classes[className]),
-      setRippleCenter: normalizedX =>
-        this.$refs.lineRippleEl &&
-        this.$refs.lineRippleEl.setRippleCenter(normalizedX),
-      activateBottomLine: () => {
-        if (this.$refs.lineRippleEl) {
-          this.$refs.lineRippleEl.foundation.activate()
+    this.foundation = new MDCSelectFoundation(
+      Object.assign({
+        // common methods
+        addClass: className => this.$set(this.classes, className, true),
+        removeClass: className => this.$delete(this.classes, className),
+        hasClass: className => Boolean(this.classes[className]),
+        setRippleCenter: normalizedX =>
+          this.$refs.lineRippleEl &&
+          this.$refs.lineRippleEl.setRippleCenter(normalizedX),
+        activateBottomLine: () => {
+          if (this.$refs.lineRippleEl) {
+            this.$refs.lineRippleEl.foundation.activate()
+          }
+        },
+        deactivateBottomLine: () => {
+          if (this.$refs.lineRippleEl) {
+            this.$refs.lineRippleEl.foundation.deactivate()
+          }
+        },
+
+        notifyChange: value => {
+          const index = this.selectedIndex
+          emitCustomEvent(
+            this.$refs.root,
+            MDCSelectFoundation.strings.CHANGE_EVENT,
+            { value, index },
+            true /* shouldBubble  */
+          )
+
+          this.$emit('change', value)
+        },
+
+        // native methods
+        getValue: () => this.$refs.native_control.value,
+        setValue: value => (this.$refs.native_control.value = value),
+        openMenu: () => {},
+        closeMenu: () => {},
+        isMenuOpen: () => false,
+        setSelectedIndex: index => {
+          this.$refs.native_control.selectedIndex = index
+        },
+        setDisabled: isDisabled =>
+          (this.$refs.native_control.disabled = isDisabled),
+        setValid: isValid => {
+          isValid
+            ? this.$delete(this.classes, MDCSelectFoundation.cssClasses.INVALID)
+            : this.set(this.classes, MDCSelectFoundation.cssClasses.INVALID)
+        },
+        checkValidity: () => this.$refs.native_control.checkValidity(),
+
+        // outline methods
+
+        hasOutline: () => this.outlined,
+        notchOutline: labelWidth => {
+          if (this.$refs.outlineEl) {
+            this.$refs.outlineEl.notch(labelWidth)
+          }
+        },
+        closeOutline: () => {
+          if (this.$refs.outlineEl) {
+            this.$refs.outlineEl.closeNotch()
+          }
+        },
+
+        // label methods
+        floatLabel: value => {
+          if (this.$refs.labelEl) {
+            this.$refs.labelEl.float(value)
+          } else {
+            this.$refs.outlineEl.float(value)
+          }
+        },
+
+        getLabelWidth: () => {
+          if (this.$refs.labelEl) {
+            return this.$refs.labelEl.getWidth()
+          }
         }
-      },
-      deactivateBottomLine: () => {
-        if (this.$refs.lineRippleEl) {
-          this.$refs.lineRippleEl.foundation.deactivate()
-        }
-      },
-
-      notifyChange: value => {
-        const index = this.selectedIndex
-        emitCustomEvent(
-          this.$el,
-          MDCSelectFoundation.strings.CHANGE_EVENT,
-          { value, index },
-          true /* shouldBubble  */
-        )
-
-        this.$emit('change', value)
-      },
-
-      // native methods
-      getValue: () => this.$refs.native_control.value,
-      setValue: value => (this.$refs.native_control.value = value),
-      openMenu: () => {},
-      closeMenu: () => {},
-      isMenuOpen: () => false,
-      setSelectedIndex: index => {
-        this.$refs.native_control.selectedIndex = index
-      },
-      setDisabled: isDisabled =>
-        (this.$refs.native_control.disabled = isDisabled),
-      setValid: isValid => {
-        isValid
-          ? this.$delete(this.classes, MDCSelectFoundation.cssClasses.INVALID)
-          : this.set(this.classes, MDCSelectFoundation.cssClasses.INVALID)
-      },
-      checkValidity: () => this.$refs.native_control.checkValidity(),
-
-      // outline methods
-
-      hasOutline: () => this.outlined,
-      notchOutline: labelWidth => {
-        if (this.$refs.outlineEl) {
-          this.$refs.outlineEl.notch(labelWidth)
-        }
-      },
-      closeOutline: () => {
-        if (this.$refs.outlineEl) {
-          this.$refs.outlineEl.closeNotch()
-        }
-      },
-
-      // label methods
-      floatLabel: value => {
-        if (this.$refs.labelEl) {
-          this.$refs.labelEl.float(value)
-        } else {
-          this.$refs.outlineEl.float(value)
-        }
-      },
-
-      getLabelWidth: () => {
-        if (this.$refs.labelEl) {
-          return this.$refs.labelEl.getWidth()
-        }
+      }),
+      {
+        helperText: this.$refs.helpertextEl
+          ? this.$refs.helpertextEl.foundation
+          : void 0
       }
-    })
+    )
 
     this.foundation.init()
     this.foundation.handleChange(false)

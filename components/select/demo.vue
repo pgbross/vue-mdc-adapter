@@ -1,7 +1,12 @@
 <template>
   <div class="mdc-demo mdc-demo--container">
     <div>
-      <mdc-select v-model="selectedType" label="Food">
+      <mdc-select
+        v-model="selectedType"
+        label="Food"
+        helptext="Pick a food group"
+        helptextPersistent
+      >
         <option v-for="type in types" :value="type" :key="type">{{
           type
         }}</option>
