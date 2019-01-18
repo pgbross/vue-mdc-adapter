@@ -41,8 +41,10 @@ export default {
       removeAttr: attr => {
         this.$el.removeAttribute(attr)
       },
-      setContent: content => {
-        this.$el.textContent = content
+
+      setContent: (/*content*/) => {
+        // help text get's updated from {{helptext}}
+        // cf. this.$el.textContent = content
       }
     })
 

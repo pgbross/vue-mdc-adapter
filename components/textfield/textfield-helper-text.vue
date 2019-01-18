@@ -1,0 +1,70 @@
+<!-- <template>
+  <p ref="helptextEl" :class="classes" aria-hidden="true"><slot /></p>
+</template> -->
+
+<script>
+import MDCTextFieldHelperTextFoundation from '@material/textfield/helper-text/foundation'
+import * as classnames from 'classnames'
+
+export default {
+  name: 'textfield-helper-text',
+
+  functional: true,
+  props: {
+    persistent: Boolean,
+    validation: Boolean
+  },
+  data() {
+    return {
+      classes: {
+        'mdc-text-field-helper-text': true,
+        'mdc-text-field-helper-text--persistent': this.persistent,
+        'mdc-text-field-helper-text--validation-msg': this.validation
+      }
+    }
+  },
+
+  render(h, context) {
+    const node = context.children[0]
+    node.data.class = classnames({
+      'mdc-text-field-helper-text': true,
+      'mdc-text-field-helper-text--persistent': context.props.persistent,
+      'mdc-text-field-helper-text--validation-msg': context.props.validation
+    })
+    return node
+  },
+  watch: {
+    persistent() {
+      this.foundation.setPersistent(this.persistent)
+    },
+    validation() {
+      this.foundation.setValidation(this.validation)
+    }
+  },
+  mounted() {
+    this.foundation = new MDCTextFieldHelperTextFoundation({
+      addClass: className => this.$set(this.classes, className, true),
+      removeClass: className => this.$delete(this.classes, className),
+
+      hasClass: className => Boolean(this.classes[className]),
+
+      setAttr: (attr, value) => {
+        this.$el.setAttribute(attr, value)
+      },
+      removeAttr: attr => {
+        this.$el.removeAttribute(attr)
+      },
+      setContent: (/*content*/) => {
+        // help text get's updated from {{helptext}}
+        // cf. this.$el.textContent = content
+      }
+    })
+
+    this.foundation.init()
+  },
+
+  beforeDestroy() {
+    this.foundation.destroy()
+  }
+}
+</script>

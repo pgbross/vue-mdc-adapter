@@ -54,7 +54,7 @@ export default {
       this.foundation.setRippleCenter(xCoordinate)
     },
     activate() {
-      this.foundation_.activate()
+      this.foundation.activate()
     },
 
     deactivate() {

@@ -71,6 +71,14 @@ export default {
     },
     float(shouldFloat) {
       this.$refs.labelEl && this.$refs.labelEl.float(shouldFloat)
+    },
+
+    shake(shouldShake) {
+      this.$refs.labelEl && this.$refs.labelEl.shake(shouldShake)
+    },
+
+    getWidth() {
+      return this.$refs.labelEl.getWidth()
     }
   }
 }

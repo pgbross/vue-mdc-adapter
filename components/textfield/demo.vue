@@ -7,7 +7,8 @@
           v-model="textField"
           label="textfield"
           helptext="Help text..."
-        />
+          ><p slot="helpText">Help text 1...</p></mdc-textfield
+        >
         <form>
           <mdc-textfield
             v-model="password"
@@ -19,7 +20,11 @@
             helptext-persistent
             helptext-validation
             autocomplete
-          />
+          >
+            <p slot="helpText">
+              password must be 8 to 10 characters.
+            </p></mdc-textfield
+          >
         </form>
 
         <p></p>
@@ -28,10 +33,18 @@
           v-model="textField"
           label="outlined"
           outline
-          helptext="Help text..."
-          leading-icon="delete"
-          trailing-icon="event"
-        />
+        >
+          <p slot="helpText">Help text 2...</p>
+          <i
+            slot="leadingIcon"
+            class="material-icons"
+            @click="ondelete"
+            role="button"
+            tabindex="0"
+            >delete</i
+          >
+          <i slot="trailingIcon" class="material-icons">favorite</i>
+        </mdc-textfield>
         <mdc-textfield
           :disabled="!enabled"
           v-model="textField"
@@ -72,6 +85,11 @@ export default {
       textField: '',
       enabled: true,
       password: ''
+    }
+  },
+  methods: {
+    ondelete() {
+      console.log('ondelete')
     }
   }
 }
