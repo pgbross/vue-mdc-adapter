@@ -42,12 +42,14 @@
           >
           <i slot="trailingIcon" class="material-icons">favorite</i>
         </mdc-textfield>
-        <mdc-textfield
-          :disabled="!enabled"
-          v-model="textField"
-          :leading-icon="{ className: 'fa fa-font-awesome' }"
-          label="in a box"
-        />
+        <mdc-textfield :disabled="!enabled" v-model="textField" label="in a box"
+          ><i
+            slot="leadingIcon"
+            class="fa fa-font-awesome"
+            role="button"
+            tabindex="0"
+          ></i
+        ></mdc-textfield>
       </mdc-layout-cell>
       <mdc-layout-cell span="6">
         <p>
