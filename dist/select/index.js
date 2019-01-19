@@ -1,5 +1,5 @@
 /**
-* @module vue-mdc-adapterselect 0.19.0-beta
+* @module vue-mdc-adapterselect 0.19.1-beta
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
@@ -12,7 +12,7 @@ import { RippleBase } from '../ripple';
 
 function BasePlugin(components) {
   return {
-    version: '0.19.0-beta',
+    version: '0.19.1-beta',
     install: function install(vm) {
       for (var key in components) {
         var component = components[key];
@@ -1703,8 +1703,10 @@ var script = {
       removeAttr: function removeAttr(attr) {
         _this.$el.removeAttribute(attr);
       },
-      setContent: function setContent(content) {
-        _this.$el.textContent = content;
+      setContent: function setContent()
+      /*content*/
+      {// help text get's updated from {{helptext}}
+        // cf. this.$el.textContent = content
       }
     });
     this.foundation.init();

@@ -1,5 +1,5 @@
 /**
-* @module vue-mdc-adapterfloating-label 0.19.0-beta
+* @module vue-mdc-adapterfloating-label 0.19.1-beta
 * @exports VueMDCFloatingLabel
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
@@ -32,7 +32,7 @@
 
   function BasePlugin(components) {
     return {
-      version: '0.19.0-beta',
+      version: '0.19.1-beta',
       install: function install(vm) {
         for (var key in components) {
           var component = components[key];

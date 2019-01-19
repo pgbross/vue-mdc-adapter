@@ -1,5 +1,5 @@
 /**
-* @module vue-mdc-adaptercard 0.19.0-beta
+* @module vue-mdc-adaptercard 0.19.1-beta
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
@@ -13,7 +13,7 @@ import { mdcButtonBase } from '../button';
 
 function BasePlugin(components) {
   return {
-    version: '0.19.0-beta',
+    version: '0.19.1-beta',
     install: function install(vm) {
       for (var key in components) {
         var component = components[key];

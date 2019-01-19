@@ -4,7 +4,9 @@
 
 <script>
 import MDCTextFieldHelperTextFoundation from '@material/textfield/helper-text/foundation'
-import * as classnames from 'classnames'
+import * as classnames_ from 'classnames'
+
+let classnames = classnames_
 
 export default {
   name: 'textfield-helper-text',
@@ -15,22 +17,19 @@ export default {
     validation: Boolean
   },
   data() {
+    const node = this.$slots.default[0]
     return {
       classes: {
         'mdc-text-field-helper-text': true,
-        'mdc-text-field-helper-text--persistent': this.persistent,
-        'mdc-text-field-helper-text--validation-msg': this.validation
+        'mdc-text-field-helper-text--persistent': node.data.attrs.persistent,
+        'mdc-text-field-helper-text--validation-msg': node.data.attrs.validation
       }
     }
   },
 
   render(h) {
     const node = this.$slots.default[0]
-    node.data.class = classnames({
-      'mdc-text-field-helper-text': true,
-      'mdc-text-field-helper-text--persistent': node.data.attrs.persistent,
-      'mdc-text-field-helper-text--validation-msg': node.data.attrs.validation
-    })
+    node.data.class = classnames(this.classes)
     return node
   },
   watch: {

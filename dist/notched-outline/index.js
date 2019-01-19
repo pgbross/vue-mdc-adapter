@@ -1,5 +1,5 @@
 /**
-* @module vue-mdc-adapternotched-outline 0.19.0-beta
+* @module vue-mdc-adapternotched-outline 0.19.1-beta
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
@@ -10,7 +10,7 @@
 
 function BasePlugin(components) {
   return {
-    version: '0.19.0-beta',
+    version: '0.19.1-beta',
     install: function install(vm) {
       for (var key in components) {
         var component = components[key];
@@ -473,6 +473,12 @@ var script = {
     },
     float: function float(shouldFloat) {
       this.$refs.labelEl && this.$refs.labelEl.float(shouldFloat);
+    },
+    shake: function shake(shouldShake) {
+      this.$refs.labelEl && this.$refs.labelEl.shake(shouldShake);
+    },
+    getWidth: function getWidth() {
+      return this.$refs.labelEl.getWidth();
     }
   }
 };

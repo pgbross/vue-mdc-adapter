@@ -1,5 +1,5 @@
 /**
-* @module vue-mdc-adaptertextfield 0.19.0-beta
+* @module vue-mdc-adaptertextfield 0.19.1-beta
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
@@ -45,7 +45,7 @@ function applyPassive() {
 
 function BasePlugin(components) {
   return {
-    version: '0.19.0-beta',
+    version: '0.19.1-beta',
     install: function install(vm) {
       for (var key in components) {
         var component = components[key];
@@ -102,21 +102,6 @@ function _createClass(Constructor, protoProps, staticProps) {
   if (protoProps) _defineProperties(Constructor.prototype, protoProps);
   if (staticProps) _defineProperties(Constructor, staticProps);
   return Constructor;
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
 }
 
 function _extends() {
@@ -185,29 +170,21 @@ function _possibleConstructorReturn(self, call) {
 }
 
 /* global CustomEvent */
+function emitCustomEvent(el, evtType, evtData) {
+  var shouldBubble = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+  var evt;
 
-function extractIconProp(iconProp) {
-  if (typeof iconProp === 'string') {
-    return {
-      classes: {
-        'material-icons': true
-      },
-      content: iconProp
-    };
-  } else if (iconProp instanceof Array) {
-    return {
-      classes: iconProp.reduce(function (result, value) {
-        return _extends(result, _defineProperty({}, value, true));
-      }, {})
-    };
-  } else if (_typeof(iconProp) === 'object') {
-    return {
-      classes: iconProp.className.split(' ').reduce(function (result, value) {
-        return _extends(result, _defineProperty({}, value, true));
-      }, {}),
-      content: iconProp.textContent
-    };
+  if (typeof CustomEvent === 'function') {
+    evt = new CustomEvent(evtType, {
+      detail: evtData,
+      bubbles: shouldBubble
+    });
+  } else {
+    evt = document.createEvent('CustomEvent');
+    evt.initCustomEvent(evtType, shouldBubble, false, evtData);
   }
+
+  el.dispatchEvent(evt);
 }
 
 var DispatchFocusMixin = {
@@ -1757,1198 +1734,124 @@ function (_MDCFoundation) {
   return MDCTextFieldFoundation;
 }(MDCFoundation);
 
-/**
- * @license
- * Copyright 2018 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
+/*!
+  Copyright (c) 2017 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
 
-/* eslint no-unused-vars: [2, {"args": "none"}] */
+/* global define */
+(function () {
 
-/**
- * Adapter for MDC TextField Line Ripple.
- *
- * Defines the shape of the adapter expected by the foundation. Implement this
- * adapter to integrate the line ripple into your framework. See
- * https://github.com/material-components/material-components-web/blob/master/docs/authoring-components.md
- * for more information.
- *
- * @record
- */
-var MDCLineRippleAdapter =
-/*#__PURE__*/
-function () {
-  function MDCLineRippleAdapter() {
-    _classCallCheck(this, MDCLineRippleAdapter);
-  }
+  var hasOwn = {}.hasOwnProperty;
 
-  _createClass(MDCLineRippleAdapter, [{
-    key: "addClass",
+  function classNames() {
+    var classes = [];
 
-    /**
-     * Adds a class to the line ripple element.
-     * @param {string} className
-     */
-    value: function addClass(className) {}
-    /**
-     * Removes a class from the line ripple element.
-     * @param {string} className
-     */
+    for (var i = 0; i < arguments.length; i++) {
+      var arg = arguments[i];
+      if (!arg) continue;
 
-  }, {
-    key: "removeClass",
-    value: function removeClass(className) {}
-    /**
-     * @param {string} className
-     * @return {boolean}
-     */
+      var argType = _typeof(arg);
 
-  }, {
-    key: "hasClass",
-    value: function hasClass(className) {}
-    /**
-     * Sets the style property with propertyName to value on the root element.
-     * @param {string} propertyName
-     * @param {string} value
-     */
+      if (argType === 'string' || argType === 'number') {
+        classes.push(arg);
+      } else if (Array.isArray(arg) && arg.length) {
+        var inner = classNames.apply(null, arg);
 
-  }, {
-    key: "setStyle",
-    value: function setStyle(propertyName, value) {}
-    /**
-     * Registers an event listener on the line ripple element for a given event.
-     * @param {string} evtType
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "registerEventHandler",
-    value: function registerEventHandler(evtType, handler) {}
-    /**
-     * Deregisters an event listener on the line ripple element for a given event.
-     * @param {string} evtType
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "deregisterEventHandler",
-    value: function deregisterEventHandler(evtType, handler) {}
-  }]);
-
-  return MDCLineRippleAdapter;
-}();
-
-/**
- * @license
- * Copyright 2018 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/** @enum {string} */
-var cssClasses$2 = {
-  LINE_RIPPLE_ACTIVE: 'mdc-line-ripple--active',
-  LINE_RIPPLE_DEACTIVATING: 'mdc-line-ripple--deactivating'
-};
-
-/**
- * @extends {MDCFoundation<!MDCLineRippleAdapter>}
- * @final
- */
-
-var MDCLineRippleFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCLineRippleFoundation, _MDCFoundation);
-
-  _createClass(MDCLineRippleFoundation, null, [{
-    key: "cssClasses",
-
-    /** @return enum {string} */
-    get: function get() {
-      return cssClasses$2;
-    }
-    /**
-     * {@see MDCLineRippleAdapter} for typing information on parameters and return
-     * types.
-     * @return {!MDCLineRippleAdapter}
-     */
-
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCLineRippleAdapter} */
-        {
-          addClass: function addClass() {},
-          removeClass: function removeClass() {},
-          hasClass: function hasClass() {},
-          setStyle: function setStyle() {},
-          registerEventHandler: function registerEventHandler() {},
-          deregisterEventHandler: function deregisterEventHandler() {}
+        if (inner) {
+          classes.push(inner);
         }
-      );
-    }
-    /**
-     * @param {!MDCLineRippleAdapter=} adapter
-     */
-
-  }]);
-
-  function MDCLineRippleFoundation(adapter) {
-    var _this;
-
-    _classCallCheck(this, MDCLineRippleFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCLineRippleFoundation).call(this, _extends(MDCLineRippleFoundation.defaultAdapter, adapter)));
-    /** @private {function(!Event): undefined} */
-
-    _this.transitionEndHandler_ = function (evt) {
-      return _this.handleTransitionEnd(evt);
-    };
-
-    return _this;
-  }
-
-  _createClass(MDCLineRippleFoundation, [{
-    key: "init",
-    value: function init() {
-      this.adapter_.registerEventHandler('transitionend', this.transitionEndHandler_);
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      this.adapter_.deregisterEventHandler('transitionend', this.transitionEndHandler_);
-    }
-    /**
-     * Activates the line ripple
-     */
-
-  }, {
-    key: "activate",
-    value: function activate() {
-      this.adapter_.removeClass(cssClasses$2.LINE_RIPPLE_DEACTIVATING);
-      this.adapter_.addClass(cssClasses$2.LINE_RIPPLE_ACTIVE);
-    }
-    /**
-     * Sets the center of the ripple animation to the given X coordinate.
-     * @param {number} xCoordinate
-     */
-
-  }, {
-    key: "setRippleCenter",
-    value: function setRippleCenter(xCoordinate) {
-      this.adapter_.setStyle('transform-origin', "".concat(xCoordinate, "px center"));
-    }
-    /**
-     * Deactivates the line ripple
-     */
-
-  }, {
-    key: "deactivate",
-    value: function deactivate() {
-      this.adapter_.addClass(cssClasses$2.LINE_RIPPLE_DEACTIVATING);
-    }
-    /**
-     * Handles a transition end event
-     * @param {!Event} evt
-     */
-
-  }, {
-    key: "handleTransitionEnd",
-    value: function handleTransitionEnd(evt) {
-      // Wait for the line ripple to be either transparent or opaque
-      // before emitting the animation end event
-      var isDeactivating = this.adapter_.hasClass(cssClasses$2.LINE_RIPPLE_DEACTIVATING);
-
-      if (evt.propertyName === 'opacity') {
-        if (isDeactivating) {
-          this.adapter_.removeClass(cssClasses$2.LINE_RIPPLE_ACTIVE);
-          this.adapter_.removeClass(cssClasses$2.LINE_RIPPLE_DEACTIVATING);
+      } else if (argType === 'object') {
+        for (var key in arg) {
+          if (hasOwn.call(arg, key) && arg[key]) {
+            classes.push(key);
+          }
         }
       }
     }
-  }]);
 
-  return MDCLineRippleFoundation;
-}(MDCFoundation);
-
-/**
- * @license
- * Copyright 2017 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/* eslint no-unused-vars: [2, {"args": "none"}] */
-
-/**
- * Adapter for MDC Floating Label.
- *
- * Defines the shape of the adapter expected by the foundation. Implement this
- * adapter to integrate the floating label into your framework. See
- * https://github.com/material-components/material-components-web/blob/master/docs/authoring-components.md
- * for more information.
- *
- * @record
- */
-var MDCFloatingLabelAdapter =
-/*#__PURE__*/
-function () {
-  function MDCFloatingLabelAdapter() {
-    _classCallCheck(this, MDCFloatingLabelAdapter);
+    return classes.join(' ');
   }
 
-  _createClass(MDCFloatingLabelAdapter, [{
-    key: "addClass",
-
-    /**
-     * Adds a class to the label element.
-     * @param {string} className
-     */
-    value: function addClass(className) {}
-    /**
-     * Removes a class from the label element.
-     * @param {string} className
-     */
-
-  }, {
-    key: "removeClass",
-    value: function removeClass(className) {}
-    /**
-     * Returns the width of the label element.
-     * @return {number}
-     */
-
-  }, {
-    key: "getWidth",
-    value: function getWidth() {}
-    /**
-     * Registers an event listener on the root element for a given event.
-     * @param {string} evtType
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "registerInteractionHandler",
-    value: function registerInteractionHandler(evtType, handler) {}
-    /**
-     * Deregisters an event listener on the root element for a given event.
-     * @param {string} evtType
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "deregisterInteractionHandler",
-    value: function deregisterInteractionHandler(evtType, handler) {}
-  }]);
-
-  return MDCFloatingLabelAdapter;
-}();
-
-/**
- * @license
- * Copyright 2016 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/** @enum {string} */
-var cssClasses$3 = {
-  LABEL_FLOAT_ABOVE: 'mdc-floating-label--float-above',
-  LABEL_SHAKE: 'mdc-floating-label--shake',
-  ROOT: 'mdc-floating-label'
-};
-
-/**
- * @extends {MDCFoundation<!MDCFloatingLabelAdapter>}
- * @final
- */
-
-var MDCFloatingLabelFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCFloatingLabelFoundation, _MDCFoundation);
-
-  _createClass(MDCFloatingLabelFoundation, null, [{
-    key: "cssClasses",
-
-    /** @return enum {string} */
-    get: function get() {
-      return cssClasses$3;
-    }
-    /**
-     * {@see MDCFloatingLabelAdapter} for typing information on parameters and return
-     * types.
-     * @return {!MDCFloatingLabelAdapter}
-     */
-
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCFloatingLabelAdapter} */
-        {
-          addClass: function addClass() {},
-          removeClass: function removeClass() {},
-          getWidth: function getWidth() {},
-          registerInteractionHandler: function registerInteractionHandler() {},
-          deregisterInteractionHandler: function deregisterInteractionHandler() {}
-        }
-      );
-    }
-    /**
-     * @param {!MDCFloatingLabelAdapter} adapter
-     */
-
-  }]);
-
-  function MDCFloatingLabelFoundation(adapter) {
-    var _this;
-
-    _classCallCheck(this, MDCFloatingLabelFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCFloatingLabelFoundation).call(this, _extends(MDCFloatingLabelFoundation.defaultAdapter, adapter)));
-    /** @private {function(!Event): undefined} */
-
-    _this.shakeAnimationEndHandler_ = function () {
-      return _this.handleShakeAnimationEnd_();
-    };
-
-    return _this;
+  if (typeof module !== 'undefined' && module.exports) {
+    classNames.default = classNames;
+    module.exports = classNames;
+  } else if (typeof define === 'function' && _typeof(define.amd) === 'object' && define.amd) {
+    // register as 'classnames', consistent with npm package name
+    define('classnames', [], function () {
+      return classNames;
+    });
+  } else {
+    window.classNames = classNames;
   }
+})();
 
-  _createClass(MDCFloatingLabelFoundation, [{
-    key: "init",
-    value: function init() {
-      this.adapter_.registerInteractionHandler('animationend', this.shakeAnimationEndHandler_);
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      this.adapter_.deregisterInteractionHandler('animationend', this.shakeAnimationEndHandler_);
-    }
-    /**
-     * Returns the width of the label element.
-     * @return {number}
-     */
+var classnames_ = /*#__PURE__*/Object.freeze({
 
-  }, {
-    key: "getWidth",
-    value: function getWidth() {
-      return this.adapter_.getWidth();
-    }
-    /**
-     * Styles the label to produce the label shake for errors.
-     * @param {boolean} shouldShake adds shake class if true,
-     * otherwise removes shake class.
-     */
+});
 
-  }, {
-    key: "shake",
-    value: function shake(shouldShake) {
-      var LABEL_SHAKE = MDCFloatingLabelFoundation.cssClasses.LABEL_SHAKE;
-
-      if (shouldShake) {
-        this.adapter_.addClass(LABEL_SHAKE);
-      } else {
-        this.adapter_.removeClass(LABEL_SHAKE);
-      }
-    }
-    /**
-     * Styles the label to float or dock.
-     * @param {boolean} shouldFloat adds float class if true, otherwise remove
-     * float and shake class to dock label.
-     */
-
-  }, {
-    key: "float",
-    value: function float(shouldFloat) {
-      var _MDCFloatingLabelFoun = MDCFloatingLabelFoundation.cssClasses,
-          LABEL_FLOAT_ABOVE = _MDCFloatingLabelFoun.LABEL_FLOAT_ABOVE,
-          LABEL_SHAKE = _MDCFloatingLabelFoun.LABEL_SHAKE;
-
-      if (shouldFloat) {
-        this.adapter_.addClass(LABEL_FLOAT_ABOVE);
-      } else {
-        this.adapter_.removeClass(LABEL_FLOAT_ABOVE);
-        this.adapter_.removeClass(LABEL_SHAKE);
-      }
-    }
-    /**
-     * Handles an interaction event on the root element.
-     */
-
-  }, {
-    key: "handleShakeAnimationEnd_",
-    value: function handleShakeAnimationEnd_() {
-      var LABEL_SHAKE = MDCFloatingLabelFoundation.cssClasses.LABEL_SHAKE;
-      this.adapter_.removeClass(LABEL_SHAKE);
-    }
-  }]);
-
-  return MDCFloatingLabelFoundation;
-}(MDCFoundation);
-
-/**
- * @license
- * Copyright 2017 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/* eslint no-unused-vars: [2, {"args": "none"}] */
-
-/**
- * Adapter for MDC Notched Outline.
- *
- * Defines the shape of the adapter expected by the foundation. Implement this
- * adapter to integrate the Notched Outline into your framework. See
- * https://github.com/material-components/material-components-web/blob/master/docs/authoring-components.md
- * for more information.
- *
- * @record
- */
-var MDCNotchedOutlineAdapter =
-/*#__PURE__*/
-function () {
-  function MDCNotchedOutlineAdapter() {
-    _classCallCheck(this, MDCNotchedOutlineAdapter);
-  }
-
-  _createClass(MDCNotchedOutlineAdapter, [{
-    key: "addClass",
-
-    /**
-     * Adds a class to the root element.
-     * @param {string} className
-     */
-    value: function addClass(className) {}
-    /**
-     * Removes a class from the root element.
-     * @param {string} className
-     */
-
-  }, {
-    key: "removeClass",
-    value: function removeClass(className) {}
-    /**
-     * Sets the width style property of the notch element.
-     * @param {number} width
-     */
-
-  }, {
-    key: "setNotchWidthProperty",
-    value: function setNotchWidthProperty(width) {}
-    /**
-     * Removes the width style property from the notch element.
-     */
-
-  }, {
-    key: "removeNotchWidthProperty",
-    value: function removeNotchWidthProperty() {}
-  }]);
-
-  return MDCNotchedOutlineAdapter;
-}();
-
-/**
- * @license
- * Copyright 2018 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/** @enum {string} */
-var strings$3 = {
-  NOTCH_ELEMENT_SELECTOR: '.mdc-notched-outline__notch'
-};
-/** @enum {number} */
-
-var numbers$1 = {
-  // This should stay in sync with $mdc-notched-outline-padding * 2.
-  NOTCH_ELEMENT_PADDING: 8
-};
-/** @enum {string} */
-
-var cssClasses$4 = {
-  OUTLINE_NOTCHED: 'mdc-notched-outline--notched',
-  OUTLINE_UPGRADED: 'mdc-notched-outline--upgraded',
-  NO_LABEL: 'mdc-notched-outline--no-label'
-};
-
-/**
- * @extends {MDCFoundation<!MDCNotchedOutlineAdapter>}
- * @final
- */
-
-var MDCNotchedOutlineFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCNotchedOutlineFoundation, _MDCFoundation);
-
-  _createClass(MDCNotchedOutlineFoundation, null, [{
-    key: "strings",
-
-    /** @return enum {string} */
-    get: function get() {
-      return strings$3;
-    }
-    /** @return enum {string} */
-
-  }, {
-    key: "cssClasses",
-    get: function get() {
-      return cssClasses$4;
-    }
-    /** @return enum {number} */
-
-  }, {
-    key: "numbers",
-    get: function get() {
-      return numbers$1;
-    }
-    /**
-     * {@see MDCNotchedOutlineAdapter} for typing information on parameters and return
-     * types.
-     * @return {!MDCNotchedOutlineAdapter}
-     */
-
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCNotchedOutlineAdapter} */
-        {
-          addClass: function addClass() {},
-          removeClass: function removeClass() {},
-          setNotchWidthProperty: function setNotchWidthProperty() {},
-          removeNotchWidthProperty: function removeNotchWidthProperty() {}
-        }
-      );
-    }
-    /**
-     * @param {!MDCNotchedOutlineAdapter} adapter
-     */
-
-  }]);
-
-  function MDCNotchedOutlineFoundation(adapter) {
-    _classCallCheck(this, MDCNotchedOutlineFoundation);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(MDCNotchedOutlineFoundation).call(this, _extends(MDCNotchedOutlineFoundation.defaultAdapter, adapter)));
-  }
-  /**
-   * Adds the outline notched selector and updates the notch width
-   * calculated based off of notchWidth.
-   * @param {number} notchWidth
-   */
-
-
-  _createClass(MDCNotchedOutlineFoundation, [{
-    key: "notch",
-    value: function notch(notchWidth) {
-      var OUTLINE_NOTCHED = MDCNotchedOutlineFoundation.cssClasses.OUTLINE_NOTCHED;
-
-      if (notchWidth > 0) {
-        notchWidth += numbers$1.NOTCH_ELEMENT_PADDING; // Add padding from left/right.
-      }
-
-      this.adapter_.setNotchWidthProperty(notchWidth);
-      this.adapter_.addClass(OUTLINE_NOTCHED);
-    }
-    /**
-     * Removes notched outline selector to close the notch in the outline.
-     */
-
-  }, {
-    key: "closeNotch",
-    value: function closeNotch() {
-      var OUTLINE_NOTCHED = MDCNotchedOutlineFoundation.cssClasses.OUTLINE_NOTCHED;
-      this.adapter_.removeClass(OUTLINE_NOTCHED);
-      this.adapter_.removeNotchWidthProperty();
-    }
-  }]);
-
-  return MDCNotchedOutlineFoundation;
-}(MDCFoundation);
-
+//
+var classnames = classnames_;
 var script = {
-  name: 'mdc-textfield',
-  mixins: [CustomElementMixin, DispatchFocusMixin, VMAUniqueIdMixin],
-  inheritAttrs: false,
-  model: {
-    prop: 'value',
-    event: 'model'
-  },
+  name: 'textfield-helper-text',
+  // functional: true,
   props: {
-    value: [String, Number],
-    type: {
-      type: String,
-      default: 'text',
-      validator: function validator(value) {
-        return ['text', 'email', 'search', 'password', 'tel', 'url', 'number'].indexOf(value) !== -1;
-      }
-    },
-    dense: Boolean,
-    label: String,
-    helptext: String,
-    helptextPersistent: Boolean,
-    helptextValidation: Boolean,
-    outline: Boolean,
-    disabled: Boolean,
-    required: Boolean,
-    valid: {
-      type: Boolean,
-      default: undefined
-    },
-    fullwidth: Boolean,
-    multiline: Boolean,
-    leadingIcon: [String, Array, Object],
-    trailingNonInteractive: Boolean,
-    leadingNonInteractive: Boolean,
-    trailingIcon: [String, Array, Object],
-    size: {
-      type: [Number, String],
-      default: 20
-    },
-    minlength: {
-      type: [Number, String],
-      default: undefined
-    },
-    maxlength: {
-      type: [Number, String],
-      default: undefined
-    },
-    rows: {
-      type: [Number, String],
-      default: 8
-    },
-    cols: {
-      type: [Number, String],
-      default: 40
-    },
-    id: {
-      type: String
-    }
+    persistent: Boolean,
+    validation: Boolean
   },
   data: function data() {
+    var node = this.$slots.default[0];
     return {
-      text: this.value,
-      rootClasses: {
-        'mdc-textfield': true,
-        'mdc-text-field': true,
-        'mdc-text-field--upgraded': true,
-        'mdc-text-field--disabled': this.disabled,
-        'mdc-text-field--dense': this.dense,
-        'mdc-text-field--fullwidth': this.fullwidth,
-        'mdc-text-field--textarea': this.multiline,
-        'mdc-text-field--outlined': !this.fullwidth && this.outline
-      },
-      inputClasses: {
-        'mdc-text-field__input': true
-      },
-      labelClasses: {
-        'mdc-floating-label': true
-      },
-      lineRippleClasses: {
-        'mdc-line-ripple': true
-      },
-      lineRippleStyles: {},
-      helpClasses: {
+      classes: {
         'mdc-text-field-helper-text': true,
-        'mdc-text-field-helper-text--persistent': this.helptextPersistent,
-        'mdc-text-field-helper-text--validation-msg': this.helptextValidation
-      },
-      outlineClasses: {},
-      notchStyles: {}
+        'mdc-text-field-helper-text--persistent': node.data.attrs.persistent,
+        'mdc-text-field-helper-text--validation-msg': node.data.attrs.validation
+      }
     };
   },
-  computed: {
-    leadingTabindex: function leadingTabindex() {
-      if (!this.leadingNonInteractive) {
-        return '0';
-      }
-    },
-    leadingRole: function leadingRole() {
-      if (!this.leadingNonInteractive) {
-        return 'button';
-      }
-    },
-    trailingTabindex: function trailingTabindex() {
-      if (!this.trailingNonInteractive) {
-        return '0';
-      }
-    },
-    trailingRole: function trailingRole() {
-      if (!this.trailingNonInteractive) {
-        return 'button';
-      }
-    },
-    inputPlaceHolder: function inputPlaceHolder() {
-      return this.fullwidth ? this.label : undefined;
-    },
-    inputAriaControls: function inputAriaControls() {
-      return this.help ? 'help-' + this.vma_uid_ : undefined;
-    },
-    hasLabel: function hasLabel() {
-      return !this.fullwidth && !this.outline && this.label;
-    },
-    hasOutlineLabel: function hasOutlineLabel() {
-      return this.hasOutline && this.label;
-    },
-    hasOutline: function hasOutline() {
-      return !this.fullwidth && this.outline;
-    },
-    hasLineRipple: function hasLineRipple() {
-      return !this.hasOutline && !this.multiline;
-    },
-    hasLeadingIcon: function hasLeadingIcon() {
-      if (this.leadingIcon || this.$slots['leading-icon']) {
-        return this.leadingIcon ? extractIconProp(this.leadingIcon) : {};
-      }
-
-      return false;
-    },
-    hasTrailingIcon: function hasTrailingIcon() {
-      if (this.trailingIcon || this.$slots['trailing-icon']) {
-        return this.trailingIcon ? extractIconProp(this.trailingIcon) : {};
-      }
-
-      return false;
-    },
-    labelClassesUpgraded: function labelClassesUpgraded() {
-      return _extends(this.labelClasses, {
-        'mdc-floating-label--float-above': this.value
-      });
-    }
+  render: function render(h) {
+    var node = this.$slots.default[0];
+    node.data.class = classnames(this.classes);
+    return node;
   },
   watch: {
-    disabled: function disabled() {
-      this.foundation && this.foundation.setDisabled(this.disabled);
+    persistent: function persistent() {
+      this.foundation.setPersistent(this.persistent);
     },
-    required: function required() {
-      this.$refs.input && (this.$refs.input.required = this.required);
-    },
-    valid: function valid() {
-      if (typeof this.valid !== 'undefined') {
-        this.foundation && this.foundation.setValid(this.valid);
-      }
-    },
-    dense: function dense() {
-      this.$set(this.rootClasses, 'mdc-text-field--dense', this.dense);
-    },
-    helptextPersistent: function helptextPersistent() {
-      this.helperTextFoundation && this.helperTextFoundation.setPersistent(this.helptextPersistent);
-    },
-    helptextValidation: function helptextValidation() {
-      this.helperTextFoundation && this.helperTextFoundation.setValidation(this.helptextValidation);
-    },
-    value: function value(_value) {
-      if (this.foundation) {
-        if (_value !== this.foundation.getValue()) {
-          this.foundation.setValue(_value);
-        }
-      }
+    validation: function validation() {
+      this.foundation.setValidation(this.validation);
     }
   },
   mounted: function mounted() {
     var _this = this;
 
-    if (this.$refs.lineRipple) {
-      this.lineRippleFoundation = new MDCLineRippleFoundation({
-        addClass: function addClass(className) {
-          _this.$set(_this.lineRippleClasses, className, true);
-        },
-        removeClass: function removeClass(className) {
-          _this.$delete(_this.lineRippleClasses, className);
-        },
-        hasClass: function hasClass(className) {
-          _this.$refs.lineRipple.classList.contains(className);
-        },
-        setStyle: function setStyle(name, value) {
-          _this.$set(_this.lineRippleStyles, name, value);
-        },
-        registerEventHandler: function registerEventHandler(evtType, handler) {
-          _this.$refs.lineRipple.addEventListener(evtType, handler);
-        },
-        deregisterEventHandler: function deregisterEventHandler(evtType, handler) {
-          _this.$refs.lineRipple.removeEventListener(evtType, handler);
-        }
-      });
-      this.lineRippleFoundation.init();
-    }
-
-    if (this.$refs.help) {
-      this.helperTextFoundation = new MDCTextFieldHelperTextFoundation({
-        addClass: function addClass(className) {
-          _this.$set(_this.helpClasses, className, true);
-        },
-        removeClass: function removeClass(className) {
-          _this.$delete(_this.helpClasses, className);
-        },
-        hasClass: function hasClass(className) {
-          return _this.$refs.help.classList.contains(className);
-        },
-        setAttr: function setAttr(name, value) {
-          _this.$refs.help.setAttribute(name, value);
-        },
-        removeAttr: function removeAttr(name) {
-          _this.$refs.help.removeAttribute(name);
-        },
-        setContent: function setContent()
-        /*content*/
-        {// help text get's updated from {{helptext}}
-          // this.$refs.help.textContent = content;
-        }
-      });
-      this.helperTextFoundation.init();
-    }
-
-    if (this.hasLeadingIcon) {
-      this.$set(this.rootClasses, 'mdc-text-field--with-leading-icon', true);
-      this.leadingIconFoundation = new MDCTextFieldIconFoundation({
-        setAttr: function setAttr(attr, value) {
-          return _this.$refs.leadingIcon.setAttribute(attr, value);
-        },
-        getAttr: function getAttr(attr) {
-          return _this.$refs.leadingIcon.getAttribute(attr);
-        },
-        removeAttr: function removeAttr(attr) {
-          return _this.$refs.leadingIcon.removeAttribute(attr);
-        },
-        setContent: function setContent()
-        /*content*/
-        {// icon text get's updated from {{{{ hasTrailingIcon.content }}}}
-          // this.$refs.icon.textContent = content;
-        },
-        registerInteractionHandler: function registerInteractionHandler(evtType, handler) {
-          _this.$refs.leadingIcon.addEventListener(evtType, handler);
-        },
-        deregisterInteractionHandler: function deregisterInteractionHandler(evtType, handler) {
-          _this.$refs.leadingIcon.removeEventListener(evtType, handler);
-        },
-        notifyIconAction: function notifyIconAction() {
-          return _this.$emit('leadingicon-action');
-        }
-      });
-      this.leadingIconFoundation.init();
-    }
-
-    if (this.hasTrailingIcon) {
-      this.$set(this.rootClasses, 'mdc-text-field--with-trailing-icon', true);
-      this.trailingIconFoundation = new MDCTextFieldIconFoundation({
-        setAttr: function setAttr(attr, value) {
-          return _this.$refs.trailingIcon.setAttribute(attr, value);
-        },
-        getAttr: function getAttr(attr) {
-          return _this.$refs.trailingIcon.getAttribute(attr);
-        },
-        removeAttr: function removeAttr(attr) {
-          return _this.$refs.trailingIcon.removeAttribute(attr);
-        },
-        setContent: function setContent()
-        /*content*/
-        {// icon text get's updated from {{{{ hasTrailingIcon.content }}}}
-          // this.$refs.icon.textContent = content;
-        },
-        registerInteractionHandler: function registerInteractionHandler(evtType, handler) {
-          _this.$refs.trailingIcon.addEventListener(evtType, handler);
-        },
-        deregisterInteractionHandler: function deregisterInteractionHandler(evtType, handler) {
-          _this.$refs.trailingIcon.removeEventListener(evtType, handler);
-        },
-        notifyIconAction: function notifyIconAction() {
-          return _this.$emit('trainlingicon-action');
-        }
-      });
-      this.trailingIconFoundation.init();
-    }
-
-    if (this.$refs.label || this.$refs['label-outline']) {
-      var label = this.$refs.label || this.$refs['label-outline'];
-      this.labelFoundation = new MDCFloatingLabelFoundation({
-        addClass: function addClass(className) {
-          _this.$set(_this.labelClasses, className, true);
-        },
-        removeClass: function removeClass(className) {
-          _this.$delete(_this.labelClasses, className);
-        },
-        getWidth: function getWidth() {
-          return label.offsetWidth;
-        },
-        registerInteractionHandler: function registerInteractionHandler(evtType, handler) {
-          label.addEventListener(evtType, handler);
-        },
-        deregisterInteractionHandler: function deregisterInteractionHandler(evtType, handler) {
-          label.removeEventListener(evtType, handler);
-        }
-      });
-      this.labelFoundation.init();
-    }
-
-    if (this.$refs.outline) {
-      this.outlineFoundation = new MDCNotchedOutlineFoundation({
-        addClass: function addClass(className) {
-          _this.$set(_this.outlineClasses, className, true);
-        },
-        removeClass: function removeClass(className) {
-          _this.$delete(_this.outlineClasses, className);
-        },
-        setNotchWidthProperty: function setNotchWidthProperty(width) {
-          return _this.$set(_this.notchStyles, 'width', width > 0 ? width + 'px' : '0');
-        }
-      });
-      this.outlineFoundation.init();
-    }
-
-    this.foundation = new MDCTextFieldFoundation(_extends({
+    this.foundation = new MDCTextFieldHelperTextFoundation({
       addClass: function addClass(className) {
-        _this.$set(_this.rootClasses, className, true);
+        return _this.$set(_this.classes, className, true);
       },
       removeClass: function removeClass(className) {
-        _this.$delete(_this.rootClasses, className);
+        return _this.$delete(_this.classes, className);
       },
       hasClass: function hasClass(className) {
-        _this.$refs.root.classList.contains(className);
+        return Boolean(_this.classes[className]);
       },
-      registerTextFieldInteractionHandler: function registerTextFieldInteractionHandler(evtType, handler) {
-        _this.$refs.root.addEventListener(evtType, handler);
+      setAttr: function setAttr(attr, value) {
+        _this.$el.setAttribute(attr, value);
       },
-      deregisterTextFieldInteractionHandler: function deregisterTextFieldInteractionHandler(evtType, handler) {
-        _this.$refs.root.removeEventListener(evtType, handler);
+      removeAttr: function removeAttr(attr) {
+        _this.$el.removeAttribute(attr);
       },
-      isFocused: function isFocused() {
-        return document.activeElement === _this.$refs.input;
-      },
-      isRtl: function isRtl() {
-        return window.getComputedStyle(_this.$refs.root).getPropertyValue('direction') === 'rtl';
-      },
-      registerValidationAttributeChangeHandler: function registerValidationAttributeChangeHandler(handler) {
-        var getAttributesList = function getAttributesList(mutationsList) {
-          return mutationsList.map(function (mutation) {
-            return mutation.attributeName;
-          });
-        };
-
-        var observer = new MutationObserver(function (mutationsList) {
-          return handler(getAttributesList(mutationsList));
-        });
-        var targetNode = _this.$refs.input;
-        var config = {
-          attributes: true
-        };
-        observer.observe(targetNode, config);
-        return observer;
-      },
-      deregisterValidationAttributeChangeHandler: function deregisterValidationAttributeChangeHandler(observer) {
-        observer.disconnect();
+      setContent: function setContent()
+      /*content*/
+      {// help text get's updated from {{helptext}}
+        // cf. this.$el.textContent = content
       }
-    }, this.getInputAdapterMethods(), this.getLabelAdapterMethods(), this.getLineRippleAdapterMethods(), this.getOutlineAdapterMethods()), {
-      helperText: this.helperTextFoundation,
-      leadingIcon: this.leadingIconFoundation,
-      trailingIcon: this.trailingFoundation
     });
     this.foundation.init();
-    this.foundation.setValue(this.value);
-    this.foundation.setDisabled(this.disabled);
-    this.$refs.input && (this.$refs.input.required = this.required);
-
-    if (typeof this.valid !== 'undefined') {
-      this.foundation.setValid(this.valid);
-    }
-
-    if (this.textbox) {
-      this.ripple = new RippleBase(this);
-      this.ripple.init();
-    }
   },
   beforeDestroy: function beforeDestroy() {
-    this.foundation && this.foundation.destroy();
-    this.lineRippleFoundation && this.lineRippleFoundation.destroy();
-    this.helperTextFoundation && this.helperTextFoundation.destroy();
-    this.leadingIconFoundation && this.leadingIconFoundation.destroy();
-    this.trailingIconFoundation && this.trailingIconFoundation.destroy();
-    this.labelFoundation && this.labelFoundation.destroy();
-    this.outlineFoundation && this.outlineFoundation.destroy();
-    this.ripple && this.ripple.destroy();
-  },
-  methods: {
-    getInputAdapterMethods: function getInputAdapterMethods() {
-      var _this2 = this;
-
-      return {
-        registerInputInteractionHandler: function registerInputInteractionHandler(evtType, handler) {
-          _this2.$refs.input.addEventListener(evtType, handler, applyPassive());
-        },
-        deregisterInputInteractionHandler: function deregisterInputInteractionHandler(evtType, handler) {
-          _this2.$refs.input.removeEventListener(evtType, handler, applyPassive());
-        },
-        getNativeInput: function getNativeInput() {
-          return _this2.$refs.input;
-        }
-      };
-    },
-    getLabelAdapterMethods: function getLabelAdapterMethods() {
-      var _this3 = this;
-
-      return {
-        shakeLabel: function shakeLabel(shouldShake) {
-          _this3.labelFoundation.shake(shouldShake);
-        },
-        floatLabel: function floatLabel(shouldFloat) {
-          _this3.labelFoundation.float(shouldFloat);
-        },
-        hasLabel: function hasLabel() {
-          return !!_this3.$refs.label || !!_this3.$refs['label-outline'];
-        },
-        getLabelWidth: function getLabelWidth() {
-          return _this3.labelFoundation.getWidth();
-        }
-      };
-    },
-    getLineRippleAdapterMethods: function getLineRippleAdapterMethods() {
-      var _this4 = this;
-
-      return {
-        deactivateLineRipple: function deactivateLineRipple() {
-          if (_this4.lineRippleFoundation) {
-            _this4.lineRippleFoundation.deactivate();
-          }
-        },
-        activateLineRipple: function activateLineRipple() {
-          if (_this4.lineRippleFoundation) {
-            _this4.lineRippleFoundation.activate();
-          }
-        },
-        setLineRippleTransformOrigin: function setLineRippleTransformOrigin(normalizedX) {
-          if (_this4.lineRippleFoundation) {
-            _this4.lineRippleFoundation.setRippleCenter(normalizedX);
-          }
-        }
-      };
-    },
-    getOutlineAdapterMethods: function getOutlineAdapterMethods() {
-      var _this5 = this;
-
-      return {
-        hasOutline: function hasOutline() {
-          return !!_this5.hasOutline;
-        },
-        notchOutline: function notchOutline(notchWidth, isRtl) {
-          return _this5.outlineFoundation.notch(notchWidth, isRtl);
-        },
-        closeOutline: function closeOutline() {
-          return _this5.outlineFoundation.closeNotch();
-        }
-      };
-    },
-    updateValue: function updateValue(value) {
-      this.$emit('model', value);
-    },
-    focus: function focus() {
-      this.$refs.input && this.$refs.input.focus();
-    },
-    blur: function blur() {
-      this.$refs.input && this.$refs.input.blur();
-    }
+    this.foundation.destroy();
   }
 };
 
@@ -3038,7 +1941,397 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
 /* script */
 const __vue_script__ = script;
 // For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script.__file = "/ddata/extra/vma/components/textfield/mdc-textfield.vue";
+script.__file = "/ddata/extra/vma/components/textfield/textfield-helper-text.vue";
+
+/* template */
+
+  /* style */
+  const __vue_inject_styles__ = undefined;
+  /* scoped */
+  const __vue_scope_id__ = undefined;
+  /* module identifier */
+  const __vue_module_identifier__ = undefined;
+  /* functional template */
+  const __vue_is_functional_template__ = undefined;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var TextfieldHelperText = normalizeComponent(
+    {},
+    __vue_inject_styles__,
+    __vue_script__,
+    __vue_scope_id__,
+    __vue_is_functional_template__,
+    __vue_module_identifier__,
+    undefined,
+    undefined
+  );
+
+var script$1 = {
+  name: 'textfield-icon',
+  functional: true,
+  props: {
+    disabled: Boolean
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    this.foundation = new MDCTextFieldIconFoundation(_extends({
+      getAttr: function getAttr(attr) {
+        return _this.$el.getAttribute(attr);
+      },
+      setAttr: function setAttr(attr, value) {
+        return _this.$el.setAttribute(attr, value);
+      },
+      removeAttr: function removeAttr(attr) {
+        return _this.$el.removeAttribute(attr);
+      },
+      setContent: function setContent(content) {
+        _this.$el.textContent = content;
+      },
+      registerInteractionHandler: function registerInteractionHandler(evtType, handler) {
+        return _this.$el.addEventListener(evtType, handler);
+      },
+      deregisterInteractionHandler: function deregisterInteractionHandler(evtType, handler) {
+        return _this.$el.removeEventListener(evtType, handler);
+      },
+      notifyIconAction: function notifyIconAction() {
+        _this.$emit('click');
+
+        emitCustomEvent(_this.$el, MDCTextFieldIconFoundation.strings.ICON_EVENT, {}, true
+        /* shouldBubble  */
+        );
+      }
+    }));
+    this.foundation.init();
+  },
+  render: function render(h, context) {
+    var node = context.children[0];
+    node.data.class = 'mdc-text-field__icon';
+    return node;
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.foundation.destroy();
+  }
+};
+
+/* script */
+const __vue_script__$1 = script$1;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$1.__file = "/ddata/extra/vma/components/textfield/textfield-icon.vue";
+
+/* template */
+
+  /* style */
+  const __vue_inject_styles__$1 = undefined;
+  /* scoped */
+  const __vue_scope_id__$1 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$1 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$1 = undefined;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var TextfieldIcon = normalizeComponent(
+    {},
+    __vue_inject_styles__$1,
+    __vue_script__$1,
+    __vue_scope_id__$1,
+    __vue_is_functional_template__$1,
+    __vue_module_identifier__$1,
+    undefined,
+    undefined
+  );
+
+var script$2 = {
+  name: 'mdc-textfield',
+  mixins: [CustomElementMixin, DispatchFocusMixin, VMAUniqueIdMixin],
+  inheritAttrs: false,
+  model: {
+    prop: 'value',
+    event: 'model'
+  },
+  props: {
+    value: [String, Number],
+    type: {
+      type: String,
+      default: 'text',
+      validator: function validator(value) {
+        return ['text', 'email', 'search', 'password', 'tel', 'url', 'number'].indexOf(value) !== -1;
+      }
+    },
+    dense: Boolean,
+    label: String,
+    outline: Boolean,
+    disabled: Boolean,
+    required: Boolean,
+    valid: {
+      type: Boolean,
+      default: undefined
+    },
+    fullwidth: Boolean,
+    multiline: Boolean,
+    size: {
+      type: [Number, String],
+      default: 20
+    },
+    minlength: {
+      type: [Number, String],
+      default: undefined
+    },
+    maxlength: {
+      type: [Number, String],
+      default: undefined
+    },
+    rows: {
+      type: [Number, String],
+      default: 8
+    },
+    cols: {
+      type: [Number, String],
+      default: 40
+    },
+    id: {
+      type: String
+    }
+  },
+  data: function data() {
+    return {
+      text: this.value,
+      rootClasses: {
+        'mdc-textfield': true,
+        'mdc-text-field': true,
+        'mdc-text-field--upgraded': true,
+        'mdc-text-field--disabled': this.disabled,
+        'mdc-text-field--dense': this.dense,
+        'mdc-text-field--fullwidth': this.fullwidth,
+        'mdc-text-field--textarea': this.multiline,
+        'mdc-text-field--outlined': !this.fullwidth && this.outline,
+        'mdc-text-field--with-leading-icon': Boolean(this.$slots.leadingIcon),
+        'mdc-text-field--with-trailing-icon': Boolean(this.$slots.trailingIcon)
+      },
+      inputClasses: {
+        'mdc-text-field__input': true
+      },
+      labelClasses: {
+        'mdc-floating-label': true
+      },
+      lineRippleClasses: {
+        'mdc-line-ripple': true
+      },
+      lineRippleStyles: {},
+      outlineClasses: {},
+      notchStyles: {}
+    };
+  },
+  components: {
+    TextfieldHelperText: TextfieldHelperText,
+    TextfieldIcon: TextfieldIcon
+  },
+  computed: {
+    inputPlaceHolder: function inputPlaceHolder() {
+      return this.fullwidth ? this.label : undefined;
+    },
+    inputAriaControls: function inputAriaControls() {
+      return this.help ? 'help-' + this.vma_uid_ : undefined;
+    },
+    hasLabel: function hasLabel() {
+      return !this.fullwidth && !this.outline && this.label;
+    },
+    hasOutlineLabel: function hasOutlineLabel() {
+      return this.hasOutline && this.label;
+    },
+    hasOutline: function hasOutline() {
+      return !this.fullwidth && this.outline;
+    },
+    hasLineRipple: function hasLineRipple() {
+      return !this.hasOutline && !this.multiline;
+    }
+  },
+  watch: {
+    disabled: function disabled() {
+      this.foundation && this.foundation.setDisabled(this.disabled);
+    },
+    required: function required() {
+      this.$refs.input && (this.$refs.input.required = this.required);
+    },
+    valid: function valid() {
+      if (typeof this.valid !== 'undefined') {
+        this.foundation && this.foundation.setValid(this.valid);
+      }
+    },
+    dense: function dense() {
+      this.$set(this.rootClasses, 'mdc-text-field--dense', this.dense);
+    },
+    value: function value(_value) {
+      if (this.foundation) {
+        if (_value !== this.foundation.getValue()) {
+          this.foundation.setValue(_value);
+        }
+      }
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    this.foundation = new MDCTextFieldFoundation(_extends({
+      addClass: function addClass(className) {
+        _this.$set(_this.rootClasses, className, true);
+      },
+      removeClass: function removeClass(className) {
+        _this.$delete(_this.rootClasses, className);
+      },
+      hasClass: function hasClass(className) {
+        _this.$refs.root.classList.contains(className);
+      },
+      registerTextFieldInteractionHandler: function registerTextFieldInteractionHandler(evtType, handler) {
+        _this.$refs.root.addEventListener(evtType, handler);
+      },
+      deregisterTextFieldInteractionHandler: function deregisterTextFieldInteractionHandler(evtType, handler) {
+        _this.$refs.root.removeEventListener(evtType, handler);
+      },
+      isFocused: function isFocused() {
+        return document.activeElement === _this.$refs.input;
+      },
+      isRtl: function isRtl() {
+        return window.getComputedStyle(_this.$refs.root).getPropertyValue('direction') === 'rtl';
+      },
+      registerValidationAttributeChangeHandler: function registerValidationAttributeChangeHandler(handler) {
+        var getAttributesList = function getAttributesList(mutationsList) {
+          return mutationsList.map(function (mutation) {
+            return mutation.attributeName;
+          });
+        };
+
+        var observer = new MutationObserver(function (mutationsList) {
+          return handler(getAttributesList(mutationsList));
+        });
+        var targetNode = _this.$refs.input;
+        var config = {
+          attributes: true
+        };
+        observer.observe(targetNode, config);
+        return observer;
+      },
+      deregisterValidationAttributeChangeHandler: function deregisterValidationAttributeChangeHandler(observer) {
+        observer.disconnect();
+      }
+    }, this.getInputAdapterMethods(), this.getLabelAdapterMethods(), this.getLineRippleAdapterMethods(), this.getOutlineAdapterMethods()), {
+      helperText: this.$refs.helpertextEl ? this.$refs.helpertextEl.foundation : void 0,
+      leadingIcon: this.$refs.leadingIconEl ? this.$refs.leadingIconEl.foundation : void 0,
+      trailingIcon: this.$refs.trailingIconEl ? this.$refs.trailingIconEl.foundation : void 0
+    });
+    this.foundation.init();
+    this.foundation.setValue(this.value);
+    this.foundation.setDisabled(this.disabled);
+    this.$refs.input && (this.$refs.input.required = this.required);
+
+    if (typeof this.valid !== 'undefined') {
+      this.foundation.setValid(this.valid);
+    }
+
+    if (this.textbox) {
+      this.ripple = new RippleBase(this);
+      this.ripple.init();
+    }
+  },
+  beforeDestroy: function beforeDestroy() {
+    this.foundation && this.foundation.destroy();
+    this.ripple && this.ripple.destroy();
+  },
+  methods: {
+    getInputAdapterMethods: function getInputAdapterMethods() {
+      var _this2 = this;
+
+      return {
+        registerInputInteractionHandler: function registerInputInteractionHandler(evtType, handler) {
+          _this2.$refs.input.addEventListener(evtType, handler, applyPassive());
+        },
+        deregisterInputInteractionHandler: function deregisterInputInteractionHandler(evtType, handler) {
+          _this2.$refs.input.removeEventListener(evtType, handler, applyPassive());
+        },
+        getNativeInput: function getNativeInput() {
+          return _this2.$refs.input;
+        }
+      };
+    },
+    getLabelAdapterMethods: function getLabelAdapterMethods() {
+      var _this3 = this;
+
+      return {
+        shakeLabel: function shakeLabel(shouldShake) {
+          _this3.$refs.labelEl && _this3.$refs.labelEl.shake(shouldShake);
+        },
+        floatLabel: function floatLabel(shouldFloat) {
+          _this3.$refs.labelEl && _this3.$refs.labelEl.float(shouldFloat);
+        },
+        hasLabel: function hasLabel() {
+          return !!_this3.$refs.labelEl || !!_this3.$refs.notchedEl;
+        },
+        getLabelWidth: function getLabelWidth() {
+          return _this3.$refs.labelEl && _this3.$refs.labelEl.getWidth();
+        }
+      };
+    },
+    getLineRippleAdapterMethods: function getLineRippleAdapterMethods() {
+      var _this4 = this;
+
+      return {
+        deactivateLineRipple: function deactivateLineRipple() {
+          if (_this4.$refs.lineRippleEl) {
+            _this4.$refs.lineRippleEl.deactivate();
+          }
+        },
+        activateLineRipple: function activateLineRipple() {
+          if (_this4.$refs.lineRippleEl) {
+            _this4.$refs.lineRippleEl.activate();
+          }
+        },
+        setLineRippleTransformOrigin: function setLineRippleTransformOrigin(normalizedX) {
+          if (_this4.$refs.lineRippleEl) {
+            _this4.$refs.lineRippleEl.setRippleCenter(normalizedX);
+          }
+        }
+      };
+    },
+    getOutlineAdapterMethods: function getOutlineAdapterMethods() {
+      var _this5 = this;
+
+      return {
+        hasOutline: function hasOutline() {
+          return !!_this5.hasOutline;
+        },
+        notchOutline: function notchOutline(notchWidth, isRtl) {
+          return _this5.$refs.labelEl.notch(notchWidth, isRtl);
+        },
+        closeOutline: function closeOutline() {
+          return _this5.$refs.labelEl.closeNotch();
+        }
+      };
+    },
+    updateValue: function updateValue(value) {
+      this.$emit('model', value);
+    },
+    focus: function focus() {
+      this.$refs.input && this.$refs.input.focus();
+    },
+    blur: function blur() {
+      this.$refs.input && this.$refs.input.blur();
+    }
+  }
+};
+
+/* script */
+const __vue_script__$2 = script$2;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$2.__file = "/ddata/extra/vma/components/textfield/mdc-textfield.vue";
 
 /* template */
 var __vue_render__ = function() {
@@ -3053,196 +2346,133 @@ var __vue_render__ = function() {
       attrs: { id: _vm.id }
     },
     [
-      _c("div", { ref: "root", class: _vm.rootClasses }, [
-        !!_vm.hasLeadingIcon
-          ? _c(
-              "i",
-              {
-                ref: "leadingIcon",
-                staticClass: "mdc-text-field__icon",
-                class: _vm.hasLeadingIcon.classes,
-                attrs: { tabindex: _vm.leadingTabindex, role: _vm.leadingRole }
-              },
-              [
-                _vm._t("leading-icon", [
-                  _vm._v(_vm._s(_vm.hasLeadingIcon.content))
-                ])
-              ],
-              2
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.multiline
-          ? _c(
-              "textarea",
-              _vm._g(
-                _vm._b(
-                  {
-                    ref: "input",
-                    class: _vm.inputClasses,
-                    attrs: {
-                      id: _vm.vma_uid_,
-                      minlength: _vm.minlength,
-                      maxlength: _vm.maxlength,
-                      placeholder: _vm.inputPlaceHolder,
-                      "aria-label": _vm.inputPlaceHolder,
-                      "aria-controls": _vm.inputAriaControls,
-                      rows: _vm.rows,
-                      cols: _vm.cols
-                    },
-                    on: {
-                      input: function($event) {
-                        _vm.updateValue($event.target.value);
-                      }
-                    }
-                  },
-                  "textarea",
-                  _vm.$attrs,
-                  false
-                ),
-                _vm.$listeners
+      _c(
+        "div",
+        { ref: "root", class: _vm.rootClasses },
+        [
+          _vm.$slots.leadingIcon
+            ? _c(
+                "textfield-icon",
+                { ref: "leadingIconEl" },
+                [_vm._t("leadingIcon")],
+                2
               )
-            )
-          : _c(
-              "input",
-              _vm._g(
-                _vm._b(
-                  {
-                    ref: "input",
-                    class: _vm.inputClasses,
-                    attrs: {
-                      id: _vm.vma_uid_,
-                      type: _vm.type,
-                      minlength: _vm.minlength,
-                      maxlength: _vm.maxlength,
-                      placeholder: _vm.inputPlaceHolder,
-                      "aria-label": _vm.inputPlaceHolder,
-                      "aria-controls": _vm.inputAriaControls
-                    },
-                    on: {
-                      input: function($event) {
-                        _vm.updateValue($event.target.value);
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.multiline
+            ? _c(
+                "textarea",
+                _vm._g(
+                  _vm._b(
+                    {
+                      ref: "input",
+                      class: _vm.inputClasses,
+                      attrs: {
+                        id: _vm.vma_uid_,
+                        minlength: _vm.minlength,
+                        maxlength: _vm.maxlength,
+                        placeholder: _vm.inputPlaceHolder,
+                        "aria-label": _vm.inputPlaceHolder,
+                        "aria-controls": _vm.inputAriaControls,
+                        rows: _vm.rows,
+                        cols: _vm.cols
+                      },
+                      on: {
+                        input: function($event) {
+                          _vm.updateValue($event.target.value);
+                        }
                       }
-                    }
-                  },
-                  "input",
-                  _vm.$attrs,
-                  false
-                ),
-                _vm.$listeners
+                    },
+                    "textarea",
+                    _vm.$attrs,
+                    false
+                  ),
+                  _vm.$listeners
+                )
               )
-            ),
-        _vm._v(" "),
-        _vm.hasLabel
-          ? _c(
-              "label",
-              {
-                ref: "label",
-                class: _vm.labelClassesUpgraded,
-                attrs: { for: _vm.vma_uid_ }
-              },
-              [_vm._v("\n      " + _vm._s(_vm.label) + "\n    ")]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        !!_vm.hasTrailingIcon
-          ? _c(
-              "i",
-              {
-                ref: "trailingIcon",
-                staticClass: "mdc-text-field__icon",
-                class: _vm.hasTrailingIcon.classes,
-                attrs: {
-                  tabindex: _vm.trailingTabindex,
-                  role: _vm.trailingRole
-                }
-              },
-              [
-                _vm._t("trailing-icon", [
-                  _vm._v(_vm._s(_vm.hasTrailingIcon.content))
-                ])
-              ],
-              2
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.hasOutline
-          ? _c(
-              "div",
-              {
-                ref: "outline",
-                staticClass: "mdc-notched-outline",
-                class: _vm.outlineClasses
-              },
-              [
-                _c("div", { staticClass: "mdc-notched-outline__leading" }),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "mdc-notched-outline__notch",
-                    style: _vm.notchStyles
-                  },
-                  [
-                    _vm.hasOutlineLabel
-                      ? _c(
-                          "label",
-                          {
-                            ref: "label-outline",
-                            class: _vm.labelClassesUpgraded,
-                            attrs: { for: _vm.vma_uid_ }
-                          },
-                          [
-                            _vm._v(
-                              "\n          " + _vm._s(_vm.label) + "\n        "
-                            )
-                          ]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _c("label", { staticClass: "mdc-floating-label" })
-                  ]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "mdc-notched-outline__trailing" })
-              ]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.hasLineRipple
-          ? _c("div", {
-              ref: "lineRipple",
-              class: _vm.lineRippleClasses,
-              style: _vm.lineRippleStyles
-            })
-          : _vm._e()
-      ]),
+            : _c(
+                "input",
+                _vm._g(
+                  _vm._b(
+                    {
+                      ref: "input",
+                      class: _vm.inputClasses,
+                      attrs: {
+                        id: _vm.vma_uid_,
+                        type: _vm.type,
+                        minlength: _vm.minlength,
+                        maxlength: _vm.maxlength,
+                        placeholder: _vm.inputPlaceHolder,
+                        "aria-label": _vm.inputPlaceHolder,
+                        "aria-controls": _vm.inputAriaControls
+                      },
+                      on: {
+                        input: function($event) {
+                          _vm.updateValue($event.target.value);
+                        }
+                      }
+                    },
+                    "input",
+                    _vm.$attrs,
+                    false
+                  ),
+                  _vm.$listeners
+                )
+              ),
+          _vm._v(" "),
+          _vm.hasLabel
+            ? _c(
+                "mdc-floating-label",
+                { ref: "labelEl", attrs: { for: _vm.vma_uid_ } },
+                [_vm._v(_vm._s(_vm.label))]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.$slots.trailingIcon
+            ? _c(
+                "textfield-icon",
+                { ref: "trailingIconEl" },
+                [_vm._t("trailingIcon")],
+                2
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.hasOutline
+            ? _c("mdc-notched-outline", { ref: "labelEl" }, [
+                _vm._v(_vm._s(_vm.label))
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.hasLineRipple
+            ? _c("mdc-line-ripple", { ref: "lineRippleEl" })
+            : _vm._e()
+        ],
+        1
+      ),
       _vm._v(" "),
-      _vm.helptext
+      _vm.$slots.helpText
         ? _c(
-            "p",
-            {
-              ref: "help",
-              class: _vm.helpClasses,
-              attrs: { id: "help-" + _vm.vma_uid_, "aria-hidden": "true" }
-            },
-            [_vm._v("\n    " + _vm._s(_vm.helptext) + "\n  ")]
+            "textfield-helper-text",
+            { ref: "helpertextEl", attrs: { id: "help-" + _vm.vma_uid_ } },
+            [_vm._t("helpText")],
+            2
           )
         : _vm._e()
-    ]
+    ],
+    1
   )
 };
 var __vue_staticRenderFns__ = [];
 __vue_render__._withStripped = true;
 
   /* style */
-  const __vue_inject_styles__ = undefined;
+  const __vue_inject_styles__$2 = undefined;
   /* scoped */
-  const __vue_scope_id__ = undefined;
+  const __vue_scope_id__$2 = undefined;
   /* module identifier */
-  const __vue_module_identifier__ = undefined;
+  const __vue_module_identifier__$2 = undefined;
   /* functional template */
-  const __vue_is_functional_template__ = false;
+  const __vue_is_functional_template__$2 = false;
   /* style inject */
   
   /* style inject SSR */
@@ -3251,11 +2481,11 @@ __vue_render__._withStripped = true;
   
   var mdcTextField = normalizeComponent(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
-    __vue_inject_styles__,
-    __vue_script__,
-    __vue_scope_id__,
-    __vue_is_functional_template__,
-    __vue_module_identifier__,
+    __vue_inject_styles__$2,
+    __vue_script__$2,
+    __vue_scope_id__$2,
+    __vue_is_functional_template__$2,
+    __vue_module_identifier__$2,
     undefined,
     undefined
   );

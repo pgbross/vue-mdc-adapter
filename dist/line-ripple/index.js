@@ -1,5 +1,5 @@
 /**
-* @module vue-mdc-adapterline-ripple 0.19.0-beta
+* @module vue-mdc-adapterline-ripple 0.19.1-beta
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
@@ -10,7 +10,7 @@
 
 function BasePlugin(components) {
   return {
-    version: '0.19.0-beta',
+    version: '0.19.1-beta',
     install: function install(vm) {
       for (var key in components) {
         var component = components[key];
@@ -505,7 +505,7 @@ var script = {
       this.foundation.setRippleCenter(xCoordinate);
     },
     activate: function activate() {
-      this.foundation_.activate();
+      this.foundation.activate();
     },
     deactivate: function deactivate() {
       this.foundation.deactivate();
