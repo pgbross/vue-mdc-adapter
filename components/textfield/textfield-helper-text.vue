@@ -9,7 +9,7 @@ import * as classnames from 'classnames'
 export default {
   name: 'textfield-helper-text',
 
-  functional: true,
+  // functional: true,
   props: {
     persistent: Boolean,
     validation: Boolean
@@ -24,12 +24,12 @@ export default {
     }
   },
 
-  render(h, context) {
-    const node = context.children[0]
+  render(h) {
+    const node = this.$slots.default[0]
     node.data.class = classnames({
       'mdc-text-field-helper-text': true,
-      'mdc-text-field-helper-text--persistent': context.props.persistent,
-      'mdc-text-field-helper-text--validation-msg': context.props.validation
+      'mdc-text-field-helper-text--persistent': node.data.attrs.persistent,
+      'mdc-text-field-helper-text--validation-msg': node.data.attrs.validation
     })
     return node
   },

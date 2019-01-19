@@ -16,12 +16,9 @@
             label="Password"
             minlength="8"
             maxlength="10"
-            helptext="passord must be 8 to 10 characters"
-            helptext-persistent
-            helptext-validation
             autocomplete
           >
-            <p slot="helpText">
+            <p slot="helpText" :persistent="true" :validation="true">
               password must be 8 to 10 characters.
             </p></mdc-textfield
           >
@@ -50,7 +47,6 @@
           v-model="textField"
           :leading-icon="{ className: 'fa fa-font-awesome' }"
           label="in a box"
-          helptext="Help text..."
         />
       </mdc-layout-cell>
       <mdc-layout-cell span="6">

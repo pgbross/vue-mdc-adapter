@@ -113,19 +113,12 @@ export default {
     },
     dense: Boolean,
     label: String,
-    // helptext: String,
-    // helptextPersistent: Boolean,
-    // helptextValidation: Boolean,
     outline: Boolean,
     disabled: Boolean,
     required: Boolean,
     valid: { type: Boolean, default: undefined },
     fullwidth: Boolean,
     multiline: Boolean,
-    // leadingIcon: [String, Array, Object],
-    // trailingNonInteractive: Boolean,
-    // leadingNonInteractive: Boolean,
-    // trailingIcon: [String, Array, Object],
     size: { type: [Number, String], default: 20 },
     minlength: { type: [Number, String], default: undefined },
     maxlength: { type: [Number, String], default: undefined },
@@ -136,7 +129,18 @@ export default {
   data: function() {
     return {
       text: this.value,
-
+      rootClasses: {
+        'mdc-textfield': true,
+        'mdc-text-field': true,
+        'mdc-text-field--upgraded': true,
+        'mdc-text-field--disabled': this.disabled,
+        'mdc-text-field--dense': this.dense,
+        'mdc-text-field--fullwidth': this.fullwidth,
+        'mdc-text-field--textarea': this.multiline,
+        'mdc-text-field--outlined': !this.fullwidth && this.outline,
+        'mdc-text-field--with-leading-icon': Boolean(this.$slots.leadingIcon),
+        'mdc-text-field--with-trailing-icon': Boolean(this.$slots.trailingIcon)
+      },
       inputClasses: {
         'mdc-text-field__input': true
       },
@@ -153,20 +157,6 @@ export default {
   },
   components: { TextfieldHelperText, TextfieldIcon },
   computed: {
-    rootClasses() {
-      return {
-        'mdc-textfield': true,
-        'mdc-text-field': true,
-        'mdc-text-field--upgraded': true,
-        'mdc-text-field--disabled': this.disabled,
-        'mdc-text-field--dense': this.dense,
-        'mdc-text-field--fullwidth': this.fullwidth,
-        'mdc-text-field--textarea': this.multiline,
-        'mdc-text-field--outlined': !this.fullwidth && this.outline,
-        'mdc-text-field--with-leading-icon': Boolean(this.$slots.leadingIcon),
-        'mdc-text-field--with-trailing-icon': Boolean(this.$slots.trailingIcon)
-      }
-    },
     inputPlaceHolder() {
       return this.fullwidth ? this.label : undefined
     },
@@ -269,7 +259,6 @@ export default {
           : void 0
       }
     )
-
     this.foundation.init()
     this.foundation.setValue(this.value)
     this.foundation.setDisabled(this.disabled)
