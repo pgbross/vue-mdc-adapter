@@ -4,9 +4,6 @@
 
 <script>
 import MDCTextFieldHelperTextFoundation from '@material/textfield/helper-text/foundation'
-import * as classnames_ from 'classnames'
-
-let classnames = classnames_
 
 export default {
   name: 'textfield-helper-text',
@@ -29,7 +26,7 @@ export default {
 
   render(h) {
     const node = this.$slots.default[0]
-    node.data.class = classnames(this.classes)
+    node.data.class = classNames(this.classes)
     return node
   },
   watch: {
@@ -65,5 +62,39 @@ export default {
   beforeDestroy() {
     this.foundation.destroy()
   }
+}
+
+// ===
+// Private functions
+// ===
+
+var hasOwn = {}.hasOwnProperty
+
+function classNames() {
+  var classes = []
+
+  for (var i = 0; i < arguments.length; i++) {
+    var arg = arguments[i]
+    if (!arg) continue
+
+    var argType = typeof arg
+
+    if (argType === 'string' || argType === 'number') {
+      classes.push(arg)
+    } else if (Array.isArray(arg) && arg.length) {
+      var inner = classNames.apply(null, arg)
+      if (inner) {
+        classes.push(inner)
+      }
+    } else if (argType === 'object') {
+      for (var key in arg) {
+        if (hasOwn.call(arg, key) && arg[key]) {
+          classes.push(key)
+        }
+      }
+    }
+  }
+
+  return classes.join(' ')
 }
 </script>
