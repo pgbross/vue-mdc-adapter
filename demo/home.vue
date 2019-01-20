@@ -1,7 +1,6 @@
 <template>
   <div class="demo-home">
-    <mdc-display
-      ref="title">{{ title }}</mdc-display>
+    <mdc-headline1 ref="title">{{ title }}</mdc-headline1>
     <about class="markdown" />
   </div>
 </template>

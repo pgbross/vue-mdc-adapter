@@ -4,96 +4,37 @@ The `mdc-typography` components defines basic properties for text, such as the
 typeface and antialiasing settings.
 
 ```html
-<mdc-display>Typography</mdc-display>
-<mdc-headline>Headline</mdc-headline>
-<mdc-title>Title <mdc-caption>Caption</mdc-caption></mdc-title>
-<mdc-subheading>Subheading</mdc-subheading>
-<mdc-body>Body</mdc-body>
+<mdc-headline1>Headline1</mdc-headline1>
+<mdc-headline2>Headline2</mdc-headline2>
+<mdc-headline3>Headline3</mdc-headline3>
+<mdc-headline4>Headline4</mdc-headline4>
+<mdc-headline5>Headline5</mdc-headline5>
+<mdc-headline6>Headline6</mdc-headline6>
+
+<mdc-subtitle1>Subtitle1</mdc-subtitle1>
+<mdc-subtitle2>Subtitle2</mdc-subtitle2>
+
+<mdc-body1>Body1</mdc-body1>
+<mdc-body2>Body2</mdc-body2>
+
+<div><mdc-button1>Button1</mdc-button1></div>
+<div><mdc-caption>Caption</mdc-caption></div>
+<div><mdc-overline>Overline</mdc-overline></div>
 ```
 
 > Material Design typography uses the Roboto font. mdc-typography only uses
 > 300, 400 and 500.
 
-### mdc-text
-
-`mdc-text` is the base typography component, it has no restriction on props.
+### mdc-headline1
 
 ```html
-<mdc-text typo='body2' tag="span" adjust-margin></mdc-text>
+<mdc-headline1>headline text</mdc-headline1>
 ```
 
-| prop   | Type   | Default | Description            |
-| ------ | ------ | ------- | ---------------------- |
-| `typo` | String | `body1` | one of the styles (\*) |
-| `tag`  | String | `p`     | rendering tag          |
-
-(\*) styles:
-
-```javascript
-const typos = [
-  'headline1',
-  'headline2',
-  'headline3',
-  'headline4',
-  'headline5',
-  'headline6',
-  'subtitle1',
-  'subtitle2',
-  'body1',
-  'body2',
-  'caption',
-  'button',
-  'overline'
-]
-```
-
-### mdc-display
-
-| prop   | Type   | Default     | Description            |
-| ------ | ------ | ----------- | ---------------------- |
-| `typo` | String | `headline4` | one of the styles (\*) |
-| `tag`  | String | `h1`        | rendering tag          |
-
-(\*) styles: 'headline1', 'headline2', 'headline3', 'headline4',
-
-### mdc-headline
-
 | prop  | Type   | Default | Description   |
 | ----- | ------ | ------- | ------------- |
-| `tag` | String | `h2`    | rendering tag |
-
-### mdc-title
-
-| prop  | Type   | Default | Description   |
-| ----- | ------ | ------- | ------------- |
-| `tag` | String | `h3`    | rendering tag |
-
-### mdc-caption
-
-| prop  | Type   | Default | Description   |
-| ----- | ------ | ------- | ------------- |
-| `tag` | String | `span`  | rendering tag |
-
-### mdc-subheading
-
-| prop   | Type   | Default     | Description            |
-| ------ | ------ | ----------- | ---------------------- |
-| `typo` | String | `subtitle2` | one of the styles (\*) |
-| `tag`  | String | `h4`        | rendering tag          |
-
-(\*) styles: 'subtitle1', 'subtitle2'
-
-### mdc-body
-
-| prop   | Type   | Default | Description            |
-| ------ | ------ | ------- | ---------------------- |
-| `typo` | String | `body1` | one of the styles (\*) |
-| `tag`  | String | `p`     | rendering tag          |
-
-(\*) styles: body1, body2
-
-> use body2 for text calling out something
+| `tag` | String | `h1`    | rendering tag |
 
 ### Reference
 
-* <https://material.io/components/web/catalog/typography>
+- <https://material.io/components/web/catalog/typography>
