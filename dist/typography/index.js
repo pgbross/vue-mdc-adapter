@@ -1,5 +1,5 @@
 /**
-* @module vue-mdc-adaptertypography 0.19.1-beta
+* @module vue-mdc-adaptertypography 0.19.2-beta
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
@@ -10,7 +10,7 @@
 
 function BasePlugin(components) {
   return {
-    version: '0.19.1-beta',
+    version: '0.19.2-beta',
     install: function install(vm) {
       for (var key in components) {
         var component = components[key];
@@ -40,98 +40,100 @@ function _defineProperty(obj, key, value) {
 
 var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
 
-var typos = ['headline1', 'headline2', 'headline3', 'headline4', 'headline5', 'headline6', 'subtitle1', 'subtitle2', 'body1', 'body2', 'caption', 'button', 'overline'];
-var mdcTypoMixin = function mdcTypoMixin(name) {
-  return {
-    render: function render(createElement) {
-      var _class;
-
-      return createElement(this.tag, {
-        class: (_class = {
-          'mdc-typo': true
-        }, _defineProperty(_class, name, true), _defineProperty(_class, "mdc-typography--".concat(this.typo), true), _class),
-        attrs: this.$attrs,
-        on: this.$listeners
-      }, this.$slots.default);
-    }
-  };
-};
-function mdcTypoPropMixin(defaultTag, defaultTypo, validTypos) {
+function mdcTypoMixin(defaultTag, defaultClassModifier) {
+  var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "mdc-".concat(defaultTag);
   return {
     props: {
       tag: {
         type: String,
         default: defaultTag
       },
-      typo: {
+      classModifier: {
         type: String,
-        default: defaultTypo,
-        validator: function validator(value) {
-          return validTypos.indexOf(value) !== -1;
-        }
+        default: defaultClassModifier
       }
+    },
+    render: function render(createElement) {
+      var _class;
+
+      return createElement(this.tag, {
+        class: (_class = {}, _defineProperty(_class, name, true), _defineProperty(_class, 'mdc-typography', true), _defineProperty(_class, "mdc-typography--".concat(this.classModifier), true), _class),
+        attrs: this.$attrs,
+        on: this.$listeners
+      }, this.$slots.default);
     }
   };
 }
-var mdcTextSection = {
-  name: 'mdc-text-section',
-  props: {
-    tag: {
-      type: String,
-      default: 'section'
-    }
-  },
-  render: function render(createElement) {
-    return createElement(this.tag, {
-      class: {
-        'mdc-typography': true,
-        'mdc-text-section': true
-      },
-      attrs: this.$attrs,
-      on: this.$listeners
-    }, this.$slots.default);
-  }
+
+var mdcHeadline1 = {
+  name: 'mdc-headline1',
+  mixins: [mdcTypoMixin('h1', 'headline1')]
 };
-var mdcText = {
-  name: 'mdc-text',
-  mixins: [mdcTypoMixin('mdc-text'), mdcTypoPropMixin('p', 'body1', typos)]
+var mdcHeadline2 = {
+  name: 'mdc-headline2',
+  mixins: [mdcTypoMixin('h2', 'headline2')]
 };
-var mdcDisplay = {
-  name: 'mdc-display',
-  mixins: [mdcTypoMixin('mdc-display'), mdcTypoPropMixin('h1', 'headline4', ['headline4', 'headline3', 'headline2', 'headline1'])]
+var mdcHeadline3 = {
+  name: 'mdc-headline3',
+  mixins: [mdcTypoMixin('h3', 'headline3')]
 };
-var mdcHeadline = {
-  name: 'mdc-headline',
-  mixins: [mdcTypoMixin('mdc-headline'), mdcTypoPropMixin('h2', 'headline5', ['headline5'])]
+var mdcHeadline4 = {
+  name: 'mdc-headline4',
+  mixins: [mdcTypoMixin('h4', 'headline4')]
 };
-var mdcTitle = {
-  name: 'mdc-title',
-  mixins: [mdcTypoMixin('mdc-title'), mdcTypoPropMixin('h3', 'headline6', ['headline6'])]
+var mdcHeadline5 = {
+  name: 'mdc-headline5',
+  mixins: [mdcTypoMixin('h5', 'headline5')]
 };
-var mdcSubHeading = {
-  name: 'mdc-subheading',
-  mixins: [mdcTypoMixin('mdc-subheading'), mdcTypoPropMixin('h4', 'subtitle2', ['subtitle1', 'subtitle2'])]
+var mdcHeadline6 = {
+  name: 'mdc-headline6',
+  mixins: [mdcTypoMixin('h6', 'headline6')]
 };
-var mdcBody = {
-  name: 'mdc-body',
-  mixins: [mdcTypoMixin('mdc-body'), mdcTypoPropMixin('p', 'body1', ['body1', 'body2'])]
+var mdcSubtitle1 = {
+  name: 'mdc-subtitle1',
+  mixins: [mdcTypoMixin('h6', 'subtitle1')]
+};
+var mdcSubtitle2 = {
+  name: 'mdc-subtitle2',
+  mixins: [mdcTypoMixin('h6', 'subtitle2')]
+};
+var mdcBody1 = {
+  name: 'mdc-body1',
+  mixins: [mdcTypoMixin('p', 'body1')]
+};
+var mdcBody2 = {
+  name: 'mdc-body2',
+  mixins: [mdcTypoMixin('p', 'body2')]
+};
+var mdcButton1 = {
+  name: 'mdc-button1',
+  mixins: [mdcTypoMixin('span', 'button', 'mdc-button1')]
 };
 var mdcCaption = {
   name: 'mdc-caption',
-  mixins: [mdcTypoMixin('mdc-caption'), mdcTypoPropMixin('span', 'caption', ['caption'])]
+  mixins: [mdcTypoMixin('span', 'caption')]
+};
+var mdcOverline = {
+  name: 'mdc-overline',
+  mixins: [mdcTypoMixin('span', 'overline')]
 };
 
 var index = BasePlugin({
-  mdcTextSection: mdcTextSection,
-  mdcText: mdcText,
-  mdcBody: mdcBody,
-  mdcCaption: mdcCaption,
-  mdcDisplay: mdcDisplay,
-  mdcHeadline: mdcHeadline,
-  mdcSubHeading: mdcSubHeading,
-  mdcTitle: mdcTitle
+  mdcHeadline1: mdcHeadline1,
+  mdcHeadline2: mdcHeadline2,
+  mdcHeadline3: mdcHeadline3,
+  mdcHeadline4: mdcHeadline4,
+  mdcHeadline5: mdcHeadline5,
+  mdcHeadline6: mdcHeadline6,
+  mdcOverline: mdcOverline,
+  mdcSubtitle1: mdcSubtitle1,
+  mdcSubtitle2: mdcSubtitle2,
+  mdcBody1: mdcBody1,
+  mdcBody2: mdcBody2,
+  mdcButton1: mdcButton1,
+  mdcCaption: mdcCaption
 });
 
 export default index;
-export { mdcTextSection, mdcText, mdcBody, mdcCaption, mdcDisplay, mdcHeadline, mdcSubHeading, mdcTitle };
+export { mdcHeadline1, mdcHeadline2, mdcHeadline3, mdcHeadline4, mdcHeadline5, mdcHeadline6, mdcOverline, mdcSubtitle1, mdcSubtitle2, mdcBody1, mdcBody2, mdcButton1, mdcCaption };
 //# sourceMappingURL=index.js.map

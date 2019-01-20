@@ -1,5 +1,5 @@
 /**
-* @module vue-mdc-adapter 0.19.1-beta
+* @module vue-mdc-adapter 0.19.2-beta
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
@@ -42,7 +42,7 @@ import VueMDCTypography from './typography';
 
 function BasePlugin(components) {
   return {
-    version: '0.19.1-beta',
+    version: '0.19.2-beta',
     install: function install(vm) {
       for (var key in components) {
         var component = components[key];
@@ -1117,7 +1117,7 @@ var script = {
         _this.$delete(_this.rootClasses, className);
       },
       hasClass: function hasClass(className) {
-        return _this.$refs.root.classList.contains(className);
+        return Boolean(_this.rootClasses[className]);
       },
       setStyle: function setStyle(property, value) {
         _this.$set(_this.rootStyles, property, value);
@@ -1342,15 +1342,24 @@ var script$1 = {
   name: 'mdc-top-app-bar-action',
   mixins: [DispatchEventMixin, RippleMixin],
   props: {
+    tag: {
+      type: String,
+      default: 'a'
+    },
     icon: String,
     iconClasses: Object
   },
-  computed: {
-    actioniconClasses: function actioniconClasses() {
-      return _objectSpread({
-        'material-icons': !!this.icon
-      }, this.iconClasses);
-    }
+  render: function render(h) {
+    return h(this.tag, {
+      class: {
+        'mdc-top-app-bar-action': true,
+        'mdc-top-app-bar--action': true,
+        'mdc-top-app-bar__action-item': true,
+        'material-icons': !!this.icon && !this.$slots.default
+      },
+      attrs: this.$attrs,
+      on: this.$listeners
+    }, this.$slots.default || [this.icon]);
   }
 };
 
@@ -1360,27 +1369,6 @@ const __vue_script__$1 = script$1;
 script$1.__file = "/ddata/extra/vma/components/top-app-bar/mdc-top-app-bar-action.vue";
 
 /* template */
-var __vue_render__$1 = function() {
-  var _vm = this;
-  var _h = _vm.$createElement;
-  var _c = _vm._self._c || _h;
-  return _c(
-    "a",
-    _vm._g(
-      {
-        staticClass:
-          "mdc-top-app-bar-action mdc-top-app-bar--action mdc-top-app-bar__action-item",
-        class: _vm.actioniconClasses,
-        attrs: { href: "#" }
-      },
-      _vm.listeners
-    ),
-    [_vm._t("default", [_vm._v(_vm._s(_vm.icon))])],
-    2
-  )
-};
-var __vue_staticRenderFns__$1 = [];
-__vue_render__$1._withStripped = true;
 
   /* style */
   const __vue_inject_styles__$1 = undefined;
@@ -1389,7 +1377,7 @@ __vue_render__$1._withStripped = true;
   /* module identifier */
   const __vue_module_identifier__$1 = undefined;
   /* functional template */
-  const __vue_is_functional_template__$1 = false;
+  const __vue_is_functional_template__$1 = undefined;
   /* style inject */
   
   /* style inject SSR */
@@ -1397,7 +1385,7 @@ __vue_render__$1._withStripped = true;
 
   
   var mdcTopAppBarAction = normalizeComponent(
-    { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
+    {},
     __vue_inject_styles__$1,
     __vue_script__$1,
     __vue_scope_id__$1,
@@ -1407,14 +1395,73 @@ __vue_render__$1._withStripped = true;
     undefined
   );
 
+var script$2 = {
+  name: 'mdc-fixed-adjust',
+  props: {
+    tag: {
+      type: String,
+      default: 'main'
+    },
+    dense: Boolean,
+    short: Boolean,
+    prominent: Boolean
+  },
+  computed: {
+    classnames: function classnames() {}
+  },
+  render: function render(h) {
+    var _class;
+
+    var base = 'mdc-top-app-bar';
+    var suffix = '-fixed-adjust';
+    return h(this.tag, {
+      class: (_class = {}, _defineProperty(_class, base + '--short' + suffix, this.short), _defineProperty(_class, base + '--dense' + suffix, this.dense && !this.prominent), _defineProperty(_class, base + '--dense-prominent' + suffix, this.dense && this.prominent), _defineProperty(_class, base + '--prominent' + suffix, !this.dense && this.prominent), _defineProperty(_class, base + '-' + suffix, !this.short && !this.dense && !this.prominent), _class),
+      attrs: this.$attrs
+    }, this.$slots.default);
+  }
+};
+
+/* script */
+const __vue_script__$2 = script$2;
+// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
+script$2.__file = "/ddata/extra/vma/components/top-app-bar/mdc-fixed-adjust.vue";
+
+/* template */
+
+  /* style */
+  const __vue_inject_styles__$2 = undefined;
+  /* scoped */
+  const __vue_scope_id__$2 = undefined;
+  /* module identifier */
+  const __vue_module_identifier__$2 = undefined;
+  /* functional template */
+  const __vue_is_functional_template__$2 = undefined;
+  /* style inject */
+  
+  /* style inject SSR */
+  
+
+  
+  var mdcFixedAdjust = normalizeComponent(
+    {},
+    __vue_inject_styles__$2,
+    __vue_script__$2,
+    __vue_scope_id__$2,
+    __vue_is_functional_template__$2,
+    __vue_module_identifier__$2,
+    undefined,
+    undefined
+  );
+
 var VueMDCTopAppBar = BasePlugin({
   mdcTopAppBar: mdcTopAppBar,
-  mdcTopAppBarAction: mdcTopAppBarAction
+  mdcTopAppBarAction: mdcTopAppBarAction,
+  mdcFixedAdjust: mdcFixedAdjust
 });
 
 //
 var index = {
-  version: '0.19.1-beta',
+  version: '0.19.2-beta',
   install: function install(vm) {
     vm.use(VueMDCButton);
     vm.use(VueMDCCard);
