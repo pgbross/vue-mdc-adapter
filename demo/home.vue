@@ -1,6 +1,6 @@
 <template>
   <div class="demo-home">
-    <mdc-headline1 ref="title">{{ title }}</mdc-headline1>
+    <mdc-headline4 ref="title">{{ title }}</mdc-headline4>
     <about class="markdown" />
   </div>
 </template>

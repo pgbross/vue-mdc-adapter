@@ -3,18 +3,22 @@
     <section class="mdc-demo">
       <mdc-top-app-bar title="Title2">
         <mdc-top-app-bar-action
-          icon="help"
-          @click="buttonText='show help'"/>
+          class="material-icons"
+          @click="buttonText = 'show help'"
+          >help</mdc-top-app-bar-action
+        >
         <mdc-top-app-bar-action
           icon="info_outline"
-          @click="buttonText='show information'"/>
+          @click="buttonText = 'show information'"
+        />
       </mdc-top-app-bar>
-      <br>
+
+      <!-- <mdc-fixed-adjust>Adjusted</mdc-fixed-adjust> -->
+      <br />
       <div v-if="buttonText">
         Button: <span class="demo-button-info">{{ buttonText }}</span>
       </div>
     </section>
-
   </div>
 </template>
 

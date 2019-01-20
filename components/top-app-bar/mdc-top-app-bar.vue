@@ -82,7 +82,7 @@ export default {
         this.$delete(this.rootClasses, className)
       },
       hasClass: className => {
-        return this.$refs.root.classList.contains(className)
+        return Boolean(this.rootClasses[className])
       },
       setStyle: (property, value) => {
         this.$set(this.rootStyles, property, value)
