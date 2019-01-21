@@ -62,8 +62,11 @@
 
     <textfield-helper-text
       ref="helpertextEl"
-      v-if="$slots.helpText"
+      v-if="hasHelptext"
       :id="'help-' + vma_uid_"
+      :helptext="helptext"
+      :persistent="helptextPersistent"
+      :validation="helptextValidation"
     >
       <slot name="helpText"></slot>
     </textfield-helper-text>
@@ -124,7 +127,10 @@ export default {
     maxlength: { type: [Number, String], default: undefined },
     rows: { type: [Number, String], default: 8 },
     cols: { type: [Number, String], default: 40 },
-    id: { type: String }
+    id: { type: String },
+    helptext: String,
+    helptextPersistent: Boolean,
+    helptextValidation: Boolean
   },
   data: function() {
     return {
@@ -175,6 +181,10 @@ export default {
     },
     hasLineRipple() {
       return !this.hasOutline && !this.multiline
+    },
+
+    hasHelptext() {
+      return this.$slots.helpText || this.helptext
     }
   },
   watch: {

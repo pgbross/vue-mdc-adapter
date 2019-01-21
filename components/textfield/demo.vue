@@ -6,9 +6,8 @@
           :disabled="!enabled"
           v-model="textField"
           label="textfield"
-          helptext="Help text..."
-          ><p slot="helpText">Help text 1...</p></mdc-textfield
-        >
+          helptext="Help text 1x..."
+        />
         <form>
           <mdc-textfield
             v-model="password"

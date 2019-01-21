@@ -11,23 +11,31 @@ export default {
   // functional: true,
   props: {
     persistent: Boolean,
-    validation: Boolean
+    validation: Boolean,
+    helptext: String
   },
   data() {
-    const node = this.$slots.default[0]
+    const context = this.$slots.default
+      ? this.$slots.default[0].data.attrs
+      : this
     return {
       classes: {
         'mdc-text-field-helper-text': true,
-        'mdc-text-field-helper-text--persistent': node.data.attrs.persistent,
-        'mdc-text-field-helper-text--validation-msg': node.data.attrs.validation
+        'mdc-text-field-helper-text--persistent': context.persistent,
+        'mdc-text-field-helper-text--validation-msg': context.validation
       }
     }
   },
 
   render(h) {
-    const node = this.$slots.default[0]
-    node.data.class = classNames(this.classes)
-    return node
+    const classes = classNames(this.classes)
+    if (this.$slots.default) {
+      const node = this.$slots.default[0]
+      node.data.class = classes
+      return node
+    } else {
+      return h('p', { class: classes, attrs: this.$attrs }, this.helptext)
+    }
   },
   watch: {
     persistent() {
