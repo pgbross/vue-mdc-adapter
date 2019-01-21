@@ -1,5 +1,5 @@
 /**
-* @module vue-mdc-adaptertextfield 0.19.2-beta
+* @module vue-mdc-adaptertextfield 0.19.3-beta
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
@@ -45,7 +45,7 @@ function applyPassive() {
 
 function BasePlugin(components) {
   return {
-    version: '0.19.2-beta',
+    version: '0.19.3-beta',
     install: function install(vm) {
       for (var key in components) {
         var component = components[key];
@@ -1739,22 +1739,32 @@ var script = {
   // functional: true,
   props: {
     persistent: Boolean,
-    validation: Boolean
+    validation: Boolean,
+    helptext: String
   },
   data: function data() {
-    var node = this.$slots.default[0];
+    var context = this.$slots.default ? this.$slots.default[0].data.attrs : this;
     return {
       classes: {
         'mdc-text-field-helper-text': true,
-        'mdc-text-field-helper-text--persistent': node.data.attrs.persistent,
-        'mdc-text-field-helper-text--validation-msg': node.data.attrs.validation
+        'mdc-text-field-helper-text--persistent': context.persistent,
+        'mdc-text-field-helper-text--validation-msg': context.validation
       }
     };
   },
   render: function render(h) {
-    var node = this.$slots.default[0];
-    node.data.class = classNames(this.classes);
-    return node;
+    var classes = classNames(this.classes);
+
+    if (this.$slots.default) {
+      var node = this.$slots.default[0];
+      node.data.class = classes;
+      return node;
+    } else {
+      return h('p', {
+        class: classes,
+        attrs: this.$attrs
+      }, this.helptext);
+    }
   },
   watch: {
     persistent: function persistent() {
@@ -2074,7 +2084,10 @@ var script$2 = {
     },
     id: {
       type: String
-    }
+    },
+    helptext: String,
+    helptextPersistent: Boolean,
+    helptextValidation: Boolean
   },
   data: function data() {
     return {
@@ -2127,6 +2140,9 @@ var script$2 = {
     },
     hasLineRipple: function hasLineRipple() {
       return !this.hasOutline && !this.multiline;
+    },
+    hasHelptext: function hasHelptext() {
+      return this.$slots.helpText || this.helptext;
     }
   },
   watch: {
@@ -2424,10 +2440,18 @@ var __vue_render__ = function() {
         1
       ),
       _vm._v(" "),
-      _vm.$slots.helpText
+      _vm.hasHelptext
         ? _c(
             "textfield-helper-text",
-            { ref: "helpertextEl", attrs: { id: "help-" + _vm.vma_uid_ } },
+            {
+              ref: "helpertextEl",
+              attrs: {
+                id: "help-" + _vm.vma_uid_,
+                helptext: _vm.helptext,
+                persistent: _vm.helptextPersistent,
+                validation: _vm.helptextValidation
+              }
+            },
             [_vm._t("helpText")],
             2
           )

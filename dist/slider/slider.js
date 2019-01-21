@@ -1,5 +1,5 @@
 /**
-* @module vue-mdc-adapterslider 0.19.2-beta
+* @module vue-mdc-adapterslider 0.19.3-beta
 * @exports VueMDCSlider
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
@@ -65,7 +65,7 @@
 
   function BasePlugin(components) {
     return {
-      version: '0.19.2-beta',
+      version: '0.19.3-beta',
       install: function install(vm) {
         for (var key in components) {
           var component = components[key];
