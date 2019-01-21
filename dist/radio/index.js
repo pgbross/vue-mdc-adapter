@@ -1,5 +1,5 @@
 /**
-* @module vue-mdc-adapterradio 0.19.3-beta
+* @module vue-mdc-adapterradio 0.19.4-beta
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
@@ -45,7 +45,7 @@ function applyPassive() {
 
 function BasePlugin(components) {
   return {
-    version: '0.19.3-beta',
+    version: '0.19.4-beta',
     install: function install(vm) {
       for (var key in components) {
         var component = components[key];

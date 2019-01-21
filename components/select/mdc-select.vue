@@ -83,8 +83,8 @@ export default {
       return {
         'mdc-select': true,
         'mdc-select--outlined': this.outlined,
-
         'mdc-select--with-leading-icon': this.leadingIcon,
+        'mdc-select--disabled': this.disabled,
         ...this.classes
       }
     },

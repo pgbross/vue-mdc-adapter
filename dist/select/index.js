@@ -1,5 +1,5 @@
 /**
-* @module vue-mdc-adapterselect 0.19.3-beta
+* @module vue-mdc-adapterselect 0.19.4-beta
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
@@ -12,7 +12,7 @@ import { RippleBase } from '../ripple';
 
 function BasePlugin(components) {
   return {
-    version: '0.19.3-beta',
+    version: '0.19.4-beta',
     install: function install(vm) {
       for (var key in components) {
         var component = components[key];
@@ -1979,7 +1979,8 @@ var script$2 = {
       return _objectSpread({
         'mdc-select': true,
         'mdc-select--outlined': this.outlined,
-        'mdc-select--with-leading-icon': this.leadingIcon
+        'mdc-select--with-leading-icon': this.leadingIcon,
+        'mdc-select--disabled': this.disabled
       }, this.classes);
     },
     listeners: function listeners() {
