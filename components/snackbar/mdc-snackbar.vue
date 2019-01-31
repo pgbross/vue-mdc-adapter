@@ -14,8 +14,9 @@
           >&nbsp;</span
         >
       </div>
-      <div class="mdc-snackbar__actions">
+      <div class="mdc-snackbar__actions" v-if="showDismissAction || actionText">
         <button
+          v-if="actionText"
           ref="actionEl"
           type="button"
           class="mdc-button mdc-snackbar__action"

@@ -1016,32 +1016,40 @@ var __vue_render__ = function() {
             2
           ),
           _vm._v(" "),
-          _c("div", { staticClass: "mdc-snackbar__actions" }, [
-            _c(
-              "button",
-              _vm._g(
-                {
-                  ref: "actionEl",
-                  staticClass: "mdc-button mdc-snackbar__action",
-                  attrs: { type: "button" }
-                },
-                _vm.$listeners
-              ),
-              [_vm._v("\n        " + _vm._s(_vm.actionText) + "\n      ")]
-            ),
-            _vm._v(" "),
-            _vm.showDismissAction
-              ? _c(
-                  "button",
-                  {
-                    staticClass:
-                      "mdc-icon-button mdc-snackbar__dismiss material-icons",
-                    attrs: { title: "Dismiss" }
-                  },
-                  [_vm._v("\n        close\n      ")]
-                )
-              : _vm._e()
-          ])
+          _vm.showDismissAction || _vm.actionText
+            ? _c("div", { staticClass: "mdc-snackbar__actions" }, [
+                _vm.actionText
+                  ? _c(
+                      "button",
+                      _vm._g(
+                        {
+                          ref: "actionEl",
+                          staticClass: "mdc-button mdc-snackbar__action",
+                          attrs: { type: "button" }
+                        },
+                        _vm.$listeners
+                      ),
+                      [
+                        _vm._v(
+                          "\n        " + _vm._s(_vm.actionText) + "\n      "
+                        )
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.showDismissAction
+                  ? _c(
+                      "button",
+                      {
+                        staticClass:
+                          "mdc-icon-button mdc-snackbar__dismiss material-icons",
+                        attrs: { title: "Dismiss" }
+                      },
+                      [_vm._v("\n        close\n      ")]
+                    )
+                  : _vm._e()
+              ])
+            : _vm._e()
         ]
       )
     ]
