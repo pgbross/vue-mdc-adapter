@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.43.0","material-components-web":"^0.43.0"}
+* @implements {"@material/tabs":"^0.44.0","material-components-web":"^0.44.0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -442,6 +442,30 @@ function () {
   }, {
     key: "setStyleProperty",
     value: function setStyleProperty(propertyName, value) {}
+    /**
+     * Returns whether the chip has a leading icon.
+     * @return {boolean}
+     */
+
+  }, {
+    key: "hasLeadingIcon",
+    value: function hasLeadingIcon() {}
+    /**
+     * Returns the bounding client rect of the root element.
+     * @return {!ClientRect}
+     */
+
+  }, {
+    key: "getRootBoundingClientRect",
+    value: function getRootBoundingClientRect() {}
+    /**
+     * Returns the bounding client rect of the checkmark element or null if it doesn't exist.
+     * @return {?ClientRect}
+     */
+
+  }, {
+    key: "getCheckmarkBoundingClientRect",
+    value: function getCheckmarkBoundingClientRect() {}
   }]);
 
   return MDCChipAdapter;
@@ -539,7 +563,10 @@ function (_MDCFoundation) {
           notifyTrailingIconInteraction: function notifyTrailingIconInteraction() {},
           notifyRemoval: function notifyRemoval() {},
           getComputedStyleValue: function getComputedStyleValue() {},
-          setStyleProperty: function setStyleProperty() {}
+          setStyleProperty: function setStyleProperty() {},
+          hasLeadingIcon: function hasLeadingIcon() {},
+          getRootBoundingClientRect: function getRootBoundingClientRect() {},
+          getCheckmarkBoundingClientRect: function getCheckmarkBoundingClientRect() {}
         }
       );
     }
@@ -605,6 +632,29 @@ function (_MDCFoundation) {
     key: "setShouldRemoveOnTrailingIconClick",
     value: function setShouldRemoveOnTrailingIconClick(shouldRemove) {
       this.shouldRemoveOnTrailingIconClick_ = shouldRemove;
+    }
+    /** @return {!ClientRect} */
+
+  }, {
+    key: "getDimensions",
+    value: function getDimensions() {
+      // When a chip has a checkmark and not a leading icon, the bounding rect changes in size depending on the current
+      // size of the checkmark.
+      if (!this.adapter_.hasLeadingIcon() && this.adapter_.getCheckmarkBoundingClientRect() !== null) {
+        var height = this.adapter_.getRootBoundingClientRect().height; // The checkmark's width is initially set to 0, so use the checkmark's height as a proxy since the checkmark
+        // should always be square.
+
+        var width = this.adapter_.getRootBoundingClientRect().width + this.adapter_.getCheckmarkBoundingClientRect().height;
+        return (
+          /** @type {!ClientRect} */
+          {
+            height: height,
+            width: width
+          }
+        );
+      } else {
+        return this.adapter_.getRootBoundingClientRect();
+      }
     }
     /**
      * Begins the exit animation which leads to removal of the chip.
@@ -812,11 +862,24 @@ var script = {
       },
       setStyleProperty: function setStyleProperty(property, value) {
         return _this.$set(_this.styles, property, value);
+      },
+      hasLeadingIcon: function hasLeadingIcon() {
+        return !!_this.haveleadingIcon;
+      },
+      getRootBoundingClientRect: function getRootBoundingClientRect() {
+        return _this.$el.getBoundingClientRect();
+      },
+      getCheckmarkBoundingClientRect: function getCheckmarkBoundingClientRect() {
+        return _this.$refs.checkmarkEl ? _this.$refs.checkmarkEl.getBoundingClientRect() : null;
       }
     });
     this.foundation.init();
     this.mdcChipSet.chips.push(this);
-    this.ripple = new RippleBase(this);
+    this.ripple = new RippleBase(this, {
+      computeBoundingRect: function computeBoundingRect() {
+        return _this.foundation.getDimensions();
+      }
+    });
     this.ripple.init();
   },
   beforeDestroy: function beforeDestroy() {
@@ -842,21 +905,21 @@ var script = {
   }
 };
 
-function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeId, isFunctionalTemplate, moduleIdentifier
+function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier
 /* server only */
-, isShadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
-  if (typeof isShadowMode === 'function') {
+, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+  if (typeof shadowMode !== 'boolean') {
     createInjectorSSR = createInjector;
-    createInjector = isShadowMode;
-    isShadowMode = false;
-  } // Vue.extend constructor export interop
+    createInjector = shadowMode;
+    shadowMode = false;
+  } // Vue.extend constructor export interop.
 
 
-  var options = typeof defaultExport === 'function' ? defaultExport.options : defaultExport; // render functions
+  var options = typeof script === 'function' ? script.options : script; // render functions
 
-  if (compiledTemplate && compiledTemplate.render) {
-    options.render = compiledTemplate.render;
-    options.staticRenderFns = compiledTemplate.staticRenderFns;
+  if (template && template.render) {
+    options.render = template.render;
+    options.staticRenderFns = template.staticRenderFns;
     options._compiled = true; // functional template
 
     if (isFunctionalTemplate) {
@@ -885,8 +948,8 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
       } // inject component styles
 
 
-      if (injectStyle) {
-        injectStyle.call(this, createInjectorSSR(context));
+      if (style) {
+        style.call(this, createInjectorSSR(context));
       } // register component module identifier for async chunk inference
 
 
@@ -898,11 +961,11 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
 
 
     options._ssrRegister = hook;
-  } else if (injectStyle) {
-    hook = isShadowMode ? function () {
-      injectStyle.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
+  } else if (style) {
+    hook = shadowMode ? function () {
+      style.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
     } : function (context) {
-      injectStyle.call(this, createInjector(context));
+      style.call(this, createInjector(context));
     };
   }
 
@@ -922,13 +985,13 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
     }
   }
 
-  return defaultExport;
+  return script;
 }
+
+var normalizeComponent_1 = normalizeComponent;
 
 /* script */
 const __vue_script__ = script;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script.__file = "/ddata/extra/vma/components/chips/mdc-chip.vue";
 
 /* template */
 var __vue_render__ = function() {
@@ -961,25 +1024,29 @@ var __vue_render__ = function() {
         : _vm._e(),
       _vm._v(" "),
       _vm.isFilter
-        ? _c("div", { staticClass: "mdc-chip__checkmark" }, [
-            _c(
-              "svg",
-              {
-                staticClass: "mdc-chip__checkmark-svg",
-                attrs: { viewBox: "-2 -3 30 30" }
-              },
-              [
-                _c("path", {
-                  staticClass: "mdc-chip__checkmark-path",
-                  attrs: {
-                    fill: "none",
-                    stroke: "black",
-                    d: "M1.73,12.91 8.1,19.28 22.79,4.59"
-                  }
-                })
-              ]
-            )
-          ])
+        ? _c(
+            "div",
+            { ref: "checkmarkEl", staticClass: "mdc-chip__checkmark" },
+            [
+              _c(
+                "svg",
+                {
+                  staticClass: "mdc-chip__checkmark-svg",
+                  attrs: { viewBox: "-2 -3 30 30" }
+                },
+                [
+                  _c("path", {
+                    staticClass: "mdc-chip__checkmark-path",
+                    attrs: {
+                      fill: "none",
+                      stroke: "black",
+                      d: "M1.73,12.91 8.1,19.28 22.79,4.59"
+                    }
+                  })
+                ]
+              )
+            ]
+          )
         : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "mdc-chip__text" }, [_vm._t("default")], 2),
@@ -1020,7 +1087,7 @@ __vue_render__._withStripped = true;
   
 
   
-  var mdcChip = normalizeComponent(
+  var mdcChip = normalizeComponent_1(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
@@ -1403,8 +1470,6 @@ var script$1 = {
 
 /* script */
 const __vue_script__$1 = script$1;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$1.__file = "/ddata/extra/vma/components/chips/mdc-chip-set.vue";
 
 /* template */
 
@@ -1422,7 +1487,7 @@ script$1.__file = "/ddata/extra/vma/components/chips/mdc-chip-set.vue";
   
 
   
-  var mdcChipSet = normalizeComponent(
+  var mdcChipSet = normalizeComponent_1(
     {},
     __vue_inject_styles__$1,
     __vue_script__$1,

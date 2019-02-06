@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.43.0","material-components-web":"^0.43.0"}
+* @implements {"@material/tabs":"^0.44.0","material-components-web":"^0.44.0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -462,15 +462,17 @@ function () {
  */
 
 /** @enum {string} */
-var strings = {
-  ARIA_HIDDEN: 'aria-hidden',
-  ROLE: 'role'
+var cssClasses = {
+  ROOT: 'mdc-text-field-helper-text',
+  HELPER_TEXT_PERSISTENT: 'mdc-text-field-helper-text--persistent',
+  HELPER_TEXT_VALIDATION_MSG: 'mdc-text-field-helper-text--validation-msg'
 };
 /** @enum {string} */
 
-var cssClasses = {
-  HELPER_TEXT_PERSISTENT: 'mdc-text-field-helper-text--persistent',
-  HELPER_TEXT_VALIDATION_MSG: 'mdc-text-field-helper-text--validation-msg'
+var strings = {
+  ARIA_HIDDEN: 'aria-hidden',
+  ROLE: 'role',
+  ROOT_SELECTOR: ".".concat(cssClasses.ROOT)
 };
 
 /**
@@ -611,6 +613,162 @@ function (_MDCFoundation) {
 
 /**
  * @license
+ * Copyright 2019 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+/* eslint no-unused-vars: [2, {"args": "none"}] */
+
+/**
+ * Adapter for MDC Text Field Character Counter.
+ *
+ * Defines the shape of the adapter expected by the foundation. Implement this
+ * adapter to integrate the TextField character counter into your framework. See
+ * https://github.com/material-components/material-components-web/blob/master/docs/authoring-components.md
+ * for more information.
+ *
+ * @record
+ */
+var MDCTextFieldCharacterCounterAdapter =
+/*#__PURE__*/
+function () {
+  function MDCTextFieldCharacterCounterAdapter() {
+    _classCallCheck(this, MDCTextFieldCharacterCounterAdapter);
+  }
+
+  _createClass(MDCTextFieldCharacterCounterAdapter, [{
+    key: "setContent",
+
+    /**
+     * Sets the text content of character counter element.
+     * @param {string} content
+     */
+    value: function setContent(content) {}
+  }]);
+
+  return MDCTextFieldCharacterCounterAdapter;
+}();
+
+/**
+ * @license
+ * Copyright 2019 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+/** @enum {string} */
+var cssClasses$1 = {
+  ROOT: 'mdc-text-field-character-counter'
+};
+/** @enum {string} */
+
+var strings$1 = {
+  ROOT_SELECTOR: ".".concat(cssClasses$1.ROOT)
+};
+
+/**
+ * @extends {MDCFoundation<!MDCTextFieldCharacterCounterAdapter>}
+ * @final
+ */
+
+var MDCTextFieldCharacterCounterFoundation =
+/*#__PURE__*/
+function (_MDCFoundation) {
+  _inherits(MDCTextFieldCharacterCounterFoundation, _MDCFoundation);
+
+  _createClass(MDCTextFieldCharacterCounterFoundation, null, [{
+    key: "cssClasses",
+
+    /** @return enum {string} */
+    get: function get() {
+      return cssClasses$1;
+    }
+    /** @return enum {string} */
+
+  }, {
+    key: "strings",
+    get: function get() {
+      return strings$1;
+    }
+    /**
+     * {@see MDCTextFieldCharacterCounterAdapter} for typing information on parameters and return
+     * types.
+     * @return {!MDCTextFieldCharacterCounterAdapter}
+     */
+
+  }, {
+    key: "defaultAdapter",
+    get: function get() {
+      return (
+        /** @type {!MDCTextFieldCharacterCounterAdapter} */
+        {
+          setContent: function setContent() {}
+        }
+      );
+    }
+    /**
+     * @param {!MDCTextFieldCharacterCounterAdapter} adapter
+     */
+
+  }]);
+
+  function MDCTextFieldCharacterCounterFoundation(adapter) {
+    _classCallCheck(this, MDCTextFieldCharacterCounterFoundation);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(MDCTextFieldCharacterCounterFoundation).call(this, _extends(MDCTextFieldCharacterCounterFoundation.defaultAdapter, adapter)));
+  }
+  /**
+   * @param {number} currentLength
+   * @param {number} maxLength
+   */
+
+
+  _createClass(MDCTextFieldCharacterCounterFoundation, [{
+    key: "setCounterValue",
+    value: function setCounterValue(currentLength, maxLength) {
+      currentLength = Math.min(currentLength, maxLength);
+      this.adapter_.setContent("".concat(currentLength, " / ").concat(maxLength));
+    }
+  }]);
+
+  return MDCTextFieldCharacterCounterFoundation;
+}(MDCFoundation);
+
+/**
+ * @license
  * Copyright 2017 Google Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -739,7 +897,7 @@ function () {
  */
 
 /** @enum {string} */
-var strings$1 = {
+var strings$2 = {
   ICON_EVENT: 'MDCTextField:icon',
   ICON_ROLE: 'button'
 };
@@ -759,7 +917,7 @@ function (_MDCFoundation) {
 
     /** @return enum {string} */
     get: function get() {
-      return strings$1;
+      return strings$2;
     }
     /**
      * {@see MDCTextFieldIconAdapter} for typing information on parameters and return
@@ -840,7 +998,7 @@ function (_MDCFoundation) {
         this.adapter_.removeAttr('role');
       } else {
         this.adapter_.setAttr('tabindex', this.savedTabIndex_);
-        this.adapter_.setAttr('role', strings$1.ICON_ROLE);
+        this.adapter_.setAttr('role', strings$2.ICON_ROLE);
       }
     }
     /** @param {string} label */
@@ -1104,7 +1262,7 @@ function () {
  */
 
 /** @enum {string} */
-var strings$2 = {
+var strings$3 = {
   ARIA_CONTROLS: 'aria-controls',
   INPUT_SELECTOR: '.mdc-text-field__input',
   LABEL_SELECTOR: '.mdc-floating-label',
@@ -1114,7 +1272,7 @@ var strings$2 = {
 };
 /** @enum {string} */
 
-var cssClasses$1 = {
+var cssClasses$2 = {
   ROOT: 'mdc-text-field',
   DISABLED: 'mdc-text-field--disabled',
   DENSE: 'mdc-text-field--dense',
@@ -1122,7 +1280,8 @@ var cssClasses$1 = {
   INVALID: 'mdc-text-field--invalid',
   TEXTAREA: 'mdc-text-field--textarea',
   OUTLINED: 'mdc-text-field--outlined',
-  WITH_LEADING_ICON: 'mdc-text-field--with-leading-icon'
+  WITH_LEADING_ICON: 'mdc-text-field--with-leading-icon',
+  HELPER_LINE: 'mdc-text-field-helper-line'
 };
 /** @enum {number} */
 
@@ -1182,14 +1341,14 @@ function (_MDCFoundation) {
 
     /** @return enum {string} */
     get: function get() {
-      return cssClasses$1;
+      return cssClasses$2;
     }
     /** @return enum {string} */
 
   }, {
     key: "strings",
     get: function get() {
-      return strings$2;
+      return strings$3;
     }
     /** @return enum {string} */
 
@@ -1248,6 +1407,9 @@ function (_MDCFoundation) {
     /** @type {!MDCTextFieldHelperTextFoundation|undefined} */
 
     _this.helperText_ = foundationMap.helperText;
+    /** @type {!MDCTextFieldCharacterCounterFoundation|undefined} */
+
+    _this.characterCounter_ = foundationMap.characterCounter;
     /** @type {!MDCTextFieldIconFoundation|undefined} */
 
     _this.leadingIcon_ = foundationMap.leadingIcon;
@@ -1284,7 +1446,7 @@ function (_MDCFoundation) {
 
 
     _this.inputInputHandler_ = function () {
-      return _this.autoCompleteFocus();
+      return _this.handleInput();
     };
     /** @private {function(!Event): undefined} */
 
@@ -1333,6 +1495,7 @@ function (_MDCFoundation) {
         _this2.adapter_.registerTextFieldInteractionHandler(evtType, _this2.textFieldInteractionHandler_);
       });
       this.validationObserver_ = this.adapter_.registerValidationAttributeChangeHandler(this.validationAttributeChangeHandler_);
+      this.setCharacterCounter_(this.getValue().length);
     }
   }, {
     key: "destroy",
@@ -1380,6 +1543,10 @@ function (_MDCFoundation) {
           return true;
         }
       });
+
+      if (attributesList.indexOf('maxlength') > -1) {
+        this.setCharacterCounter_(this.getValue().length);
+      }
     }
     /**
      * Opens/closes the notched outline.
@@ -1394,7 +1561,7 @@ function (_MDCFoundation) {
       }
 
       if (openNotch) {
-        var isDense = this.adapter_.hasClass(cssClasses$1.DENSE);
+        var isDense = this.adapter_.hasClass(cssClasses$2.DENSE);
         var labelScale = isDense ? numbers.DENSE_LABEL_SCALE : numbers.LABEL_SCALE;
         var labelWidth = this.adapter_.getLabelWidth() * labelScale;
         this.adapter_.notchOutline(labelWidth);
@@ -1443,6 +1610,16 @@ function (_MDCFoundation) {
       var targetClientRect = targetEvent.target.getBoundingClientRect();
       var normalizedX = targetEvent.clientX - targetClientRect.left;
       this.adapter_.setLineRippleTransformOrigin(normalizedX);
+    }
+    /**
+     * Handles input change of text input and text area.
+     */
+
+  }, {
+    key: "handleInput",
+    value: function handleInput() {
+      this.autoCompleteFocus();
+      this.setCharacterCounter_(this.getValue().length);
     }
     /**
      * Activates the Text Field's focus state in cases when the input value
@@ -1573,6 +1750,24 @@ function (_MDCFoundation) {
       if (this.helperText_) {
         this.helperText_.setContent(content);
       }
+    }
+    /**
+     * Sets character counter values that shows characters used and the total character limit.
+     * @param {number} currentLength
+     * @private
+     */
+
+  }, {
+    key: "setCharacterCounter_",
+    value: function setCharacterCounter_(currentLength) {
+      if (!this.characterCounter_) return;
+      var maxLength = this.getNativeInput_().maxLength;
+
+      if (maxLength === -1) {
+        throw new Error('MDCTextFieldFoundation: Expected maxlength html property on text input or textarea.');
+      }
+
+      this.characterCounter_.setCounterValue(currentLength, maxLength);
     }
     /**
      * Sets the aria label of the leading icon.
@@ -1839,21 +2034,21 @@ function classNames() {
   return classes.join(' ');
 }
 
-function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeId, isFunctionalTemplate, moduleIdentifier
+function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier
 /* server only */
-, isShadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
-  if (typeof isShadowMode === 'function') {
+, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+  if (typeof shadowMode !== 'boolean') {
     createInjectorSSR = createInjector;
-    createInjector = isShadowMode;
-    isShadowMode = false;
-  } // Vue.extend constructor export interop
+    createInjector = shadowMode;
+    shadowMode = false;
+  } // Vue.extend constructor export interop.
 
 
-  var options = typeof defaultExport === 'function' ? defaultExport.options : defaultExport; // render functions
+  var options = typeof script === 'function' ? script.options : script; // render functions
 
-  if (compiledTemplate && compiledTemplate.render) {
-    options.render = compiledTemplate.render;
-    options.staticRenderFns = compiledTemplate.staticRenderFns;
+  if (template && template.render) {
+    options.render = template.render;
+    options.staticRenderFns = template.staticRenderFns;
     options._compiled = true; // functional template
 
     if (isFunctionalTemplate) {
@@ -1882,8 +2077,8 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
       } // inject component styles
 
 
-      if (injectStyle) {
-        injectStyle.call(this, createInjectorSSR(context));
+      if (style) {
+        style.call(this, createInjectorSSR(context));
       } // register component module identifier for async chunk inference
 
 
@@ -1895,11 +2090,11 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
 
 
     options._ssrRegister = hook;
-  } else if (injectStyle) {
-    hook = isShadowMode ? function () {
-      injectStyle.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
+  } else if (style) {
+    hook = shadowMode ? function () {
+      style.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
     } : function (context) {
-      injectStyle.call(this, createInjector(context));
+      style.call(this, createInjector(context));
     };
   }
 
@@ -1919,13 +2114,13 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
     }
   }
 
-  return defaultExport;
+  return script;
 }
+
+var normalizeComponent_1 = normalizeComponent;
 
 /* script */
 const __vue_script__ = script;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script.__file = "/ddata/extra/vma/components/textfield/textfield-helper-text.vue";
 
 /* template */
 
@@ -1943,7 +2138,7 @@ script.__file = "/ddata/extra/vma/components/textfield/textfield-helper-text.vue
   
 
   
-  var TextfieldHelperText = normalizeComponent(
+  var TextfieldHelperText = normalizeComponent_1(
     {},
     __vue_inject_styles__,
     __vue_script__,
@@ -2004,8 +2199,6 @@ var script$1 = {
 
 /* script */
 const __vue_script__$1 = script$1;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$1.__file = "/ddata/extra/vma/components/textfield/textfield-icon.vue";
 
 /* template */
 
@@ -2023,7 +2216,7 @@ script$1.__file = "/ddata/extra/vma/components/textfield/textfield-icon.vue";
   
 
   
-  var TextfieldIcon = normalizeComponent(
+  var TextfieldIcon = normalizeComponent_1(
     {},
     __vue_inject_styles__$1,
     __vue_script__$1,
@@ -2102,7 +2295,8 @@ var script$2 = {
         'mdc-text-field--textarea': this.multiline,
         'mdc-text-field--outlined': !this.fullwidth && this.outline,
         'mdc-text-field--with-leading-icon': Boolean(this.$slots.leadingIcon),
-        'mdc-text-field--with-trailing-icon': Boolean(this.$slots.trailingIcon)
+        'mdc-text-field--with-trailing-icon': Boolean(this.$slots.trailingIcon),
+        'mdc-text-field--no-label': !this.hasLabel
       },
       inputClasses: {
         'mdc-text-field__input': true
@@ -2320,8 +2514,6 @@ var script$2 = {
 
 /* script */
 const __vue_script__$2 = script$2;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$2.__file = "/ddata/extra/vma/components/textfield/mdc-textfield.vue";
 
 /* template */
 var __vue_render__ = function() {
@@ -2369,7 +2561,7 @@ var __vue_render__ = function() {
                       },
                       on: {
                         input: function($event) {
-                          _vm.updateValue($event.target.value);
+                          return _vm.updateValue($event.target.value)
                         }
                       }
                     },
@@ -2398,7 +2590,7 @@ var __vue_render__ = function() {
                       },
                       on: {
                         input: function($event) {
-                          _vm.updateValue($event.target.value);
+                          return _vm.updateValue($event.target.value)
                         }
                       }
                     },
@@ -2477,7 +2669,7 @@ __vue_render__._withStripped = true;
   
 
   
-  var mdcTextField = normalizeComponent(
+  var mdcTextField = normalizeComponent_1(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__$2,
     __vue_script__$2,

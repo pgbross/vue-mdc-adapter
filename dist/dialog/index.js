@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.43.0","material-components-web":"^0.43.0"}
+* @implements {"@material/tabs":"^0.44.0","material-components-web":"^0.44.0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -1365,295 +1365,6 @@ function matches$1(element, selector) {
   return nativeMatches.call(element, selector);
 }
 
-var activeFocusTraps$1 = function () {
-  var trapQueue = [];
-  return {
-    activateTrap: function activateTrap(trap) {
-      if (trapQueue.length > 0) {
-        var activeTrap = trapQueue[trapQueue.length - 1];
-
-        if (activeTrap !== trap) {
-          activeTrap.pause();
-        }
-      }
-
-      var trapIndex = trapQueue.indexOf(trap);
-
-      if (trapIndex === -1) {
-        trapQueue.push(trap);
-      } else {
-        // move this existing trap to the front of the queue
-        trapQueue.splice(trapIndex, 1);
-        trapQueue.push(trap);
-      }
-    },
-    deactivateTrap: function deactivateTrap(trap) {
-      var trapIndex = trapQueue.indexOf(trap);
-
-      if (trapIndex !== -1) {
-        trapQueue.splice(trapIndex, 1);
-      }
-
-      if (trapQueue.length > 0) {
-        trapQueue[trapQueue.length - 1].unpause();
-      }
-    }
-  };
-}();
-
-function focusTrap$1(element, userOptions) {
-  var doc = document;
-  var container = typeof element === 'string' ? doc.querySelector(element) : element;
-  var config = immutable({
-    returnFocusOnDeactivate: true,
-    escapeDeactivates: true
-  }, userOptions);
-  var state = {
-    firstTabbableNode: null,
-    lastTabbableNode: null,
-    nodeFocusedBeforeActivation: null,
-    mostRecentlyFocusedNode: null,
-    active: false,
-    paused: false
-  };
-  var trap = {
-    activate: activate,
-    deactivate: deactivate,
-    pause: pause,
-    unpause: unpause
-  };
-  return trap;
-
-  function activate(activateOptions) {
-    if (state.active) return;
-    updateTabbableNodes();
-    state.active = true;
-    state.paused = false;
-    state.nodeFocusedBeforeActivation = doc.activeElement;
-    var onActivate = activateOptions && activateOptions.onActivate ? activateOptions.onActivate : config.onActivate;
-
-    if (onActivate) {
-      onActivate();
-    }
-
-    addListeners();
-    return trap;
-  }
-
-  function deactivate(deactivateOptions) {
-    if (!state.active) return;
-    removeListeners();
-    state.active = false;
-    state.paused = false;
-    activeFocusTraps$1.deactivateTrap(trap);
-    var onDeactivate = deactivateOptions && deactivateOptions.onDeactivate !== undefined ? deactivateOptions.onDeactivate : config.onDeactivate;
-
-    if (onDeactivate) {
-      onDeactivate();
-    }
-
-    var returnFocus = deactivateOptions && deactivateOptions.returnFocus !== undefined ? deactivateOptions.returnFocus : config.returnFocusOnDeactivate;
-
-    if (returnFocus) {
-      delay$1(function () {
-        tryFocus(state.nodeFocusedBeforeActivation);
-      });
-    }
-
-    return trap;
-  }
-
-  function pause() {
-    if (state.paused || !state.active) return;
-    state.paused = true;
-    removeListeners();
-  }
-
-  function unpause() {
-    if (!state.paused || !state.active) return;
-    state.paused = false;
-    addListeners();
-  }
-
-  function addListeners() {
-    if (!state.active) return; // There can be only one listening focus trap at a time
-
-    activeFocusTraps$1.activateTrap(trap);
-    updateTabbableNodes(); // Delay ensures that the focused element doesn't capture the event
-    // that caused the focus trap activation.
-
-    delay$1(function () {
-      tryFocus(getInitialFocusNode());
-    });
-    doc.addEventListener('focusin', checkFocusIn, true);
-    doc.addEventListener('mousedown', checkPointerDown, true);
-    doc.addEventListener('touchstart', checkPointerDown, true);
-    doc.addEventListener('click', checkClick, true);
-    doc.addEventListener('keydown', checkKey, true);
-    return trap;
-  }
-
-  function removeListeners() {
-    if (!state.active) return;
-    doc.removeEventListener('focusin', checkFocusIn, true);
-    doc.removeEventListener('mousedown', checkPointerDown, true);
-    doc.removeEventListener('touchstart', checkPointerDown, true);
-    doc.removeEventListener('click', checkClick, true);
-    doc.removeEventListener('keydown', checkKey, true);
-    return trap;
-  }
-
-  function getNodeForOption(optionName) {
-    var optionValue = config[optionName];
-    var node = optionValue;
-
-    if (!optionValue) {
-      return null;
-    }
-
-    if (typeof optionValue === 'string') {
-      node = doc.querySelector(optionValue);
-
-      if (!node) {
-        throw new Error('`' + optionName + '` refers to no known node');
-      }
-    }
-
-    if (typeof optionValue === 'function') {
-      node = optionValue();
-
-      if (!node) {
-        throw new Error('`' + optionName + '` did not return a node');
-      }
-    }
-
-    return node;
-  }
-
-  function getInitialFocusNode() {
-    var node;
-
-    if (getNodeForOption('initialFocus') !== null) {
-      node = getNodeForOption('initialFocus');
-    } else if (container.contains(doc.activeElement)) {
-      node = doc.activeElement;
-    } else {
-      node = state.firstTabbableNode || getNodeForOption('fallbackFocus');
-    }
-
-    if (!node) {
-      throw new Error("You can't have a focus-trap without at least one focusable element");
-    }
-
-    return node;
-  } // This needs to be done on mousedown and touchstart instead of click
-  // so that it precedes the focus event.
-
-
-  function checkPointerDown(e) {
-    if (container.contains(e.target)) return;
-
-    if (config.clickOutsideDeactivates) {
-      deactivate({
-        returnFocus: !tabbable_1.isFocusable(e.target)
-      });
-    } else {
-      e.preventDefault();
-    }
-  } // In case focus escapes the trap for some strange reason, pull it back in.
-
-
-  function checkFocusIn(e) {
-    // In Firefox when you Tab out of an iframe the Document is briefly focused.
-    if (container.contains(e.target) || e.target instanceof Document) {
-      return;
-    }
-
-    e.stopImmediatePropagation();
-    tryFocus(state.mostRecentlyFocusedNode || getInitialFocusNode());
-  }
-
-  function checkKey(e) {
-    if (config.escapeDeactivates !== false && isEscapeEvent$1(e)) {
-      e.preventDefault();
-      deactivate();
-      return;
-    }
-
-    if (isTabEvent$1(e)) {
-      checkTab(e);
-      return;
-    }
-  } // Hijack Tab events on the first and last focusable nodes of the trap,
-  // in order to prevent focus from escaping. If it escapes for even a
-  // moment it can end up scrolling the page and causing confusion so we
-  // kind of need to capture the action at the keydown phase.
-
-
-  function checkTab(e) {
-    updateTabbableNodes();
-
-    if (e.shiftKey && e.target === state.firstTabbableNode) {
-      e.preventDefault();
-      tryFocus(state.lastTabbableNode);
-      return;
-    }
-
-    if (!e.shiftKey && e.target === state.lastTabbableNode) {
-      e.preventDefault();
-      tryFocus(state.firstTabbableNode);
-      return;
-    }
-  }
-
-  function checkClick(e) {
-    if (config.clickOutsideDeactivates) return;
-    if (container.contains(e.target)) return;
-    e.preventDefault();
-    e.stopImmediatePropagation();
-  }
-
-  function updateTabbableNodes() {
-    var tabbableNodes = tabbable_1(container);
-    state.firstTabbableNode = tabbableNodes[0] || getInitialFocusNode();
-    state.lastTabbableNode = tabbableNodes[tabbableNodes.length - 1] || getInitialFocusNode();
-  }
-
-  function tryFocus(node) {
-    if (node === doc.activeElement) return;
-
-    if (!node || !node.focus) {
-      tryFocus(getInitialFocusNode());
-      return;
-    }
-
-    node.focus();
-    state.mostRecentlyFocusedNode = node;
-
-    if (isSelectableInput$1(node)) {
-      node.select();
-    }
-  }
-}
-
-function isSelectableInput$1(node) {
-  return node.tagName && node.tagName.toLowerCase() === 'input' && typeof node.select === 'function';
-}
-
-function isEscapeEvent$1(e) {
-  return e.key === 'Escape' || e.key === 'Esc' || e.keyCode === 27;
-}
-
-function isTabEvent$1(e) {
-  return e.key === 'Tab' || e.keyCode === 9;
-}
-
-function delay$1(fn) {
-  return setTimeout(fn, 0);
-}
-
-var focusTrap_1$1 = focusTrap$1;
-
 //
 var strings$1 = MDCDialogFoundation.strings;
 var script = {
@@ -1709,7 +1420,7 @@ var script = {
     var _this = this;
 
     if (this.accept) {
-      this.focusTrap = createFocusTrapInstance(this.$refs.container, focusTrap_1$1);
+      this.focusTrap = createFocusTrapInstance(this.$refs.container, focusTrap_1);
     }
 
     this.buttons_ = [].slice.call(this.$el.querySelectorAll(strings$1.BUTTON_SELECTOR));
@@ -1852,21 +1563,21 @@ var script = {
   }
 };
 
-function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeId, isFunctionalTemplate, moduleIdentifier
+function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier
 /* server only */
-, isShadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
-  if (typeof isShadowMode === 'function') {
+, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+  if (typeof shadowMode !== 'boolean') {
     createInjectorSSR = createInjector;
-    createInjector = isShadowMode;
-    isShadowMode = false;
-  } // Vue.extend constructor export interop
+    createInjector = shadowMode;
+    shadowMode = false;
+  } // Vue.extend constructor export interop.
 
 
-  var options = typeof defaultExport === 'function' ? defaultExport.options : defaultExport; // render functions
+  var options = typeof script === 'function' ? script.options : script; // render functions
 
-  if (compiledTemplate && compiledTemplate.render) {
-    options.render = compiledTemplate.render;
-    options.staticRenderFns = compiledTemplate.staticRenderFns;
+  if (template && template.render) {
+    options.render = template.render;
+    options.staticRenderFns = template.staticRenderFns;
     options._compiled = true; // functional template
 
     if (isFunctionalTemplate) {
@@ -1895,8 +1606,8 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
       } // inject component styles
 
 
-      if (injectStyle) {
-        injectStyle.call(this, createInjectorSSR(context));
+      if (style) {
+        style.call(this, createInjectorSSR(context));
       } // register component module identifier for async chunk inference
 
 
@@ -1908,11 +1619,11 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
 
 
     options._ssrRegister = hook;
-  } else if (injectStyle) {
-    hook = isShadowMode ? function () {
-      injectStyle.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
+  } else if (style) {
+    hook = shadowMode ? function () {
+      style.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
     } : function (context) {
-      injectStyle.call(this, createInjector(context));
+      style.call(this, createInjector(context));
     };
   }
 
@@ -1932,13 +1643,13 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
     }
   }
 
-  return defaultExport;
+  return script;
 }
+
+var normalizeComponent_1 = normalizeComponent;
 
 /* script */
 const __vue_script__ = script;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script.__file = "/ddata/extra/vma/components/dialog/mdc-dialog.vue";
 
 /* template */
 var __vue_render__ = function() {
@@ -2052,7 +1763,7 @@ __vue_render__._withStripped = true;
   
 
   
-  var mdcDialog = normalizeComponent(
+  var mdcDialog = normalizeComponent_1(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,

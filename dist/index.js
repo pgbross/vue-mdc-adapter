@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.43.0","material-components-web":"^0.43.0"}
+* @implements {"@material/tabs":"^0.44.0","material-components-web":"^0.44.0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -1165,21 +1165,21 @@ var script = {
   }
 };
 
-function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeId, isFunctionalTemplate, moduleIdentifier
+function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier
 /* server only */
-, isShadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
-  if (typeof isShadowMode === 'function') {
+, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+  if (typeof shadowMode !== 'boolean') {
     createInjectorSSR = createInjector;
-    createInjector = isShadowMode;
-    isShadowMode = false;
-  } // Vue.extend constructor export interop
+    createInjector = shadowMode;
+    shadowMode = false;
+  } // Vue.extend constructor export interop.
 
 
-  var options = typeof defaultExport === 'function' ? defaultExport.options : defaultExport; // render functions
+  var options = typeof script === 'function' ? script.options : script; // render functions
 
-  if (compiledTemplate && compiledTemplate.render) {
-    options.render = compiledTemplate.render;
-    options.staticRenderFns = compiledTemplate.staticRenderFns;
+  if (template && template.render) {
+    options.render = template.render;
+    options.staticRenderFns = template.staticRenderFns;
     options._compiled = true; // functional template
 
     if (isFunctionalTemplate) {
@@ -1208,8 +1208,8 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
       } // inject component styles
 
 
-      if (injectStyle) {
-        injectStyle.call(this, createInjectorSSR(context));
+      if (style) {
+        style.call(this, createInjectorSSR(context));
       } // register component module identifier for async chunk inference
 
 
@@ -1221,11 +1221,11 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
 
 
     options._ssrRegister = hook;
-  } else if (injectStyle) {
-    hook = isShadowMode ? function () {
-      injectStyle.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
+  } else if (style) {
+    hook = shadowMode ? function () {
+      style.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
     } : function (context) {
-      injectStyle.call(this, createInjector(context));
+      style.call(this, createInjector(context));
     };
   }
 
@@ -1245,13 +1245,13 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
     }
   }
 
-  return defaultExport;
+  return script;
 }
+
+var normalizeComponent_1 = normalizeComponent;
 
 /* script */
 const __vue_script__ = script;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script.__file = "/ddata/extra/vma/components/top-app-bar/mdc-top-app-bar.vue";
 
 /* template */
 var __vue_render__ = function() {
@@ -1327,7 +1327,7 @@ __vue_render__._withStripped = true;
   
 
   
-  var mdcTopAppBar = normalizeComponent(
+  var mdcTopAppBar = normalizeComponent_1(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
@@ -1365,8 +1365,6 @@ var script$1 = {
 
 /* script */
 const __vue_script__$1 = script$1;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$1.__file = "/ddata/extra/vma/components/top-app-bar/mdc-top-app-bar-action.vue";
 
 /* template */
 
@@ -1384,7 +1382,7 @@ script$1.__file = "/ddata/extra/vma/components/top-app-bar/mdc-top-app-bar-actio
   
 
   
-  var mdcTopAppBarAction = normalizeComponent(
+  var mdcTopAppBarAction = normalizeComponent_1(
     {},
     __vue_inject_styles__$1,
     __vue_script__$1,
@@ -1423,8 +1421,6 @@ var script$2 = {
 
 /* script */
 const __vue_script__$2 = script$2;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$2.__file = "/ddata/extra/vma/components/top-app-bar/mdc-fixed-adjust.vue";
 
 /* template */
 
@@ -1442,7 +1438,7 @@ script$2.__file = "/ddata/extra/vma/components/top-app-bar/mdc-fixed-adjust.vue"
   
 
   
-  var mdcFixedAdjust = normalizeComponent(
+  var mdcFixedAdjust = normalizeComponent_1(
     {},
     __vue_inject_styles__$2,
     __vue_script__$2,

@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.43.0","material-components-web":"^0.43.0"}
+* @implements {"@material/tabs":"^0.44.0","material-components-web":"^0.44.0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -1434,14 +1434,6 @@ function () {
     key: "setTabIndexForListItemChildren",
     value: function setTabIndexForListItemChildren(listItemIndex, tabIndexValue) {}
     /**
-     * If the given element has an href, follows the link.
-     * @param {!Element} ele
-     */
-
-  }, {
-    key: "followHref",
-    value: function followHref(ele) {}
-    /**
      * @param {number} index
      * @return {boolean} Returns true if radio button is present at given list item index.
      */
@@ -1474,6 +1466,13 @@ function () {
   }, {
     key: "setCheckedCheckboxOrRadioAtIndex",
     value: function setCheckedCheckboxOrRadioAtIndex(index, isChecked) {}
+    /**
+     * Notifies user action on list item.
+     */
+
+  }, {
+    key: "notifyAction",
+    value: function notifyAction(index) {}
     /**
      * @return {boolean} Returns true when the current focused element is inside list root.
      */
@@ -1531,7 +1530,8 @@ var strings$2 = {
   CHECKBOX_RADIO_SELECTOR: 'input[type="checkbox"]:not(:disabled), input[type="radio"]:not(:disabled)',
   CHILD_ELEMENTS_TO_TOGGLE_TABINDEX: ".".concat(cssClasses$3.LIST_ITEM_CLASS, " button:not(:disabled),\n  .").concat(cssClasses$3.LIST_ITEM_CLASS, " a"),
   FOCUSABLE_CHILD_ELEMENTS: ".".concat(cssClasses$3.LIST_ITEM_CLASS, " button:not(:disabled), .").concat(cssClasses$3.LIST_ITEM_CLASS, " a,\n  .").concat(cssClasses$3.LIST_ITEM_CLASS, " input[type=\"radio\"]:not(:disabled),\n  .").concat(cssClasses$3.LIST_ITEM_CLASS, " input[type=\"checkbox\"]:not(:disabled)"),
-  ENABLED_ITEMS_SELECTOR: '.mdc-list-item:not(.mdc-list-item--disabled)'
+  ENABLED_ITEMS_SELECTOR: '.mdc-list-item:not(.mdc-list-item--disabled)',
+  ACTION_EVENT: 'MDCList:action'
 };
 
 var ELEMENTS_KEY_ALLOWED_IN = ['input', 'button', 'textarea', 'select'];
@@ -1575,11 +1575,11 @@ function (_MDCFoundation) {
           removeClassForElementIndex: function removeClassForElementIndex() {},
           focusItemAtIndex: function focusItemAtIndex() {},
           setTabIndexForListItemChildren: function setTabIndexForListItemChildren() {},
-          followHref: function followHref() {},
           hasRadioAtIndex: function hasRadioAtIndex() {},
           hasCheckboxAtIndex: function hasCheckboxAtIndex() {},
           isCheckboxCheckedAtIndex: function isCheckboxCheckedAtIndex() {},
           setCheckedCheckboxOrRadioAtIndex: function setCheckedCheckboxOrRadioAtIndex() {},
+          notifyAction: function notifyAction() {},
           isFocusInsideList: function isFocusInsideList() {}
         }
       );
@@ -1786,13 +1786,15 @@ function (_MDCFoundation) {
         nextIndex = this.focusLastElement();
       } else if (isEnter || isSpace) {
         if (isRootListItem) {
+          // Return early if enter key is pressed on anchor element which triggers synthetic MouseEvent event.
+          if (evt.target.tagName === 'A' && isEnter) return;
+          this.preventDefaultEvent_(evt);
+
           if (this.isSelectableList_()) {
             this.setSelectedIndexOnAction_(currentIndex);
-            this.preventDefaultEvent_(evt);
-          } // Explicitly activate links, since we're preventing default on Enter, and Space doesn't activate them.
+          }
 
-
-          this.adapter_.followHref(currentIndex);
+          this.adapter_.notifyAction(currentIndex);
         }
       }
 
@@ -1818,6 +1820,7 @@ function (_MDCFoundation) {
         this.setSelectedIndexOnAction_(index, toggleCheckbox);
       }
 
+      this.adapter_.notifyAction(index);
       this.setTabindexAtIndex_(index);
       this.focusedItemIndex_ = index;
     }
@@ -2111,7 +2114,6 @@ function (_MDCFoundation) {
   return MDCListFoundation;
 }(MDCFoundation);
 
-var ELEMENTS_KEY_ALLOWED_IN$1 = ['input', 'button', 'textarea', 'select', 'a'];
 /**
  * @extends {MDCFoundation<!MDCMenuAdapter>}
  */
@@ -2195,52 +2197,19 @@ function (_MDCFoundation) {
     value: function handleKeydown(evt) {
       var key = evt.key,
           keyCode = evt.keyCode;
-      var isSpace = key === 'Space' || keyCode === 32;
-      var isEnter = key === 'Enter' || keyCode === 13;
       var isTab = key === 'Tab' || keyCode === 9;
 
-      if (isSpace || isEnter) {
-        this.handleAction_(evt);
-      } else if (isTab) {
+      if (isTab) {
         this.adapter_.closeSurface();
       }
     }
     /**
-     * Handler function for the click events.
-     * @param {!Event} evt
+     * @param {!HTMLElement} listItem
      */
 
   }, {
-    key: "handleClick",
-    value: function handleClick(evt) {
-      this.handleAction_(evt);
-    }
-    /**
-     * Combined action handling for click/keypress events.
-     * @param {!Event} evt
-     * @private
-     */
-
-  }, {
-    key: "handleAction_",
-    value: function handleAction_(evt) {
-      var listItem = this.getListItem_(
-      /** @type {HTMLElement} */
-      evt.target);
-
-      if (listItem) {
-        this.handleSelection(listItem);
-        this.preventDefaultEvent_(evt);
-      }
-    }
-    /**
-     * Handler for a selected list item.
-     * @param {?HTMLElement} listItem
-     */
-
-  }, {
-    key: "handleSelection",
-    value: function handleSelection(listItem) {
+    key: "handleItemAction",
+    value: function handleItemAction(listItem) {
       var _this2 = this;
 
       var index = this.adapter_.getElementIndex(listItem);
@@ -2335,25 +2304,6 @@ function (_MDCFoundation) {
       }
 
       return target;
-    }
-    /**
-     * Ensures that preventDefault is only called if the containing element doesn't
-     * consume the event, and it will cause an unintended scroll.
-     * @param {!Event} evt
-     * @private
-     */
-
-  }, {
-    key: "preventDefaultEvent_",
-    value: function preventDefaultEvent_(evt) {
-      var target =
-      /** @type {!HTMLElement} */
-      evt.target;
-      var tagName = "".concat(target.tagName).toLowerCase();
-
-      if (ELEMENTS_KEY_ALLOWED_IN$1.indexOf(tagName) === -1) {
-        evt.preventDefault();
-      }
     }
   }]);
 
@@ -2453,8 +2403,12 @@ var script = {
     }
   },
   methods: {
-    handleClick: function handleClick(evt) {
-      this.foundation.handleClick(evt);
+    handleAction: function handleAction(_ref) {
+      var index = _ref.detail.index;
+      this.foundation.handleItemAction(this.items[index]);
+    },
+    handleKeydown: function handleKeydown(evt) {
+      this.foundation.handleKeydown(evt);
     },
     onChange: function onChange(item) {
       this.$emit('change', item);
@@ -2478,21 +2432,21 @@ var script = {
   }
 };
 
-function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeId, isFunctionalTemplate, moduleIdentifier
+function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier
 /* server only */
-, isShadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
-  if (typeof isShadowMode === 'function') {
+, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+  if (typeof shadowMode !== 'boolean') {
     createInjectorSSR = createInjector;
-    createInjector = isShadowMode;
-    isShadowMode = false;
-  } // Vue.extend constructor export interop
+    createInjector = shadowMode;
+    shadowMode = false;
+  } // Vue.extend constructor export interop.
 
 
-  var options = typeof defaultExport === 'function' ? defaultExport.options : defaultExport; // render functions
+  var options = typeof script === 'function' ? script.options : script; // render functions
 
-  if (compiledTemplate && compiledTemplate.render) {
-    options.render = compiledTemplate.render;
-    options.staticRenderFns = compiledTemplate.staticRenderFns;
+  if (template && template.render) {
+    options.render = template.render;
+    options.staticRenderFns = template.staticRenderFns;
     options._compiled = true; // functional template
 
     if (isFunctionalTemplate) {
@@ -2521,8 +2475,8 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
       } // inject component styles
 
 
-      if (injectStyle) {
-        injectStyle.call(this, createInjectorSSR(context));
+      if (style) {
+        style.call(this, createInjectorSSR(context));
       } // register component module identifier for async chunk inference
 
 
@@ -2534,11 +2488,11 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
 
 
     options._ssrRegister = hook;
-  } else if (injectStyle) {
-    hook = isShadowMode ? function () {
-      injectStyle.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
+  } else if (style) {
+    hook = shadowMode ? function () {
+      style.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
     } : function (context) {
-      injectStyle.call(this, createInjector(context));
+      style.call(this, createInjector(context));
     };
   }
 
@@ -2558,13 +2512,13 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
     }
   }
 
-  return defaultExport;
+  return script;
 }
+
+var normalizeComponent_1 = normalizeComponent;
 
 /* script */
 const __vue_script__ = script;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script.__file = "/ddata/extra/vma/components/menu/mdc-menu.vue";
 
 /* template */
 var __vue_render__ = function() {
@@ -2576,14 +2530,23 @@ var __vue_render__ = function() {
     {
       ref: "root",
       attrs: { "quick-open": _vm.quickOpen, open: _vm.open },
-      on: { change: _vm.onChange },
-      nativeOn: {
-        click: function($event) {
-          return _vm.handleClick($event)
-        }
-      }
+      on: { change: _vm.onChange, keydown: _vm.handleKeydown }
     },
-    [_c("mdc-list", { ref: "list" }, [_vm._t("default")], 2)],
+    [
+      _c(
+        "mdc-list",
+        {
+          ref: "list",
+          nativeOn: {
+            "MDCList:action": function($event) {
+              return _vm.handleAction($event)
+            }
+          }
+        },
+        [_vm._t("default")],
+        2
+      )
+    ],
     1
   )
 };
@@ -2604,7 +2567,7 @@ __vue_render__._withStripped = true;
   
 
   
-  var mdcMenu = normalizeComponent(
+  var mdcMenu = normalizeComponent_1(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
@@ -2875,8 +2838,6 @@ var script$1 = {
 
 /* script */
 const __vue_script__$1 = script$1;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$1.__file = "/ddata/extra/vma/components/menu/mdc-menu-surface.vue";
 
 /* template */
 var __vue_render__$1 = function() {
@@ -2915,7 +2876,7 @@ __vue_render__$1._withStripped = true;
   
 
   
-  var mdcMenuSurface = normalizeComponent(
+  var mdcMenuSurface = normalizeComponent_1(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
@@ -2951,8 +2912,6 @@ var script$2 = {
 
 /* script */
 const __vue_script__$2 = script$2;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$2.__file = "/ddata/extra/vma/components/menu/mdc-menu-item.vue";
 
 /* template */
 var __vue_render__$2 = function() {
@@ -2990,7 +2949,7 @@ __vue_render__$2._withStripped = true;
   
 
   
-  var mdcMenuItem = normalizeComponent(
+  var mdcMenuItem = normalizeComponent_1(
     { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
     __vue_inject_styles__$2,
     __vue_script__$2,
@@ -3013,8 +2972,6 @@ var script$3 = {
 
 /* script */
 const __vue_script__$3 = script$3;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$3.__file = "/ddata/extra/vma/components/menu/mdc-menu-divider.vue";
 
 /* template */
 var __vue_render__$3 = function() {
@@ -3043,7 +3000,7 @@ __vue_render__$3._withStripped = true;
   
 
   
-  var mdcMenuDivider = normalizeComponent(
+  var mdcMenuDivider = normalizeComponent_1(
     { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
     __vue_inject_styles__$3,
     __vue_script__$3,
@@ -3064,8 +3021,6 @@ var script$4 = {
 
 /* script */
 const __vue_script__$4 = script$4;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$4.__file = "/ddata/extra/vma/components/menu/mdc-menu-anchor.vue";
 
 /* template */
 var __vue_render__$4 = function() {
@@ -3096,7 +3051,7 @@ __vue_render__$4._withStripped = true;
   
 
   
-  var mdcMenuAnchor = normalizeComponent(
+  var mdcMenuAnchor = normalizeComponent_1(
     { render: __vue_render__$4, staticRenderFns: __vue_staticRenderFns__$4 },
     __vue_inject_styles__$4,
     __vue_script__$4,

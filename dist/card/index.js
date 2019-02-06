@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.43.0","material-components-web":"^0.43.0"}
+* @implements {"@material/tabs":"^0.44.0","material-components-web":"^0.44.0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -206,21 +206,21 @@ var script = {
   }
 };
 
-function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeId, isFunctionalTemplate, moduleIdentifier
+function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier
 /* server only */
-, isShadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
-  if (typeof isShadowMode === 'function') {
+, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+  if (typeof shadowMode !== 'boolean') {
     createInjectorSSR = createInjector;
-    createInjector = isShadowMode;
-    isShadowMode = false;
-  } // Vue.extend constructor export interop
+    createInjector = shadowMode;
+    shadowMode = false;
+  } // Vue.extend constructor export interop.
 
 
-  var options = typeof defaultExport === 'function' ? defaultExport.options : defaultExport; // render functions
+  var options = typeof script === 'function' ? script.options : script; // render functions
 
-  if (compiledTemplate && compiledTemplate.render) {
-    options.render = compiledTemplate.render;
-    options.staticRenderFns = compiledTemplate.staticRenderFns;
+  if (template && template.render) {
+    options.render = template.render;
+    options.staticRenderFns = template.staticRenderFns;
     options._compiled = true; // functional template
 
     if (isFunctionalTemplate) {
@@ -249,8 +249,8 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
       } // inject component styles
 
 
-      if (injectStyle) {
-        injectStyle.call(this, createInjectorSSR(context));
+      if (style) {
+        style.call(this, createInjectorSSR(context));
       } // register component module identifier for async chunk inference
 
 
@@ -262,11 +262,11 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
 
 
     options._ssrRegister = hook;
-  } else if (injectStyle) {
-    hook = isShadowMode ? function () {
-      injectStyle.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
+  } else if (style) {
+    hook = shadowMode ? function () {
+      style.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
     } : function (context) {
-      injectStyle.call(this, createInjector(context));
+      style.call(this, createInjector(context));
     };
   }
 
@@ -286,13 +286,13 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
     }
   }
 
-  return defaultExport;
+  return script;
 }
+
+var normalizeComponent_1 = normalizeComponent;
 
 /* script */
 const __vue_script__ = script;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script.__file = "/ddata/extra/vma/components/card/mdc-card.vue";
 
 /* template */
 var __vue_render__ = function() {
@@ -323,7 +323,7 @@ __vue_render__._withStripped = true;
   
 
   
-  var mdcCard = normalizeComponent(
+  var mdcCard = normalizeComponent_1(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
@@ -348,8 +348,6 @@ var script$1 = {
 
 /* script */
 const __vue_script__$1 = script$1;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$1.__file = "/ddata/extra/vma/components/card/mdc-card-primary-action.vue";
 
 /* template */
 var __vue_render__$1 = function() {
@@ -388,7 +386,7 @@ __vue_render__$1._withStripped = true;
   
 
   
-  var mdcCardPrimaryAction = normalizeComponent(
+  var mdcCardPrimaryAction = normalizeComponent_1(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
@@ -433,8 +431,6 @@ var script$2 = {
 
 /* script */
 const __vue_script__$2 = script$2;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$2.__file = "/ddata/extra/vma/components/card/mdc-card-media.vue";
 
 /* template */
 var __vue_render__$2 = function() {
@@ -477,7 +473,7 @@ __vue_render__$2._withStripped = true;
   
 
   
-  var mdcCardMedia = normalizeComponent(
+  var mdcCardMedia = normalizeComponent_1(
     { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
     __vue_inject_styles__$2,
     __vue_script__$2,
@@ -522,8 +518,6 @@ var script$3 = {
 
 /* script */
 const __vue_script__$3 = script$3;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$3.__file = "/ddata/extra/vma/components/card/mdc-card-header.vue";
 
 /* template */
 var __vue_render__$3 = function() {
@@ -573,7 +567,7 @@ __vue_render__$3._withStripped = true;
   
 
   
-  var mdcCardHeader = normalizeComponent(
+  var mdcCardHeader = normalizeComponent_1(
     { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
     __vue_inject_styles__$3,
     __vue_script__$3,
@@ -601,8 +595,6 @@ var script$4 = {
 
 /* script */
 const __vue_script__$4 = script$4;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$4.__file = "/ddata/extra/vma/components/card/mdc-card-title.vue";
 
 /* template */
 var __vue_render__$4 = function() {
@@ -636,7 +628,7 @@ __vue_render__$4._withStripped = true;
   
 
   
-  var mdcCardTitle = normalizeComponent(
+  var mdcCardTitle = normalizeComponent_1(
     { render: __vue_render__$4, staticRenderFns: __vue_staticRenderFns__$4 },
     __vue_inject_styles__$4,
     __vue_script__$4,
@@ -661,8 +653,6 @@ var script$5 = {
 
 /* script */
 const __vue_script__$5 = script$5;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$5.__file = "/ddata/extra/vma/components/card/mdc-card-subtitle.vue";
 
 /* template */
 var __vue_render__$5 = function() {
@@ -693,7 +683,7 @@ __vue_render__$5._withStripped = true;
   
 
   
-  var mdcCardSubtitle = normalizeComponent(
+  var mdcCardSubtitle = normalizeComponent_1(
     { render: __vue_render__$5, staticRenderFns: __vue_staticRenderFns__$5 },
     __vue_inject_styles__$5,
     __vue_script__$5,
@@ -716,8 +706,6 @@ var script$6 = {
 
 /* script */
 const __vue_script__$6 = script$6;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$6.__file = "/ddata/extra/vma/components/card/mdc-card-text.vue";
 
 /* template */
 var __vue_render__$6 = function() {
@@ -748,7 +736,7 @@ __vue_render__$6._withStripped = true;
   
 
   
-  var mdcCardText = normalizeComponent(
+  var mdcCardText = normalizeComponent_1(
     { render: __vue_render__$6, staticRenderFns: __vue_staticRenderFns__$6 },
     __vue_inject_styles__$6,
     __vue_script__$6,
@@ -783,8 +771,6 @@ var script$7 = {
 
 /* script */
 const __vue_script__$7 = script$7;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$7.__file = "/ddata/extra/vma/components/card/mdc-card-actions.vue";
 
 /* template */
 var __vue_render__$7 = function() {
@@ -815,7 +801,7 @@ __vue_render__$7._withStripped = true;
   
 
   
-  var mdcCardActions = normalizeComponent(
+  var mdcCardActions = normalizeComponent_1(
     { render: __vue_render__$7, staticRenderFns: __vue_staticRenderFns__$7 },
     __vue_inject_styles__$7,
     __vue_script__$7,
@@ -838,8 +824,6 @@ var script$8 = {
 
 /* script */
 const __vue_script__$8 = script$8;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$8.__file = "/ddata/extra/vma/components/card/mdc-card-action-buttons.vue";
 
 /* template */
 var __vue_render__$8 = function() {
@@ -870,7 +854,7 @@ __vue_render__$8._withStripped = true;
   
 
   
-  var mdcCardActionButtons = normalizeComponent(
+  var mdcCardActionButtons = normalizeComponent_1(
     { render: __vue_render__$8, staticRenderFns: __vue_staticRenderFns__$8 },
     __vue_inject_styles__$8,
     __vue_script__$8,
@@ -897,8 +881,6 @@ var script$9 = {
 
 /* script */
 const __vue_script__$9 = script$9;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$9.__file = "/ddata/extra/vma/components/card/mdc-card-action-button.vue";
 
 /* template */
 
@@ -916,7 +898,7 @@ script$9.__file = "/ddata/extra/vma/components/card/mdc-card-action-button.vue";
   
 
   
-  var mdcCardActionButton = normalizeComponent(
+  var mdcCardActionButton = normalizeComponent_1(
     {},
     __vue_inject_styles__$9,
     __vue_script__$9,
@@ -939,8 +921,6 @@ var script$a = {
 
 /* script */
 const __vue_script__$a = script$a;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$a.__file = "/ddata/extra/vma/components/card/mdc-card-action-icons.vue";
 
 /* template */
 var __vue_render__$9 = function() {
@@ -971,7 +951,7 @@ __vue_render__$9._withStripped = true;
   
 
   
-  var mdcCardActionIcons = normalizeComponent(
+  var mdcCardActionIcons = normalizeComponent_1(
     { render: __vue_render__$9, staticRenderFns: __vue_staticRenderFns__$9 },
     __vue_inject_styles__$a,
     __vue_script__$a,
@@ -1021,8 +1001,6 @@ var script$b = {
 
 /* script */
 const __vue_script__$b = script$b;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$b.__file = "/ddata/extra/vma/components/card/mdc-card-action-icon.vue";
 
 /* template */
 var __vue_render__$a = function() {
@@ -1053,7 +1031,7 @@ __vue_render__$a._withStripped = true;
   
 
   
-  var mdcCardActionIcon = normalizeComponent(
+  var mdcCardActionIcon = normalizeComponent_1(
     { render: __vue_render__$a, staticRenderFns: __vue_staticRenderFns__$a },
     __vue_inject_styles__$b,
     __vue_script__$b,

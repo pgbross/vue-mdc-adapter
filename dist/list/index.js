@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.43.0","material-components-web":"^0.43.0"}
+* @implements {"@material/tabs":"^0.44.0","material-components-web":"^0.44.0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -111,6 +111,22 @@ function _possibleConstructorReturn(self, call) {
 }
 
 /* global CustomEvent */
+function emitCustomEvent(el, evtType, evtData) {
+  var shouldBubble = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+  var evt;
+
+  if (typeof CustomEvent === 'function') {
+    evt = new CustomEvent(evtType, {
+      detail: evtData,
+      bubbles: shouldBubble
+    });
+  } else {
+    evt = document.createEvent('CustomEvent');
+    evt.initCustomEvent(evtType, shouldBubble, false, evtData);
+  }
+
+  el.dispatchEvent(evt);
+}
 
 var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
 
@@ -316,14 +332,6 @@ function () {
     key: "setTabIndexForListItemChildren",
     value: function setTabIndexForListItemChildren(listItemIndex, tabIndexValue) {}
     /**
-     * If the given element has an href, follows the link.
-     * @param {!Element} ele
-     */
-
-  }, {
-    key: "followHref",
-    value: function followHref(ele) {}
-    /**
      * @param {number} index
      * @return {boolean} Returns true if radio button is present at given list item index.
      */
@@ -356,6 +364,13 @@ function () {
   }, {
     key: "setCheckedCheckboxOrRadioAtIndex",
     value: function setCheckedCheckboxOrRadioAtIndex(index, isChecked) {}
+    /**
+     * Notifies user action on list item.
+     */
+
+  }, {
+    key: "notifyAction",
+    value: function notifyAction(index) {}
     /**
      * @return {boolean} Returns true when the current focused element is inside list root.
      */
@@ -413,7 +428,8 @@ var strings = {
   CHECKBOX_RADIO_SELECTOR: 'input[type="checkbox"]:not(:disabled), input[type="radio"]:not(:disabled)',
   CHILD_ELEMENTS_TO_TOGGLE_TABINDEX: ".".concat(cssClasses.LIST_ITEM_CLASS, " button:not(:disabled),\n  .").concat(cssClasses.LIST_ITEM_CLASS, " a"),
   FOCUSABLE_CHILD_ELEMENTS: ".".concat(cssClasses.LIST_ITEM_CLASS, " button:not(:disabled), .").concat(cssClasses.LIST_ITEM_CLASS, " a,\n  .").concat(cssClasses.LIST_ITEM_CLASS, " input[type=\"radio\"]:not(:disabled),\n  .").concat(cssClasses.LIST_ITEM_CLASS, " input[type=\"checkbox\"]:not(:disabled)"),
-  ENABLED_ITEMS_SELECTOR: '.mdc-list-item:not(.mdc-list-item--disabled)'
+  ENABLED_ITEMS_SELECTOR: '.mdc-list-item:not(.mdc-list-item--disabled)',
+  ACTION_EVENT: 'MDCList:action'
 };
 
 var ELEMENTS_KEY_ALLOWED_IN = ['input', 'button', 'textarea', 'select'];
@@ -457,11 +473,11 @@ function (_MDCFoundation) {
           removeClassForElementIndex: function removeClassForElementIndex() {},
           focusItemAtIndex: function focusItemAtIndex() {},
           setTabIndexForListItemChildren: function setTabIndexForListItemChildren() {},
-          followHref: function followHref() {},
           hasRadioAtIndex: function hasRadioAtIndex() {},
           hasCheckboxAtIndex: function hasCheckboxAtIndex() {},
           isCheckboxCheckedAtIndex: function isCheckboxCheckedAtIndex() {},
           setCheckedCheckboxOrRadioAtIndex: function setCheckedCheckboxOrRadioAtIndex() {},
+          notifyAction: function notifyAction() {},
           isFocusInsideList: function isFocusInsideList() {}
         }
       );
@@ -668,13 +684,15 @@ function (_MDCFoundation) {
         nextIndex = this.focusLastElement();
       } else if (isEnter || isSpace) {
         if (isRootListItem) {
+          // Return early if enter key is pressed on anchor element which triggers synthetic MouseEvent event.
+          if (evt.target.tagName === 'A' && isEnter) return;
+          this.preventDefaultEvent_(evt);
+
           if (this.isSelectableList_()) {
             this.setSelectedIndexOnAction_(currentIndex);
-            this.preventDefaultEvent_(evt);
-          } // Explicitly activate links, since we're preventing default on Enter, and Space doesn't activate them.
+          }
 
-
-          this.adapter_.followHref(currentIndex);
+          this.adapter_.notifyAction(currentIndex);
         }
       }
 
@@ -700,6 +718,7 @@ function (_MDCFoundation) {
         this.setSelectedIndexOnAction_(index, toggleCheckbox);
       }
 
+      this.adapter_.notifyAction(index);
       this.setTabindexAtIndex_(index);
       this.focusedItemIndex_ = index;
     }
@@ -1207,6 +1226,13 @@ var script = {
         event.initEvent('change', true, true);
         toggleEl.dispatchEvent(event);
       },
+      notifyAction: function notifyAction(index) {
+        emitCustomEvent(_this.$el, MDCListFoundation.strings.ACTION_EVENT, {
+          index: index
+        },
+        /** shouldBubble */
+        true);
+      },
       isFocusInsideList: function isFocusInsideList() {
         return _this.$el.contains(document.activeElement);
       }
@@ -1218,21 +1244,21 @@ var script = {
   }
 };
 
-function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeId, isFunctionalTemplate, moduleIdentifier
+function normalizeComponent(template, style, script, scopeId, isFunctionalTemplate, moduleIdentifier
 /* server only */
-, isShadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
-  if (typeof isShadowMode === 'function') {
+, shadowMode, createInjector, createInjectorSSR, createInjectorShadow) {
+  if (typeof shadowMode !== 'boolean') {
     createInjectorSSR = createInjector;
-    createInjector = isShadowMode;
-    isShadowMode = false;
-  } // Vue.extend constructor export interop
+    createInjector = shadowMode;
+    shadowMode = false;
+  } // Vue.extend constructor export interop.
 
 
-  var options = typeof defaultExport === 'function' ? defaultExport.options : defaultExport; // render functions
+  var options = typeof script === 'function' ? script.options : script; // render functions
 
-  if (compiledTemplate && compiledTemplate.render) {
-    options.render = compiledTemplate.render;
-    options.staticRenderFns = compiledTemplate.staticRenderFns;
+  if (template && template.render) {
+    options.render = template.render;
+    options.staticRenderFns = template.staticRenderFns;
     options._compiled = true; // functional template
 
     if (isFunctionalTemplate) {
@@ -1261,8 +1287,8 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
       } // inject component styles
 
 
-      if (injectStyle) {
-        injectStyle.call(this, createInjectorSSR(context));
+      if (style) {
+        style.call(this, createInjectorSSR(context));
       } // register component module identifier for async chunk inference
 
 
@@ -1274,11 +1300,11 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
 
 
     options._ssrRegister = hook;
-  } else if (injectStyle) {
-    hook = isShadowMode ? function () {
-      injectStyle.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
+  } else if (style) {
+    hook = shadowMode ? function () {
+      style.call(this, createInjectorShadow(this.$root.$options.shadowRoot));
     } : function (context) {
-      injectStyle.call(this, createInjector(context));
+      style.call(this, createInjector(context));
     };
   }
 
@@ -1298,13 +1324,13 @@ function normalizeComponent(compiledTemplate, injectStyle, defaultExport, scopeI
     }
   }
 
-  return defaultExport;
+  return script;
 }
+
+var normalizeComponent_1 = normalizeComponent;
 
 /* script */
 const __vue_script__ = script;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script.__file = "/ddata/extra/vma/components/list/mdc-list.vue";
 
 /* template */
 var __vue_render__ = function() {
@@ -1345,7 +1371,7 @@ __vue_render__._withStripped = true;
   
 
   
-  var mdcList = normalizeComponent(
+  var mdcList = normalizeComponent_1(
     { render: __vue_render__, staticRenderFns: __vue_staticRenderFns__ },
     __vue_inject_styles__,
     __vue_script__,
@@ -1425,8 +1451,6 @@ var script$1 = {
 
 /* script */
 const __vue_script__$1 = script$1;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$1.__file = "/ddata/extra/vma/components/list/mdc-list-item.vue";
 
 /* template */
 var __vue_render__$1 = function() {
@@ -1494,7 +1518,7 @@ __vue_render__$1._withStripped = true;
   
 
   
-  var mdcListItem = normalizeComponent(
+  var mdcListItem = normalizeComponent_1(
     { render: __vue_render__$1, staticRenderFns: __vue_staticRenderFns__$1 },
     __vue_inject_styles__$1,
     __vue_script__$1,
@@ -1530,8 +1554,6 @@ var script$2 = {
 
 /* script */
 const __vue_script__$2 = script$2;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$2.__file = "/ddata/extra/vma/components/list/mdc-list-divider.vue";
 
 /* template */
 var __vue_render__$2 = function() {
@@ -1561,7 +1583,7 @@ __vue_render__$2._withStripped = true;
   
 
   
-  var mdcListDivider = normalizeComponent(
+  var mdcListDivider = normalizeComponent_1(
     { render: __vue_render__$2, staticRenderFns: __vue_staticRenderFns__$2 },
     __vue_inject_styles__$2,
     __vue_script__$2,
@@ -1582,8 +1604,6 @@ var script$3 = {
 
 /* script */
 const __vue_script__$3 = script$3;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$3.__file = "/ddata/extra/vma/components/list/mdc-list-group.vue";
 
 /* template */
 var __vue_render__$3 = function() {
@@ -1609,7 +1629,7 @@ __vue_render__$3._withStripped = true;
   
 
   
-  var mdcListGroup = normalizeComponent(
+  var mdcListGroup = normalizeComponent_1(
     { render: __vue_render__$3, staticRenderFns: __vue_staticRenderFns__$3 },
     __vue_inject_styles__$3,
     __vue_script__$3,
@@ -1630,8 +1650,6 @@ var script$4 = {
 
 /* script */
 const __vue_script__$4 = script$4;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$4.__file = "/ddata/extra/vma/components/list/mdc-list-group-header.vue";
 
 /* template */
 var __vue_render__$4 = function() {
@@ -1662,7 +1680,7 @@ __vue_render__$4._withStripped = true;
   
 
   
-  var mdcListGroupHeader = normalizeComponent(
+  var mdcListGroupHeader = normalizeComponent_1(
     { render: __vue_render__$4, staticRenderFns: __vue_staticRenderFns__$4 },
     __vue_inject_styles__$4,
     __vue_script__$4,
@@ -1683,8 +1701,6 @@ var script$5 = {
 
 /* script */
 const __vue_script__$5 = script$5;
-// For security concerns, we use only base name in production mode. See https://github.com/vuejs/rollup-plugin-vue/issues/258
-script$5.__file = "/ddata/extra/vma/components/list/mdc-list-group-divider.vue";
 
 /* template */
 var __vue_render__$5 = function() {
@@ -1710,7 +1726,7 @@ __vue_render__$5._withStripped = true;
   
 
   
-  var mdcListGroupDivider = normalizeComponent(
+  var mdcListGroupDivider = normalizeComponent_1(
     { render: __vue_render__$5, staticRenderFns: __vue_staticRenderFns__$5 },
     __vue_inject_styles__$5,
     __vue_script__$5,
