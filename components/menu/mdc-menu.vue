@@ -4,9 +4,11 @@
     :quick-open="quickOpen"
     :open="open"
     @change="onChange"
-    @click.native="handleClick"
+    @keydown="handleKeydown"
   >
-    <mdc-list ref="list"> <slot /> </mdc-list>
+    <mdc-list ref="list" @MDCList:action.native="handleAction">
+      <slot />
+    </mdc-list>
   </mdc-menu-surface>
 </template>
 
@@ -107,8 +109,12 @@ export default {
   },
 
   methods: {
-    handleClick(evt) {
-      this.foundation.handleClick(evt)
+    handleAction({ detail: { index } }) {
+      this.foundation.handleItemAction(this.items[index])
+    },
+
+    handleKeydown(evt) {
+      this.foundation.handleKeydown(evt)
     },
     onChange(item) {
       this.$emit('change', item)

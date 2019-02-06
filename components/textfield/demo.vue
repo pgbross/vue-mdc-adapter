@@ -49,6 +49,8 @@
             tabindex="0"
           ></i
         ></mdc-textfield>
+
+        <mdc-textfield v-model="textField"></mdc-textfield>
       </mdc-layout-cell>
       <mdc-layout-cell span="6">
         <p>

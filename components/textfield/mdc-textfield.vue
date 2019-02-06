@@ -145,7 +145,9 @@ export default {
         'mdc-text-field--textarea': this.multiline,
         'mdc-text-field--outlined': !this.fullwidth && this.outline,
         'mdc-text-field--with-leading-icon': Boolean(this.$slots.leadingIcon),
-        'mdc-text-field--with-trailing-icon': Boolean(this.$slots.trailingIcon)
+        'mdc-text-field--with-trailing-icon': Boolean(this.$slots.trailingIcon),
+
+        'mdc-text-field--no-label': !this.hasLabel
       },
       inputClasses: {
         'mdc-text-field__input': true

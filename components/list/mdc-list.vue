@@ -15,6 +15,7 @@
 <script>
 import MDCListFoundation from '@material/list/foundation'
 import { matches } from '@material/dom/ponyfill'
+import { emitCustomEvent } from '../base'
 
 export default {
   name: 'mdc-list',
@@ -234,6 +235,15 @@ export default {
         const event = document.createEvent('Event')
         event.initEvent('change', true, true)
         toggleEl.dispatchEvent(event)
+      },
+
+      notifyAction: index => {
+        emitCustomEvent(
+          this.$el,
+          MDCListFoundation.strings.ACTION_EVENT,
+          { index },
+          /** shouldBubble */ true
+        )
       },
       isFocusInsideList: () => {
         return this.$el.contains(document.activeElement)

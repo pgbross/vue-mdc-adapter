@@ -15,7 +15,7 @@
       class="mdc-chip__icon mdc-chip__icon--leading"
       >{{ leadingIcon }}</i
     >
-    <div v-if="isFilter" class="mdc-chip__checkmark">
+    <div v-if="isFilter" ref="checkmarkEl" class="mdc-chip__checkmark">
       <svg class="mdc-chip__checkmark-svg" viewBox="-2 -3 30 30">
         <path
           class="mdc-chip__checkmark-path"
@@ -162,14 +162,23 @@ export default {
       getComputedStyleValue: propertyName =>
         window.getComputedStyle(this.$el).getPropertyValue(propertyName),
       setStyleProperty: (property, value) =>
-        this.$set(this.styles, property, value)
+        this.$set(this.styles, property, value),
+
+      hasLeadingIcon: () => !!this.haveleadingIcon,
+      getRootBoundingClientRect: () => this.$el.getBoundingClientRect(),
+      getCheckmarkBoundingClientRect: () =>
+        this.$refs.checkmarkEl
+          ? this.$refs.checkmarkEl.getBoundingClientRect()
+          : null
     })
 
     this.foundation.init()
 
     this.mdcChipSet.chips.push(this)
 
-    this.ripple = new RippleBase(this)
+    this.ripple = new RippleBase(this, {
+      computeBoundingRect: () => this.foundation.getDimensions()
+    })
     this.ripple.init()
   },
   beforeDestroy() {

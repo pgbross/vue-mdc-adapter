@@ -9,7 +9,7 @@
     </section>
 
     <section class="mdc-demo">
-      <mdc-subheading>Entry Chips</mdc-subheading>
+      <mdc-headline4>Entry Chips</mdc-headline4>
       <mdc-chip-set>
         <mdc-chip leading-icon="face" trailing-icon="more_vert"
           >Jane Smith</mdc-chip
@@ -21,7 +21,7 @@
     </section>
 
     <section class="mdc-demo">
-      <mdc-subheading>Entry Chips (font-awesome)</mdc-subheading>
+      <mdc-headline4>Entry Chips (font-awesome)</mdc-headline4>
       <mdc-chip-set>
         <mdc-chip
           :leading-icon-classes="{ fa: 1, 'fa-font-awesome': 1 }"
@@ -37,7 +37,7 @@
     </section>
 
     <section class="mdc-demo">
-      <mdc-subheading>Choice Chips</mdc-subheading>
+      <mdc-headline4>Choice Chips</mdc-headline4>
       <mdc-chip-set choice>
         <mdc-chip>Extra small</mdc-chip>
         <mdc-chip>Small</mdc-chip>
@@ -48,7 +48,7 @@
     </section>
 
     <section class="mdc-demo">
-      <mdc-subheading>Filter Chips</mdc-subheading>
+      <mdc-headline4>Filter Chips</mdc-headline4>
       <mdc-chip-set filter>
         <mdc-chip trailing-icon="cancel">Tops</mdc-chip>
         <mdc-chip trailing-icon="cancel">Bottoms</mdc-chip>
@@ -56,7 +56,7 @@
         <mdc-chip trailing-icon="cancel">Accessories</mdc-chip>
       </mdc-chip-set>
 
-      <mdc-subheading>Filter Chips with leading icon</mdc-subheading>
+      <mdc-headline4>Filter Chips with leading icon</mdc-headline4>
       <mdc-chip-set filter>
         <mdc-chip leading-icon="face" trailing-icon="cancel">Tops</mdc-chip>
         <mdc-chip leading-icon="face" trailing-icon="cancel">Bottoms</mdc-chip>
@@ -68,7 +68,7 @@
     </section>
 
     <section class="mdc-demo">
-      <mdc-subheading>Custom theme</mdc-subheading>
+      <mdc-headline4>Custom theme</mdc-headline4>
       <mdc-chip-set>
         <mdc-chip class="custom-chip-primary">Add to Calendar</mdc-chip>
         <mdc-chip class="custom-chip-primary">Bookmark</mdc-chip>
