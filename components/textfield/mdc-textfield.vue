@@ -147,7 +147,7 @@ export default {
         'mdc-text-field--with-leading-icon': Boolean(this.$slots.leadingIcon),
         'mdc-text-field--with-trailing-icon': Boolean(this.$slots.trailingIcon),
 
-        'mdc-text-field--no-label': !this.hasLabel
+        'mdc-text-field--no-label': !this.label
       },
       inputClasses: {
         'mdc-text-field__input': true
