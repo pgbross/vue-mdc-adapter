@@ -45,6 +45,7 @@ const PLUGINS = [
   'textfield',
   'theme',
   'toolbar',
+  'top-app-bar',
   'typography'
 ]
 
