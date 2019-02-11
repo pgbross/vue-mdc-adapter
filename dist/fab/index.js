@@ -110,7 +110,7 @@ var CustomButton = {
 
     if (context.props.link && context.parent.$router) {
       // router-link case
-      element = context.parent.$root.$options.components['router-link'];
+      element = context.parent.$root.$options.components['RouterLink'];
       data.props = _extends({
         tag: context.props.tag
       }, context.props.link);

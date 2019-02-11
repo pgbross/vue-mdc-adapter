@@ -10,7 +10,7 @@ export const CustomButton = {
 
     if (context.props.link && context.parent.$router) {
       // router-link case
-      element = context.parent.$root.$options.components['router-link']
+      element = context.parent.$root.$options.components['RouterLink']
       data.props = Object.assign({ tag: context.props.tag }, context.props.link)
       data.attrs.role = 'button'
       if (data.on.click) {
