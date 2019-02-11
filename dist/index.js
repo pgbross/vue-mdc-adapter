@@ -11,7 +11,7 @@
 import VueMDCButton from './button';
 import VueMDCCard from './card';
 import VueMDCCheckbox from './checkbox';
-import VueMDCChipSet from './chips';
+import VueMDCChips from './chips';
 import VueMDCDialog from './dialog';
 import VueMDCDrawer from './drawer';
 import VueMDCElevation from './elevation';
@@ -48,7 +48,7 @@ var index = {
     vm.use(VueMDCButton);
     vm.use(VueMDCCard);
     vm.use(VueMDCCheckbox);
-    vm.use(VueMDCChipSet);
+    vm.use(VueMDCChips);
     vm.use(VueMDCElevation);
     vm.use(VueMDCDialog);
     vm.use(VueMDCDrawer);
