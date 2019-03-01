@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.44.0","material-components-web":"^0.44.0"}
+* @implements {"@material/tabs":"^1.0.0-0","material-components-web":"^1.0.0-0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -21,96 +21,65 @@ function BasePlugin(components) {
   };
 }
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
 /* global CustomEvent */
 
 var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+
+/* global Reflect, Promise */
+var _extendStatics = function extendStatics(d, b) {
+  _extendStatics = Object.setPrototypeOf || {
+    __proto__: []
+  } instanceof Array && function (d, b) {
+    d.__proto__ = b;
+  } || function (d, b) {
+    for (var p in b) {
+      if (b.hasOwnProperty(p)) d[p] = b[p];
+    }
+  };
+
+  return _extendStatics(d, b);
+};
+
+function __extends(d, b) {
+  _extendStatics(d, b);
+
+  function __() {
+    this.constructor = d;
+  }
+
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var _assign = function __assign() {
+  _assign = Object.assign || function __assign(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return _assign.apply(this, arguments);
+};
 
 /**
  * @license
@@ -134,169 +103,66 @@ var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/**
- * @template A
- */
 var MDCFoundation =
-/*#__PURE__*/
+/** @class */
 function () {
-  _createClass(MDCFoundation, null, [{
-    key: "cssClasses",
+  function MDCFoundation(adapter) {
+    if (adapter === void 0) {
+      adapter = {};
+    }
 
-    /** @return enum{cssClasses} */
+    this.adapter_ = adapter;
+  }
+
+  Object.defineProperty(MDCFoundation, "cssClasses", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports every
       // CSS class the foundation class needs as a property. e.g. {ACTIVE: 'mdc-component--active'}
       return {};
-    }
-    /** @return enum{strings} */
-
-  }, {
-    key: "strings",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "strings", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // semantic strings as constants. e.g. {ARIA_ROLE: 'tablist'}
       return {};
-    }
-    /** @return enum{numbers} */
-
-  }, {
-    key: "numbers",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "numbers", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // of its semantic numbers as constants. e.g. {ANIMATION_DELAY_MS: 350}
       return {};
-    }
-    /** @return {!Object} */
-
-  }, {
-    key: "defaultAdapter",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "defaultAdapter", {
     get: function get() {
       // Classes extending MDCFoundation may choose to implement this getter in order to provide a convenient
       // way of viewing the necessary methods of an adapter. In the future, this could also be used for adapter
       // validation.
       return {};
-    }
-    /**
-     * @param {A=} adapter
-     */
+    },
+    enumerable: true,
+    configurable: true
+  });
 
-  }]);
+  MDCFoundation.prototype.init = function () {// Subclasses should override this method to perform initialization routines (registering events, etc.)
+  };
 
-  function MDCFoundation() {
-    var adapter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    _classCallCheck(this, MDCFoundation);
-
-    /** @protected {!A} */
-    this.adapter_ = adapter;
-  }
-
-  _createClass(MDCFoundation, [{
-    key: "init",
-    value: function init() {// Subclasses should override this method to perform initialization routines (registering events, etc.)
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
-    }
-  }]);
+  MDCFoundation.prototype.destroy = function () {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
+  };
 
   return MDCFoundation;
 }();
 
 /**
  * @license
- * Copyright 2017 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/* eslint no-unused-vars: [2, {"args": "none"}] */
-
-/**
- * Adapter for MDC Floating Label.
- *
- * Defines the shape of the adapter expected by the foundation. Implement this
- * adapter to integrate the floating label into your framework. See
- * https://github.com/material-components/material-components-web/blob/master/docs/authoring-components.md
- * for more information.
- *
- * @record
- */
-var MDCFloatingLabelAdapter =
-/*#__PURE__*/
-function () {
-  function MDCFloatingLabelAdapter() {
-    _classCallCheck(this, MDCFloatingLabelAdapter);
-  }
-
-  _createClass(MDCFloatingLabelAdapter, [{
-    key: "addClass",
-
-    /**
-     * Adds a class to the label element.
-     * @param {string} className
-     */
-    value: function addClass(className) {}
-    /**
-     * Removes a class from the label element.
-     * @param {string} className
-     */
-
-  }, {
-    key: "removeClass",
-    value: function removeClass(className) {}
-    /**
-     * Returns the width of the label element.
-     * @return {number}
-     */
-
-  }, {
-    key: "getWidth",
-    value: function getWidth() {}
-    /**
-     * Registers an event listener on the root element for a given event.
-     * @param {string} evtType
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "registerInteractionHandler",
-    value: function registerInteractionHandler(evtType, handler) {}
-    /**
-     * Deregisters an event listener on the root element for a given event.
-     * @param {string} evtType
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "deregisterInteractionHandler",
-    value: function deregisterInteractionHandler(evtType, handler) {}
-  }]);
-
-  return MDCFloatingLabelAdapter;
-}();
-
-/**
- * @license
  * Copyright 2016 Google Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -317,8 +183,6 @@ function () {
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/** @enum {string} */
 var cssClasses = {
   LABEL_FLOAT_ABOVE: 'mdc-floating-label--float-above',
   LABEL_SHAKE: 'mdc-floating-label--shake',
@@ -326,55 +190,35 @@ var cssClasses = {
 };
 
 /**
- * @extends {MDCFoundation<!MDCFloatingLabelAdapter>}
- * @final
+ * @license
+ * Copyright 2016 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 var MDCFloatingLabelFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCFloatingLabelFoundation, _MDCFoundation);
-
-  _createClass(MDCFloatingLabelFoundation, null, [{
-    key: "cssClasses",
-
-    /** @return enum {string} */
-    get: function get() {
-      return cssClasses;
-    }
-    /**
-     * {@see MDCFloatingLabelAdapter} for typing information on parameters and return
-     * types.
-     * @return {!MDCFloatingLabelAdapter}
-     */
-
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCFloatingLabelAdapter} */
-        {
-          addClass: function addClass() {},
-          removeClass: function removeClass() {},
-          getWidth: function getWidth() {},
-          registerInteractionHandler: function registerInteractionHandler() {},
-          deregisterInteractionHandler: function deregisterInteractionHandler() {}
-        }
-      );
-    }
-    /**
-     * @param {!MDCFloatingLabelAdapter} adapter
-     */
-
-  }]);
+/** @class */
+function (_super) {
+  __extends(MDCFloatingLabelFoundation, _super);
 
   function MDCFloatingLabelFoundation(adapter) {
-    var _this;
-
-    _classCallCheck(this, MDCFloatingLabelFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCFloatingLabelFoundation).call(this, _extends(MDCFloatingLabelFoundation.defaultAdapter, adapter)));
-    /** @private {function(!Event): undefined} */
+    var _this = _super.call(this, _assign({}, MDCFloatingLabelFoundation.defaultAdapter, adapter)) || this;
 
     _this.shakeAnimationEndHandler_ = function () {
       return _this.handleShakeAnimationEnd_();
@@ -383,74 +227,94 @@ function (_MDCFoundation) {
     return _this;
   }
 
-  _createClass(MDCFloatingLabelFoundation, [{
-    key: "init",
-    value: function init() {
-      this.adapter_.registerInteractionHandler('animationend', this.shakeAnimationEndHandler_);
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      this.adapter_.deregisterInteractionHandler('animationend', this.shakeAnimationEndHandler_);
-    }
+  Object.defineProperty(MDCFloatingLabelFoundation, "cssClasses", {
+    get: function get() {
+      return cssClasses;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFloatingLabelFoundation, "defaultAdapter", {
     /**
-     * Returns the width of the label element.
-     * @return {number}
+     * See {@link MDCFloatingLabelAdapter} for typing information on parameters and return types.
      */
+    get: function get() {
+      // tslint:disable:object-literal-sort-keys Methods should be in the same order as the adapter interface.
+      return {
+        addClass: function addClass() {
+          return undefined;
+        },
+        removeClass: function removeClass() {
+          return undefined;
+        },
+        getWidth: function getWidth() {
+          return 0;
+        },
+        registerInteractionHandler: function registerInteractionHandler() {
+          return undefined;
+        },
+        deregisterInteractionHandler: function deregisterInteractionHandler() {
+          return undefined;
+        }
+      }; // tslint:enable:object-literal-sort-keys
+    },
+    enumerable: true,
+    configurable: true
+  });
 
-  }, {
-    key: "getWidth",
-    value: function getWidth() {
-      return this.adapter_.getWidth();
-    }
-    /**
-     * Styles the label to produce the label shake for errors.
-     * @param {boolean} shouldShake adds shake class if true,
-     * otherwise removes shake class.
-     */
+  MDCFloatingLabelFoundation.prototype.init = function () {
+    this.adapter_.registerInteractionHandler('animationend', this.shakeAnimationEndHandler_);
+  };
 
-  }, {
-    key: "shake",
-    value: function shake(shouldShake) {
-      var LABEL_SHAKE = MDCFloatingLabelFoundation.cssClasses.LABEL_SHAKE;
+  MDCFloatingLabelFoundation.prototype.destroy = function () {
+    this.adapter_.deregisterInteractionHandler('animationend', this.shakeAnimationEndHandler_);
+  };
+  /**
+   * Returns the width of the label element.
+   */
 
-      if (shouldShake) {
-        this.adapter_.addClass(LABEL_SHAKE);
-      } else {
-        this.adapter_.removeClass(LABEL_SHAKE);
-      }
-    }
-    /**
-     * Styles the label to float or dock.
-     * @param {boolean} shouldFloat adds float class if true, otherwise remove
-     * float and shake class to dock label.
-     */
 
-  }, {
-    key: "float",
-    value: function float(shouldFloat) {
-      var _MDCFloatingLabelFoun = MDCFloatingLabelFoundation.cssClasses,
-          LABEL_FLOAT_ABOVE = _MDCFloatingLabelFoun.LABEL_FLOAT_ABOVE,
-          LABEL_SHAKE = _MDCFloatingLabelFoun.LABEL_SHAKE;
+  MDCFloatingLabelFoundation.prototype.getWidth = function () {
+    return this.adapter_.getWidth();
+  };
+  /**
+   * Styles the label to produce a shake animation to indicate an error.
+   * @param shouldShake If true, adds the shake CSS class; otherwise, removes shake class.
+   */
 
-      if (shouldFloat) {
-        this.adapter_.addClass(LABEL_FLOAT_ABOVE);
-      } else {
-        this.adapter_.removeClass(LABEL_FLOAT_ABOVE);
-        this.adapter_.removeClass(LABEL_SHAKE);
-      }
-    }
-    /**
-     * Handles an interaction event on the root element.
-     */
 
-  }, {
-    key: "handleShakeAnimationEnd_",
-    value: function handleShakeAnimationEnd_() {
-      var LABEL_SHAKE = MDCFloatingLabelFoundation.cssClasses.LABEL_SHAKE;
+  MDCFloatingLabelFoundation.prototype.shake = function (shouldShake) {
+    var LABEL_SHAKE = MDCFloatingLabelFoundation.cssClasses.LABEL_SHAKE;
+
+    if (shouldShake) {
+      this.adapter_.addClass(LABEL_SHAKE);
+    } else {
       this.adapter_.removeClass(LABEL_SHAKE);
     }
-  }]);
+  };
+  /**
+   * Styles the label to float or dock.
+   * @param shouldFloat If true, adds the float CSS class; otherwise, removes float and shake classes to dock the label.
+   */
+
+
+  MDCFloatingLabelFoundation.prototype.float = function (shouldFloat) {
+    var _a = MDCFloatingLabelFoundation.cssClasses,
+        LABEL_FLOAT_ABOVE = _a.LABEL_FLOAT_ABOVE,
+        LABEL_SHAKE = _a.LABEL_SHAKE;
+
+    if (shouldFloat) {
+      this.adapter_.addClass(LABEL_FLOAT_ABOVE);
+    } else {
+      this.adapter_.removeClass(LABEL_FLOAT_ABOVE);
+      this.adapter_.removeClass(LABEL_SHAKE);
+    }
+  };
+
+  MDCFloatingLabelFoundation.prototype.handleShakeAnimationEnd_ = function () {
+    var LABEL_SHAKE = MDCFloatingLabelFoundation.cssClasses.LABEL_SHAKE;
+    this.adapter_.removeClass(LABEL_SHAKE);
+  };
 
   return MDCFloatingLabelFoundation;
 }(MDCFoundation);

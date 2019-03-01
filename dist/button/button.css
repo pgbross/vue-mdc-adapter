@@ -224,10 +224,10 @@
 }
 .mdc-button:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 .mdc-button.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 
 .mdc-button__label + .mdc-button__icon, .mdc-button .mdc-button__label + .mdc-icon {
@@ -364,11 +364,11 @@ svg.mdc-button__icon, .mdc-button svg.mdc-icon {
 .mdc-button--raised:not(.mdc-ripple-upgraded):active::after,
 .mdc-button--unelevated:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.32;
+  opacity: 0.24;
 }
 .mdc-button--raised.mdc-ripple-upgraded,
 .mdc-button--unelevated.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.32;
+  --mdc-ripple-fg-opacity: 0.24;
 }
 
 .mdc-button--raised {

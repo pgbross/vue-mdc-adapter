@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.44.0","material-components-web":"^0.44.0"}
+* @implements {"@material/tabs":"^1.0.0-0","material-components-web":"^1.0.0-0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -21,28 +21,6 @@ function BasePlugin(components) {
   };
 }
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
 function _defineProperty(obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
@@ -56,24 +34,6 @@ function _defineProperty(obj, key, value) {
   }
 
   return obj;
-}
-
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
 }
 
 function _objectSpread(target) {
@@ -93,53 +53,6 @@ function _objectSpread(target) {
   }
 
   return target;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
 }
 
 function _toConsumableArray(arr) {
@@ -196,6 +109,62 @@ var DispatchEventMixin = {
 
 var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
 
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+
+/* global Reflect, Promise */
+var _extendStatics = function extendStatics(d, b) {
+  _extendStatics = Object.setPrototypeOf || {
+    __proto__: []
+  } instanceof Array && function (d, b) {
+    d.__proto__ = b;
+  } || function (d, b) {
+    for (var p in b) {
+      if (b.hasOwnProperty(p)) d[p] = b[p];
+    }
+  };
+
+  return _extendStatics(d, b);
+};
+
+function __extends(d, b) {
+  _extendStatics(d, b);
+
+  function __() {
+    this.constructor = d;
+  }
+
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var _assign = function __assign() {
+  _assign = Object.assign || function __assign(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return _assign.apply(this, arguments);
+};
+
 /**
  * @license
  * Copyright 2016 Google Inc.
@@ -218,74 +187,60 @@ var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/**
- * @template A
- */
 var MDCFoundation =
-/*#__PURE__*/
+/** @class */
 function () {
-  _createClass(MDCFoundation, null, [{
-    key: "cssClasses",
+  function MDCFoundation(adapter) {
+    if (adapter === void 0) {
+      adapter = {};
+    }
 
-    /** @return enum{cssClasses} */
+    this.adapter_ = adapter;
+  }
+
+  Object.defineProperty(MDCFoundation, "cssClasses", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports every
       // CSS class the foundation class needs as a property. e.g. {ACTIVE: 'mdc-component--active'}
       return {};
-    }
-    /** @return enum{strings} */
-
-  }, {
-    key: "strings",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "strings", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // semantic strings as constants. e.g. {ARIA_ROLE: 'tablist'}
       return {};
-    }
-    /** @return enum{numbers} */
-
-  }, {
-    key: "numbers",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "numbers", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // of its semantic numbers as constants. e.g. {ANIMATION_DELAY_MS: 350}
       return {};
-    }
-    /** @return {!Object} */
-
-  }, {
-    key: "defaultAdapter",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "defaultAdapter", {
     get: function get() {
       // Classes extending MDCFoundation may choose to implement this getter in order to provide a convenient
       // way of viewing the necessary methods of an adapter. In the future, this could also be used for adapter
       // validation.
       return {};
-    }
-    /**
-     * @param {A=} adapter
-     */
+    },
+    enumerable: true,
+    configurable: true
+  });
 
-  }]);
+  MDCFoundation.prototype.init = function () {// Subclasses should override this method to perform initialization routines (registering events, etc.)
+  };
 
-  function MDCFoundation() {
-    var adapter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    _classCallCheck(this, MDCFoundation);
-
-    /** @protected {!A} */
-    this.adapter_ = adapter;
-  }
-
-  _createClass(MDCFoundation, [{
-    key: "init",
-    value: function init() {// Subclasses should override this method to perform initialization routines (registering events, etc.)
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
-    }
-  }]);
+  MDCFoundation.prototype.destroy = function () {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
+  };
 
   return MDCFoundation;
 }();
@@ -314,331 +269,313 @@ function () {
  */
 var cssClasses = {
   FIXED: 'mdc-toolbar--fixed',
-  FIXED_LASTROW: 'mdc-toolbar--fixed-lastrow-only',
   FIXED_AT_LAST_ROW: 'mdc-toolbar--fixed-at-last-row',
-  TOOLBAR_ROW_FLEXIBLE: 'mdc-toolbar--flexible',
+  FIXED_LASTROW: 'mdc-toolbar--fixed-lastrow-only',
   FLEXIBLE_DEFAULT_BEHAVIOR: 'mdc-toolbar--flexible-default-behavior',
   FLEXIBLE_MAX: 'mdc-toolbar--flexible-space-maximized',
-  FLEXIBLE_MIN: 'mdc-toolbar--flexible-space-minimized'
+  FLEXIBLE_MIN: 'mdc-toolbar--flexible-space-minimized',
+  TOOLBAR_ROW_FLEXIBLE: 'mdc-toolbar--flexible'
 };
 var strings = {
-  TITLE_SELECTOR: '.mdc-toolbar__title',
-  ICON_SELECTOR: '.mdc-toolbar__icon',
+  CHANGE_EVENT: 'MDCToolbar:change',
   FIRST_ROW_SELECTOR: '.mdc-toolbar__row:first-child',
-  CHANGE_EVENT: 'MDCToolbar:change'
+  ICON_SELECTOR: '.mdc-toolbar__icon',
+  TITLE_SELECTOR: '.mdc-toolbar__title'
 };
 var numbers = {
   MAX_TITLE_SIZE: 2.125,
   MIN_TITLE_SIZE: 1.25,
+  TOOLBAR_MOBILE_BREAKPOINT: 600,
   TOOLBAR_ROW_HEIGHT: 64,
-  TOOLBAR_ROW_MOBILE_HEIGHT: 56,
-  TOOLBAR_MOBILE_BREAKPOINT: 600
+  TOOLBAR_ROW_MOBILE_HEIGHT: 56
 };
 
+/**
+ * @license
+ * Copyright 2017 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 var MDCToolbarFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCToolbarFoundation, _MDCFoundation);
-
-  _createClass(MDCToolbarFoundation, null, [{
-    key: "cssClasses",
-    get: function get() {
-      return cssClasses;
-    }
-  }, {
-    key: "strings",
-    get: function get() {
-      return strings;
-    }
-  }, {
-    key: "numbers",
-    get: function get() {
-      return numbers;
-    }
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return {
-        hasClass: function hasClass() {
-          return (
-            /* className: string */
-
-            /* boolean */
-            false
-          );
-        },
-        addClass: function addClass()
-        /* className: string */
-        {},
-        removeClass: function removeClass()
-        /* className: string */
-        {},
-        registerScrollHandler: function registerScrollHandler()
-        /* handler: EventListener */
-        {},
-        deregisterScrollHandler: function deregisterScrollHandler()
-        /* handler: EventListener */
-        {},
-        registerResizeHandler: function registerResizeHandler()
-        /* handler: EventListener */
-        {},
-        deregisterResizeHandler: function deregisterResizeHandler()
-        /* handler: EventListener */
-        {},
-        getViewportWidth: function getViewportWidth() {
-          return (
-            /* number */
-            0
-          );
-        },
-        getViewportScrollY: function getViewportScrollY() {
-          return (
-            /* number */
-            0
-          );
-        },
-        getOffsetHeight: function getOffsetHeight() {
-          return (
-            /* number */
-            0
-          );
-        },
-        getFirstRowElementOffsetHeight: function getFirstRowElementOffsetHeight() {
-          return (
-            /* number */
-            0
-          );
-        },
-        notifyChange: function notifyChange()
-        /* evtData: {flexibleExpansionRatio: number} */
-        {},
-        setStyle: function setStyle()
-        /* property: string, value: string */
-        {},
-        setStyleForTitleElement: function setStyleForTitleElement()
-        /* property: string, value: string */
-        {},
-        setStyleForFlexibleRowElement: function setStyleForFlexibleRowElement()
-        /* property: string, value: string */
-        {},
-        setStyleForFixedAdjustElement: function setStyleForFixedAdjustElement()
-        /* property: string, value: string */
-        {}
-      };
-    }
-  }]);
+/** @class */
+function (_super) {
+  __extends(MDCToolbarFoundation, _super);
 
   function MDCToolbarFoundation(adapter) {
-    var _this;
-
-    _classCallCheck(this, MDCToolbarFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCToolbarFoundation).call(this, _extends(MDCToolbarFoundation.defaultAdapter, adapter)));
-
-    _this.resizeHandler_ = function () {
-      return _this.checkRowHeight_();
-    };
-
-    _this.scrollHandler_ = function () {
-      return _this.updateToolbarStyles_();
-    };
+    var _this = _super.call(this, _assign({}, MDCToolbarFoundation.defaultAdapter, adapter)) || this;
 
     _this.checkRowHeightFrame_ = 0;
     _this.scrollFrame_ = 0;
     _this.executedLastChange_ = false;
-    _this.calculations_ = {
-      toolbarRowHeight: 0,
-      // Calculated Height ratio. We use ratio to calculate corresponding heights in resize event.
-      toolbarRatio: 0,
-      // The ratio of toolbar height to row height
-      flexibleExpansionRatio: 0,
-      // The ratio of flexible space height to row height
-      maxTranslateYRatio: 0,
-      // The ratio of max toolbar move up distance to row height
-      scrollThresholdRatio: 0,
-      // The ratio of max scrollTop that we should listen to to row height
-      // Derived Heights based on the above key ratios.
-      toolbarHeight: 0,
-      flexibleExpansionHeight: 0,
-      // Flexible row minus toolbar height (derived)
-      maxTranslateYDistance: 0,
-      // When toolbar only fix last row (derived)
-      scrollThreshold: 0
-    }; // Toolbar fixed behavior
-    // If toolbar is fixed
-
-    _this.fixed_ = false; // If fixed is targeted only at the last row
-
-    _this.fixedLastrow_ = false; // Toolbar flexible behavior
-    // If the first row is flexible
-
-    _this.hasFlexibleRow_ = false; // If use the default behavior
-
+    _this.isFixed_ = false;
+    _this.isFixedLastRow_ = false;
+    _this.hasFlexibleFirstRow_ = false;
     _this.useFlexDefaultBehavior_ = false;
+    _this.calculations_ = {
+      flexibleExpansionHeight: 0,
+      flexibleExpansionRatio: 0,
+      maxTranslateYDistance: 0,
+      maxTranslateYRatio: 0,
+      scrollThreshold: 0,
+      scrollThresholdRatio: 0,
+      toolbarHeight: 0,
+      toolbarRatio: 0,
+      toolbarRowHeight: 0
+    };
     return _this;
   }
 
-  _createClass(MDCToolbarFoundation, [{
-    key: "init",
-    value: function init() {
-      this.fixed_ = this.adapter_.hasClass(MDCToolbarFoundation.cssClasses.FIXED);
-      this.fixedLastrow_ = this.adapter_.hasClass(MDCToolbarFoundation.cssClasses.FIXED_LASTROW) & this.fixed_;
-      this.hasFlexibleRow_ = this.adapter_.hasClass(MDCToolbarFoundation.cssClasses.TOOLBAR_ROW_FLEXIBLE);
+  Object.defineProperty(MDCToolbarFoundation, "cssClasses", {
+    get: function get() {
+      return cssClasses;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCToolbarFoundation, "strings", {
+    get: function get() {
+      return strings;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCToolbarFoundation, "numbers", {
+    get: function get() {
+      return numbers;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCToolbarFoundation, "defaultAdapter", {
+    get: function get() {
+      // tslint:disable:object-literal-sort-keys Methods should be in the same order as the adapter interface.
+      return {
+        hasClass: function hasClass() {
+          return false;
+        },
+        addClass: function addClass() {
+          return undefined;
+        },
+        removeClass: function removeClass() {
+          return undefined;
+        },
+        registerScrollHandler: function registerScrollHandler() {
+          return undefined;
+        },
+        deregisterScrollHandler: function deregisterScrollHandler() {
+          return undefined;
+        },
+        registerResizeHandler: function registerResizeHandler() {
+          return undefined;
+        },
+        deregisterResizeHandler: function deregisterResizeHandler() {
+          return undefined;
+        },
+        getViewportWidth: function getViewportWidth() {
+          return 0;
+        },
+        getViewportScrollY: function getViewportScrollY() {
+          return 0;
+        },
+        getOffsetHeight: function getOffsetHeight() {
+          return 0;
+        },
+        getFirstRowElementOffsetHeight: function getFirstRowElementOffsetHeight() {
+          return 0;
+        },
+        notifyChange: function notifyChange() {
+          return undefined;
+        },
+        setStyle: function setStyle() {
+          return undefined;
+        },
+        setStyleForTitleElement: function setStyleForTitleElement() {
+          return undefined;
+        },
+        setStyleForFlexibleRowElement: function setStyleForFlexibleRowElement() {
+          return undefined;
+        },
+        setStyleForFixedAdjustElement: function setStyleForFixedAdjustElement() {
+          return undefined;
+        }
+      }; // tslint:enable:object-literal-sort-keys
+    },
+    enumerable: true,
+    configurable: true
+  });
 
-      if (this.hasFlexibleRow_) {
-        this.useFlexDefaultBehavior_ = this.adapter_.hasClass(MDCToolbarFoundation.cssClasses.FLEXIBLE_DEFAULT_BEHAVIOR);
+  MDCToolbarFoundation.prototype.init = function () {
+    var _this = this;
+
+    this.isFixed_ = this.adapter_.hasClass(cssClasses.FIXED);
+    this.isFixedLastRow_ = this.adapter_.hasClass(cssClasses.FIXED_LASTROW) && this.isFixed_;
+    this.hasFlexibleFirstRow_ = this.adapter_.hasClass(cssClasses.TOOLBAR_ROW_FLEXIBLE);
+
+    if (this.hasFlexibleFirstRow_) {
+      this.useFlexDefaultBehavior_ = this.adapter_.hasClass(cssClasses.FLEXIBLE_DEFAULT_BEHAVIOR);
+    }
+
+    this.resizeHandler_ = function () {
+      return _this.checkRowHeight_();
+    };
+
+    this.scrollHandler_ = function () {
+      return _this.updateToolbarStyles_();
+    };
+
+    this.adapter_.registerResizeHandler(this.resizeHandler_);
+    this.adapter_.registerScrollHandler(this.scrollHandler_);
+    this.initKeyRatio_();
+    this.setKeyHeights_();
+  };
+
+  MDCToolbarFoundation.prototype.destroy = function () {
+    this.adapter_.deregisterResizeHandler(this.resizeHandler_);
+    this.adapter_.deregisterScrollHandler(this.scrollHandler_);
+  };
+
+  MDCToolbarFoundation.prototype.updateAdjustElementStyles = function () {
+    if (this.isFixed_) {
+      this.adapter_.setStyleForFixedAdjustElement('margin-top', this.calculations_.toolbarHeight + "px");
+    }
+  };
+
+  MDCToolbarFoundation.prototype.getFlexibleExpansionRatio_ = function (scrollTop) {
+    // To prevent division by zero when there is no flexibleExpansionHeight
+    var delta = 0.0001;
+    return Math.max(0, 1 - scrollTop / (this.calculations_.flexibleExpansionHeight + delta));
+  };
+
+  MDCToolbarFoundation.prototype.checkRowHeight_ = function () {
+    var _this = this;
+
+    cancelAnimationFrame(this.checkRowHeightFrame_);
+    this.checkRowHeightFrame_ = requestAnimationFrame(function () {
+      return _this.setKeyHeights_();
+    });
+  };
+
+  MDCToolbarFoundation.prototype.setKeyHeights_ = function () {
+    var newToolbarRowHeight = this.getRowHeight_();
+
+    if (newToolbarRowHeight !== this.calculations_.toolbarRowHeight) {
+      this.calculations_.toolbarRowHeight = newToolbarRowHeight;
+      this.calculations_.toolbarHeight = this.calculations_.toolbarRatio * this.calculations_.toolbarRowHeight;
+      this.calculations_.flexibleExpansionHeight = this.calculations_.flexibleExpansionRatio * this.calculations_.toolbarRowHeight;
+      this.calculations_.maxTranslateYDistance = this.calculations_.maxTranslateYRatio * this.calculations_.toolbarRowHeight;
+      this.calculations_.scrollThreshold = this.calculations_.scrollThresholdRatio * this.calculations_.toolbarRowHeight;
+      this.updateAdjustElementStyles();
+      this.updateToolbarStyles_();
+    }
+  };
+
+  MDCToolbarFoundation.prototype.updateToolbarStyles_ = function () {
+    var _this = this;
+
+    cancelAnimationFrame(this.scrollFrame_);
+    this.scrollFrame_ = requestAnimationFrame(function () {
+      var scrollTop = _this.adapter_.getViewportScrollY();
+
+      var hasScrolledOutOfThreshold = _this.scrolledOutOfThreshold_(scrollTop);
+
+      if (hasScrolledOutOfThreshold && _this.executedLastChange_) {
+        return;
       }
 
-      this.initKeyRatio_();
-      this.setKeyHeights_();
-      this.adapter_.registerResizeHandler(this.resizeHandler_);
-      this.adapter_.registerScrollHandler(this.scrollHandler_);
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      this.adapter_.deregisterResizeHandler(this.resizeHandler_);
-      this.adapter_.deregisterScrollHandler(this.scrollHandler_);
-    }
-  }, {
-    key: "updateAdjustElementStyles",
-    value: function updateAdjustElementStyles() {
-      if (this.fixed_) {
-        this.adapter_.setStyleForFixedAdjustElement('margin-top', "".concat(this.calculations_.toolbarHeight, "px"));
-      }
-    }
-  }, {
-    key: "getFlexibleExpansionRatio_",
-    value: function getFlexibleExpansionRatio_(scrollTop) {
-      // To prevent division by zero when there is no flexibleExpansionHeight
-      var delta = 0.0001;
-      return Math.max(0, 1 - scrollTop / (this.calculations_.flexibleExpansionHeight + delta));
-    }
-  }, {
-    key: "checkRowHeight_",
-    value: function checkRowHeight_() {
-      var _this2 = this;
+      var flexibleExpansionRatio = _this.getFlexibleExpansionRatio_(scrollTop);
 
-      cancelAnimationFrame(this.checkRowHeightFrame_);
-      this.checkRowHeightFrame_ = requestAnimationFrame(function () {
-        return _this2.setKeyHeights_();
+      _this.updateToolbarFlexibleState_(flexibleExpansionRatio);
+
+      if (_this.isFixedLastRow_) {
+        _this.updateToolbarFixedState_(scrollTop);
+      }
+
+      if (_this.hasFlexibleFirstRow_) {
+        _this.updateFlexibleRowElementStyles_(flexibleExpansionRatio);
+      }
+
+      _this.executedLastChange_ = hasScrolledOutOfThreshold;
+
+      _this.adapter_.notifyChange({
+        flexibleExpansionRatio: flexibleExpansionRatio
       });
+    });
+  };
+
+  MDCToolbarFoundation.prototype.scrolledOutOfThreshold_ = function (scrollTop) {
+    return scrollTop > this.calculations_.scrollThreshold;
+  };
+
+  MDCToolbarFoundation.prototype.initKeyRatio_ = function () {
+    var toolbarRowHeight = this.getRowHeight_();
+    var firstRowMaxRatio = this.adapter_.getFirstRowElementOffsetHeight() / toolbarRowHeight;
+    this.calculations_.toolbarRatio = this.adapter_.getOffsetHeight() / toolbarRowHeight;
+    this.calculations_.flexibleExpansionRatio = firstRowMaxRatio - 1;
+    this.calculations_.maxTranslateYRatio = this.isFixedLastRow_ ? this.calculations_.toolbarRatio - firstRowMaxRatio : 0;
+    this.calculations_.scrollThresholdRatio = (this.isFixedLastRow_ ? this.calculations_.toolbarRatio : firstRowMaxRatio) - 1;
+  };
+
+  MDCToolbarFoundation.prototype.getRowHeight_ = function () {
+    var breakpoint = numbers.TOOLBAR_MOBILE_BREAKPOINT;
+    return this.adapter_.getViewportWidth() < breakpoint ? numbers.TOOLBAR_ROW_MOBILE_HEIGHT : numbers.TOOLBAR_ROW_HEIGHT;
+  };
+
+  MDCToolbarFoundation.prototype.updateToolbarFlexibleState_ = function (flexibleExpansionRatio) {
+    this.adapter_.removeClass(cssClasses.FLEXIBLE_MAX);
+    this.adapter_.removeClass(cssClasses.FLEXIBLE_MIN);
+
+    if (flexibleExpansionRatio === 1) {
+      this.adapter_.addClass(cssClasses.FLEXIBLE_MAX);
+    } else if (flexibleExpansionRatio === 0) {
+      this.adapter_.addClass(cssClasses.FLEXIBLE_MIN);
     }
-  }, {
-    key: "setKeyHeights_",
-    value: function setKeyHeights_() {
-      var newToolbarRowHeight = this.getRowHeight_();
+  };
 
-      if (newToolbarRowHeight !== this.calculations_.toolbarRowHeight) {
-        this.calculations_.toolbarRowHeight = newToolbarRowHeight;
-        this.calculations_.toolbarHeight = this.calculations_.toolbarRatio * this.calculations_.toolbarRowHeight;
-        this.calculations_.flexibleExpansionHeight = this.calculations_.flexibleExpansionRatio * this.calculations_.toolbarRowHeight;
-        this.calculations_.maxTranslateYDistance = this.calculations_.maxTranslateYRatio * this.calculations_.toolbarRowHeight;
-        this.calculations_.scrollThreshold = this.calculations_.scrollThresholdRatio * this.calculations_.toolbarRowHeight;
-        this.updateAdjustElementStyles();
-        this.updateToolbarStyles_();
-      }
+  MDCToolbarFoundation.prototype.updateToolbarFixedState_ = function (scrollTop) {
+    var translateDistance = Math.max(0, Math.min(scrollTop - this.calculations_.flexibleExpansionHeight, this.calculations_.maxTranslateYDistance));
+    this.adapter_.setStyle('transform', "translateY(" + -translateDistance + "px)");
+
+    if (translateDistance === this.calculations_.maxTranslateYDistance) {
+      this.adapter_.addClass(cssClasses.FIXED_AT_LAST_ROW);
+    } else {
+      this.adapter_.removeClass(cssClasses.FIXED_AT_LAST_ROW);
     }
-  }, {
-    key: "updateToolbarStyles_",
-    value: function updateToolbarStyles_() {
-      var _this3 = this;
+  };
 
-      cancelAnimationFrame(this.scrollFrame_);
-      this.scrollFrame_ = requestAnimationFrame(function () {
-        var scrollTop = _this3.adapter_.getViewportScrollY();
-
-        var hasScrolledOutOfThreshold = _this3.scrolledOutOfThreshold_(scrollTop);
-
-        if (hasScrolledOutOfThreshold && _this3.executedLastChange_) {
-          return;
-        }
-
-        var flexibleExpansionRatio = _this3.getFlexibleExpansionRatio_(scrollTop);
-
-        _this3.updateToolbarFlexibleState_(flexibleExpansionRatio);
-
-        if (_this3.fixedLastrow_) {
-          _this3.updateToolbarFixedState_(scrollTop);
-        }
-
-        if (_this3.hasFlexibleRow_) {
-          _this3.updateFlexibleRowElementStyles_(flexibleExpansionRatio);
-        }
-
-        _this3.executedLastChange_ = hasScrolledOutOfThreshold;
-
-        _this3.adapter_.notifyChange({
-          flexibleExpansionRatio: flexibleExpansionRatio
-        });
-      });
+  MDCToolbarFoundation.prototype.updateFlexibleRowElementStyles_ = function (flexibleExpansionRatio) {
+    if (this.isFixed_) {
+      var height = this.calculations_.flexibleExpansionHeight * flexibleExpansionRatio;
+      this.adapter_.setStyleForFlexibleRowElement('height', height + this.calculations_.toolbarRowHeight + "px");
     }
-  }, {
-    key: "scrolledOutOfThreshold_",
-    value: function scrolledOutOfThreshold_(scrollTop) {
-      return scrollTop > this.calculations_.scrollThreshold;
-    }
-  }, {
-    key: "initKeyRatio_",
-    value: function initKeyRatio_() {
-      var toolbarRowHeight = this.getRowHeight_();
-      var firstRowMaxRatio = this.adapter_.getFirstRowElementOffsetHeight() / toolbarRowHeight;
-      this.calculations_.toolbarRatio = this.adapter_.getOffsetHeight() / toolbarRowHeight;
-      this.calculations_.flexibleExpansionRatio = firstRowMaxRatio - 1;
-      this.calculations_.maxTranslateYRatio = this.fixedLastrow_ ? this.calculations_.toolbarRatio - firstRowMaxRatio : 0;
-      this.calculations_.scrollThresholdRatio = (this.fixedLastrow_ ? this.calculations_.toolbarRatio : firstRowMaxRatio) - 1;
-    }
-  }, {
-    key: "getRowHeight_",
-    value: function getRowHeight_() {
-      var breakpoint = MDCToolbarFoundation.numbers.TOOLBAR_MOBILE_BREAKPOINT;
-      return this.adapter_.getViewportWidth() < breakpoint ? MDCToolbarFoundation.numbers.TOOLBAR_ROW_MOBILE_HEIGHT : MDCToolbarFoundation.numbers.TOOLBAR_ROW_HEIGHT;
-    }
-  }, {
-    key: "updateToolbarFlexibleState_",
-    value: function updateToolbarFlexibleState_(flexibleExpansionRatio) {
-      this.adapter_.removeClass(MDCToolbarFoundation.cssClasses.FLEXIBLE_MAX);
-      this.adapter_.removeClass(MDCToolbarFoundation.cssClasses.FLEXIBLE_MIN);
 
-      if (flexibleExpansionRatio === 1) {
-        this.adapter_.addClass(MDCToolbarFoundation.cssClasses.FLEXIBLE_MAX);
-      } else if (flexibleExpansionRatio === 0) {
-        this.adapter_.addClass(MDCToolbarFoundation.cssClasses.FLEXIBLE_MIN);
-      }
+    if (this.useFlexDefaultBehavior_) {
+      this.updateElementStylesDefaultBehavior_(flexibleExpansionRatio);
     }
-  }, {
-    key: "updateToolbarFixedState_",
-    value: function updateToolbarFixedState_(scrollTop) {
-      var translateDistance = Math.max(0, Math.min(scrollTop - this.calculations_.flexibleExpansionHeight, this.calculations_.maxTranslateYDistance));
-      this.adapter_.setStyle('transform', "translateY(".concat(-translateDistance, "px)"));
+  };
 
-      if (translateDistance === this.calculations_.maxTranslateYDistance) {
-        this.adapter_.addClass(MDCToolbarFoundation.cssClasses.FIXED_AT_LAST_ROW);
-      } else {
-        this.adapter_.removeClass(MDCToolbarFoundation.cssClasses.FIXED_AT_LAST_ROW);
-      }
-    }
-  }, {
-    key: "updateFlexibleRowElementStyles_",
-    value: function updateFlexibleRowElementStyles_(flexibleExpansionRatio) {
-      if (this.fixed_) {
-        var height = this.calculations_.flexibleExpansionHeight * flexibleExpansionRatio;
-        this.adapter_.setStyleForFlexibleRowElement('height', "".concat(height + this.calculations_.toolbarRowHeight, "px"));
-      }
-
-      if (this.useFlexDefaultBehavior_) {
-        this.updateElementStylesDefaultBehavior_(flexibleExpansionRatio);
-      }
-    }
-  }, {
-    key: "updateElementStylesDefaultBehavior_",
-    value: function updateElementStylesDefaultBehavior_(flexibleExpansionRatio) {
-      var maxTitleSize = MDCToolbarFoundation.numbers.MAX_TITLE_SIZE;
-      var minTitleSize = MDCToolbarFoundation.numbers.MIN_TITLE_SIZE;
-      var currentTitleSize = (maxTitleSize - minTitleSize) * flexibleExpansionRatio + minTitleSize;
-      this.adapter_.setStyleForTitleElement('font-size', "".concat(currentTitleSize, "rem"));
-    }
-  }]);
+  MDCToolbarFoundation.prototype.updateElementStylesDefaultBehavior_ = function (flexibleExpansionRatio) {
+    var maxTitleSize = numbers.MAX_TITLE_SIZE;
+    var minTitleSize = numbers.MIN_TITLE_SIZE;
+    var currentTitleSize = (maxTitleSize - minTitleSize) * flexibleExpansionRatio + minTitleSize;
+    this.adapter_.setStyleForTitleElement('font-size', currentTitleSize + "rem");
+  };
 
   return MDCToolbarFoundation;
 }(MDCFoundation);

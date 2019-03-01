@@ -432,10 +432,10 @@
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item--activated::before {
   opacity: 0.12;
@@ -461,10 +461,10 @@
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item--activated:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.28;
+  opacity: 0.24;
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item--activated.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.28;
+  --mdc-ripple-fg-opacity: 0.24;
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item--selected::before {
   opacity: 0.08;
@@ -490,10 +490,10 @@
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item--selected:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.24;
+  opacity: 0.2;
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item--selected.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.24;
+  --mdc-ripple-fg-opacity: 0.2;
 }
 
 a.mdc-list-item {
@@ -634,6 +634,9 @@ a.mdc-list-item {
   overflow: auto;
   will-change: transform, opacity;
   z-index: 8;
+  transition: opacity 0.03s linear, -webkit-transform 0.12s cubic-bezier(0, 0, 0.2, 1);
+  transition: opacity 0.03s linear, transform 0.12s cubic-bezier(0, 0, 0.2, 1);
+  transition: opacity 0.03s linear, transform 0.12s cubic-bezier(0, 0, 0.2, 1), -webkit-transform 0.12s cubic-bezier(0, 0, 0.2, 1);
   box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
   background-color: #fff;
   /* @alternate */
@@ -661,9 +664,6 @@ a.mdc-list-item {
   -webkit-transform: scale(0.8);
           transform: scale(0.8);
   opacity: 0;
-  transition: opacity 0.03s linear, -webkit-transform 0.12s cubic-bezier(0, 0, 0.2, 1);
-  transition: opacity 0.03s linear, transform 0.12s cubic-bezier(0, 0, 0.2, 1);
-  transition: opacity 0.03s linear, transform 0.12s cubic-bezier(0, 0, 0.2, 1), -webkit-transform 0.12s cubic-bezier(0, 0, 0.2, 1);
 }
 .mdc-menu-surface--animating-closed {
   display: inline-block;

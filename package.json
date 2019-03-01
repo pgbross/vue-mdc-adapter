@@ -72,8 +72,8 @@
     }
   },
   "dependencies": {
-    "@material/tabs": "^0.44.1",
-    "material-components-web": "^0.44.1"
+    "@material/tabs": "^1.0.0-0",
+    "material-components-web": "^1.0.0-0"
   },
   "peerDependencies": {
     "vue": "^2.5.6"

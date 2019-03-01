@@ -338,6 +338,7 @@
   padding-left: 16px;
   /* @noflip */
   padding-right: 0;
+  white-space: nowrap;
 }
 .mdc-text-field-character-counter::before {
   display: inline-block;
@@ -387,6 +388,7 @@
   box-sizing: border-box;
   height: 56px;
   overflow: hidden;
+  /* @alternate */
   will-change: opacity, transform, color;
 }
 .mdc-text-field::before, .mdc-text-field::after {
@@ -598,22 +600,22 @@
 .mdc-text-field__input:-ms-input-placeholder {
   color: rgba(0, 0, 0, 0.54) !important;
 }
-.mdc-text-field--no-label .mdc-text-field__input::-webkit-input-placeholder, .mdc-text-field--focused .mdc-text-field__input::-webkit-input-placeholder {
+.mdc-text-field--fullwidth .mdc-text-field__input::-webkit-input-placeholder, .mdc-text-field--no-label .mdc-text-field__input::-webkit-input-placeholder, .mdc-text-field--focused .mdc-text-field__input::-webkit-input-placeholder {
   transition-delay: 40ms;
   transition-duration: 110ms;
   opacity: 1;
 }
-.mdc-text-field--no-label .mdc-text-field__input:-ms-input-placeholder, .mdc-text-field--focused .mdc-text-field__input:-ms-input-placeholder {
+.mdc-text-field--fullwidth .mdc-text-field__input:-ms-input-placeholder, .mdc-text-field--no-label .mdc-text-field__input:-ms-input-placeholder, .mdc-text-field--focused .mdc-text-field__input:-ms-input-placeholder {
   transition-delay: 40ms;
   transition-duration: 110ms;
   opacity: 1;
 }
-.mdc-text-field--no-label .mdc-text-field__input::-ms-input-placeholder, .mdc-text-field--focused .mdc-text-field__input::-ms-input-placeholder {
+.mdc-text-field--fullwidth .mdc-text-field__input::-ms-input-placeholder, .mdc-text-field--no-label .mdc-text-field__input::-ms-input-placeholder, .mdc-text-field--focused .mdc-text-field__input::-ms-input-placeholder {
   transition-delay: 40ms;
   transition-duration: 110ms;
   opacity: 1;
 }
-.mdc-text-field--no-label .mdc-text-field__input::placeholder, .mdc-text-field--focused .mdc-text-field__input::placeholder {
+.mdc-text-field--fullwidth .mdc-text-field__input::placeholder, .mdc-text-field--no-label .mdc-text-field__input::placeholder, .mdc-text-field--focused .mdc-text-field__input::placeholder {
   transition-delay: 40ms;
   transition-duration: 110ms;
   opacity: 1;
@@ -1433,6 +1435,7 @@
 
 .mdc-text-field--textarea.mdc-text-field--disabled {
   background-color: transparent;
+  /* @alternate */
   background-color: #f9f9f9;
 }
 .mdc-text-field--textarea.mdc-text-field--disabled .mdc-notched-outline__leading,

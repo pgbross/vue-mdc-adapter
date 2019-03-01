@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.44.0","material-components-web":"^0.44.0"}
+* @implements {"@material/tabs":"^1.0.0-0","material-components-web":"^1.0.0-0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -23,93 +23,6 @@ function BasePlugin(components) {
   };
 }
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
 /* global CustomEvent */
 
 var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
@@ -117,6 +30,62 @@ var VMAUniqueIdMixin = {
   beforeCreate: function beforeCreate() {
     this.vma_uid_ = scope + this._uid;
   }
+};
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+
+/* global Reflect, Promise */
+var _extendStatics = function extendStatics(d, b) {
+  _extendStatics = Object.setPrototypeOf || {
+    __proto__: []
+  } instanceof Array && function (d, b) {
+    d.__proto__ = b;
+  } || function (d, b) {
+    for (var p in b) {
+      if (b.hasOwnProperty(p)) d[p] = b[p];
+    }
+  };
+
+  return _extendStatics(d, b);
+};
+
+function __extends(d, b) {
+  _extendStatics(d, b);
+
+  function __() {
+    this.constructor = d;
+  }
+
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var _assign = function __assign() {
+  _assign = Object.assign || function __assign(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return _assign.apply(this, arguments);
 };
 
 /**
@@ -141,216 +110,62 @@ var VMAUniqueIdMixin = {
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/**
- * @template A
- */
 var MDCFoundation =
-/*#__PURE__*/
+/** @class */
 function () {
-  _createClass(MDCFoundation, null, [{
-    key: "cssClasses",
+  function MDCFoundation(adapter) {
+    if (adapter === void 0) {
+      adapter = {};
+    }
 
-    /** @return enum{cssClasses} */
+    this.adapter_ = adapter;
+  }
+
+  Object.defineProperty(MDCFoundation, "cssClasses", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports every
       // CSS class the foundation class needs as a property. e.g. {ACTIVE: 'mdc-component--active'}
       return {};
-    }
-    /** @return enum{strings} */
-
-  }, {
-    key: "strings",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "strings", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // semantic strings as constants. e.g. {ARIA_ROLE: 'tablist'}
       return {};
-    }
-    /** @return enum{numbers} */
-
-  }, {
-    key: "numbers",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "numbers", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // of its semantic numbers as constants. e.g. {ANIMATION_DELAY_MS: 350}
       return {};
-    }
-    /** @return {!Object} */
-
-  }, {
-    key: "defaultAdapter",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "defaultAdapter", {
     get: function get() {
       // Classes extending MDCFoundation may choose to implement this getter in order to provide a convenient
       // way of viewing the necessary methods of an adapter. In the future, this could also be used for adapter
       // validation.
       return {};
-    }
-    /**
-     * @param {A=} adapter
-     */
+    },
+    enumerable: true,
+    configurable: true
+  });
 
-  }]);
+  MDCFoundation.prototype.init = function () {// Subclasses should override this method to perform initialization routines (registering events, etc.)
+  };
 
-  function MDCFoundation() {
-    var adapter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    _classCallCheck(this, MDCFoundation);
-
-    /** @protected {!A} */
-    this.adapter_ = adapter;
-  }
-
-  _createClass(MDCFoundation, [{
-    key: "init",
-    value: function init() {// Subclasses should override this method to perform initialization routines (registering events, etc.)
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
-    }
-  }]);
+  MDCFoundation.prototype.destroy = function () {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
+  };
 
   return MDCFoundation;
-}();
-
-/**
- * @license
- * Copyright 2018 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/* eslint no-unused-vars: [2, {"args": "none"}] */
-
-/**
- * Adapter for MDC Dialog. Provides an interface for managing:
- * - CSS classes
- * - DOM
- * - Event handlers
- *
- * Additionally, provides type information for the adapter to the Closure
- * compiler.
- *
- * Implement this adapter for your framework of choice to delegate updates to
- * the component in your framework of choice. See architecture documentation
- * for more details.
- * https://github.com/material-components/material-components-web/blob/master/docs/code/architecture.md
- *
- * @record
- */
-var MDCDialogAdapter =
-/*#__PURE__*/
-function () {
-  function MDCDialogAdapter() {
-    _classCallCheck(this, MDCDialogAdapter);
-  }
-
-  _createClass(MDCDialogAdapter, [{
-    key: "addClass",
-
-    /** @param {string} className */
-    value: function addClass(className) {}
-    /** @param {string} className */
-
-  }, {
-    key: "removeClass",
-    value: function removeClass(className) {}
-    /**
-     * @param {string} className
-     * @return {boolean}
-     */
-
-  }, {
-    key: "hasClass",
-    value: function hasClass(className) {}
-    /** @param {string} className */
-
-  }, {
-    key: "addBodyClass",
-    value: function addBodyClass(className) {}
-    /** @param {string} className */
-
-  }, {
-    key: "removeBodyClass",
-    value: function removeBodyClass(className) {}
-    /**
-     * @param {!EventTarget} target
-     * @param {string} selector
-     * @return {boolean}
-     */
-
-  }, {
-    key: "eventTargetMatches",
-    value: function eventTargetMatches(target, selector) {}
-  }, {
-    key: "trapFocus",
-    value: function trapFocus() {}
-  }, {
-    key: "releaseFocus",
-    value: function releaseFocus() {}
-    /** @return {boolean} */
-
-  }, {
-    key: "isContentScrollable",
-    value: function isContentScrollable() {}
-    /** @return {boolean} */
-
-  }, {
-    key: "areButtonsStacked",
-    value: function areButtonsStacked() {}
-    /**
-     * @param {!Event} event
-     * @return {?string}
-     */
-
-  }, {
-    key: "getActionFromEvent",
-    value: function getActionFromEvent(event) {}
-  }, {
-    key: "clickDefaultButton",
-    value: function clickDefaultButton() {}
-  }, {
-    key: "reverseButtons",
-    value: function reverseButtons() {}
-  }, {
-    key: "notifyOpening",
-    value: function notifyOpening() {}
-  }, {
-    key: "notifyOpened",
-    value: function notifyOpened() {}
-    /**
-     * @param {string} action
-     */
-
-  }, {
-    key: "notifyClosing",
-    value: function notifyClosing(action) {}
-    /**
-     * @param {string} action
-     */
-
-  }, {
-    key: "notifyClosed",
-    value: function notifyClosed(action) {}
-  }]);
-
-  return MDCDialogAdapter;
 }();
 
 /**
@@ -376,382 +191,354 @@ function () {
  * THE SOFTWARE.
  */
 var cssClasses = {
+  CLOSING: 'mdc-dialog--closing',
   OPEN: 'mdc-dialog--open',
   OPENING: 'mdc-dialog--opening',
-  CLOSING: 'mdc-dialog--closing',
   SCROLLABLE: 'mdc-dialog--scrollable',
-  STACKED: 'mdc-dialog--stacked',
-  SCROLL_LOCK: 'mdc-dialog-scroll-lock'
+  SCROLL_LOCK: 'mdc-dialog-scroll-lock',
+  STACKED: 'mdc-dialog--stacked'
 };
 var strings = {
-  SCRIM_SELECTOR: '.mdc-dialog__scrim',
-  CONTAINER_SELECTOR: '.mdc-dialog__container',
-  SURFACE_SELECTOR: '.mdc-dialog__surface',
-  CONTENT_SELECTOR: '.mdc-dialog__content',
-  BUTTON_SELECTOR: '.mdc-dialog__button',
-  DEFAULT_BUTTON_SELECTOR: '.mdc-dialog__button--default',
-  SUPPRESS_DEFAULT_PRESS_SELECTOR: ['textarea', '.mdc-menu .mdc-list-item'].join(', '),
-  OPENING_EVENT: 'MDCDialog:opening',
-  OPENED_EVENT: 'MDCDialog:opened',
-  CLOSING_EVENT: 'MDCDialog:closing',
-  CLOSED_EVENT: 'MDCDialog:closed',
   ACTION_ATTRIBUTE: 'data-mdc-dialog-action',
+  BUTTON_SELECTOR: '.mdc-dialog__button',
+  CLOSED_EVENT: 'MDCDialog:closed',
   CLOSE_ACTION: 'close',
-  DESTROY_ACTION: 'destroy'
+  CLOSING_EVENT: 'MDCDialog:closing',
+  CONTAINER_SELECTOR: '.mdc-dialog__container',
+  CONTENT_SELECTOR: '.mdc-dialog__content',
+  DEFAULT_BUTTON_SELECTOR: '.mdc-dialog__button--default',
+  DESTROY_ACTION: 'destroy',
+  OPENED_EVENT: 'MDCDialog:opened',
+  OPENING_EVENT: 'MDCDialog:opening',
+  SCRIM_SELECTOR: '.mdc-dialog__scrim',
+  SUPPRESS_DEFAULT_PRESS_SELECTOR: ['textarea', '.mdc-menu .mdc-list-item'].join(', '),
+  SURFACE_SELECTOR: '.mdc-dialog__surface'
 };
 var numbers = {
-  DIALOG_ANIMATION_OPEN_TIME_MS: 150,
-  DIALOG_ANIMATION_CLOSE_TIME_MS: 75
+  DIALOG_ANIMATION_CLOSE_TIME_MS: 75,
+  DIALOG_ANIMATION_OPEN_TIME_MS: 150
 };
 
+/**
+ * @license
+ * Copyright 2017 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 var MDCDialogFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCDialogFoundation, _MDCFoundation);
-
-  _createClass(MDCDialogFoundation, null, [{
-    key: "cssClasses",
-    get: function get() {
-      return cssClasses;
-    }
-  }, {
-    key: "strings",
-    get: function get() {
-      return strings;
-    }
-  }, {
-    key: "numbers",
-    get: function get() {
-      return numbers;
-    }
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCDialogAdapter} */
-        {
-          addClass: function addClass()
-          /* className: string */
-          {},
-          removeClass: function removeClass()
-          /* className: string */
-          {},
-          hasClass: function hasClass()
-          /* className: string */
-          {},
-          addBodyClass: function addBodyClass()
-          /* className: string */
-          {},
-          removeBodyClass: function removeBodyClass()
-          /* className: string */
-          {},
-          eventTargetMatches: function eventTargetMatches()
-          /* target: !EventTarget, selector: string */
-          {},
-          trapFocus: function trapFocus() {},
-          releaseFocus: function releaseFocus() {},
-          isContentScrollable: function isContentScrollable() {},
-          areButtonsStacked: function areButtonsStacked() {},
-          getActionFromEvent: function getActionFromEvent()
-          /* event: !Event */
-          {},
-          clickDefaultButton: function clickDefaultButton() {},
-          reverseButtons: function reverseButtons() {},
-          notifyOpening: function notifyOpening() {},
-          notifyOpened: function notifyOpened() {},
-          notifyClosing: function notifyClosing()
-          /* action: ?string */
-          {},
-          notifyClosed: function notifyClosed()
-          /* action: ?string */
-          {}
-        }
-      );
-    }
-    /**
-     * @param {!MDCDialogAdapter=} adapter
-     */
-
-  }]);
+/** @class */
+function (_super) {
+  __extends(MDCDialogFoundation, _super);
 
   function MDCDialogFoundation(adapter) {
-    var _this;
-
-    _classCallCheck(this, MDCDialogFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCDialogFoundation).call(this, _extends(MDCDialogFoundation.defaultAdapter, adapter)));
-    /** @private {boolean} */
+    var _this = _super.call(this, _assign({}, MDCDialogFoundation.defaultAdapter, adapter)) || this;
 
     _this.isOpen_ = false;
-    /** @private {number} */
-
     _this.animationFrame_ = 0;
-    /** @private {number} */
-
     _this.animationTimer_ = 0;
-    /** @private {number} */
-
     _this.layoutFrame_ = 0;
-    /** @private {string} */
-
     _this.escapeKeyAction_ = strings.CLOSE_ACTION;
-    /** @private {string} */
-
     _this.scrimClickAction_ = strings.CLOSE_ACTION;
-    /** @private {boolean} */
-
     _this.autoStackButtons_ = true;
-    /** @private {boolean} */
-
     _this.areButtonsStacked_ = false;
     return _this;
   }
 
-  _createClass(MDCDialogFoundation, [{
-    key: "init",
-    value: function init() {
-      if (this.adapter_.hasClass(cssClasses.STACKED)) {
-        this.setAutoStackButtons(false);
-      }
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      if (this.isOpen_) {
-        this.close(strings.DESTROY_ACTION);
-      }
-
-      if (this.animationTimer_) {
-        clearTimeout(this.animationTimer_);
-        this.handleAnimationTimerEnd_();
-      }
-
-      if (this.layoutFrame_) {
-        cancelAnimationFrame(this.layoutFrame_);
-        this.layoutFrame_ = 0;
-      }
-    }
-  }, {
-    key: "open",
-    value: function open() {
-      var _this2 = this;
-
-      this.isOpen_ = true;
-      this.adapter_.notifyOpening();
-      this.adapter_.addClass(cssClasses.OPENING); // Wait a frame once display is no longer "none", to establish basis for animation
-
-      this.runNextAnimationFrame_(function () {
-        _this2.adapter_.addClass(cssClasses.OPEN);
-
-        _this2.adapter_.addBodyClass(cssClasses.SCROLL_LOCK);
-
-        _this2.layout();
-
-        _this2.animationTimer_ = setTimeout(function () {
-          _this2.handleAnimationTimerEnd_();
-
-          _this2.adapter_.trapFocus();
-
-          _this2.adapter_.notifyOpened();
-        }, numbers.DIALOG_ANIMATION_OPEN_TIME_MS);
-      });
-    }
-    /**
-     * @param {string=} action
-     */
-
-  }, {
-    key: "close",
-    value: function close() {
-      var _this3 = this;
-
-      var action = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
-      if (!this.isOpen_) {
-        // Avoid redundant close calls (and events), e.g. from keydown on elements that inherently emit click
-        return;
-      }
-
-      this.isOpen_ = false;
-      this.adapter_.notifyClosing(action);
-      this.adapter_.addClass(cssClasses.CLOSING);
-      this.adapter_.removeClass(cssClasses.OPEN);
-      this.adapter_.removeBodyClass(cssClasses.SCROLL_LOCK);
-      cancelAnimationFrame(this.animationFrame_);
-      this.animationFrame_ = 0;
-      clearTimeout(this.animationTimer_);
-      this.animationTimer_ = setTimeout(function () {
-        _this3.adapter_.releaseFocus();
-
-        _this3.handleAnimationTimerEnd_();
-
-        _this3.adapter_.notifyClosed(action);
-      }, numbers.DIALOG_ANIMATION_CLOSE_TIME_MS);
-    }
-  }, {
-    key: "isOpen",
-    value: function isOpen() {
-      return this.isOpen_;
-    }
-    /** @return {string} */
-
-  }, {
-    key: "getEscapeKeyAction",
-    value: function getEscapeKeyAction() {
-      return this.escapeKeyAction_;
-    }
-    /** @param {string} action */
-
-  }, {
-    key: "setEscapeKeyAction",
-    value: function setEscapeKeyAction(action) {
-      this.escapeKeyAction_ = action;
-    }
-    /** @return {string} */
-
-  }, {
-    key: "getScrimClickAction",
-    value: function getScrimClickAction() {
-      return this.scrimClickAction_;
-    }
-    /** @param {string} action */
-
-  }, {
-    key: "setScrimClickAction",
-    value: function setScrimClickAction(action) {
-      this.scrimClickAction_ = action;
-    }
-    /** @return {boolean} */
-
-  }, {
-    key: "getAutoStackButtons",
-    value: function getAutoStackButtons() {
-      return this.autoStackButtons_;
-    }
-    /** @param {boolean} autoStack */
-
-  }, {
-    key: "setAutoStackButtons",
-    value: function setAutoStackButtons(autoStack) {
-      this.autoStackButtons_ = autoStack;
-    }
-  }, {
-    key: "layout",
-    value: function layout() {
-      var _this4 = this;
-
-      if (this.layoutFrame_) {
-        cancelAnimationFrame(this.layoutFrame_);
-      }
-
-      this.layoutFrame_ = requestAnimationFrame(function () {
-        _this4.layoutInternal_();
-
-        _this4.layoutFrame_ = 0;
-      });
-    }
-  }, {
-    key: "layoutInternal_",
-    value: function layoutInternal_() {
-      if (this.autoStackButtons_) {
-        this.detectStackedButtons_();
-      }
-
-      this.detectScrollableContent_();
-    }
-    /** @private */
-
-  }, {
-    key: "detectStackedButtons_",
-    value: function detectStackedButtons_() {
-      // Remove the class first to let us measure the buttons' natural positions.
-      this.adapter_.removeClass(cssClasses.STACKED);
-      var areButtonsStacked = this.adapter_.areButtonsStacked();
-
-      if (areButtonsStacked) {
-        this.adapter_.addClass(cssClasses.STACKED);
-      }
-
-      if (areButtonsStacked !== this.areButtonsStacked_) {
-        this.adapter_.reverseButtons();
-        this.areButtonsStacked_ = areButtonsStacked;
-      }
-    }
-    /** @private */
-
-  }, {
-    key: "detectScrollableContent_",
-    value: function detectScrollableContent_() {
-      // Remove the class first to let us measure the natural height of the content.
-      this.adapter_.removeClass(cssClasses.SCROLLABLE);
-
-      if (this.adapter_.isContentScrollable()) {
-        this.adapter_.addClass(cssClasses.SCROLLABLE);
-      }
-    }
-    /**
-     * @param {!Event} evt
-     * @private
-     */
-
-  }, {
-    key: "handleInteraction",
-    value: function handleInteraction(evt) {
-      var isClick = evt.type === 'click';
-      var isEnter = evt.key === 'Enter' || evt.keyCode === 13; // Check for scrim click first since it doesn't require querying ancestors
-
-      if (isClick && this.adapter_.eventTargetMatches(evt.target, strings.SCRIM_SELECTOR) && this.scrimClickAction_ !== '') {
-        this.close(this.scrimClickAction_);
-      } else if (isClick || evt.key === 'Space' || evt.keyCode === 32 || isEnter) {
-        var action = this.adapter_.getActionFromEvent(evt);
-
-        if (action) {
-          this.close(action);
-        } else if (isEnter && !this.adapter_.eventTargetMatches(evt.target, strings.SUPPRESS_DEFAULT_PRESS_SELECTOR)) {
-          this.adapter_.clickDefaultButton();
+  Object.defineProperty(MDCDialogFoundation, "cssClasses", {
+    get: function get() {
+      return cssClasses;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCDialogFoundation, "strings", {
+    get: function get() {
+      return strings;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCDialogFoundation, "numbers", {
+    get: function get() {
+      return numbers;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCDialogFoundation, "defaultAdapter", {
+    get: function get() {
+      return {
+        addBodyClass: function addBodyClass() {
+          return undefined;
+        },
+        addClass: function addClass() {
+          return undefined;
+        },
+        areButtonsStacked: function areButtonsStacked() {
+          return false;
+        },
+        clickDefaultButton: function clickDefaultButton() {
+          return undefined;
+        },
+        eventTargetMatches: function eventTargetMatches() {
+          return false;
+        },
+        getActionFromEvent: function getActionFromEvent() {
+          return '';
+        },
+        hasClass: function hasClass() {
+          return false;
+        },
+        isContentScrollable: function isContentScrollable() {
+          return false;
+        },
+        notifyClosed: function notifyClosed() {
+          return undefined;
+        },
+        notifyClosing: function notifyClosing() {
+          return undefined;
+        },
+        notifyOpened: function notifyOpened() {
+          return undefined;
+        },
+        notifyOpening: function notifyOpening() {
+          return undefined;
+        },
+        releaseFocus: function releaseFocus() {
+          return undefined;
+        },
+        removeBodyClass: function removeBodyClass() {
+          return undefined;
+        },
+        removeClass: function removeClass() {
+          return undefined;
+        },
+        reverseButtons: function reverseButtons() {
+          return undefined;
+        },
+        trapFocus: function trapFocus() {
+          return undefined;
         }
+      };
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  MDCDialogFoundation.prototype.init = function () {
+    if (this.adapter_.hasClass(cssClasses.STACKED)) {
+      this.setAutoStackButtons(false);
+    }
+  };
+
+  MDCDialogFoundation.prototype.destroy = function () {
+    if (this.isOpen_) {
+      this.close(strings.DESTROY_ACTION);
+    }
+
+    if (this.animationTimer_) {
+      clearTimeout(this.animationTimer_);
+      this.handleAnimationTimerEnd_();
+    }
+
+    if (this.layoutFrame_) {
+      cancelAnimationFrame(this.layoutFrame_);
+      this.layoutFrame_ = 0;
+    }
+  };
+
+  MDCDialogFoundation.prototype.open = function () {
+    var _this = this;
+
+    this.isOpen_ = true;
+    this.adapter_.notifyOpening();
+    this.adapter_.addClass(cssClasses.OPENING); // Wait a frame once display is no longer "none", to establish basis for animation
+
+    this.runNextAnimationFrame_(function () {
+      _this.adapter_.addClass(cssClasses.OPEN);
+
+      _this.adapter_.addBodyClass(cssClasses.SCROLL_LOCK);
+
+      _this.layout();
+
+      _this.animationTimer_ = setTimeout(function () {
+        _this.handleAnimationTimerEnd_();
+
+        _this.adapter_.trapFocus();
+
+        _this.adapter_.notifyOpened();
+      }, numbers.DIALOG_ANIMATION_OPEN_TIME_MS);
+    });
+  };
+
+  MDCDialogFoundation.prototype.close = function (action) {
+    var _this = this;
+
+    if (action === void 0) {
+      action = '';
+    }
+
+    if (!this.isOpen_) {
+      // Avoid redundant close calls (and events), e.g. from keydown on elements that inherently emit click
+      return;
+    }
+
+    this.isOpen_ = false;
+    this.adapter_.notifyClosing(action);
+    this.adapter_.addClass(cssClasses.CLOSING);
+    this.adapter_.removeClass(cssClasses.OPEN);
+    this.adapter_.removeBodyClass(cssClasses.SCROLL_LOCK);
+    cancelAnimationFrame(this.animationFrame_);
+    this.animationFrame_ = 0;
+    clearTimeout(this.animationTimer_);
+    this.animationTimer_ = setTimeout(function () {
+      _this.adapter_.releaseFocus();
+
+      _this.handleAnimationTimerEnd_();
+
+      _this.adapter_.notifyClosed(action);
+    }, numbers.DIALOG_ANIMATION_CLOSE_TIME_MS);
+  };
+
+  MDCDialogFoundation.prototype.isOpen = function () {
+    return this.isOpen_;
+  };
+
+  MDCDialogFoundation.prototype.getEscapeKeyAction = function () {
+    return this.escapeKeyAction_;
+  };
+
+  MDCDialogFoundation.prototype.setEscapeKeyAction = function (action) {
+    this.escapeKeyAction_ = action;
+  };
+
+  MDCDialogFoundation.prototype.getScrimClickAction = function () {
+    return this.scrimClickAction_;
+  };
+
+  MDCDialogFoundation.prototype.setScrimClickAction = function (action) {
+    this.scrimClickAction_ = action;
+  };
+
+  MDCDialogFoundation.prototype.getAutoStackButtons = function () {
+    return this.autoStackButtons_;
+  };
+
+  MDCDialogFoundation.prototype.setAutoStackButtons = function (autoStack) {
+    this.autoStackButtons_ = autoStack;
+  };
+
+  MDCDialogFoundation.prototype.layout = function () {
+    var _this = this;
+
+    if (this.layoutFrame_) {
+      cancelAnimationFrame(this.layoutFrame_);
+    }
+
+    this.layoutFrame_ = requestAnimationFrame(function () {
+      _this.layoutInternal_();
+
+      _this.layoutFrame_ = 0;
+    });
+  };
+
+  MDCDialogFoundation.prototype.layoutInternal_ = function () {
+    if (this.autoStackButtons_) {
+      this.detectStackedButtons_();
+    }
+
+    this.detectScrollableContent_();
+  };
+
+  MDCDialogFoundation.prototype.handleInteraction = function (evt) {
+    var isClick = evt.type === 'click';
+    var isEnter = evt.key === 'Enter' || evt.keyCode === 13;
+    var isSpace = evt.key === 'Space' || evt.keyCode === 32;
+    var isScrim = this.adapter_.eventTargetMatches(evt.target, strings.SCRIM_SELECTOR);
+    var isDefault = !this.adapter_.eventTargetMatches(evt.target, strings.SUPPRESS_DEFAULT_PRESS_SELECTOR); // Check for scrim click first since it doesn't require querying ancestors
+
+    if (isClick && isScrim && this.scrimClickAction_ !== '') {
+      this.close(this.scrimClickAction_);
+    } else if (isClick || isSpace || isEnter) {
+      var action = this.adapter_.getActionFromEvent(evt);
+
+      if (action) {
+        this.close(action);
+      } else if (isEnter && isDefault) {
+        this.adapter_.clickDefaultButton();
       }
     }
-    /**
-     * @param {!KeyboardEvent} evt
-     * @private
-     */
+  };
 
-  }, {
-    key: "handleDocumentKeydown",
-    value: function handleDocumentKeydown(evt) {
-      if ((evt.key === 'Escape' || evt.keyCode === 27) && this.escapeKeyAction_ !== '') {
-        this.close(this.escapeKeyAction_);
-      }
+  MDCDialogFoundation.prototype.handleDocumentKeydown = function (evt) {
+    var isEscape = evt.key === 'Escape' || evt.keyCode === 27;
+
+    if (isEscape && this.escapeKeyAction_ !== '') {
+      this.close(this.escapeKeyAction_);
     }
-    /** @private */
+  };
 
-  }, {
-    key: "handleAnimationTimerEnd_",
-    value: function handleAnimationTimerEnd_() {
-      this.animationTimer_ = 0;
-      this.adapter_.removeClass(cssClasses.OPENING);
-      this.adapter_.removeClass(cssClasses.CLOSING);
+  MDCDialogFoundation.prototype.handleAnimationTimerEnd_ = function () {
+    this.animationTimer_ = 0;
+    this.adapter_.removeClass(cssClasses.OPENING);
+    this.adapter_.removeClass(cssClasses.CLOSING);
+  };
+  /**
+   * Runs the given logic on the next animation frame, using setTimeout to factor in Firefox reflow behavior.
+   */
+
+
+  MDCDialogFoundation.prototype.runNextAnimationFrame_ = function (callback) {
+    var _this = this;
+
+    cancelAnimationFrame(this.animationFrame_);
+    this.animationFrame_ = requestAnimationFrame(function () {
+      _this.animationFrame_ = 0;
+      clearTimeout(_this.animationTimer_);
+      _this.animationTimer_ = setTimeout(callback, 0);
+    });
+  };
+
+  MDCDialogFoundation.prototype.detectStackedButtons_ = function () {
+    // Remove the class first to let us measure the buttons' natural positions.
+    this.adapter_.removeClass(cssClasses.STACKED);
+    var areButtonsStacked = this.adapter_.areButtonsStacked();
+
+    if (areButtonsStacked) {
+      this.adapter_.addClass(cssClasses.STACKED);
     }
-    /**
-     * Runs the given logic on the next animation frame, using setTimeout to factor in Firefox reflow behavior.
-     * @param {Function} callback
-     * @private
-     */
 
-  }, {
-    key: "runNextAnimationFrame_",
-    value: function runNextAnimationFrame_(callback) {
-      var _this5 = this;
-
-      cancelAnimationFrame(this.animationFrame_);
-      this.animationFrame_ = requestAnimationFrame(function () {
-        _this5.animationFrame_ = 0;
-        clearTimeout(_this5.animationTimer_);
-        _this5.animationTimer_ = setTimeout(callback, 0);
-      });
+    if (areButtonsStacked !== this.areButtonsStacked_) {
+      this.adapter_.reverseButtons();
+      this.areButtonsStacked_ = areButtonsStacked;
     }
-  }]);
+  };
+
+  MDCDialogFoundation.prototype.detectScrollableContent_ = function () {
+    // Remove the class first to let us measure the natural height of the content.
+    this.adapter_.removeClass(cssClasses.SCROLLABLE);
+
+    if (this.adapter_.isContentScrollable()) {
+      this.adapter_.addClass(cssClasses.SCROLLABLE);
+    }
+  };
 
   return MDCDialogFoundation;
 }(MDCFoundation);
@@ -1240,6 +1027,11 @@ function delay(fn) {
 
 var focusTrap_1 = focusTrap;
 
+var createFocusTrap = /*#__PURE__*/Object.freeze({
+  default: focusTrap_1,
+  __moduleExports: focusTrap_1
+});
+
 /**
  * @license
  * Copyright 2016 Google Inc.
@@ -1262,39 +1054,20 @@ var focusTrap_1 = focusTrap;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-/**
- * @param {!Element} surfaceEl
- * @param {?Element=} initialFocusEl
- * @param {function(!Element, !FocusTrapCreateOptions): !FocusTrapInstance} focusTrapFactory
- * @return {!FocusTrapInstance}
- */
+function createFocusTrapInstance(surfaceEl, focusTrapFactory, initialFocusEl) {
+  if (focusTrapFactory === void 0) {
+    focusTrapFactory = createFocusTrap;
+  }
 
-function createFocusTrapInstance(surfaceEl) {
-  var focusTrapFactory = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : focusTrap_1;
-  var initialFocusEl = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
   return focusTrapFactory(surfaceEl, {
-    initialFocus: initialFocusEl,
+    clickOutsideDeactivates: true,
     escapeDeactivates: false,
-    // Dialog foundation handles escape key
-    clickOutsideDeactivates: true // Allow handling of scrim clicks
-
+    initialFocus: initialFocusEl
   });
 }
-/**
- * @param {!Element} el
- * @return {boolean}
- */
-
-
 function isScrollable(el) {
-  return el.scrollHeight > el.offsetHeight;
+  return el ? el.scrollHeight > el.offsetHeight : false;
 }
-/**
- * @param {!Array<!Element>|!NodeList} els
- * @return {boolean}
- */
-
-
 function areTopsMisaligned(els) {
   var tops = new Set();
   [].forEach.call(els, function (el) {
@@ -1330,12 +1103,6 @@ function areTopsMisaligned(els) {
  * @fileoverview A "ponyfill" is a polyfill that doesn't modify the global prototype chain.
  * This makes ponyfills safer than traditional polyfills, especially for libraries like MDC.
  */
-
-/**
- * @param {!Element} element
- * @param {string} selector
- * @return {?Element}
- */
 function closest(element, selector) {
   if (element.closest) {
     return element.closest(selector);
@@ -1353,13 +1120,6 @@ function closest(element, selector) {
 
   return null;
 }
-/**
- * @param {!Element} element
- * @param {string} selector
- * @return {boolean}
- */
-
-
 function matches$1(element, selector) {
   var nativeMatches = element.matches || element.webkitMatchesSelector || element.msMatchesSelector;
   return nativeMatches.call(element, selector);

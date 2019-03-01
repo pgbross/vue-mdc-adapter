@@ -366,10 +366,10 @@
 }
 :not(.mdc-grid-list--non-interactive) > .mdc-grid-tile:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 :not(.mdc-grid-list--non-interactive) > .mdc-grid-tile.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 :not(.mdc-grid-list--non-interactive) > .mdc-grid-tile--activated::before {
   opacity: 0.12;
@@ -395,10 +395,10 @@
 }
 :not(.mdc-grid-list--non-interactive) > .mdc-grid-tile--activated:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.28;
+  opacity: 0.24;
 }
 :not(.mdc-grid-list--non-interactive) > .mdc-grid-tile--activated.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.28;
+  --mdc-ripple-fg-opacity: 0.24;
 }
 :not(.mdc-grid-list--non-interactive) > .mdc-grid-tile--selected::before {
   opacity: 0.08;
@@ -424,8 +424,8 @@
 }
 :not(.mdc-grid-list--non-interactive) > .mdc-grid-tile--selected:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.24;
+  opacity: 0.2;
 }
 :not(.mdc-grid-list--non-interactive) > .mdc-grid-tile--selected.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.24;
+  --mdc-ripple-fg-opacity: 0.2;
 }

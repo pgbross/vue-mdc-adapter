@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.44.0","material-components-web":"^0.44.0"}
+* @implements {"@material/tabs":"^1.0.0-0","material-components-web":"^1.0.0-0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -21,96 +21,65 @@ function BasePlugin(components) {
   };
 }
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
 /* global CustomEvent */
 
 var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+
+/* global Reflect, Promise */
+var _extendStatics = function extendStatics(d, b) {
+  _extendStatics = Object.setPrototypeOf || {
+    __proto__: []
+  } instanceof Array && function (d, b) {
+    d.__proto__ = b;
+  } || function (d, b) {
+    for (var p in b) {
+      if (b.hasOwnProperty(p)) d[p] = b[p];
+    }
+  };
+
+  return _extendStatics(d, b);
+};
+
+function __extends(d, b) {
+  _extendStatics(d, b);
+
+  function __() {
+    this.constructor = d;
+  }
+
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var _assign = function __assign() {
+  _assign = Object.assign || function __assign(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return _assign.apply(this, arguments);
+};
 
 /**
  * @license
@@ -134,104 +103,117 @@ var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+var cssPropertyNameMap = {
+  animation: {
+    prefixed: '-webkit-animation',
+    standard: 'animation'
+  },
+  transform: {
+    prefixed: '-webkit-transform',
+    standard: 'transform'
+  },
+  transition: {
+    prefixed: '-webkit-transition',
+    standard: 'transition'
+  }
+};
+
+function isWindow(windowObj) {
+  return Boolean(windowObj.document) && typeof windowObj.document.createElement === 'function';
+}
+
+function getCorrectPropertyName(windowObj, cssProperty) {
+  if (isWindow(windowObj) && cssProperty in cssPropertyNameMap) {
+    var el = windowObj.document.createElement('div');
+    var _a = cssPropertyNameMap[cssProperty],
+        standard = _a.standard,
+        prefixed = _a.prefixed;
+    var isStandard = standard in el.style;
+    return isStandard ? standard : prefixed;
+  }
+
+  return cssProperty;
+}
 
 /**
- * @template A
+ * @license
+ * Copyright 2016 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 var MDCFoundation =
-/*#__PURE__*/
+/** @class */
 function () {
-  _createClass(MDCFoundation, null, [{
-    key: "cssClasses",
+  function MDCFoundation(adapter) {
+    if (adapter === void 0) {
+      adapter = {};
+    }
 
-    /** @return enum{cssClasses} */
+    this.adapter_ = adapter;
+  }
+
+  Object.defineProperty(MDCFoundation, "cssClasses", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports every
       // CSS class the foundation class needs as a property. e.g. {ACTIVE: 'mdc-component--active'}
       return {};
-    }
-    /** @return enum{strings} */
-
-  }, {
-    key: "strings",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "strings", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // semantic strings as constants. e.g. {ARIA_ROLE: 'tablist'}
       return {};
-    }
-    /** @return enum{numbers} */
-
-  }, {
-    key: "numbers",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "numbers", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // of its semantic numbers as constants. e.g. {ANIMATION_DELAY_MS: 350}
       return {};
-    }
-    /** @return {!Object} */
-
-  }, {
-    key: "defaultAdapter",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "defaultAdapter", {
     get: function get() {
       // Classes extending MDCFoundation may choose to implement this getter in order to provide a convenient
       // way of viewing the necessary methods of an adapter. In the future, this could also be used for adapter
       // validation.
       return {};
-    }
-    /**
-     * @param {A=} adapter
-     */
+    },
+    enumerable: true,
+    configurable: true
+  });
 
-  }]);
+  MDCFoundation.prototype.init = function () {// Subclasses should override this method to perform initialization routines (registering events, etc.)
+  };
 
-  function MDCFoundation() {
-    var adapter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    _classCallCheck(this, MDCFoundation);
-
-    /** @protected {!A} */
-    this.adapter_ = adapter;
-  }
-
-  _createClass(MDCFoundation, [{
-    key: "init",
-    value: function init() {// Subclasses should override this method to perform initialization routines (registering events, etc.)
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
-    }
-  }]);
+  MDCFoundation.prototype.destroy = function () {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
+  };
 
   return MDCFoundation;
 }();
-
-/**
- * @license
- * Copyright 2016 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-// property names.
-
-
-var transformStyleProperties = ['transform', 'WebkitTransform', 'MozTransform', 'OTransform', 'MSTransform'];
 
 /**
  * @license
@@ -261,129 +243,142 @@ var cssClasses = {
   REVERSED_CLASS: 'mdc-linear-progress--reversed'
 };
 var strings = {
-  PRIMARY_BAR_SELECTOR: '.mdc-linear-progress__primary-bar',
-  BUFFER_SELECTOR: '.mdc-linear-progress__buffer'
+  BUFFER_SELECTOR: '.mdc-linear-progress__buffer',
+  PRIMARY_BAR_SELECTOR: '.mdc-linear-progress__primary-bar'
 };
 
-var MDCLinearProgressFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCLinearProgressFoundation, _MDCFoundation);
+/**
+ * @license
+ * Copyright 2017 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
-  _createClass(MDCLinearProgressFoundation, null, [{
-    key: "cssClasses",
-    get: function get() {
-      return cssClasses;
-    }
-  }, {
-    key: "strings",
-    get: function get() {
-      return strings;
-    }
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return {
-        addClass: function addClass()
-        /* className: string */
-        {},
-        getPrimaryBar: function getPrimaryBar()
-        /* el: Element */
-        {},
-        getBuffer: function getBuffer()
-        /* el: Element */
-        {},
-        hasClass: function hasClass() {
-          return (
-            /* className: string */
-            false
-          );
-        },
-        removeClass: function removeClass()
-        /* className: string */
-        {},
-        setStyle: function setStyle()
-        /* el: Element, styleProperty: string, value: string */
-        {}
-      };
-    }
-  }]);
+var MDCLinearProgressFoundation =
+/** @class */
+function (_super) {
+  __extends(MDCLinearProgressFoundation, _super);
 
   function MDCLinearProgressFoundation(adapter) {
-    _classCallCheck(this, MDCLinearProgressFoundation);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(MDCLinearProgressFoundation).call(this, _extends(MDCLinearProgressFoundation.defaultAdapter, adapter)));
+    return _super.call(this, _assign({}, MDCLinearProgressFoundation.defaultAdapter, adapter)) || this;
   }
 
-  _createClass(MDCLinearProgressFoundation, [{
-    key: "init",
-    value: function init() {
-      this.determinate_ = !this.adapter_.hasClass(cssClasses.INDETERMINATE_CLASS);
-      this.reverse_ = this.adapter_.hasClass(cssClasses.REVERSED_CLASS);
-      this.progress_ = 0;
-    }
-  }, {
-    key: "setDeterminate",
-    value: function setDeterminate(isDeterminate) {
-      this.determinate_ = isDeterminate;
+  Object.defineProperty(MDCLinearProgressFoundation, "cssClasses", {
+    get: function get() {
+      return cssClasses;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCLinearProgressFoundation, "strings", {
+    get: function get() {
+      return strings;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCLinearProgressFoundation, "defaultAdapter", {
+    get: function get() {
+      return {
+        addClass: function addClass() {
+          return undefined;
+        },
+        getBuffer: function getBuffer() {
+          return null;
+        },
+        getPrimaryBar: function getPrimaryBar() {
+          return null;
+        },
+        hasClass: function hasClass() {
+          return false;
+        },
+        removeClass: function removeClass() {
+          return undefined;
+        },
+        setStyle: function setStyle() {
+          return undefined;
+        }
+      };
+    },
+    enumerable: true,
+    configurable: true
+  });
 
-      if (this.determinate_) {
-        this.adapter_.removeClass(cssClasses.INDETERMINATE_CLASS);
-        this.setScale_(this.adapter_.getPrimaryBar(), this.progress_);
-      } else {
-        this.adapter_.addClass(cssClasses.INDETERMINATE_CLASS);
-        this.setScale_(this.adapter_.getPrimaryBar(), 1);
-        this.setScale_(this.adapter_.getBuffer(), 1);
-      }
-    }
-  }, {
-    key: "setProgress",
-    value: function setProgress(value) {
-      this.progress_ = value;
+  MDCLinearProgressFoundation.prototype.init = function () {
+    this.isDeterminate_ = !this.adapter_.hasClass(cssClasses.INDETERMINATE_CLASS);
+    this.isReversed_ = this.adapter_.hasClass(cssClasses.REVERSED_CLASS);
+    this.progress_ = 0;
+  };
 
-      if (this.determinate_) {
-        this.setScale_(this.adapter_.getPrimaryBar(), value);
-      }
-    }
-  }, {
-    key: "setBuffer",
-    value: function setBuffer(value) {
-      if (this.determinate_) {
-        this.setScale_(this.adapter_.getBuffer(), value);
-      }
-    }
-  }, {
-    key: "setReverse",
-    value: function setReverse(isReversed) {
-      this.reverse_ = isReversed;
+  MDCLinearProgressFoundation.prototype.setDeterminate = function (isDeterminate) {
+    this.isDeterminate_ = isDeterminate;
 
-      if (this.reverse_) {
-        this.adapter_.addClass(cssClasses.REVERSED_CLASS);
-      } else {
-        this.adapter_.removeClass(cssClasses.REVERSED_CLASS);
-      }
+    if (this.isDeterminate_) {
+      this.adapter_.removeClass(cssClasses.INDETERMINATE_CLASS);
+      this.setScale_(this.adapter_.getPrimaryBar(), this.progress_);
+    } else {
+      this.adapter_.addClass(cssClasses.INDETERMINATE_CLASS);
+      this.setScale_(this.adapter_.getPrimaryBar(), 1);
+      this.setScale_(this.adapter_.getBuffer(), 1);
     }
-  }, {
-    key: "open",
-    value: function open() {
-      this.adapter_.removeClass(cssClasses.CLOSED_CLASS);
-    }
-  }, {
-    key: "close",
-    value: function close() {
-      this.adapter_.addClass(cssClasses.CLOSED_CLASS);
-    }
-  }, {
-    key: "setScale_",
-    value: function setScale_(el, scaleValue) {
-      var _this = this;
+  };
 
-      var value = 'scaleX(' + scaleValue + ')';
-      transformStyleProperties.forEach(function (transformStyleProperty) {
-        _this.adapter_.setStyle(el, transformStyleProperty, value);
-      });
+  MDCLinearProgressFoundation.prototype.setProgress = function (value) {
+    this.progress_ = value;
+
+    if (this.isDeterminate_) {
+      this.setScale_(this.adapter_.getPrimaryBar(), value);
     }
-  }]);
+  };
+
+  MDCLinearProgressFoundation.prototype.setBuffer = function (value) {
+    if (this.isDeterminate_) {
+      this.setScale_(this.adapter_.getBuffer(), value);
+    }
+  };
+
+  MDCLinearProgressFoundation.prototype.setReverse = function (isReversed) {
+    this.isReversed_ = isReversed;
+
+    if (this.isReversed_) {
+      this.adapter_.addClass(cssClasses.REVERSED_CLASS);
+    } else {
+      this.adapter_.removeClass(cssClasses.REVERSED_CLASS);
+    }
+  };
+
+  MDCLinearProgressFoundation.prototype.open = function () {
+    this.adapter_.removeClass(cssClasses.CLOSED_CLASS);
+  };
+
+  MDCLinearProgressFoundation.prototype.close = function () {
+    this.adapter_.addClass(cssClasses.CLOSED_CLASS);
+  };
+
+  MDCLinearProgressFoundation.prototype.setScale_ = function (el, scaleValue) {
+    if (!el) {
+      return;
+    }
+
+    var value = "scaleX(" + scaleValue + ")";
+    this.adapter_.setStyle(el, getCorrectPropertyName(window, 'transform'), value);
+  };
 
   return MDCLinearProgressFoundation;
 }(MDCFoundation);

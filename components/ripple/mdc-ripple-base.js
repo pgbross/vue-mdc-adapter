@@ -1,16 +1,13 @@
 import { MDCRippleFoundation } from '@material/ripple/index'
-import {
-  supportsCssVariables,
-  getMatchesProperty,
-  applyPassive
-} from '@material/ripple/util'
+import { supportsCssVariables, applyPassive } from '@material/ripple/util'
+import { matches } from '@material/dom/ponyfill'
 
 export class RippleBase extends MDCRippleFoundation {
   static get MATCHES() {
     /* global HTMLElement */
     return (
       RippleBase._matches ||
-      (RippleBase._matches = getMatchesProperty(HTMLElement.prototype))
+      (RippleBase._matches = matches(HTMLElement.prototype))
     )
   }
 

@@ -26,6 +26,7 @@
 <script>
 import MDCTabScrollerFoundation from '@material/tab-scroller/foundation'
 import * as util from '@material/tab-scroller/util'
+import { matches } from '@material/dom/ponyfill'
 
 export default {
   name: 'mdc-tab-scroller',
@@ -36,7 +37,7 @@ export default {
   mounted() {
     this.foundation = new MDCTabScrollerFoundation({
       eventTargetMatchesSelector: (evtTarget, selector) => {
-        const MATCHES = util.getMatchesProperty(HTMLElement.prototype)
+        const MATCHES = matches(HTMLElement.prototype)
         return evtTarget[MATCHES](selector)
       },
       addClass: className => this.$set(this.classes, className, true),

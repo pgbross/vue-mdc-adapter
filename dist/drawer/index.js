@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.44.0","material-components-web":"^0.44.0"}
+* @implements {"@material/tabs":"^1.0.0-0","material-components-web":"^1.0.0-0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -95,53 +95,6 @@ function _objectSpread(target) {
   }
 
   return target;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
 }
 
 function _toConsumableArray(arr) {
@@ -259,135 +212,94 @@ var DispatchEventMixin = {
 
 var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
 
-/**
- * @license
- * Copyright 2018 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
 
-/* eslint no-unused-vars: [2, {"args": "none"}] */
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
 
-/**
- * Adapter for MDC Drawer
- *
- * Defines the shape of the adapter expected by the foundation. Implement this
- * adapter to integrate the Drawer into your framework. See
- * https://github.com/material-components/material-components-web/blob/master/docs/authoring-components.md
- * for more information.
- *
- * @record
- */
-var MDCDrawerAdapter =
-/*#__PURE__*/
-function () {
-  function MDCDrawerAdapter() {
-    _classCallCheck(this, MDCDrawerAdapter);
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+
+/* global Reflect, Promise */
+var _extendStatics = function extendStatics(d, b) {
+  _extendStatics = Object.setPrototypeOf || {
+    __proto__: []
+  } instanceof Array && function (d, b) {
+    d.__proto__ = b;
+  } || function (d, b) {
+    for (var p in b) {
+      if (b.hasOwnProperty(p)) d[p] = b[p];
+    }
+  };
+
+  return _extendStatics(d, b);
+};
+
+function __extends(d, b) {
+  _extendStatics(d, b);
+
+  function __() {
+    this.constructor = d;
   }
 
-  _createClass(MDCDrawerAdapter, [{
-    key: "addClass",
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
 
-    /**
-     * Adds a class to the root Element.
-     * @param {string} className
-     */
-    value: function addClass(className) {}
-    /**
-     * Removes a class from the root Element.
-     * @param {string} className
-     */
+var _assign = function __assign() {
+  _assign = Object.assign || function __assign(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
 
-  }, {
-    key: "removeClass",
-    value: function removeClass(className) {}
-    /**
-     * Returns true if the root Element contains the given class.
-     * @param {string} className
-     * @return {boolean}
-     */
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
 
-  }, {
-    key: "hasClass",
-    value: function hasClass(className) {}
-    /**
-     * @param {!Element} element target element to verify class name
-     * @param {string} className class name
-     */
+    return t;
+  };
 
-  }, {
-    key: "elementHasClass",
-    value: function elementHasClass(element, className) {}
-    /**
-     * Saves the focus of currently active element.
-     */
+  return _assign.apply(this, arguments);
+};
+function __read(o, n) {
+  var m = typeof Symbol === "function" && o[Symbol.iterator];
+  if (!m) return o;
+  var i = m.call(o),
+      r,
+      ar = [],
+      e;
 
-  }, {
-    key: "saveFocus",
-    value: function saveFocus() {}
-    /**
-     * Restores focus to element previously saved with 'saveFocus'.
-     */
+  try {
+    while ((n === void 0 || n-- > 0) && !(r = i.next()).done) {
+      ar.push(r.value);
+    }
+  } catch (error) {
+    e = {
+      error: error
+    };
+  } finally {
+    try {
+      if (r && !r.done && (m = i["return"])) m.call(i);
+    } finally {
+      if (e) throw e.error;
+    }
+  }
 
-  }, {
-    key: "restoreFocus",
-    value: function restoreFocus() {}
-    /**
-     * Focuses the active / selected navigation item.
-     */
+  return ar;
+}
+function __spread() {
+  for (var ar = [], i = 0; i < arguments.length; i++) {
+    ar = ar.concat(__read(arguments[i]));
+  }
 
-  }, {
-    key: "focusActiveNavigationItem",
-    value: function focusActiveNavigationItem() {}
-    /**
-     * Emits a custom event "MDCDrawer:closed" denoting the drawer has closed.
-     */
-
-  }, {
-    key: "notifyClose",
-    value: function notifyClose() {}
-    /**
-     * Emits a custom event "MDCDrawer:opened" denoting the drawer has opened.
-     */
-
-  }, {
-    key: "notifyOpen",
-    value: function notifyOpen() {}
-    /**
-     * Traps focus on root element and focuses the active navigation element.
-     */
-
-  }, {
-    key: "trapFocus",
-    value: function trapFocus() {}
-    /**
-     * Releases focus trap from root element which was set by `trapFocus`
-     * and restores focus to where it was prior to calling `trapFocus`.
-     */
-
-  }, {
-    key: "releaseFocus",
-    value: function releaseFocus() {}
-  }]);
-
-  return MDCDrawerAdapter;
-}();
+  return ar;
+}
 
 /**
  * @license
@@ -411,74 +323,60 @@ function () {
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/**
- * @template A
- */
 var MDCFoundation =
-/*#__PURE__*/
+/** @class */
 function () {
-  _createClass(MDCFoundation, null, [{
-    key: "cssClasses",
+  function MDCFoundation(adapter) {
+    if (adapter === void 0) {
+      adapter = {};
+    }
 
-    /** @return enum{cssClasses} */
+    this.adapter_ = adapter;
+  }
+
+  Object.defineProperty(MDCFoundation, "cssClasses", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports every
       // CSS class the foundation class needs as a property. e.g. {ACTIVE: 'mdc-component--active'}
       return {};
-    }
-    /** @return enum{strings} */
-
-  }, {
-    key: "strings",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "strings", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // semantic strings as constants. e.g. {ARIA_ROLE: 'tablist'}
       return {};
-    }
-    /** @return enum{numbers} */
-
-  }, {
-    key: "numbers",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "numbers", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // of its semantic numbers as constants. e.g. {ANIMATION_DELAY_MS: 350}
       return {};
-    }
-    /** @return {!Object} */
-
-  }, {
-    key: "defaultAdapter",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "defaultAdapter", {
     get: function get() {
       // Classes extending MDCFoundation may choose to implement this getter in order to provide a convenient
       // way of viewing the necessary methods of an adapter. In the future, this could also be used for adapter
       // validation.
       return {};
-    }
-    /**
-     * @param {A=} adapter
-     */
+    },
+    enumerable: true,
+    configurable: true
+  });
 
-  }]);
+  MDCFoundation.prototype.init = function () {// Subclasses should override this method to perform initialization routines (registering events, etc.)
+  };
 
-  function MDCFoundation() {
-    var adapter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    _classCallCheck(this, MDCFoundation);
-
-    /** @protected {!A} */
-    this.adapter_ = adapter;
-  }
-
-  _createClass(MDCFoundation, [{
-    key: "init",
-    value: function init() {// Subclasses should override this method to perform initialization routines (registering events, etc.)
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
-    }
-  }]);
+  MDCFoundation.prototype.destroy = function () {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
+  };
 
   return MDCFoundation;
 }();
@@ -505,445 +403,429 @@ function () {
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/** @enum {string} */
 var cssClasses = {
-  ROOT: 'mdc-drawer',
+  ANIMATE: 'mdc-drawer--animate',
+  CLOSING: 'mdc-drawer--closing',
   DISMISSIBLE: 'mdc-drawer--dismissible',
   MODAL: 'mdc-drawer--modal',
   OPEN: 'mdc-drawer--open',
-  ANIMATE: 'mdc-drawer--animate',
   OPENING: 'mdc-drawer--opening',
-  CLOSING: 'mdc-drawer--closing'
+  ROOT: 'mdc-drawer'
 };
-/** @enum {string} */
-
 var strings = {
   APP_CONTENT_SELECTOR: '.mdc-drawer-app-content',
-  SCRIM_SELECTOR: '.mdc-drawer-scrim',
   CLOSE_EVENT: 'MDCDrawer:closed',
-  OPEN_EVENT: 'MDCDrawer:opened'
+  OPEN_EVENT: 'MDCDrawer:opened',
+  SCRIM_SELECTOR: '.mdc-drawer-scrim'
 };
 
 /**
- * @extends {MDCFoundation<!MDCDrawerAdapter>}
+ * @license
+ * Copyright 2018 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 var MDCDismissibleDrawerFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCDismissibleDrawerFoundation, _MDCFoundation);
-
-  _createClass(MDCDismissibleDrawerFoundation, null, [{
-    key: "strings",
-
-    /** @return enum {string} */
-    get: function get() {
-      return strings;
-    }
-    /** @return enum {string} */
-
-  }, {
-    key: "cssClasses",
-    get: function get() {
-      return cssClasses;
-    }
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCDrawerAdapter} */
-        {
-          addClass: function addClass()
-          /* className: string */
-          {},
-          removeClass: function removeClass()
-          /* className: string */
-          {},
-          hasClass: function hasClass()
-          /* className: string */
-          {},
-          elementHasClass: function elementHasClass()
-          /* element: !Element, className: string */
-          {},
-          notifyClose: function notifyClose() {},
-          notifyOpen: function notifyOpen() {},
-          saveFocus: function saveFocus() {},
-          restoreFocus: function restoreFocus() {},
-          focusActiveNavigationItem: function focusActiveNavigationItem() {},
-          trapFocus: function trapFocus() {},
-          releaseFocus: function releaseFocus() {}
-        }
-      );
-    }
-  }]);
+/** @class */
+function (_super) {
+  __extends(MDCDismissibleDrawerFoundation, _super);
 
   function MDCDismissibleDrawerFoundation(adapter) {
-    var _this;
-
-    _classCallCheck(this, MDCDismissibleDrawerFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCDismissibleDrawerFoundation).call(this, _extends(MDCDismissibleDrawerFoundation.defaultAdapter, adapter)));
-    /** @private {number} */
+    var _this = _super.call(this, _assign({}, MDCDismissibleDrawerFoundation.defaultAdapter, adapter)) || this;
 
     _this.animationFrame_ = 0;
-    /** @private {number} */
-
     _this.animationTimer_ = 0;
     return _this;
   }
 
-  _createClass(MDCDismissibleDrawerFoundation, [{
-    key: "destroy",
-    value: function destroy() {
-      if (this.animationFrame_) {
-        cancelAnimationFrame(this.animationFrame_);
-      }
+  Object.defineProperty(MDCDismissibleDrawerFoundation, "strings", {
+    get: function get() {
+      return strings;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCDismissibleDrawerFoundation, "cssClasses", {
+    get: function get() {
+      return cssClasses;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCDismissibleDrawerFoundation, "defaultAdapter", {
+    get: function get() {
+      // tslint:disable:object-literal-sort-keys Methods should be in the same order as the adapter interface.
+      return {
+        addClass: function addClass() {
+          return undefined;
+        },
+        removeClass: function removeClass() {
+          return undefined;
+        },
+        hasClass: function hasClass() {
+          return false;
+        },
+        elementHasClass: function elementHasClass() {
+          return false;
+        },
+        notifyClose: function notifyClose() {
+          return undefined;
+        },
+        notifyOpen: function notifyOpen() {
+          return undefined;
+        },
+        saveFocus: function saveFocus() {
+          return undefined;
+        },
+        restoreFocus: function restoreFocus() {
+          return undefined;
+        },
+        focusActiveNavigationItem: function focusActiveNavigationItem() {
+          return undefined;
+        },
+        trapFocus: function trapFocus() {
+          return undefined;
+        },
+        releaseFocus: function releaseFocus() {
+          return undefined;
+        }
+      }; // tslint:enable:object-literal-sort-keys
+    },
+    enumerable: true,
+    configurable: true
+  });
 
-      if (this.animationTimer_) {
-        clearTimeout(this.animationTimer_);
-      }
-    }
-    /**
-     * Function to open the drawer.
-     */
-
-  }, {
-    key: "open",
-    value: function open() {
-      var _this2 = this;
-
-      if (this.isOpen() || this.isOpening() || this.isClosing()) {
-        return;
-      }
-
-      this.adapter_.addClass(cssClasses.OPEN);
-      this.adapter_.addClass(cssClasses.ANIMATE); // Wait a frame once display is no longer "none", to establish basis for animation
-
-      this.runNextAnimationFrame_(function () {
-        _this2.adapter_.addClass(cssClasses.OPENING);
-      });
-      this.adapter_.saveFocus();
-    }
-    /**
-     * Function to close the drawer.
-     */
-
-  }, {
-    key: "close",
-    value: function close() {
-      if (!this.isOpen() || this.isOpening() || this.isClosing()) {
-        return;
-      }
-
-      this.adapter_.addClass(cssClasses.CLOSING);
-    }
-    /**
-     * Extension point for when drawer finishes open animation.
-     * @protected
-     */
-
-  }, {
-    key: "opened",
-    value: function opened() {}
-    /**
-     * Extension point for when drawer finishes close animation.
-     * @protected
-     */
-
-  }, {
-    key: "closed",
-    value: function closed() {}
-    /**
-     * Returns true if drawer is in open state.
-     * @return {boolean}
-     */
-
-  }, {
-    key: "isOpen",
-    value: function isOpen() {
-      return this.adapter_.hasClass(cssClasses.OPEN);
-    }
-    /**
-     * Returns true if drawer is animating open.
-     * @return {boolean}
-     */
-
-  }, {
-    key: "isOpening",
-    value: function isOpening() {
-      return this.adapter_.hasClass(cssClasses.OPENING) || this.adapter_.hasClass(cssClasses.ANIMATE);
-    }
-    /**
-     * Returns true if drawer is animating closed.
-     * @return {boolean}
-     */
-
-  }, {
-    key: "isClosing",
-    value: function isClosing() {
-      return this.adapter_.hasClass(cssClasses.CLOSING);
-    }
-    /**
-     * Keydown handler to close drawer when key is escape.
-     * @param evt
-     */
-
-  }, {
-    key: "handleKeydown",
-    value: function handleKeydown(evt) {
-      var keyCode = evt.keyCode,
-          key = evt.key;
-      var isEscape = key === 'Escape' || keyCode === 27;
-
-      if (isEscape) {
-        this.close();
-      }
-    }
-    /**
-     * Handles a transition end event on the root element.
-     * @param {!Event} evt
-     */
-
-  }, {
-    key: "handleTransitionEnd",
-    value: function handleTransitionEnd(evt) {
-      var OPENING = cssClasses.OPENING,
-          CLOSING = cssClasses.CLOSING,
-          OPEN = cssClasses.OPEN,
-          ANIMATE = cssClasses.ANIMATE,
-          ROOT = cssClasses.ROOT; // In Edge, transitionend on ripple pseudo-elements yields a target without classList, so check for Element first.
-
-      var isElement = evt.target instanceof Element;
-
-      if (!isElement || !this.adapter_.elementHasClass(
-      /** @type {!Element} */
-      evt.target, ROOT)) {
-        return;
-      }
-
-      if (this.isClosing()) {
-        this.adapter_.removeClass(OPEN);
-        this.closed();
-        this.adapter_.restoreFocus();
-        this.adapter_.notifyClose();
-      } else {
-        this.adapter_.focusActiveNavigationItem();
-        this.opened();
-        this.adapter_.notifyOpen();
-      }
-
-      this.adapter_.removeClass(ANIMATE);
-      this.adapter_.removeClass(OPENING);
-      this.adapter_.removeClass(CLOSING);
-    }
-    /**
-     * Runs the given logic on the next animation frame, using setTimeout to factor in Firefox reflow behavior.
-     * @param {Function} callback
-     * @private
-     */
-
-  }, {
-    key: "runNextAnimationFrame_",
-    value: function runNextAnimationFrame_(callback) {
-      var _this3 = this;
-
+  MDCDismissibleDrawerFoundation.prototype.destroy = function () {
+    if (this.animationFrame_) {
       cancelAnimationFrame(this.animationFrame_);
-      this.animationFrame_ = requestAnimationFrame(function () {
-        _this3.animationFrame_ = 0;
-        clearTimeout(_this3.animationTimer_);
-        _this3.animationTimer_ = setTimeout(callback, 0);
-      });
     }
-  }]);
+
+    if (this.animationTimer_) {
+      clearTimeout(this.animationTimer_);
+    }
+  };
+
+  MDCDismissibleDrawerFoundation.prototype.open = function () {
+    var _this = this;
+
+    if (this.isOpen() || this.isOpening() || this.isClosing()) {
+      return;
+    }
+
+    this.adapter_.addClass(cssClasses.OPEN);
+    this.adapter_.addClass(cssClasses.ANIMATE); // Wait a frame once display is no longer "none", to establish basis for animation
+
+    this.runNextAnimationFrame_(function () {
+      _this.adapter_.addClass(cssClasses.OPENING);
+    });
+    this.adapter_.saveFocus();
+  };
+
+  MDCDismissibleDrawerFoundation.prototype.close = function () {
+    if (!this.isOpen() || this.isOpening() || this.isClosing()) {
+      return;
+    }
+
+    this.adapter_.addClass(cssClasses.CLOSING);
+  };
+  /**
+   * @return true if drawer is in open state.
+   */
+
+
+  MDCDismissibleDrawerFoundation.prototype.isOpen = function () {
+    return this.adapter_.hasClass(cssClasses.OPEN);
+  };
+  /**
+   * @return true if drawer is animating open.
+   */
+
+
+  MDCDismissibleDrawerFoundation.prototype.isOpening = function () {
+    return this.adapter_.hasClass(cssClasses.OPENING) || this.adapter_.hasClass(cssClasses.ANIMATE);
+  };
+  /**
+   * @return true if drawer is animating closed.
+   */
+
+
+  MDCDismissibleDrawerFoundation.prototype.isClosing = function () {
+    return this.adapter_.hasClass(cssClasses.CLOSING);
+  };
+  /**
+   * Keydown handler to close drawer when key is escape.
+   */
+
+
+  MDCDismissibleDrawerFoundation.prototype.handleKeydown = function (evt) {
+    var keyCode = evt.keyCode,
+        key = evt.key;
+    var isEscape = key === 'Escape' || keyCode === 27;
+
+    if (isEscape) {
+      this.close();
+    }
+  };
+  /**
+   * Handles a transition end event on the root element.
+   */
+
+
+  MDCDismissibleDrawerFoundation.prototype.handleTransitionEnd = function (evt) {
+    var OPENING = cssClasses.OPENING,
+        CLOSING = cssClasses.CLOSING,
+        OPEN = cssClasses.OPEN,
+        ANIMATE = cssClasses.ANIMATE,
+        ROOT = cssClasses.ROOT; // In Edge, transitionend on ripple pseudo-elements yields a target without classList, so check for Element first.
+
+    var isRootElement = this.isElement_(evt.target) && this.adapter_.elementHasClass(evt.target, ROOT);
+
+    if (!isRootElement) {
+      return;
+    }
+
+    if (this.isClosing()) {
+      this.adapter_.removeClass(OPEN);
+      this.closed();
+      this.adapter_.restoreFocus();
+      this.adapter_.notifyClose();
+    } else {
+      this.adapter_.focusActiveNavigationItem();
+      this.opened();
+      this.adapter_.notifyOpen();
+    }
+
+    this.adapter_.removeClass(ANIMATE);
+    this.adapter_.removeClass(OPENING);
+    this.adapter_.removeClass(CLOSING);
+  };
+  /**
+   * Extension point for when drawer finishes open animation.
+   */
+
+
+  MDCDismissibleDrawerFoundation.prototype.opened = function () {}; // tslint:disable-line:no-empty
+
+  /**
+   * Extension point for when drawer finishes close animation.
+   */
+
+
+  MDCDismissibleDrawerFoundation.prototype.closed = function () {}; // tslint:disable-line:no-empty
+
+  /**
+   * Runs the given logic on the next animation frame, using setTimeout to factor in Firefox reflow behavior.
+   */
+
+
+  MDCDismissibleDrawerFoundation.prototype.runNextAnimationFrame_ = function (callback) {
+    var _this = this;
+
+    cancelAnimationFrame(this.animationFrame_);
+    this.animationFrame_ = requestAnimationFrame(function () {
+      _this.animationFrame_ = 0;
+      clearTimeout(_this.animationTimer_);
+      _this.animationTimer_ = setTimeout(callback, 0);
+    });
+  };
+
+  MDCDismissibleDrawerFoundation.prototype.isElement_ = function (element) {
+    // In Edge, transitionend on ripple pseudo-elements yields a target without classList.
+    return Boolean(element.classList);
+  };
 
   return MDCDismissibleDrawerFoundation;
 }(MDCFoundation);
 
 /**
- * @extends {MDCDismissibleDrawerFoundation}
+ * @license
+ * Copyright 2018 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
+/* istanbul ignore next: subclass is not a branch statement */
 
 var MDCModalDrawerFoundation =
-/*#__PURE__*/
-function (_MDCDismissibleDrawer) {
-  _inherits(MDCModalDrawerFoundation, _MDCDismissibleDrawer);
+/** @class */
+function (_super) {
+  __extends(MDCModalDrawerFoundation, _super);
 
   function MDCModalDrawerFoundation() {
-    _classCallCheck(this, MDCModalDrawerFoundation);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(MDCModalDrawerFoundation).apply(this, arguments));
+    return _super !== null && _super.apply(this, arguments) || this;
   }
+  /**
+   * Called when drawer finishes open animation.
+   */
 
-  _createClass(MDCModalDrawerFoundation, [{
-    key: "opened",
 
-    /**
-     * Called when drawer finishes open animation.
-     * @override
-     */
-    value: function opened() {
-      this.adapter_.trapFocus();
-    }
-    /**
-     * Called when drawer finishes close animation.
-     * @override
-     */
+  MDCModalDrawerFoundation.prototype.opened = function () {
+    this.adapter_.trapFocus();
+  };
+  /**
+   * Called when drawer finishes close animation.
+   */
 
-  }, {
-    key: "closed",
-    value: function closed() {
-      this.adapter_.releaseFocus();
-    }
-    /**
-     * Handles click event on scrim.
-     */
 
-  }, {
-    key: "handleScrimClick",
-    value: function handleScrimClick() {
-      this.close();
-    }
-  }]);
+  MDCModalDrawerFoundation.prototype.closed = function () {
+    this.adapter_.releaseFocus();
+  };
+  /**
+   * Handles click event on scrim.
+   */
+
+
+  MDCModalDrawerFoundation.prototype.handleScrimClick = function () {
+    this.close();
+  };
 
   return MDCModalDrawerFoundation;
 }(MDCDismissibleDrawerFoundation);
 
 /**
- * @template F
+ * @license
+ * Copyright 2016 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 var MDCComponent =
-/*#__PURE__*/
+/** @class */
 function () {
-  _createClass(MDCComponent, null, [{
-    key: "attachTo",
+  function MDCComponent(root, foundation) {
+    var args = [];
 
-    /**
-     * @param {!Element} root
-     * @return {!MDCComponent}
-     */
-    value: function attachTo(root) {
-      // Subclasses which extend MDCBase should provide an attachTo() method that takes a root element and
-      // returns an instantiated component with its root set to that element. Also note that in the cases of
-      // subclasses, an explicit foundation class will not have to be passed in; it will simply be initialized
-      // from getDefaultFoundation().
-      return new MDCComponent(root, new MDCFoundation());
+    for (var _i = 2; _i < arguments.length; _i++) {
+      args[_i - 2] = arguments[_i];
     }
-    /**
-     * @param {!Element} root
-     * @param {F=} foundation
-     * @param {...?} args
-     */
 
-  }]);
-
-  function MDCComponent(root) {
-    var foundation = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : undefined;
-
-    _classCallCheck(this, MDCComponent);
-
-    /** @protected {!Element} */
     this.root_ = root;
-
-    for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-      args[_key - 2] = arguments[_key];
-    }
-
-    this.initialize.apply(this, args); // Note that we initialize foundation here and not within the constructor's default param so that
+    this.initialize.apply(this, __spread(args)); // Note that we initialize foundation here and not within the constructor's default param so that
     // this.root_ is defined and can be used within the foundation class.
-
-    /** @protected {!F} */
 
     this.foundation_ = foundation === undefined ? this.getDefaultFoundation() : foundation;
     this.foundation_.init();
     this.initialSyncWithDOM();
   }
 
-  _createClass(MDCComponent, [{
-    key: "initialize",
-    value: function initialize()
-    /* ...args */
-    {} // Subclasses can override this to do any additional setup work that would be considered part of a
+  MDCComponent.attachTo = function (root) {
+    // Subclasses which extend MDCBase should provide an attachTo() method that takes a root element and
+    // returns an instantiated component with its root set to that element. Also note that in the cases of
+    // subclasses, an explicit foundation class will not have to be passed in; it will simply be initialized
+    // from getDefaultFoundation().
+    return new MDCComponent(root, new MDCFoundation({}));
+  };
+  /* istanbul ignore next: method param only exists for typing purposes; it does not need to be unit tested */
+
+
+  MDCComponent.prototype.initialize = function () {
+    var _args = [];
+
+    for (var _i = 0; _i < arguments.length; _i++) {
+      _args[_i] = arguments[_i];
+    } // Subclasses can override this to do any additional setup work that would be considered part of a
     // "constructor". Essentially, it is a hook into the parent constructor before the foundation is
     // initialized. Any additional arguments besides root and foundation will be passed in here.
 
-    /**
-     * @return {!F} foundation
-     */
+  };
 
-  }, {
-    key: "getDefaultFoundation",
-    value: function getDefaultFoundation() {
-      // Subclasses must override this method to return a properly configured foundation class for the
-      // component.
-      throw new Error('Subclasses must override getDefaultFoundation to return a properly configured ' + 'foundation class');
-    }
-  }, {
-    key: "initialSyncWithDOM",
-    value: function initialSyncWithDOM() {// Subclasses should override this method if they need to perform work to synchronize with a host DOM
-      // object. An example of this would be a form control wrapper that needs to synchronize its internal state
-      // to some property or attribute of the host DOM. Please note: this is *not* the place to perform DOM
-      // reads/writes that would cause layout / paint, as this is called synchronously from within the constructor.
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      // Subclasses may implement this method to release any resources / deregister any listeners they have
-      // attached. An example of this might be deregistering a resize event from the window object.
-      this.foundation_.destroy();
-    }
-    /**
-     * Wrapper method to add an event listener to the component's root element. This is most useful when
-     * listening for custom events.
-     * @param {string} evtType
-     * @param {!Function} handler
-     */
+  MDCComponent.prototype.getDefaultFoundation = function () {
+    // Subclasses must override this method to return a properly configured foundation class for the
+    // component.
+    throw new Error('Subclasses must override getDefaultFoundation to return a properly configured ' + 'foundation class');
+  };
 
-  }, {
-    key: "listen",
-    value: function listen(evtType, handler) {
-      this.root_.addEventListener(evtType, handler);
+  MDCComponent.prototype.initialSyncWithDOM = function () {// Subclasses should override this method if they need to perform work to synchronize with a host DOM
+    // object. An example of this would be a form control wrapper that needs to synchronize its internal state
+    // to some property or attribute of the host DOM. Please note: this is *not* the place to perform DOM
+    // reads/writes that would cause layout / paint, as this is called synchronously from within the constructor.
+  };
+
+  MDCComponent.prototype.destroy = function () {
+    // Subclasses may implement this method to release any resources / deregister any listeners they have
+    // attached. An example of this might be deregistering a resize event from the window object.
+    this.foundation_.destroy();
+  };
+
+  MDCComponent.prototype.listen = function (evtType, handler) {
+    this.root_.addEventListener(evtType, handler);
+  };
+
+  MDCComponent.prototype.unlisten = function (evtType, handler) {
+    this.root_.removeEventListener(evtType, handler);
+  };
+  /**
+   * Fires a cross-browser-compatible custom event from the component root of the given type, with the given data.
+   */
+
+
+  MDCComponent.prototype.emit = function (evtType, evtData, shouldBubble) {
+    if (shouldBubble === void 0) {
+      shouldBubble = false;
     }
-    /**
-     * Wrapper method to remove an event listener to the component's root element. This is most useful when
-     * unlistening for custom events.
-     * @param {string} evtType
-     * @param {!Function} handler
-     */
 
-  }, {
-    key: "unlisten",
-    value: function unlisten(evtType, handler) {
-      this.root_.removeEventListener(evtType, handler);
+    var evt;
+
+    if (typeof CustomEvent === 'function') {
+      evt = new CustomEvent(evtType, {
+        bubbles: shouldBubble,
+        detail: evtData
+      });
+    } else {
+      evt = document.createEvent('CustomEvent');
+      evt.initCustomEvent(evtType, shouldBubble, false, evtData);
     }
-    /**
-     * Fires a cross-browser-compatible custom event from the component root of the given type,
-     * with the given data.
-     * @param {string} evtType
-     * @param {!Object} evtData
-     * @param {boolean=} shouldBubble
-     */
 
-  }, {
-    key: "emit",
-    value: function emit(evtType, evtData) {
-      var shouldBubble = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-      var evt;
-
-      if (typeof CustomEvent === 'function') {
-        evt = new CustomEvent(evtType, {
-          detail: evtData,
-          bubbles: shouldBubble
-        });
-      } else {
-        evt = document.createEvent('CustomEvent');
-        evt.initCustomEvent(evtType, shouldBubble, false, evtData);
-      }
-
-      this.root_.dispatchEvent(evt);
-    }
-  }]);
+    this.root_.dispatchEvent(evt);
+  };
 
   return MDCComponent;
 }();
@@ -971,141 +853,31 @@ function () {
  * THE SOFTWARE.
  */
 
-/* eslint no-unused-vars: [2, {"args": "none"}] */
-
 /**
- * Adapter for MDC List. Provides an interface for managing focus.
- *
- * Additionally, provides type information for the adapter to the Closure
- * compiler.
- *
- * Implement this adapter for your framework of choice to delegate updates to
- * the component in your framework of choice. See architecture documentation
- * for more details.
- * https://github.com/material-components/material-components-web/blob/master/docs/code/architecture.md
- *
- * @record
+ * @fileoverview A "ponyfill" is a polyfill that doesn't modify the global prototype chain.
+ * This makes ponyfills safer than traditional polyfills, especially for libraries like MDC.
  */
-var MDCListAdapter =
-/*#__PURE__*/
-function () {
-  function MDCListAdapter() {
-    _classCallCheck(this, MDCListAdapter);
+function closest(element, selector) {
+  if (element.closest) {
+    return element.closest(selector);
   }
 
-  _createClass(MDCListAdapter, [{
-    key: "getListItemCount",
+  var el = element;
 
-    /** @return {number} */
-    value: function getListItemCount() {}
-    /**
-     * @return {number} */
+  while (el) {
+    if (matches(el, selector)) {
+      return el;
+    }
 
-  }, {
-    key: "getFocusedElementIndex",
-    value: function getFocusedElementIndex() {}
-    /**
-     * @param {number} index
-     * @param {string} attribute
-     * @param {string} value
-     */
+    el = el.parentElement;
+  }
 
-  }, {
-    key: "setAttributeForElementIndex",
-    value: function setAttributeForElementIndex(index, attribute, value) {}
-    /**
-     * @param {number} index
-     * @param {string} attribute
-     */
-
-  }, {
-    key: "removeAttributeForElementIndex",
-    value: function removeAttributeForElementIndex(index, attribute) {}
-    /**
-     * @param {number} index
-     * @param {string} className
-     */
-
-  }, {
-    key: "addClassForElementIndex",
-    value: function addClassForElementIndex(index, className) {}
-    /**
-     * @param {number} index
-     * @param {string} className
-     */
-
-  }, {
-    key: "removeClassForElementIndex",
-    value: function removeClassForElementIndex(index, className) {}
-    /**
-     * Focuses list item at the index specified.
-     * @param {number} index
-     */
-
-  }, {
-    key: "focusItemAtIndex",
-    value: function focusItemAtIndex(index) {}
-    /**
-     * Sets the tabindex to the value specified for all button/a element children of
-     * the list item at the index specified.
-     * @param {number} listItemIndex
-     * @param {number} tabIndexValue
-     */
-
-  }, {
-    key: "setTabIndexForListItemChildren",
-    value: function setTabIndexForListItemChildren(listItemIndex, tabIndexValue) {}
-    /**
-     * @param {number} index
-     * @return {boolean} Returns true if radio button is present at given list item index.
-     */
-
-  }, {
-    key: "hasRadioAtIndex",
-    value: function hasRadioAtIndex(index) {}
-    /**
-     * @param {number} index
-     * @return {boolean} Returns true if checkbox is present at given list item index.
-     */
-
-  }, {
-    key: "hasCheckboxAtIndex",
-    value: function hasCheckboxAtIndex(index) {}
-    /**
-     * @param {number} index
-     * @return {boolean} Returns true if checkbox inside a list item is checked.
-     */
-
-  }, {
-    key: "isCheckboxCheckedAtIndex",
-    value: function isCheckboxCheckedAtIndex(index) {}
-    /**
-     * Sets the checked status of checkbox or radio at given list item index.
-     * @param {number} index
-     * @param {boolean} isChecked
-     */
-
-  }, {
-    key: "setCheckedCheckboxOrRadioAtIndex",
-    value: function setCheckedCheckboxOrRadioAtIndex(index, isChecked) {}
-    /**
-     * Notifies user action on list item.
-     */
-
-  }, {
-    key: "notifyAction",
-    value: function notifyAction(index) {}
-    /**
-     * @return {boolean} Returns true when the current focused element is inside list root.
-     */
-
-  }, {
-    key: "isFocusInsideList",
-    value: function isFocusInsideList() {}
-  }]);
-
-  return MDCListAdapter;
-}();
+  return null;
+}
+function matches(element, selector) {
+  var nativeMatches = element.matches || element.webkitMatchesSelector || element.msMatchesSelector;
+  return nativeMatches.call(element, selector);
+}
 
 /**
  * @license
@@ -1130,608 +902,551 @@ function () {
  * THE SOFTWARE.
  */
 
-/** @enum {string} */
+/**
+ * @license
+ * Copyright 2018 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 var cssClasses$1 = {
-  ROOT: 'mdc-list',
+  LIST_ITEM_ACTIVATED_CLASS: 'mdc-list-item--activated',
   LIST_ITEM_CLASS: 'mdc-list-item',
   LIST_ITEM_SELECTED_CLASS: 'mdc-list-item--selected',
-  LIST_ITEM_ACTIVATED_CLASS: 'mdc-list-item--activated'
+  ROOT: 'mdc-list'
 };
-/** @enum {string} */
-
 var strings$1 = {
+  ACTION_EVENT: 'MDCList:action',
+  ARIA_CHECKED: 'aria-checked',
+  ARIA_CHECKED_CHECKBOX_SELECTOR: '[role="checkbox"][aria-checked="true"]',
+  ARIA_CHECKED_RADIO_SELECTOR: '[role="radio"][aria-checked="true"]',
   ARIA_ORIENTATION: 'aria-orientation',
   ARIA_ORIENTATION_HORIZONTAL: 'horizontal',
-  ARIA_SELECTED: 'aria-selected',
-  ARIA_CHECKED: 'aria-checked',
-  ARIA_CHECKED_RADIO_SELECTOR: '[role="radio"][aria-checked="true"]',
   ARIA_ROLE_CHECKBOX_SELECTOR: '[role="checkbox"]',
-  ARIA_CHECKED_CHECKBOX_SELECTOR: '[role="checkbox"][aria-checked="true"]',
-  RADIO_SELECTOR: 'input[type="radio"]:not(:disabled)',
-  CHECKBOX_SELECTOR: 'input[type="checkbox"]:not(:disabled)',
+  ARIA_SELECTED: 'aria-selected',
   CHECKBOX_RADIO_SELECTOR: 'input[type="checkbox"]:not(:disabled), input[type="radio"]:not(:disabled)',
-  CHILD_ELEMENTS_TO_TOGGLE_TABINDEX: ".".concat(cssClasses$1.LIST_ITEM_CLASS, " button:not(:disabled),\n  .").concat(cssClasses$1.LIST_ITEM_CLASS, " a"),
-  FOCUSABLE_CHILD_ELEMENTS: ".".concat(cssClasses$1.LIST_ITEM_CLASS, " button:not(:disabled), .").concat(cssClasses$1.LIST_ITEM_CLASS, " a,\n  .").concat(cssClasses$1.LIST_ITEM_CLASS, " input[type=\"radio\"]:not(:disabled),\n  .").concat(cssClasses$1.LIST_ITEM_CLASS, " input[type=\"checkbox\"]:not(:disabled)"),
+  CHECKBOX_SELECTOR: 'input[type="checkbox"]:not(:disabled)',
+  CHILD_ELEMENTS_TO_TOGGLE_TABINDEX: "\n    ." + cssClasses$1.LIST_ITEM_CLASS + " button:not(:disabled),\n    ." + cssClasses$1.LIST_ITEM_CLASS + " a\n  ",
   ENABLED_ITEMS_SELECTOR: '.mdc-list-item:not(.mdc-list-item--disabled)',
-  ACTION_EVENT: 'MDCList:action'
+  FOCUSABLE_CHILD_ELEMENTS: "\n    ." + cssClasses$1.LIST_ITEM_CLASS + " button:not(:disabled),\n    ." + cssClasses$1.LIST_ITEM_CLASS + " a,\n    ." + cssClasses$1.LIST_ITEM_CLASS + " input[type=\"radio\"]:not(:disabled),\n    ." + cssClasses$1.LIST_ITEM_CLASS + " input[type=\"checkbox\"]:not(:disabled)\n  ",
+  RADIO_SELECTOR: 'input[type="radio"]:not(:disabled)'
 };
 
+/**
+ * @license
+ * Copyright 2018 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 var ELEMENTS_KEY_ALLOWED_IN = ['input', 'button', 'textarea', 'select'];
 
+function isNumberArray(selectedIndex) {
+  return selectedIndex instanceof Array;
+}
+
 var MDCListFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCListFoundation, _MDCFoundation);
-
-  _createClass(MDCListFoundation, null, [{
-    key: "strings",
-
-    /** @return enum {string} */
-    get: function get() {
-      return strings$1;
-    }
-    /** @return enum {string} */
-
-  }, {
-    key: "cssClasses",
-    get: function get() {
-      return cssClasses$1;
-    }
-    /**
-     * {@see MDCListAdapter} for typing information on parameters and return
-     * types.
-     * @return {!MDCListAdapter}
-     */
-
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCListAdapter} */
-        {
-          getListItemCount: function getListItemCount() {},
-          getFocusedElementIndex: function getFocusedElementIndex() {},
-          setAttributeForElementIndex: function setAttributeForElementIndex() {},
-          removeAttributeForElementIndex: function removeAttributeForElementIndex() {},
-          addClassForElementIndex: function addClassForElementIndex() {},
-          removeClassForElementIndex: function removeClassForElementIndex() {},
-          focusItemAtIndex: function focusItemAtIndex() {},
-          setTabIndexForListItemChildren: function setTabIndexForListItemChildren() {},
-          hasRadioAtIndex: function hasRadioAtIndex() {},
-          hasCheckboxAtIndex: function hasCheckboxAtIndex() {},
-          isCheckboxCheckedAtIndex: function isCheckboxCheckedAtIndex() {},
-          setCheckedCheckboxOrRadioAtIndex: function setCheckedCheckboxOrRadioAtIndex() {},
-          notifyAction: function notifyAction() {},
-          isFocusInsideList: function isFocusInsideList() {}
-        }
-      );
-    }
-    /**
-     * @param {!MDCListAdapter=} adapter
-     */
-
-  }]);
+/** @class */
+function (_super) {
+  __extends(MDCListFoundation, _super);
 
   function MDCListFoundation(adapter) {
-    var _this;
-
-    _classCallCheck(this, MDCListFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCListFoundation).call(this, _extends(MDCListFoundation.defaultAdapter, adapter)));
-    /** @private {boolean} */
+    var _this = _super.call(this, _assign({}, MDCListFoundation.defaultAdapter, adapter)) || this;
 
     _this.wrapFocus_ = false;
-    /** @private {boolean} */
-
     _this.isVertical_ = true;
-    /** @private {boolean} */
-
     _this.isSingleSelectionList_ = false;
-    /** @private {!Index} */
-
     _this.selectedIndex_ = -1;
-    /** @private {number} */
-
     _this.focusedItemIndex_ = -1;
-    /** @private {boolean} */
-
     _this.useActivatedClass_ = false;
-    /** @private {boolean} */
-
     _this.isCheckboxList_ = false;
-    /** @private {boolean} */
-
     _this.isRadioList_ = false;
     return _this;
   }
 
-  _createClass(MDCListFoundation, [{
-    key: "layout",
-    value: function layout() {
-      if (this.adapter_.getListItemCount() === 0) return;
-
-      if (this.adapter_.hasCheckboxAtIndex(0)) {
-        this.isCheckboxList_ = true;
-      } else if (this.adapter_.hasRadioAtIndex(0)) {
-        this.isRadioList_ = true;
-      }
-    }
-    /**
-     * Sets the private wrapFocus_ variable.
-     * @param {boolean} value
-     */
-
-  }, {
-    key: "setWrapFocus",
-    value: function setWrapFocus(value) {
-      this.wrapFocus_ = value;
-    }
-    /**
-     * Sets the isVertical_ private variable.
-     * @param {boolean} value
-     */
-
-  }, {
-    key: "setVerticalOrientation",
-    value: function setVerticalOrientation(value) {
-      this.isVertical_ = value;
-    }
-    /**
-     * Sets the isSingleSelectionList_ private variable.
-     * @param {boolean} value
-     */
-
-  }, {
-    key: "setSingleSelection",
-    value: function setSingleSelection(value) {
-      this.isSingleSelectionList_ = value;
-    }
-    /**
-     * Sets the useActivatedClass_ private variable.
-     * @param {boolean} useActivated
-     */
-
-  }, {
-    key: "setUseActivatedClass",
-    value: function setUseActivatedClass(useActivated) {
-      this.useActivatedClass_ = useActivated;
-    }
-    /** @return {!Index} */
-
-  }, {
-    key: "getSelectedIndex",
-    value: function getSelectedIndex() {
-      return this.selectedIndex_;
-    }
-    /** @param {!Index} index */
-
-  }, {
-    key: "setSelectedIndex",
-    value: function setSelectedIndex(index) {
-      if (!this.isIndexValid_(index)) return;
-
-      if (this.isCheckboxList_) {
-        this.setCheckboxAtIndex_(
-        /** @type {!Array<number>} */
-        index);
-      } else if (this.isRadioList_) {
-        this.setRadioAtIndex_(
-        /** @type {number} */
-        index);
-      } else {
-        this.setSingleSelectionAtIndex_(
-        /** @type {number} */
-        index);
-      }
-    }
-    /**
-     * Focus in handler for the list items.
-     * @param evt
-     * @param {number} listItemIndex
-     */
-
-  }, {
-    key: "handleFocusIn",
-    value: function handleFocusIn(evt, listItemIndex) {
-      if (listItemIndex >= 0) {
-        this.adapter_.setTabIndexForListItemChildren(listItemIndex, 0);
-      }
-    }
-    /**
-     * Focus out handler for the list items.
-     * @param {Event} evt
-     * @param {number} listItemIndex
-     */
-
-  }, {
-    key: "handleFocusOut",
-    value: function handleFocusOut(evt, listItemIndex) {
-      var _this2 = this;
-
-      if (listItemIndex >= 0) {
-        this.adapter_.setTabIndexForListItemChildren(listItemIndex, -1);
-      }
-      /**
-       * Between Focusout & Focusin some browsers do not have focus on any element. Setting a delay to wait till the focus
-       * is moved to next element.
-       */
-
-
-      setTimeout(function () {
-        if (!_this2.adapter_.isFocusInsideList()) {
-          _this2.setTabindexToFirstSelectedItem_();
+  Object.defineProperty(MDCListFoundation, "strings", {
+    get: function get() {
+      return strings$1;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCListFoundation, "cssClasses", {
+    get: function get() {
+      return cssClasses$1;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCListFoundation, "defaultAdapter", {
+    get: function get() {
+      return {
+        addClassForElementIndex: function addClassForElementIndex() {
+          return undefined;
+        },
+        focusItemAtIndex: function focusItemAtIndex() {
+          return undefined;
+        },
+        getFocusedElementIndex: function getFocusedElementIndex() {
+          return 0;
+        },
+        getListItemCount: function getListItemCount() {
+          return 0;
+        },
+        hasCheckboxAtIndex: function hasCheckboxAtIndex() {
+          return false;
+        },
+        hasRadioAtIndex: function hasRadioAtIndex() {
+          return false;
+        },
+        isCheckboxCheckedAtIndex: function isCheckboxCheckedAtIndex() {
+          return false;
+        },
+        isFocusInsideList: function isFocusInsideList() {
+          return false;
+        },
+        notifyAction: function notifyAction() {
+          return undefined;
+        },
+        removeAttributeForElementIndex: function removeAttributeForElementIndex() {
+          return undefined;
+        },
+        removeClassForElementIndex: function removeClassForElementIndex() {
+          return undefined;
+        },
+        setAttributeForElementIndex: function setAttributeForElementIndex() {
+          return undefined;
+        },
+        setCheckedCheckboxOrRadioAtIndex: function setCheckedCheckboxOrRadioAtIndex() {
+          return undefined;
+        },
+        setTabIndexForListItemChildren: function setTabIndexForListItemChildren() {
+          return undefined;
         }
-      }, 0);
+      };
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  MDCListFoundation.prototype.layout = function () {
+    if (this.adapter_.getListItemCount() === 0) return;
+
+    if (this.adapter_.hasCheckboxAtIndex(0)) {
+      this.isCheckboxList_ = true;
+    } else if (this.adapter_.hasRadioAtIndex(0)) {
+      this.isRadioList_ = true;
+    }
+  };
+  /**
+   * Sets the private wrapFocus_ variable.
+   */
+
+
+  MDCListFoundation.prototype.setWrapFocus = function (value) {
+    this.wrapFocus_ = value;
+  };
+  /**
+   * Sets the isVertical_ private variable.
+   */
+
+
+  MDCListFoundation.prototype.setVerticalOrientation = function (value) {
+    this.isVertical_ = value;
+  };
+  /**
+   * Sets the isSingleSelectionList_ private variable.
+   */
+
+
+  MDCListFoundation.prototype.setSingleSelection = function (value) {
+    this.isSingleSelectionList_ = value;
+  };
+  /**
+   * Sets the useActivatedClass_ private variable.
+   */
+
+
+  MDCListFoundation.prototype.setUseActivatedClass = function (useActivated) {
+    this.useActivatedClass_ = useActivated;
+  };
+
+  MDCListFoundation.prototype.getSelectedIndex = function () {
+    return this.selectedIndex_;
+  };
+
+  MDCListFoundation.prototype.setSelectedIndex = function (index) {
+    if (!this.isIndexValid_(index)) {
+      return;
+    }
+
+    if (this.isCheckboxList_) {
+      this.setCheckboxAtIndex_(index);
+    } else if (this.isRadioList_) {
+      this.setRadioAtIndex_(index);
+    } else {
+      this.setSingleSelectionAtIndex_(index);
+    }
+  };
+  /**
+   * Focus in handler for the list items.
+   */
+
+
+  MDCListFoundation.prototype.handleFocusIn = function (_, listItemIndex) {
+    if (listItemIndex >= 0) {
+      this.adapter_.setTabIndexForListItemChildren(listItemIndex, '0');
+    }
+  };
+  /**
+   * Focus out handler for the list items.
+   */
+
+
+  MDCListFoundation.prototype.handleFocusOut = function (_, listItemIndex) {
+    var _this = this;
+
+    if (listItemIndex >= 0) {
+      this.adapter_.setTabIndexForListItemChildren(listItemIndex, '-1');
     }
     /**
-     * Key handler for the list.
-     * @param {Event} evt
-     * @param {boolean} isRootListItem
-     * @param {number} listItemIndex
+     * Between Focusout & Focusin some browsers do not have focus on any element. Setting a delay to wait till the focus
+     * is moved to next element.
      */
 
-  }, {
-    key: "handleKeydown",
-    value: function handleKeydown(evt, isRootListItem, listItemIndex) {
-      var arrowLeft = evt.key === 'ArrowLeft' || evt.keyCode === 37;
-      var arrowUp = evt.key === 'ArrowUp' || evt.keyCode === 38;
-      var arrowRight = evt.key === 'ArrowRight' || evt.keyCode === 39;
-      var arrowDown = evt.key === 'ArrowDown' || evt.keyCode === 40;
-      var isHome = evt.key === 'Home' || evt.keyCode === 36;
-      var isEnd = evt.key === 'End' || evt.keyCode === 35;
-      var isEnter = evt.key === 'Enter' || evt.keyCode === 13;
-      var isSpace = evt.key === 'Space' || evt.keyCode === 32;
-      var currentIndex = this.adapter_.getFocusedElementIndex();
-      var nextIndex = -1;
 
-      if (currentIndex === -1) {
-        currentIndex = listItemIndex;
+    setTimeout(function () {
+      if (!_this.adapter_.isFocusInsideList()) {
+        _this.setTabindexToFirstSelectedItem_();
+      }
+    }, 0);
+  };
+  /**
+   * Key handler for the list.
+   */
 
-        if (currentIndex < 0) {
-          // If this event doesn't have a mdc-list-item ancestor from the
-          // current list (not from a sublist), return early.
+
+  MDCListFoundation.prototype.handleKeydown = function (evt, isRootListItem, listItemIndex) {
+    var arrowLeft = evt.key === 'ArrowLeft' || evt.keyCode === 37;
+    var arrowUp = evt.key === 'ArrowUp' || evt.keyCode === 38;
+    var arrowRight = evt.key === 'ArrowRight' || evt.keyCode === 39;
+    var arrowDown = evt.key === 'ArrowDown' || evt.keyCode === 40;
+    var isHome = evt.key === 'Home' || evt.keyCode === 36;
+    var isEnd = evt.key === 'End' || evt.keyCode === 35;
+    var isEnter = evt.key === 'Enter' || evt.keyCode === 13;
+    var isSpace = evt.key === 'Space' || evt.keyCode === 32;
+    var currentIndex = this.adapter_.getFocusedElementIndex();
+    var nextIndex = -1;
+
+    if (currentIndex === -1) {
+      currentIndex = listItemIndex;
+
+      if (currentIndex < 0) {
+        // If this event doesn't have a mdc-list-item ancestor from the
+        // current list (not from a sublist), return early.
+        return;
+      }
+    }
+
+    if (this.isVertical_ && arrowDown || !this.isVertical_ && arrowRight) {
+      this.preventDefaultEvent_(evt);
+      nextIndex = this.focusNextElement(currentIndex);
+    } else if (this.isVertical_ && arrowUp || !this.isVertical_ && arrowLeft) {
+      this.preventDefaultEvent_(evt);
+      nextIndex = this.focusPrevElement(currentIndex);
+    } else if (isHome) {
+      this.preventDefaultEvent_(evt);
+      nextIndex = this.focusFirstElement();
+    } else if (isEnd) {
+      this.preventDefaultEvent_(evt);
+      nextIndex = this.focusLastElement();
+    } else if (isEnter || isSpace) {
+      if (isRootListItem) {
+        // Return early if enter key is pressed on anchor element which triggers synthetic MouseEvent event.
+        var target = evt.target;
+
+        if (target && target.tagName === 'A' && isEnter) {
           return;
         }
-      }
 
-      if (this.isVertical_ && arrowDown || !this.isVertical_ && arrowRight) {
         this.preventDefaultEvent_(evt);
-        nextIndex = this.focusNextElement(currentIndex);
-      } else if (this.isVertical_ && arrowUp || !this.isVertical_ && arrowLeft) {
-        this.preventDefaultEvent_(evt);
-        nextIndex = this.focusPrevElement(currentIndex);
-      } else if (isHome) {
-        this.preventDefaultEvent_(evt);
-        nextIndex = this.focusFirstElement();
-      } else if (isEnd) {
-        this.preventDefaultEvent_(evt);
-        nextIndex = this.focusLastElement();
-      } else if (isEnter || isSpace) {
-        if (isRootListItem) {
-          // Return early if enter key is pressed on anchor element which triggers synthetic MouseEvent event.
-          if (evt.target.tagName === 'A' && isEnter) return;
-          this.preventDefaultEvent_(evt);
 
-          if (this.isSelectableList_()) {
-            this.setSelectedIndexOnAction_(currentIndex);
-          }
-
-          this.adapter_.notifyAction(currentIndex);
-        }
-      }
-
-      this.focusedItemIndex_ = currentIndex;
-
-      if (nextIndex >= 0) {
-        this.setTabindexAtIndex_(nextIndex);
-        this.focusedItemIndex_ = nextIndex;
-      }
-    }
-    /**
-     * Click handler for the list.
-     * @param {number} index
-     * @param {boolean} toggleCheckbox
-     */
-
-  }, {
-    key: "handleClick",
-    value: function handleClick(index, toggleCheckbox) {
-      if (index === -1) return;
-
-      if (this.isSelectableList_()) {
-        this.setSelectedIndexOnAction_(index, toggleCheckbox);
-      }
-
-      this.adapter_.notifyAction(index);
-      this.setTabindexAtIndex_(index);
-      this.focusedItemIndex_ = index;
-    }
-    /**
-     * Ensures that preventDefault is only called if the containing element doesn't
-     * consume the event, and it will cause an unintended scroll.
-     * @param {Event} evt
-     * @private
-     */
-
-  }, {
-    key: "preventDefaultEvent_",
-    value: function preventDefaultEvent_(evt) {
-      var tagName = "".concat(evt.target.tagName).toLowerCase();
-
-      if (ELEMENTS_KEY_ALLOWED_IN.indexOf(tagName) === -1) {
-        evt.preventDefault();
-      }
-    }
-    /**
-     * Focuses the next element on the list.
-     * @param {number} index
-     * @return {number}
-     */
-
-  }, {
-    key: "focusNextElement",
-    value: function focusNextElement(index) {
-      var count = this.adapter_.getListItemCount();
-      var nextIndex = index + 1;
-
-      if (nextIndex >= count) {
-        if (this.wrapFocus_) {
-          nextIndex = 0;
-        } else {
-          // Return early because last item is already focused.
-          return index;
-        }
-      }
-
-      this.adapter_.focusItemAtIndex(nextIndex);
-      return nextIndex;
-    }
-    /**
-     * Focuses the previous element on the list.
-     * @param {number} index
-     * @return {number}
-     */
-
-  }, {
-    key: "focusPrevElement",
-    value: function focusPrevElement(index) {
-      var prevIndex = index - 1;
-
-      if (prevIndex < 0) {
-        if (this.wrapFocus_) {
-          prevIndex = this.adapter_.getListItemCount() - 1;
-        } else {
-          // Return early because first item is already focused.
-          return index;
-        }
-      }
-
-      this.adapter_.focusItemAtIndex(prevIndex);
-      return prevIndex;
-    }
-    /**
-     * @return {number}
-     */
-
-  }, {
-    key: "focusFirstElement",
-    value: function focusFirstElement() {
-      this.adapter_.focusItemAtIndex(0);
-      return 0;
-    }
-    /**
-     * @return {number}
-     */
-
-  }, {
-    key: "focusLastElement",
-    value: function focusLastElement() {
-      var lastIndex = this.adapter_.getListItemCount() - 1;
-      this.adapter_.focusItemAtIndex(lastIndex);
-      return lastIndex;
-    }
-    /**
-     * @param {number} index
-     * @private
-     */
-
-  }, {
-    key: "setSingleSelectionAtIndex_",
-    value: function setSingleSelectionAtIndex_(index) {
-      var selectedClassName = cssClasses$1.LIST_ITEM_SELECTED_CLASS;
-
-      if (this.useActivatedClass_) {
-        selectedClassName = cssClasses$1.LIST_ITEM_ACTIVATED_CLASS;
-      }
-
-      if (this.selectedIndex_ >= 0 && this.selectedIndex_ !== index) {
-        this.adapter_.removeClassForElementIndex(this.selectedIndex_, selectedClassName);
-        this.adapter_.setAttributeForElementIndex(this.selectedIndex_, strings$1.ARIA_SELECTED, 'false');
-      }
-
-      this.adapter_.addClassForElementIndex(index, selectedClassName);
-      this.adapter_.setAttributeForElementIndex(index, strings$1.ARIA_SELECTED, 'true');
-      this.selectedIndex_ = index;
-    }
-    /**
-     * Toggles radio at give index. Radio doesn't change the checked state if it is already checked.
-     * @param {number} index
-     * @private
-     */
-
-  }, {
-    key: "setRadioAtIndex_",
-    value: function setRadioAtIndex_(index) {
-      this.adapter_.setCheckedCheckboxOrRadioAtIndex(index, true);
-
-      if (this.selectedIndex_ >= 0) {
-        this.adapter_.setAttributeForElementIndex(this.selectedIndex_, strings$1.ARIA_CHECKED, 'false');
-      }
-
-      this.adapter_.setAttributeForElementIndex(index, strings$1.ARIA_CHECKED, 'true');
-      this.selectedIndex_ = index;
-    }
-    /**
-     * @param {!Array<number>} index
-     * @private
-     */
-
-  }, {
-    key: "setCheckboxAtIndex_",
-    value: function setCheckboxAtIndex_(index) {
-      for (var i = 0; i < this.adapter_.getListItemCount(); i++) {
-        var isChecked = false;
-
-        if (index.indexOf(i) >= 0) {
-          isChecked = true;
+        if (this.isSelectableList_()) {
+          this.setSelectedIndexOnAction_(currentIndex);
         }
 
-        this.adapter_.setCheckedCheckboxOrRadioAtIndex(i, isChecked);
-        this.adapter_.setAttributeForElementIndex(i, strings$1.ARIA_CHECKED, isChecked ? 'true' : 'false');
+        this.adapter_.notifyAction(currentIndex);
       }
-
-      this.selectedIndex_ = index;
     }
-    /**
-     * @param {number} index
-     * @private
-     */
 
-  }, {
-    key: "setTabindexAtIndex_",
-    value: function setTabindexAtIndex_(index) {
-      if (this.focusedItemIndex_ === -1 && index !== 0) {
-        // If no list item was selected set first list item's tabindex to -1.
-        // Generally, tabindex is set to 0 on first list item of list that has no preselected items.
-        this.adapter_.setAttributeForElementIndex(0, 'tabindex', -1);
-      } else if (this.focusedItemIndex_ >= 0 && this.focusedItemIndex_ !== index) {
-        this.adapter_.setAttributeForElementIndex(this.focusedItemIndex_, 'tabindex', -1);
-      }
+    this.focusedItemIndex_ = currentIndex;
 
-      this.adapter_.setAttributeForElementIndex(index, 'tabindex', 0);
+    if (nextIndex >= 0) {
+      this.setTabindexAtIndex_(nextIndex);
+      this.focusedItemIndex_ = nextIndex;
     }
-    /**
-     * @return {boolean} Return true if it is single selectin list, checkbox list or radio list.
-     * @private
-     */
+  };
+  /**
+   * Click handler for the list.
+   */
 
-  }, {
-    key: "isSelectableList_",
-    value: function isSelectableList_() {
-      return this.isSingleSelectionList_ || this.isCheckboxList_ || this.isRadioList_;
+
+  MDCListFoundation.prototype.handleClick = function (index, toggleCheckbox) {
+    if (index === -1) return;
+
+    if (this.isSelectableList_()) {
+      this.setSelectedIndexOnAction_(index, toggleCheckbox);
     }
-    /** @private */
 
-  }, {
-    key: "setTabindexToFirstSelectedItem_",
-    value: function setTabindexToFirstSelectedItem_() {
-      var targetIndex = 0;
+    this.adapter_.notifyAction(index);
+    this.setTabindexAtIndex_(index);
+    this.focusedItemIndex_ = index;
+  };
+  /**
+   * Focuses the next element on the list.
+   */
 
-      if (this.isSelectableList_()) {
-        if (typeof this.selectedIndex_ === 'number' && this.selectedIndex_ !== -1) {
-          targetIndex = this.selectedIndex_;
-        } else if (this.selectedIndex_ instanceof Array && this.selectedIndex_.length > 0) {
-          targetIndex = this.selectedIndex_.reduce(function (currentIndex, minIndex) {
-            return Math.min(currentIndex, minIndex);
-          });
-        }
-      }
 
-      this.setTabindexAtIndex_(targetIndex);
-    }
-    /**
-     * @param {!Index} index
-     * @return {boolean}
-     * @private
-     */
+  MDCListFoundation.prototype.focusNextElement = function (index) {
+    var count = this.adapter_.getListItemCount();
+    var nextIndex = index + 1;
 
-  }, {
-    key: "isIndexValid_",
-    value: function isIndexValid_(index) {
-      var _this3 = this;
-
-      if (index instanceof Array) {
-        if (!this.isCheckboxList_) {
-          throw new Error('MDCListFoundation: Array of index is only supported for checkbox based list');
-        }
-
-        if (index.length === 0) {
-          return true;
-        } else {
-          return index.some(function (i) {
-            return _this3.isIndexInRange_(i);
-          });
-        }
-      } else if (typeof index === 'number') {
-        if (this.isCheckboxList_) {
-          throw new Error('MDCListFoundation: Expected array of index for checkbox based list but got number: ' + index);
-        }
-
-        return this.isIndexInRange_(index);
+    if (nextIndex >= count) {
+      if (this.wrapFocus_) {
+        nextIndex = 0;
       } else {
-        return false;
+        // Return early because last item is already focused.
+        return index;
       }
     }
-    /**
-     * @param {number} index
-     * @return {boolean}
-     * @private
-     */
 
-  }, {
-    key: "isIndexInRange_",
-    value: function isIndexInRange_(index) {
-      var listSize = this.adapter_.getListItemCount();
-      return index >= 0 && index < listSize;
-    }
-    /**
-     * @param {number} index
-     * @param {boolean=} toggleCheckbox
-     * @private
-     */
+    this.adapter_.focusItemAtIndex(nextIndex);
+    return nextIndex;
+  };
+  /**
+   * Focuses the previous element on the list.
+   */
 
-  }, {
-    key: "setSelectedIndexOnAction_",
-    value: function setSelectedIndexOnAction_(index) {
-      var toggleCheckbox = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
-      if (this.isCheckboxList_) {
-        this.toggleCheckboxAtIndex_(index, toggleCheckbox);
+  MDCListFoundation.prototype.focusPrevElement = function (index) {
+    var prevIndex = index - 1;
+
+    if (prevIndex < 0) {
+      if (this.wrapFocus_) {
+        prevIndex = this.adapter_.getListItemCount() - 1;
       } else {
-        this.setSelectedIndex(index);
+        // Return early because first item is already focused.
+        return index;
       }
     }
-    /**
-     * @param {number} index
-     * @param {boolean} toggleCheckbox
-     * @private
-     */
 
-  }, {
-    key: "toggleCheckboxAtIndex_",
-    value: function toggleCheckboxAtIndex_(index, toggleCheckbox) {
-      var isChecked = this.adapter_.isCheckboxCheckedAtIndex(index);
+    this.adapter_.focusItemAtIndex(prevIndex);
+    return prevIndex;
+  };
 
-      if (toggleCheckbox) {
-        isChecked = !isChecked;
-        this.adapter_.setCheckedCheckboxOrRadioAtIndex(index, isChecked);
+  MDCListFoundation.prototype.focusFirstElement = function () {
+    this.adapter_.focusItemAtIndex(0);
+    return 0;
+  };
+
+  MDCListFoundation.prototype.focusLastElement = function () {
+    var lastIndex = this.adapter_.getListItemCount() - 1;
+    this.adapter_.focusItemAtIndex(lastIndex);
+    return lastIndex;
+  };
+  /**
+   * Ensures that preventDefault is only called if the containing element doesn't
+   * consume the event, and it will cause an unintended scroll.
+   */
+
+
+  MDCListFoundation.prototype.preventDefaultEvent_ = function (evt) {
+    var target = evt.target;
+    var tagName = ("" + target.tagName).toLowerCase();
+
+    if (ELEMENTS_KEY_ALLOWED_IN.indexOf(tagName) === -1) {
+      evt.preventDefault();
+    }
+  };
+
+  MDCListFoundation.prototype.setSingleSelectionAtIndex_ = function (index) {
+    var selectedClassName = cssClasses$1.LIST_ITEM_SELECTED_CLASS;
+
+    if (this.useActivatedClass_) {
+      selectedClassName = cssClasses$1.LIST_ITEM_ACTIVATED_CLASS;
+    }
+
+    if (this.selectedIndex_ >= 0 && this.selectedIndex_ !== index) {
+      this.adapter_.removeClassForElementIndex(this.selectedIndex_, selectedClassName);
+      this.adapter_.setAttributeForElementIndex(this.selectedIndex_, strings$1.ARIA_SELECTED, 'false');
+    }
+
+    this.adapter_.addClassForElementIndex(index, selectedClassName);
+    this.adapter_.setAttributeForElementIndex(index, strings$1.ARIA_SELECTED, 'true');
+    this.selectedIndex_ = index;
+  };
+  /**
+   * Toggles radio at give index. Radio doesn't change the checked state if it is already checked.
+   */
+
+
+  MDCListFoundation.prototype.setRadioAtIndex_ = function (index) {
+    this.adapter_.setCheckedCheckboxOrRadioAtIndex(index, true);
+
+    if (this.selectedIndex_ >= 0) {
+      this.adapter_.setAttributeForElementIndex(this.selectedIndex_, strings$1.ARIA_CHECKED, 'false');
+    }
+
+    this.adapter_.setAttributeForElementIndex(index, strings$1.ARIA_CHECKED, 'true');
+    this.selectedIndex_ = index;
+  };
+
+  MDCListFoundation.prototype.setCheckboxAtIndex_ = function (index) {
+    for (var i = 0; i < this.adapter_.getListItemCount(); i++) {
+      var isChecked = false;
+
+      if (index.indexOf(i) >= 0) {
+        isChecked = true;
       }
 
-      this.adapter_.setAttributeForElementIndex(index, strings$1.ARIA_CHECKED, isChecked ? 'true' : 'false'); // If none of the checkbox items are selected and selectedIndex is not initialized then provide a default value.
+      this.adapter_.setCheckedCheckboxOrRadioAtIndex(i, isChecked);
+      this.adapter_.setAttributeForElementIndex(i, strings$1.ARIA_CHECKED, isChecked ? 'true' : 'false');
+    }
 
-      if (this.selectedIndex_ === -1) {
-        this.selectedIndex_ = [];
-      }
+    this.selectedIndex_ = index;
+  };
 
-      if (isChecked) {
-        this.selectedIndex_.push(index);
-      } else {
-        this.selectedIndex_ = this.selectedIndex_.filter(function (i) {
-          return i !== index;
+  MDCListFoundation.prototype.setTabindexAtIndex_ = function (index) {
+    if (this.focusedItemIndex_ === -1 && index !== 0) {
+      // If no list item was selected set first list item's tabindex to -1.
+      // Generally, tabindex is set to 0 on first list item of list that has no preselected items.
+      this.adapter_.setAttributeForElementIndex(0, 'tabindex', '-1');
+    } else if (this.focusedItemIndex_ >= 0 && this.focusedItemIndex_ !== index) {
+      this.adapter_.setAttributeForElementIndex(this.focusedItemIndex_, 'tabindex', '-1');
+    }
+
+    this.adapter_.setAttributeForElementIndex(index, 'tabindex', '0');
+  };
+  /**
+   * @return Return true if it is single selectin list, checkbox list or radio list.
+   */
+
+
+  MDCListFoundation.prototype.isSelectableList_ = function () {
+    return this.isSingleSelectionList_ || this.isCheckboxList_ || this.isRadioList_;
+  };
+
+  MDCListFoundation.prototype.setTabindexToFirstSelectedItem_ = function () {
+    var targetIndex = 0;
+
+    if (this.isSelectableList_()) {
+      if (typeof this.selectedIndex_ === 'number' && this.selectedIndex_ !== -1) {
+        targetIndex = this.selectedIndex_;
+      } else if (isNumberArray(this.selectedIndex_) && this.selectedIndex_.length > 0) {
+        targetIndex = this.selectedIndex_.reduce(function (currentIndex, minIndex) {
+          return Math.min(currentIndex, minIndex);
         });
       }
     }
-  }]);
+
+    this.setTabindexAtIndex_(targetIndex);
+  };
+
+  MDCListFoundation.prototype.isIndexValid_ = function (index) {
+    var _this = this;
+
+    if (index instanceof Array) {
+      if (!this.isCheckboxList_) {
+        throw new Error('MDCListFoundation: Array of index is only supported for checkbox based list');
+      }
+
+      if (index.length === 0) {
+        return true;
+      } else {
+        return index.some(function (i) {
+          return _this.isIndexInRange_(i);
+        });
+      }
+    } else if (typeof index === 'number') {
+      if (this.isCheckboxList_) {
+        throw new Error('MDCListFoundation: Expected array of index for checkbox based list but got number: ' + index);
+      }
+
+      return this.isIndexInRange_(index);
+    } else {
+      return false;
+    }
+  };
+
+  MDCListFoundation.prototype.isIndexInRange_ = function (index) {
+    var listSize = this.adapter_.getListItemCount();
+    return index >= 0 && index < listSize;
+  };
+
+  MDCListFoundation.prototype.setSelectedIndexOnAction_ = function (index, toggleCheckbox) {
+    if (toggleCheckbox === void 0) {
+      toggleCheckbox = true;
+    }
+
+    if (this.isCheckboxList_) {
+      this.toggleCheckboxAtIndex_(index, toggleCheckbox);
+    } else {
+      this.setSelectedIndex(index);
+    }
+  };
+
+  MDCListFoundation.prototype.toggleCheckboxAtIndex_ = function (index, toggleCheckbox) {
+    var isChecked = this.adapter_.isCheckboxCheckedAtIndex(index);
+
+    if (toggleCheckbox) {
+      isChecked = !isChecked;
+      this.adapter_.setCheckedCheckboxOrRadioAtIndex(index, isChecked);
+    }
+
+    this.adapter_.setAttributeForElementIndex(index, strings$1.ARIA_CHECKED, isChecked ? 'true' : 'false'); // If none of the checkbox items are selected and selectedIndex is not initialized then provide a default value.
+
+    var selectedIndexes = this.selectedIndex_ === -1 ? [] : this.selectedIndex_.slice();
+
+    if (isChecked) {
+      selectedIndexes.push(index);
+    } else {
+      selectedIndexes = selectedIndexes.filter(function (i) {
+        return i !== index;
+      });
+    }
+
+    this.selectedIndex_ = selectedIndexes;
+  };
 
   return MDCListFoundation;
 }(MDCFoundation);
@@ -1758,346 +1473,295 @@ function (_MDCFoundation) {
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-/**
- * @param {!Element} element
- * @param {string} selector
- * @return {boolean}
- */
-
-
-function matches(element, selector) {
-  var nativeMatches = element.matches || element.webkitMatchesSelector || element.msMatchesSelector;
-  return nativeMatches.call(element, selector);
-}
-
-/**
- * @extends MDCComponent<!MDCListFoundation>
- */
 
 var MDCList =
-/*#__PURE__*/
-function (_MDCComponent) {
-  _inherits(MDCList, _MDCComponent);
+/** @class */
+function (_super) {
+  __extends(MDCList, _super);
 
-  /** @param {...?} args */
   function MDCList() {
-    var _getPrototypeOf2;
-
-    var _this;
-
-    _classCallCheck(this, MDCList);
-
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    _this = _possibleConstructorReturn(this, (_getPrototypeOf2 = _getPrototypeOf(MDCList)).call.apply(_getPrototypeOf2, [this].concat(args)));
-    /** @private {!Function} */
-
-    _this.handleKeydown_;
-    /** @private {!Function} */
-
-    _this.handleClick_;
-    /** @private {!Function} */
-
-    _this.focusInEventListener_;
-    /** @private {!Function} */
-
-    _this.focusOutEventListener_;
-    return _this;
+    return _super !== null && _super.apply(this, arguments) || this;
   }
+
+  Object.defineProperty(MDCList.prototype, "vertical", {
+    set: function set(value) {
+      this.foundation_.setVerticalOrientation(value);
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCList.prototype, "listElements", {
+    get: function get() {
+      return [].slice.call(this.root_.querySelectorAll(strings$1.ENABLED_ITEMS_SELECTOR));
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCList.prototype, "wrapFocus", {
+    set: function set(value) {
+      this.foundation_.setWrapFocus(value);
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCList.prototype, "singleSelection", {
+    set: function set(isSingleSelectionList) {
+      this.foundation_.setSingleSelection(isSingleSelectionList);
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCList.prototype, "selectedIndex", {
+    get: function get() {
+      return this.foundation_.getSelectedIndex();
+    },
+    set: function set(index) {
+      this.foundation_.setSelectedIndex(index);
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  MDCList.attachTo = function (root) {
+    return new MDCList(root);
+  };
+
+  MDCList.prototype.initialSyncWithDOM = function () {
+    this.handleClick_ = this.handleClickEvent_.bind(this);
+    this.handleKeydown_ = this.handleKeydownEvent_.bind(this);
+    this.focusInEventListener_ = this.handleFocusInEvent_.bind(this);
+    this.focusOutEventListener_ = this.handleFocusOutEvent_.bind(this);
+    this.listen('keydown', this.handleKeydown_);
+    this.listen('click', this.handleClick_);
+    this.listen('focusin', this.focusInEventListener_);
+    this.listen('focusout', this.focusOutEventListener_);
+    this.layout();
+    this.initializeListType();
+  };
+
+  MDCList.prototype.destroy = function () {
+    this.unlisten('keydown', this.handleKeydown_);
+    this.unlisten('click', this.handleClick_);
+    this.unlisten('focusin', this.focusInEventListener_);
+    this.unlisten('focusout', this.focusOutEventListener_);
+  };
+
+  MDCList.prototype.layout = function () {
+    var direction = this.root_.getAttribute(strings$1.ARIA_ORIENTATION);
+    this.vertical = direction !== strings$1.ARIA_ORIENTATION_HORIZONTAL; // List items need to have at least tabindex=-1 to be focusable.
+
+    [].slice.call(this.root_.querySelectorAll('.mdc-list-item:not([tabindex])')).forEach(function (el) {
+      el.setAttribute('tabindex', '-1');
+    }); // Child button/a elements are not tabbable until the list item is focused.
+
+    [].slice.call(this.root_.querySelectorAll(strings$1.FOCUSABLE_CHILD_ELEMENTS)).forEach(function (el) {
+      return el.setAttribute('tabindex', '-1');
+    });
+    this.foundation_.layout();
+  };
   /**
-   * @param {!Element} root
-   * @return {!MDCList}
+   * Initialize selectedIndex value based on pre-selected checkbox list items, single selection or radio.
    */
 
 
-  _createClass(MDCList, [{
-    key: "destroy",
-    value: function destroy() {
-      this.root_.removeEventListener('keydown', this.handleKeydown_);
-      this.root_.removeEventListener('click', this.handleClick_);
-      this.root_.removeEventListener('focusin', this.focusInEventListener_);
-      this.root_.removeEventListener('focusout', this.focusOutEventListener_);
-    }
-  }, {
-    key: "initialSyncWithDOM",
-    value: function initialSyncWithDOM() {
-      this.handleClick_ = this.handleClickEvent_.bind(this);
-      this.handleKeydown_ = this.handleKeydownEvent_.bind(this);
-      this.focusInEventListener_ = this.handleFocusInEvent_.bind(this);
-      this.focusOutEventListener_ = this.handleFocusOutEvent_.bind(this);
-      this.root_.addEventListener('keydown', this.handleKeydown_);
-      this.root_.addEventListener('focusin', this.focusInEventListener_);
-      this.root_.addEventListener('focusout', this.focusOutEventListener_);
-      this.root_.addEventListener('click', this.handleClick_);
-      this.layout();
-      this.initializeListType();
-    }
-  }, {
-    key: "layout",
-    value: function layout() {
-      var direction = this.root_.getAttribute(strings$1.ARIA_ORIENTATION);
-      this.vertical = direction !== strings$1.ARIA_ORIENTATION_HORIZONTAL; // List items need to have at least tabindex=-1 to be focusable.
+  MDCList.prototype.initializeListType = function () {
+    var _this = this;
 
-      [].slice.call(this.root_.querySelectorAll('.mdc-list-item:not([tabindex])')).forEach(function (ele) {
-        ele.setAttribute('tabindex', -1);
-      }); // Child button/a elements are not tabbable until the list item is focused.
+    var checkboxListItems = this.root_.querySelectorAll(strings$1.ARIA_ROLE_CHECKBOX_SELECTOR);
+    var singleSelectedListItem = this.root_.querySelector("\n      ." + cssClasses$1.LIST_ITEM_ACTIVATED_CLASS + ",\n      ." + cssClasses$1.LIST_ITEM_SELECTED_CLASS + "\n    ");
+    var radioSelectedListItem = this.root_.querySelector(strings$1.ARIA_CHECKED_RADIO_SELECTOR);
 
-      [].slice.call(this.root_.querySelectorAll(strings$1.FOCUSABLE_CHILD_ELEMENTS)).forEach(function (ele) {
-        return ele.setAttribute('tabindex', -1);
+    if (checkboxListItems.length) {
+      var preselectedItems = this.root_.querySelectorAll(strings$1.ARIA_CHECKED_CHECKBOX_SELECTOR);
+      this.selectedIndex = [].map.call(preselectedItems, function (listItem) {
+        return _this.listElements.indexOf(listItem);
       });
-      this.foundation_.layout();
-    }
-    /**
-     * Used to figure out which list item this event is targetting. Or returns -1 if
-     * there is no list item
-     * @param {Event} evt
-     * @private
-     */
-
-  }, {
-    key: "getListItemIndex_",
-    value: function getListItemIndex_(evt) {
-      var eventTarget =
-      /** @type {HTMLElement} */
-      evt.target;
-      var index = -1; // Find the first ancestor that is a list item or the list.
-
-      while (!eventTarget.classList.contains(cssClasses$1.LIST_ITEM_CLASS) && !eventTarget.classList.contains(cssClasses$1.ROOT)) {
-        eventTarget = eventTarget.parentElement;
-      } // Get the index of the element if it is a list item.
-
-
-      if (eventTarget.classList.contains(cssClasses$1.LIST_ITEM_CLASS)) {
-        index = this.listElements.indexOf(eventTarget);
+    } else if (singleSelectedListItem) {
+      if (singleSelectedListItem.classList.contains(cssClasses$1.LIST_ITEM_ACTIVATED_CLASS)) {
+        this.foundation_.setUseActivatedClass(true);
       }
 
-      return index;
+      this.singleSelection = true;
+      this.selectedIndex = this.listElements.indexOf(singleSelectedListItem);
+    } else if (radioSelectedListItem) {
+      this.selectedIndex = this.listElements.indexOf(radioSelectedListItem);
     }
-    /**
-     * Used to figure out which element was clicked before sending the event to the foundation.
-     * @param {Event} evt
-     * @private
-     */
+  };
 
-  }, {
-    key: "handleFocusInEvent_",
-    value: function handleFocusInEvent_(evt) {
-      var index = this.getListItemIndex_(evt);
-      this.foundation_.handleFocusIn(evt, index);
-    }
-    /**
-     * Used to figure out which element was clicked before sending the event to the foundation.
-     * @param {Event} evt
-     * @private
-     */
+  MDCList.prototype.getDefaultFoundation = function () {
+    var _this = this; // DO NOT INLINE this variable. For backward compatibility, foundations take a Partial<MDCFooAdapter>.
+    // To ensure we don't accidentally omit any methods, we need a separate, strongly typed adapter variable.
 
-  }, {
-    key: "handleFocusOutEvent_",
-    value: function handleFocusOutEvent_(evt) {
-      var index = this.getListItemIndex_(evt);
-      this.foundation_.handleFocusOut(evt, index);
-    }
-    /**
-     * Used to figure out which element was focused when keydown event occurred before sending the event to the
-     * foundation.
-     * @param {Event} evt
-     * @private
-     */
 
-  }, {
-    key: "handleKeydownEvent_",
-    value: function handleKeydownEvent_(evt) {
-      var index = this.getListItemIndex_(evt);
+    var adapter = {
+      addClassForElementIndex: function addClassForElementIndex(index, className) {
+        var element = _this.listElements[index];
 
-      if (index >= 0) {
-        this.foundation_.handleKeydown(evt, evt.target.classList.contains(cssClasses$1.LIST_ITEM_CLASS), index);
-      }
-    }
-    /**
-     * Used to figure out which element was clicked before sending the event to the foundation.
-     * @param {Event} evt
-     * @private
-     */
+        if (element) {
+          element.classList.add(className);
+        }
+      },
+      focusItemAtIndex: function focusItemAtIndex(index) {
+        var element = _this.listElements[index];
 
-  }, {
-    key: "handleClickEvent_",
-    value: function handleClickEvent_(evt) {
-      var index = this.getListItemIndex_(evt); // Toggle the checkbox only if it's not the target of the event, or the checkbox will have 2 change events.
+        if (element) {
+          element.focus();
+        }
+      },
+      getFocusedElementIndex: function getFocusedElementIndex() {
+        return _this.listElements.indexOf(document.activeElement);
+      },
+      getListItemCount: function getListItemCount() {
+        return _this.listElements.length;
+      },
+      hasCheckboxAtIndex: function hasCheckboxAtIndex(index) {
+        var listItem = _this.listElements[index];
+        return !!listItem.querySelector(strings$1.CHECKBOX_SELECTOR);
+      },
+      hasRadioAtIndex: function hasRadioAtIndex(index) {
+        var listItem = _this.listElements[index];
+        return !!listItem.querySelector(strings$1.RADIO_SELECTOR);
+      },
+      isCheckboxCheckedAtIndex: function isCheckboxCheckedAtIndex(index) {
+        var listItem = _this.listElements[index];
+        var toggleEl = listItem.querySelector(strings$1.CHECKBOX_SELECTOR);
+        return toggleEl.checked;
+      },
+      isFocusInsideList: function isFocusInsideList() {
+        return _this.root_.contains(document.activeElement);
+      },
+      notifyAction: function notifyAction(index) {
+        _this.emit(strings$1.ACTION_EVENT, {
+          index: index
+        },
+        /** shouldBubble */
+        true);
+      },
+      removeAttributeForElementIndex: function removeAttributeForElementIndex(index, attr) {
+        var element = _this.listElements[index];
 
-      var toggleCheckbox = !matches(
-      /** @type {!Element} */
-      evt.target, strings$1.CHECKBOX_RADIO_SELECTOR);
-      this.foundation_.handleClick(index, toggleCheckbox);
-    }
-    /**
-     * Initialize selectedIndex value based on pre-selected checkbox list items, single selection or radio.
-     */
+        if (element) {
+          element.removeAttribute(attr);
+        }
+      },
+      removeClassForElementIndex: function removeClassForElementIndex(index, className) {
+        var element = _this.listElements[index];
 
-  }, {
-    key: "initializeListType",
-    value: function initializeListType() {
-      var _this2 = this;
+        if (element) {
+          element.classList.remove(className);
+        }
+      },
+      setAttributeForElementIndex: function setAttributeForElementIndex(index, attr, value) {
+        var element = _this.listElements[index];
 
-      var checkboxListItems = this.root_.querySelectorAll(strings$1.ARIA_ROLE_CHECKBOX_SELECTOR);
-      var singleSelectedListItem = this.root_.querySelector(".".concat(cssClasses$1.LIST_ITEM_ACTIVATED_CLASS, ",\n        .").concat(cssClasses$1.LIST_ITEM_SELECTED_CLASS));
-      var radioSelectedListItem = this.root_.querySelector(strings$1.ARIA_CHECKED_RADIO_SELECTOR);
-
-      if (checkboxListItems.length) {
-        var preselectedItems = this.root_.querySelectorAll(strings$1.ARIA_CHECKED_CHECKBOX_SELECTOR);
-        this.selectedIndex = [].map.call(preselectedItems, function (listItem) {
-          return _this2.listElements.indexOf(listItem);
+        if (element) {
+          element.setAttribute(attr, value);
+        }
+      },
+      setCheckedCheckboxOrRadioAtIndex: function setCheckedCheckboxOrRadioAtIndex(index, isChecked) {
+        var listItem = _this.listElements[index];
+        var toggleEl = listItem.querySelector(strings$1.CHECKBOX_RADIO_SELECTOR);
+        toggleEl.checked = isChecked;
+        var event = document.createEvent('Event');
+        event.initEvent('change', true, true);
+        toggleEl.dispatchEvent(event);
+      },
+      setTabIndexForListItemChildren: function setTabIndexForListItemChildren(listItemIndex, tabIndexValue) {
+        var element = _this.listElements[listItemIndex];
+        var listItemChildren = [].slice.call(element.querySelectorAll(strings$1.CHILD_ELEMENTS_TO_TOGGLE_TABINDEX));
+        listItemChildren.forEach(function (el) {
+          return el.setAttribute('tabindex', tabIndexValue);
         });
-      } else if (singleSelectedListItem) {
-        if (singleSelectedListItem.classList.contains(cssClasses$1.LIST_ITEM_ACTIVATED_CLASS)) {
-          this.foundation_.setUseActivatedClass(true);
-        }
-
-        this.singleSelection = true;
-        this.selectedIndex = this.listElements.indexOf(singleSelectedListItem);
-      } else if (radioSelectedListItem) {
-        this.selectedIndex = this.listElements.indexOf(radioSelectedListItem);
       }
+    };
+    return new MDCListFoundation(adapter);
+  };
+  /**
+   * Used to figure out which list item this event is targetting. Or returns -1 if
+   * there is no list item
+   */
+
+
+  MDCList.prototype.getListItemIndex_ = function (evt) {
+    var eventTarget = evt.target;
+    var nearestParent = closest(eventTarget, "." + cssClasses$1.LIST_ITEM_CLASS + ", ." + cssClasses$1.ROOT); // Get the index of the element if it is a list item.
+
+    if (nearestParent && matches(nearestParent, "." + cssClasses$1.LIST_ITEM_CLASS)) {
+      return this.listElements.indexOf(nearestParent);
     }
-    /** @param {boolean} value */
 
-  }, {
-    key: "getDefaultFoundation",
+    return -1;
+  };
+  /**
+   * Used to figure out which element was clicked before sending the event to the foundation.
+   */
 
-    /** @return {!MDCListFoundation} */
-    value: function getDefaultFoundation() {
-      var _this3 = this;
 
-      return new MDCListFoundation(
-      /** @type {!MDCListAdapter} */
-      _extends({
-        getListItemCount: function getListItemCount() {
-          return _this3.listElements.length;
-        },
-        getFocusedElementIndex: function getFocusedElementIndex() {
-          return _this3.listElements.indexOf(document.activeElement);
-        },
-        setAttributeForElementIndex: function setAttributeForElementIndex(index, attr, value) {
-          var element = _this3.listElements[index];
+  MDCList.prototype.handleFocusInEvent_ = function (evt) {
+    var index = this.getListItemIndex_(evt);
+    this.foundation_.handleFocusIn(evt, index);
+  };
+  /**
+   * Used to figure out which element was clicked before sending the event to the foundation.
+   */
 
-          if (element) {
-            element.setAttribute(attr, value);
-          }
-        },
-        removeAttributeForElementIndex: function removeAttributeForElementIndex(index, attr) {
-          var element = _this3.listElements[index];
 
-          if (element) {
-            element.removeAttribute(attr);
-          }
-        },
-        addClassForElementIndex: function addClassForElementIndex(index, className) {
-          var element = _this3.listElements[index];
+  MDCList.prototype.handleFocusOutEvent_ = function (evt) {
+    var index = this.getListItemIndex_(evt);
+    this.foundation_.handleFocusOut(evt, index);
+  };
+  /**
+   * Used to figure out which element was focused when keydown event occurred before sending the event to the
+   * foundation.
+   */
 
-          if (element) {
-            element.classList.add(className);
-          }
-        },
-        removeClassForElementIndex: function removeClassForElementIndex(index, className) {
-          var element = _this3.listElements[index];
 
-          if (element) {
-            element.classList.remove(className);
-          }
-        },
-        focusItemAtIndex: function focusItemAtIndex(index) {
-          var element = _this3.listElements[index];
+  MDCList.prototype.handleKeydownEvent_ = function (evt) {
+    var index = this.getListItemIndex_(evt);
+    var target = evt.target;
 
-          if (element) {
-            element.focus();
-          }
-        },
-        setTabIndexForListItemChildren: function setTabIndexForListItemChildren(listItemIndex, tabIndexValue) {
-          var element = _this3.listElements[listItemIndex];
-          var listItemChildren = [].slice.call(element.querySelectorAll(strings$1.CHILD_ELEMENTS_TO_TOGGLE_TABINDEX));
-          listItemChildren.forEach(function (ele) {
-            return ele.setAttribute('tabindex', tabIndexValue);
-          });
-        },
-        hasCheckboxAtIndex: function hasCheckboxAtIndex(index) {
-          var listItem = _this3.listElements[index];
-          return !!listItem.querySelector(strings$1.CHECKBOX_SELECTOR);
-        },
-        hasRadioAtIndex: function hasRadioAtIndex(index) {
-          var listItem = _this3.listElements[index];
-          return !!listItem.querySelector(strings$1.RADIO_SELECTOR);
-        },
-        isCheckboxCheckedAtIndex: function isCheckboxCheckedAtIndex(index) {
-          var listItem = _this3.listElements[index];
-          var toggleEl = listItem.querySelector(strings$1.CHECKBOX_SELECTOR);
-          return toggleEl.checked;
-        },
-        setCheckedCheckboxOrRadioAtIndex: function setCheckedCheckboxOrRadioAtIndex(index, isChecked) {
-          var listItem = _this3.listElements[index];
-          var toggleEl = listItem.querySelector(strings$1.CHECKBOX_RADIO_SELECTOR);
-          toggleEl.checked = isChecked;
-          var event = document.createEvent('Event');
-          event.initEvent('change', true, true);
-          toggleEl.dispatchEvent(event);
-        },
-        notifyAction: function notifyAction(index) {
-          _this3.emit(strings$1.ACTION_EVENT, index,
-          /** shouldBubble */
-          true);
-        },
-        isFocusInsideList: function isFocusInsideList() {
-          return _this3.root_.contains(document.activeElement);
-        }
-      }));
+    if (index >= 0) {
+      this.foundation_.handleKeydown(evt, target.classList.contains(cssClasses$1.LIST_ITEM_CLASS), index);
     }
-  }, {
-    key: "vertical",
-    set: function set(value) {
-      this.foundation_.setVerticalOrientation(value);
-    }
-    /** @return Array<!Element>*/
+  };
+  /**
+   * Used to figure out which element was clicked before sending the event to the foundation.
+   */
 
-  }, {
-    key: "listElements",
-    get: function get() {
-      return [].slice.call(this.root_.querySelectorAll(strings$1.ENABLED_ITEMS_SELECTOR));
-    }
-    /** @param {boolean} value */
 
-  }, {
-    key: "wrapFocus",
-    set: function set(value) {
-      this.foundation_.setWrapFocus(value);
-    }
-    /** @param {boolean} isSingleSelectionList */
+  MDCList.prototype.handleClickEvent_ = function (evt) {
+    var index = this.getListItemIndex_(evt);
+    var target = evt.target; // Toggle the checkbox only if it's not the target of the event, or the checkbox will have 2 change events.
 
-  }, {
-    key: "singleSelection",
-    set: function set(isSingleSelectionList) {
-      this.foundation_.setSingleSelection(isSingleSelectionList);
-    }
-    /** @return {!Index} */
-
-  }, {
-    key: "selectedIndex",
-    get: function get() {
-      return this.foundation_.getSelectedIndex();
-    }
-    /** @param {!Index} index */
-    ,
-    set: function set(index) {
-      this.foundation_.setSelectedIndex(index);
-    }
-  }], [{
-    key: "attachTo",
-    value: function attachTo(root) {
-      return new MDCList(root);
-    }
-  }]);
+    var toggleCheckbox = !matches(target, strings$1.CHECKBOX_RADIO_SELECTOR);
+    this.foundation_.handleClick(index, toggleCheckbox);
+  };
 
   return MDCList;
 }(MDCComponent);
+
+/**
+ * @license
+ * Copyright 2019 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 
 var candidateSelectors = ['input', 'select', 'textarea', 'a[href]', 'button', '[tabindex]', 'audio[controls]', 'video[controls]', '[contenteditable]:not([contenteditable="false"])'];
 var candidateSelector = candidateSelectors.join(',');

@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.44.0","material-components-web":"^0.44.0"}
+* @implements {"@material/tabs":"^1.0.0-0","material-components-web":"^1.0.0-0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -23,96 +23,65 @@ function BasePlugin(components) {
   };
 }
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
 /* global CustomEvent */
 
 var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+
+/* global Reflect, Promise */
+var _extendStatics = function extendStatics(d, b) {
+  _extendStatics = Object.setPrototypeOf || {
+    __proto__: []
+  } instanceof Array && function (d, b) {
+    d.__proto__ = b;
+  } || function (d, b) {
+    for (var p in b) {
+      if (b.hasOwnProperty(p)) d[p] = b[p];
+    }
+  };
+
+  return _extendStatics(d, b);
+};
+
+function __extends(d, b) {
+  _extendStatics(d, b);
+
+  function __() {
+    this.constructor = d;
+  }
+
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var _assign = function __assign() {
+  _assign = Object.assign || function __assign(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return _assign.apply(this, arguments);
+};
 
 /**
  * @license
@@ -136,74 +105,60 @@ var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/**
- * @template A
- */
 var MDCFoundation =
-/*#__PURE__*/
+/** @class */
 function () {
-  _createClass(MDCFoundation, null, [{
-    key: "cssClasses",
+  function MDCFoundation(adapter) {
+    if (adapter === void 0) {
+      adapter = {};
+    }
 
-    /** @return enum{cssClasses} */
+    this.adapter_ = adapter;
+  }
+
+  Object.defineProperty(MDCFoundation, "cssClasses", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports every
       // CSS class the foundation class needs as a property. e.g. {ACTIVE: 'mdc-component--active'}
       return {};
-    }
-    /** @return enum{strings} */
-
-  }, {
-    key: "strings",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "strings", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // semantic strings as constants. e.g. {ARIA_ROLE: 'tablist'}
       return {};
-    }
-    /** @return enum{numbers} */
-
-  }, {
-    key: "numbers",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "numbers", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // of its semantic numbers as constants. e.g. {ANIMATION_DELAY_MS: 350}
       return {};
-    }
-    /** @return {!Object} */
-
-  }, {
-    key: "defaultAdapter",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "defaultAdapter", {
     get: function get() {
       // Classes extending MDCFoundation may choose to implement this getter in order to provide a convenient
       // way of viewing the necessary methods of an adapter. In the future, this could also be used for adapter
       // validation.
       return {};
-    }
-    /**
-     * @param {A=} adapter
-     */
+    },
+    enumerable: true,
+    configurable: true
+  });
 
-  }]);
+  MDCFoundation.prototype.init = function () {// Subclasses should override this method to perform initialization routines (registering events, etc.)
+  };
 
-  function MDCFoundation() {
-    var adapter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    _classCallCheck(this, MDCFoundation);
-
-    /** @protected {!A} */
-    this.adapter_ = adapter;
-  }
-
-  _createClass(MDCFoundation, [{
-    key: "init",
-    value: function init() {// Subclasses should override this method to perform initialization routines (registering events, etc.)
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
-    }
-  }]);
+  MDCFoundation.prototype.destroy = function () {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
+  };
 
   return MDCFoundation;
 }();
@@ -230,69 +185,14 @@ function () {
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/* eslint no-unused-vars: [2, {"args": "none"}] */
-
-/**
- * Adapter for MDC Icon Button Toggle. Provides an interface for managing
- * - classes
- * - dom
- * - inner text
- * - event handlers
- * - event dispatch
- *
- * Additionally, provides type information for the adapter to the Closure
- * compiler.
- *
- * Implement this adapter for your framework of choice to delegate updates to
- * the component in your framework of choice. See architecture documentation
- * for more details.
- * https://github.com/material-components/material-components-web/blob/master/docs/code/architecture.md
- *
- * @record
- */
-var MDCIconButtonToggleAdapter =
-/*#__PURE__*/
-function () {
-  function MDCIconButtonToggleAdapter() {
-    _classCallCheck(this, MDCIconButtonToggleAdapter);
-  }
-
-  _createClass(MDCIconButtonToggleAdapter, [{
-    key: "addClass",
-
-    /** @param {string} className */
-    value: function addClass(className) {}
-    /** @param {string} className */
-
-  }, {
-    key: "removeClass",
-    value: function removeClass(className) {}
-    /**
-     * @param {string} className
-     * @return {boolean}
-     * */
-
-  }, {
-    key: "hasClass",
-    value: function hasClass(className) {}
-    /**
-     * @param {string} attrName
-     * @param {string} attrValue
-     */
-
-  }, {
-    key: "setAttr",
-    value: function setAttr(attrName, attrValue) {}
-    /** @param {!IconButtonToggleEvent} evtData */
-
-  }, {
-    key: "notifyChange",
-    value: function notifyChange(evtData) {}
-  }]);
-
-  return MDCIconButtonToggleAdapter;
-}();
+var cssClasses = {
+  ICON_BUTTON_ON: 'mdc-icon-button--on',
+  ROOT: 'mdc-icon-button'
+};
+var strings = {
+  ARIA_PRESSED: 'aria-pressed',
+  CHANGE_EVENT: 'MDCIconButtonToggle:change'
+};
 
 /**
  * @license
@@ -317,100 +217,81 @@ function () {
  * THE SOFTWARE.
  */
 
-/** @enum {string} */
-var cssClasses = {
-  ROOT: 'mdc-icon-button',
-  ICON_BUTTON_ON: 'mdc-icon-button--on'
-};
-/** @enum {string} */
-
-var strings = {
-  ARIA_PRESSED: 'aria-pressed',
-  CHANGE_EVENT: 'MDCIconButtonToggle:change'
-};
-
-/**
- * @extends {MDCFoundation<!MDCIconButtonToggleAdapter>}
- */
-
 var MDCIconButtonToggleFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCIconButtonToggleFoundation, _MDCFoundation);
-
-  _createClass(MDCIconButtonToggleFoundation, null, [{
-    key: "cssClasses",
-    get: function get() {
-      return cssClasses;
-    }
-  }, {
-    key: "strings",
-    get: function get() {
-      return strings;
-    }
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return {
-        addClass: function addClass() {},
-        removeClass: function removeClass() {},
-        hasClass: function hasClass() {},
-        setAttr: function setAttr() {},
-        notifyChange: function notifyChange() {}
-      };
-    }
-  }]);
+/** @class */
+function (_super) {
+  __extends(MDCIconButtonToggleFoundation, _super);
 
   function MDCIconButtonToggleFoundation(adapter) {
-    var _this;
-
-    _classCallCheck(this, MDCIconButtonToggleFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCIconButtonToggleFoundation).call(this, _extends(MDCIconButtonToggleFoundation.defaultAdapter, adapter)));
-    /** @private {boolean} */
-
-    _this.disabled_ = false;
-    return _this;
+    return _super.call(this, _assign({}, MDCIconButtonToggleFoundation.defaultAdapter, adapter)) || this;
   }
 
-  _createClass(MDCIconButtonToggleFoundation, [{
-    key: "init",
-    value: function init() {
-      this.adapter_.setAttr(strings.ARIA_PRESSED, "".concat(this.isOn()));
-    }
-  }, {
-    key: "handleClick",
-    value: function handleClick() {
-      this.toggle();
-      this.adapter_.notifyChange(
-      /** @type {!IconButtonToggleEvent} */
-      {
-        isOn: this.isOn()
-      });
-    }
-    /** @return {boolean} */
+  Object.defineProperty(MDCIconButtonToggleFoundation, "cssClasses", {
+    get: function get() {
+      return cssClasses;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCIconButtonToggleFoundation, "strings", {
+    get: function get() {
+      return strings;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCIconButtonToggleFoundation, "defaultAdapter", {
+    get: function get() {
+      return {
+        addClass: function addClass() {
+          return undefined;
+        },
+        hasClass: function hasClass() {
+          return false;
+        },
+        notifyChange: function notifyChange() {
+          return undefined;
+        },
+        removeClass: function removeClass() {
+          return undefined;
+        },
+        setAttr: function setAttr() {
+          return undefined;
+        }
+      };
+    },
+    enumerable: true,
+    configurable: true
+  });
 
-  }, {
-    key: "isOn",
-    value: function isOn() {
-      return this.adapter_.hasClass(cssClasses.ICON_BUTTON_ON);
+  MDCIconButtonToggleFoundation.prototype.init = function () {
+    this.adapter_.setAttr(strings.ARIA_PRESSED, "" + this.isOn());
+  };
+
+  MDCIconButtonToggleFoundation.prototype.handleClick = function () {
+    this.toggle();
+    this.adapter_.notifyChange({
+      isOn: this.isOn()
+    });
+  };
+
+  MDCIconButtonToggleFoundation.prototype.isOn = function () {
+    return this.adapter_.hasClass(cssClasses.ICON_BUTTON_ON);
+  };
+
+  MDCIconButtonToggleFoundation.prototype.toggle = function (isOn) {
+    if (isOn === void 0) {
+      isOn = !this.isOn();
     }
-    /** @param {boolean=} isOn */
 
-  }, {
-    key: "toggle",
-    value: function toggle() {
-      var isOn = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : !this.isOn();
-
-      if (isOn) {
-        this.adapter_.addClass(cssClasses.ICON_BUTTON_ON);
-      } else {
-        this.adapter_.removeClass(cssClasses.ICON_BUTTON_ON);
-      }
-
-      this.adapter_.setAttr(strings.ARIA_PRESSED, "".concat(isOn));
+    if (isOn) {
+      this.adapter_.addClass(cssClasses.ICON_BUTTON_ON);
+    } else {
+      this.adapter_.removeClass(cssClasses.ICON_BUTTON_ON);
     }
-  }]);
+
+    this.adapter_.setAttr(strings.ARIA_PRESSED, "" + isOn);
+  };
 
   return MDCIconButtonToggleFoundation;
 }(MDCFoundation);

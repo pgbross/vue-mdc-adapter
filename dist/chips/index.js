@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.44.0","material-components-web":"^0.44.0"}
+* @implements {"@material/tabs":"^1.0.0-0","material-components-web":"^1.0.0-0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -21,28 +21,6 @@ function BasePlugin(components) {
     },
     components: components
   };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
 }
 
 function _defineProperty(obj, key, value) {
@@ -76,53 +54,6 @@ function _extends() {
   };
 
   return _extends.apply(this, arguments);
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
 }
 
 var CustomLink = {
@@ -206,6 +137,62 @@ function emitCustomEvent(el, evtType, evtData) {
 
 var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
 
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+
+/* global Reflect, Promise */
+var _extendStatics = function extendStatics(d, b) {
+  _extendStatics = Object.setPrototypeOf || {
+    __proto__: []
+  } instanceof Array && function (d, b) {
+    d.__proto__ = b;
+  } || function (d, b) {
+    for (var p in b) {
+      if (b.hasOwnProperty(p)) d[p] = b[p];
+    }
+  };
+
+  return _extendStatics(d, b);
+};
+
+function __extends(d, b) {
+  _extendStatics(d, b);
+
+  function __() {
+    this.constructor = d;
+  }
+
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var _assign = function __assign() {
+  _assign = Object.assign || function __assign(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return _assign.apply(this, arguments);
+};
+
 /**
  * @license
  * Copyright 2016 Google Inc.
@@ -228,81 +215,67 @@ var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/**
- * @template A
- */
 var MDCFoundation =
-/*#__PURE__*/
+/** @class */
 function () {
-  _createClass(MDCFoundation, null, [{
-    key: "cssClasses",
+  function MDCFoundation(adapter) {
+    if (adapter === void 0) {
+      adapter = {};
+    }
 
-    /** @return enum{cssClasses} */
+    this.adapter_ = adapter;
+  }
+
+  Object.defineProperty(MDCFoundation, "cssClasses", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports every
       // CSS class the foundation class needs as a property. e.g. {ACTIVE: 'mdc-component--active'}
       return {};
-    }
-    /** @return enum{strings} */
-
-  }, {
-    key: "strings",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "strings", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // semantic strings as constants. e.g. {ARIA_ROLE: 'tablist'}
       return {};
-    }
-    /** @return enum{numbers} */
-
-  }, {
-    key: "numbers",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "numbers", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // of its semantic numbers as constants. e.g. {ANIMATION_DELAY_MS: 350}
       return {};
-    }
-    /** @return {!Object} */
-
-  }, {
-    key: "defaultAdapter",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "defaultAdapter", {
     get: function get() {
       // Classes extending MDCFoundation may choose to implement this getter in order to provide a convenient
       // way of viewing the necessary methods of an adapter. In the future, this could also be used for adapter
       // validation.
       return {};
-    }
-    /**
-     * @param {A=} adapter
-     */
+    },
+    enumerable: true,
+    configurable: true
+  });
 
-  }]);
+  MDCFoundation.prototype.init = function () {// Subclasses should override this method to perform initialization routines (registering events, etc.)
+  };
 
-  function MDCFoundation() {
-    var adapter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    _classCallCheck(this, MDCFoundation);
-
-    /** @protected {!A} */
-    this.adapter_ = adapter;
-  }
-
-  _createClass(MDCFoundation, [{
-    key: "init",
-    value: function init() {// Subclasses should override this method to perform initialization routines (registering events, etc.)
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
-    }
-  }]);
+  MDCFoundation.prototype.destroy = function () {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
+  };
 
   return MDCFoundation;
 }();
 
 /**
  * @license
- * Copyright 2017 Google Inc.
+ * Copyright 2016 Google Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -322,154 +295,24 @@ function () {
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/* eslint no-unused-vars: [2, {"args": "none"}] */
-
-/**
- * Adapter for MDC Chip.
- *
- * Defines the shape of the adapter expected by the foundation. Implement this
- * adapter to integrate the Chip into your framework. See
- * https://github.com/material-components/material-components-web/blob/master/docs/authoring-components.md
- * for more information.
- *
- * @record
- */
-var MDCChipAdapter =
-/*#__PURE__*/
-function () {
-  function MDCChipAdapter() {
-    _classCallCheck(this, MDCChipAdapter);
-  }
-
-  _createClass(MDCChipAdapter, [{
-    key: "addClass",
-
-    /**
-     * Adds a class to the root element.
-     * @param {string} className
-     */
-    value: function addClass(className) {}
-    /**
-     * Removes a class from the root element.
-     * @param {string} className
-     */
-
-  }, {
-    key: "removeClass",
-    value: function removeClass(className) {}
-    /**
-     * Returns true if the root element contains the given class.
-     * @param {string} className
-     * @return {boolean}
-     */
-
-  }, {
-    key: "hasClass",
-    value: function hasClass(className) {}
-    /**
-     * Adds a class to the leading icon element.
-     * @param {string} className
-     */
-
-  }, {
-    key: "addClassToLeadingIcon",
-    value: function addClassToLeadingIcon(className) {}
-    /**
-     * Removes a class from the leading icon element.
-     * @param {string} className
-     */
-
-  }, {
-    key: "removeClassFromLeadingIcon",
-    value: function removeClassFromLeadingIcon(className) {}
-    /**
-     * Returns true if target has className, false otherwise.
-     * @param {!EventTarget} target
-     * @param {string} className
-     * @return {boolean}
-     */
-
-  }, {
-    key: "eventTargetHasClass",
-    value: function eventTargetHasClass(target, className) {}
-    /**
-     * Emits a custom "MDCChip:interaction" event denoting the chip has been
-     * interacted with (typically on click or keydown).
-     */
-
-  }, {
-    key: "notifyInteraction",
-    value: function notifyInteraction() {}
-    /**
-     * Emits a custom "MDCChip:selection" event denoting the chip has been selected or deselected.
-     * @param {boolean} selected
-     */
-
-  }, {
-    key: "notifySelection",
-    value: function notifySelection(selected) {}
-    /**
-     * Emits a custom "MDCChip:trailingIconInteraction" event denoting the trailing icon has been
-     * interacted with (typically on click or keydown).
-     */
-
-  }, {
-    key: "notifyTrailingIconInteraction",
-    value: function notifyTrailingIconInteraction() {}
-    /**
-     * Emits a custom event "MDCChip:removal" denoting the chip will be removed.
-     */
-
-  }, {
-    key: "notifyRemoval",
-    value: function notifyRemoval() {}
-    /**
-     * Returns the computed property value of the given style property on the root element.
-     * @param {string} propertyName
-     * @return {string}
-     */
-
-  }, {
-    key: "getComputedStyleValue",
-    value: function getComputedStyleValue(propertyName) {}
-    /**
-     * Sets the property value of the given style property on the root element.
-     * @param {string} propertyName
-     * @param {string} value
-     */
-
-  }, {
-    key: "setStyleProperty",
-    value: function setStyleProperty(propertyName, value) {}
-    /**
-     * Returns whether the chip has a leading icon.
-     * @return {boolean}
-     */
-
-  }, {
-    key: "hasLeadingIcon",
-    value: function hasLeadingIcon() {}
-    /**
-     * Returns the bounding client rect of the root element.
-     * @return {!ClientRect}
-     */
-
-  }, {
-    key: "getRootBoundingClientRect",
-    value: function getRootBoundingClientRect() {}
-    /**
-     * Returns the bounding client rect of the checkmark element or null if it doesn't exist.
-     * @return {?ClientRect}
-     */
-
-  }, {
-    key: "getCheckmarkBoundingClientRect",
-    value: function getCheckmarkBoundingClientRect() {}
-  }]);
-
-  return MDCChipAdapter;
-}();
+var strings = {
+  CHECKMARK_SELECTOR: '.mdc-chip__checkmark',
+  ENTRY_ANIMATION_NAME: 'mdc-chip-entry',
+  INTERACTION_EVENT: 'MDCChip:interaction',
+  LEADING_ICON_SELECTOR: '.mdc-chip__icon--leading',
+  REMOVAL_EVENT: 'MDCChip:removal',
+  SELECTION_EVENT: 'MDCChip:selection',
+  TRAILING_ICON_INTERACTION_EVENT: 'MDCChip:trailingIconInteraction',
+  TRAILING_ICON_SELECTOR: '.mdc-chip__icon--trailing'
+};
+var cssClasses = {
+  CHECKMARK: 'mdc-chip__checkmark',
+  CHIP_EXIT: 'mdc-chip--exit',
+  HIDDEN_LEADING_ICON: 'mdc-chip__icon--leading-hidden',
+  LEADING_ICON: 'mdc-chip__icon--leading',
+  SELECTED: 'mdc-chip--selected',
+  TRAILING_ICON: 'mdc-chip__icon--trailing'
+};
 
 /**
  * @license
@@ -493,264 +336,239 @@ function () {
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/** @enum {string} */
-var strings = {
-  ENTRY_ANIMATION_NAME: 'mdc-chip-entry',
-  INTERACTION_EVENT: 'MDCChip:interaction',
-  SELECTION_EVENT: 'MDCChip:selection',
-  TRAILING_ICON_INTERACTION_EVENT: 'MDCChip:trailingIconInteraction',
-  REMOVAL_EVENT: 'MDCChip:removal',
-  CHECKMARK_SELECTOR: '.mdc-chip__checkmark',
-  LEADING_ICON_SELECTOR: '.mdc-chip__icon--leading',
-  TRAILING_ICON_SELECTOR: '.mdc-chip__icon--trailing'
+var emptyClientRect = {
+  bottom: 0,
+  height: 0,
+  left: 0,
+  right: 0,
+  top: 0,
+  width: 0
 };
-/** @enum {string} */
-
-var cssClasses = {
-  CHECKMARK: 'mdc-chip__checkmark',
-  CHIP_EXIT: 'mdc-chip--exit',
-  HIDDEN_LEADING_ICON: 'mdc-chip__icon--leading-hidden',
-  LEADING_ICON: 'mdc-chip__icon--leading',
-  TRAILING_ICON: 'mdc-chip__icon--trailing',
-  SELECTED: 'mdc-chip--selected'
-};
-
-/**
- * @extends {MDCFoundation<!MDCChipAdapter>}
- * @final
- */
 
 var MDCChipFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCChipFoundation, _MDCFoundation);
-
-  _createClass(MDCChipFoundation, null, [{
-    key: "strings",
-
-    /** @return enum {string} */
-    get: function get() {
-      return strings;
-    }
-    /** @return enum {string} */
-
-  }, {
-    key: "cssClasses",
-    get: function get() {
-      return cssClasses;
-    }
-    /**
-     * {@see MDCChipAdapter} for typing information on parameters and return
-     * types.
-     * @return {!MDCChipAdapter}
-     */
-
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCChipAdapter} */
-        {
-          addClass: function addClass() {},
-          removeClass: function removeClass() {},
-          hasClass: function hasClass() {},
-          addClassToLeadingIcon: function addClassToLeadingIcon() {},
-          removeClassFromLeadingIcon: function removeClassFromLeadingIcon() {},
-          eventTargetHasClass: function eventTargetHasClass() {},
-          notifyInteraction: function notifyInteraction() {},
-          notifySelection: function notifySelection() {},
-          notifyTrailingIconInteraction: function notifyTrailingIconInteraction() {},
-          notifyRemoval: function notifyRemoval() {},
-          getComputedStyleValue: function getComputedStyleValue() {},
-          setStyleProperty: function setStyleProperty() {},
-          hasLeadingIcon: function hasLeadingIcon() {},
-          getRootBoundingClientRect: function getRootBoundingClientRect() {},
-          getCheckmarkBoundingClientRect: function getCheckmarkBoundingClientRect() {}
-        }
-      );
-    }
-    /**
-     * @param {!MDCChipAdapter} adapter
-     */
-
-  }]);
+/** @class */
+function (_super) {
+  __extends(MDCChipFoundation, _super);
 
   function MDCChipFoundation(adapter) {
-    var _this;
-
-    _classCallCheck(this, MDCChipFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCChipFoundation).call(this, _extends(MDCChipFoundation.defaultAdapter, adapter)));
+    var _this = _super.call(this, _assign({}, MDCChipFoundation.defaultAdapter, adapter)) || this;
     /**
      * Whether a trailing icon click should immediately trigger exit/removal of the chip.
-     * @private {boolean}
-     * */
+     */
+
 
     _this.shouldRemoveOnTrailingIconClick_ = true;
     return _this;
   }
+
+  Object.defineProperty(MDCChipFoundation, "strings", {
+    get: function get() {
+      return strings;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCChipFoundation, "cssClasses", {
+    get: function get() {
+      return cssClasses;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCChipFoundation, "defaultAdapter", {
+    get: function get() {
+      return {
+        addClass: function addClass() {
+          return undefined;
+        },
+        addClassToLeadingIcon: function addClassToLeadingIcon() {
+          return undefined;
+        },
+        eventTargetHasClass: function eventTargetHasClass() {
+          return false;
+        },
+        getCheckmarkBoundingClientRect: function getCheckmarkBoundingClientRect() {
+          return emptyClientRect;
+        },
+        getComputedStyleValue: function getComputedStyleValue() {
+          return '';
+        },
+        getRootBoundingClientRect: function getRootBoundingClientRect() {
+          return emptyClientRect;
+        },
+        hasClass: function hasClass() {
+          return false;
+        },
+        hasLeadingIcon: function hasLeadingIcon() {
+          return false;
+        },
+        notifyInteraction: function notifyInteraction() {
+          return undefined;
+        },
+        notifyRemoval: function notifyRemoval() {
+          return undefined;
+        },
+        notifySelection: function notifySelection() {
+          return undefined;
+        },
+        notifyTrailingIconInteraction: function notifyTrailingIconInteraction() {
+          return undefined;
+        },
+        removeClass: function removeClass() {
+          return undefined;
+        },
+        removeClassFromLeadingIcon: function removeClassFromLeadingIcon() {
+          return undefined;
+        },
+        setStyleProperty: function setStyleProperty() {
+          return undefined;
+        }
+      };
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  MDCChipFoundation.prototype.isSelected = function () {
+    return this.adapter_.hasClass(cssClasses.SELECTED);
+  };
+
+  MDCChipFoundation.prototype.setSelected = function (selected) {
+    if (selected) {
+      this.adapter_.addClass(cssClasses.SELECTED);
+    } else {
+      this.adapter_.removeClass(cssClasses.SELECTED);
+    }
+
+    this.adapter_.notifySelection(selected);
+  };
+
+  MDCChipFoundation.prototype.getShouldRemoveOnTrailingIconClick = function () {
+    return this.shouldRemoveOnTrailingIconClick_;
+  };
+
+  MDCChipFoundation.prototype.setShouldRemoveOnTrailingIconClick = function (shouldRemove) {
+    this.shouldRemoveOnTrailingIconClick_ = shouldRemove;
+  };
+
+  MDCChipFoundation.prototype.getDimensions = function () {
+    var _this = this;
+
+    var getRootRect = function getRootRect() {
+      return _this.adapter_.getRootBoundingClientRect();
+    };
+
+    var getCheckmarkRect = function getCheckmarkRect() {
+      return _this.adapter_.getCheckmarkBoundingClientRect();
+    }; // When a chip has a checkmark and not a leading icon, the bounding rect changes in size depending on the current
+    // size of the checkmark.
+
+
+    if (!this.adapter_.hasLeadingIcon()) {
+      var checkmarkRect = getCheckmarkRect();
+
+      if (checkmarkRect) {
+        var rootRect = getRootRect();
+        var height = rootRect.height; // Checkmark is a square, meaning the client rect's width and height are identical once the animation completes.
+        // However, the checkbox is initially hidden by setting the width to 0.
+        // To account for an initial width of 0, we use the checkbox's height instead (which equals the end-state width)
+        // when adding it to the root client rect's width.
+
+        var checkmarkWidth = checkmarkRect.height;
+        var width = rootRect.width + checkmarkWidth;
+        return _assign({}, rootRect, {
+          width: width,
+          height: height
+        });
+      }
+    }
+
+    return getRootRect();
+  };
   /**
-   * @return {boolean}
+   * Begins the exit animation which leads to removal of the chip.
    */
 
 
-  _createClass(MDCChipFoundation, [{
-    key: "isSelected",
-    value: function isSelected() {
-      return this.adapter_.hasClass(cssClasses.SELECTED);
+  MDCChipFoundation.prototype.beginExit = function () {
+    this.adapter_.addClass(cssClasses.CHIP_EXIT);
+  };
+  /**
+   * Handles an interaction event on the root element.
+   */
+
+
+  MDCChipFoundation.prototype.handleInteraction = function (evt) {
+    var isEnter = evt.key === 'Enter' || evt.keyCode === 13;
+
+    if (evt.type === 'click' || isEnter) {
+      this.adapter_.notifyInteraction();
     }
-    /**
-     * @param {boolean} selected
-     */
+  };
+  /**
+   * Handles a transition end event on the root element.
+   */
 
-  }, {
-    key: "setSelected",
-    value: function setSelected(selected) {
-      if (selected) {
-        this.adapter_.addClass(cssClasses.SELECTED);
-      } else {
-        this.adapter_.removeClass(cssClasses.SELECTED);
-      }
 
-      this.adapter_.notifySelection(selected);
-    }
-    /**
-     * @return {boolean}
-     */
+  MDCChipFoundation.prototype.handleTransitionEnd = function (evt) {
+    var _this = this; // Handle transition end event on the chip when it is about to be removed.
 
-  }, {
-    key: "getShouldRemoveOnTrailingIconClick",
-    value: function getShouldRemoveOnTrailingIconClick() {
-      return this.shouldRemoveOnTrailingIconClick_;
-    }
-    /**
-     * @param {boolean} shouldRemove
-     */
 
-  }, {
-    key: "setShouldRemoveOnTrailingIconClick",
-    value: function setShouldRemoveOnTrailingIconClick(shouldRemove) {
-      this.shouldRemoveOnTrailingIconClick_ = shouldRemove;
-    }
-    /** @return {!ClientRect} */
+    if (this.adapter_.eventTargetHasClass(evt.target, cssClasses.CHIP_EXIT)) {
+      if (evt.propertyName === 'width') {
+        this.adapter_.notifyRemoval();
+      } else if (evt.propertyName === 'opacity') {
+        // See: https://css-tricks.com/using-css-transitions-auto-dimensions/#article-header-id-5
+        var chipWidth_1 = this.adapter_.getComputedStyleValue('width'); // On the next frame (once we get the computed width), explicitly set the chip's width
+        // to its current pixel width, so we aren't transitioning out of 'auto'.
 
-  }, {
-    key: "getDimensions",
-    value: function getDimensions() {
-      // When a chip has a checkmark and not a leading icon, the bounding rect changes in size depending on the current
-      // size of the checkmark.
-      if (!this.adapter_.hasLeadingIcon() && this.adapter_.getCheckmarkBoundingClientRect() !== null) {
-        var height = this.adapter_.getRootBoundingClientRect().height; // The checkmark's width is initially set to 0, so use the checkmark's height as a proxy since the checkmark
-        // should always be square.
+        requestAnimationFrame(function () {
+          _this.adapter_.setStyleProperty('width', chipWidth_1); // To mitigate jitter, start transitioning padding and margin before width.
 
-        var width = this.adapter_.getRootBoundingClientRect().width + this.adapter_.getCheckmarkBoundingClientRect().height;
-        return (
-          /** @type {!ClientRect} */
-          {
-            height: height,
-            width: width
-          }
-        );
-      } else {
-        return this.adapter_.getRootBoundingClientRect();
-      }
-    }
-    /**
-     * Begins the exit animation which leads to removal of the chip.
-     */
 
-  }, {
-    key: "beginExit",
-    value: function beginExit() {
-      this.adapter_.addClass(cssClasses.CHIP_EXIT);
-    }
-    /**
-     * Handles an interaction event on the root element.
-     * @param {!Event} evt
-     */
+          _this.adapter_.setStyleProperty('padding', '0');
 
-  }, {
-    key: "handleInteraction",
-    value: function handleInteraction(evt) {
-      if (evt.type === 'click' || evt.key === 'Enter' || evt.keyCode === 13) {
-        this.adapter_.notifyInteraction();
-      }
-    }
-    /**
-     * Handles a transition end event on the root element.
-     * @param {!Event} evt
-     */
+          _this.adapter_.setStyleProperty('margin', '0'); // On the next frame (once width is explicitly set), transition width to 0.
 
-  }, {
-    key: "handleTransitionEnd",
-    value: function handleTransitionEnd(evt) {
-      var _this2 = this;
-
-      // Handle transition end event on the chip when it is about to be removed.
-      if (this.adapter_.eventTargetHasClass(
-      /** @type {!EventTarget} */
-      evt.target, cssClasses.CHIP_EXIT)) {
-        if (evt.propertyName === 'width') {
-          this.adapter_.notifyRemoval();
-        } else if (evt.propertyName === 'opacity') {
-          // See: https://css-tricks.com/using-css-transitions-auto-dimensions/#article-header-id-5
-          var chipWidth = this.adapter_.getComputedStyleValue('width'); // On the next frame (once we get the computed width), explicitly set the chip's width
-          // to its current pixel width, so we aren't transitioning out of 'auto'.
 
           requestAnimationFrame(function () {
-            _this2.adapter_.setStyleProperty('width', chipWidth); // To mitigate jitter, start transitioning padding and margin before width.
-
-
-            _this2.adapter_.setStyleProperty('padding', '0');
-
-            _this2.adapter_.setStyleProperty('margin', '0'); // On the next frame (once width is explicitly set), transition width to 0.
-
-
-            requestAnimationFrame(function () {
-              _this2.adapter_.setStyleProperty('width', '0');
-            });
+            _this.adapter_.setStyleProperty('width', '0');
           });
-        }
-
-        return;
-      } // Handle a transition end event on the leading icon or checkmark, since the transition end event bubbles.
-
-
-      if (evt.propertyName !== 'opacity') {
-        return;
+        });
       }
 
-      if (this.adapter_.eventTargetHasClass(
-      /** @type {!EventTarget} */
-      evt.target, cssClasses.LEADING_ICON) && this.adapter_.hasClass(cssClasses.SELECTED)) {
-        this.adapter_.addClassToLeadingIcon(cssClasses.HIDDEN_LEADING_ICON);
-      } else if (this.adapter_.eventTargetHasClass(
-      /** @type {!EventTarget} */
-      evt.target, cssClasses.CHECKMARK) && !this.adapter_.hasClass(cssClasses.SELECTED)) {
-        this.adapter_.removeClassFromLeadingIcon(cssClasses.HIDDEN_LEADING_ICON);
+      return;
+    } // Handle a transition end event on the leading icon or checkmark, since the transition end event bubbles.
+
+
+    if (evt.propertyName !== 'opacity') {
+      return;
+    }
+
+    if (this.adapter_.eventTargetHasClass(evt.target, cssClasses.LEADING_ICON) && this.adapter_.hasClass(cssClasses.SELECTED)) {
+      this.adapter_.addClassToLeadingIcon(cssClasses.HIDDEN_LEADING_ICON);
+    } else if (this.adapter_.eventTargetHasClass(evt.target, cssClasses.CHECKMARK) && !this.adapter_.hasClass(cssClasses.SELECTED)) {
+      this.adapter_.removeClassFromLeadingIcon(cssClasses.HIDDEN_LEADING_ICON);
+    }
+  };
+  /**
+   * Handles an interaction event on the trailing icon element. This is used to
+   * prevent the ripple from activating on interaction with the trailing icon.
+   */
+
+
+  MDCChipFoundation.prototype.handleTrailingIconInteraction = function (evt) {
+    var isEnter = evt.key === 'Enter' || evt.keyCode === 13;
+    evt.stopPropagation();
+
+    if (evt.type === 'click' || isEnter) {
+      this.adapter_.notifyTrailingIconInteraction();
+
+      if (this.shouldRemoveOnTrailingIconClick_) {
+        this.beginExit();
       }
     }
-    /**
-     * Handles an interaction event on the trailing icon element. This is used to
-     * prevent the ripple from activating on interaction with the trailing icon.
-     * @param {!Event} evt
-     */
-
-  }, {
-    key: "handleTrailingIconInteraction",
-    value: function handleTrailingIconInteraction(evt) {
-      evt.stopPropagation();
-
-      if (evt.type === 'click' || evt.key === 'Enter' || evt.keyCode === 13) {
-        this.adapter_.notifyTrailingIconInteraction();
-
-        if (this.shouldRemoveOnTrailingIconClick_) {
-          this.beginExit();
-        }
-      }
-    }
-  }]);
+  };
 
   return MDCChipFoundation;
 }(MDCFoundation);
@@ -1100,6 +918,36 @@ __vue_render__._withStripped = true;
 
 /**
  * @license
+ * Copyright 2016 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+var strings$1 = {
+  CHIP_SELECTOR: '.mdc-chip'
+};
+var cssClasses$1 = {
+  CHOICE: 'mdc-chip-set--choice',
+  FILTER: 'mdc-chip-set--filter'
+};
+
+/**
+ * @license
  * Copyright 2017 Google Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -1121,256 +969,137 @@ __vue_render__._withStripped = true;
  * THE SOFTWARE.
  */
 
-/* eslint no-unused-vars: [2, {"args": "none"}] */
-
-/**
- * Adapter for MDC Chip Set.
- *
- * Defines the shape of the adapter expected by the foundation. Implement this
- * adapter to integrate the Chip Set into your framework. See
- * https://github.com/material-components/material-components-web/blob/master/docs/authoring-components.md
- * for more information.
- *
- * @record
- */
-var MDCChipSetAdapter =
-/*#__PURE__*/
-function () {
-  function MDCChipSetAdapter() {
-    _classCallCheck(this, MDCChipSetAdapter);
-  }
-
-  _createClass(MDCChipSetAdapter, [{
-    key: "hasClass",
-
-    /**
-     * Returns true if the root element contains the given class name.
-     * @param {string} className
-     * @return {boolean}
-     */
-    value: function hasClass(className) {}
-    /**
-     * Removes the chip with the given id from the chip set.
-     * @param {string} chipId
-     */
-
-  }, {
-    key: "removeChip",
-    value: function removeChip(chipId) {}
-    /**
-     * Sets the selected state of the chip with the given id.
-     * @param {string} chipId
-     * @param {boolean} selected
-     */
-
-  }, {
-    key: "setSelected",
-    value: function setSelected(chipId, selected) {}
-  }]);
-
-  return MDCChipSetAdapter;
-}();
-
-/**
- * @license
- * Copyright 2016 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/** @enum {string} */
-var strings$1 = {
-  CHIP_SELECTOR: '.mdc-chip'
-};
-/** @enum {string} */
-
-var cssClasses$1 = {
-  CHOICE: 'mdc-chip-set--choice',
-  FILTER: 'mdc-chip-set--filter'
-};
-
-/**
- * @extends {MDCFoundation<!MDCChipSetAdapter>}
- * @final
- */
-
 var MDCChipSetFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCChipSetFoundation, _MDCFoundation);
-
-  _createClass(MDCChipSetFoundation, null, [{
-    key: "strings",
-
-    /** @return enum {string} */
-    get: function get() {
-      return strings$1;
-    }
-    /** @return enum {string} */
-
-  }, {
-    key: "cssClasses",
-    get: function get() {
-      return cssClasses$1;
-    }
-    /**
-     * {@see MDCChipSetAdapter} for typing information on parameters and return
-     * types.
-     * @return {!MDCChipSetAdapter}
-     */
-
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCChipSetAdapter} */
-        {
-          hasClass: function hasClass() {},
-          removeChip: function removeChip() {},
-          setSelected: function setSelected() {}
-        }
-      );
-    }
-    /**
-     * @param {!MDCChipSetAdapter} adapter
-     */
-
-  }]);
+/** @class */
+function (_super) {
+  __extends(MDCChipSetFoundation, _super);
 
   function MDCChipSetFoundation(adapter) {
-    var _this;
-
-    _classCallCheck(this, MDCChipSetFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCChipSetFoundation).call(this, _extends(MDCChipSetFoundation.defaultAdapter, adapter)));
+    var _this = _super.call(this, _assign({}, MDCChipSetFoundation.defaultAdapter, adapter)) || this;
     /**
      * The ids of the selected chips in the set. Only used for choice chip set or filter chip set.
-     * @private {!Array<string>}
      */
+
 
     _this.selectedChipIds_ = [];
     return _this;
   }
+
+  Object.defineProperty(MDCChipSetFoundation, "strings", {
+    get: function get() {
+      return strings$1;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCChipSetFoundation, "cssClasses", {
+    get: function get() {
+      return cssClasses$1;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCChipSetFoundation, "defaultAdapter", {
+    get: function get() {
+      return {
+        hasClass: function hasClass() {
+          return false;
+        },
+        removeChip: function removeChip() {
+          return undefined;
+        },
+        setSelected: function setSelected() {
+          return undefined;
+        }
+      };
+    },
+    enumerable: true,
+    configurable: true
+  });
   /**
    * Returns an array of the IDs of all selected chips.
-   * @return {!Array<string>}
+   */
+
+  MDCChipSetFoundation.prototype.getSelectedChipIds = function () {
+    return this.selectedChipIds_.slice();
+  };
+  /**
+   * Selects the chip with the given id. Deselects all other chips if the chip set is of the choice variant.
    */
 
 
-  _createClass(MDCChipSetFoundation, [{
-    key: "getSelectedChipIds",
-    value: function getSelectedChipIds() {
-      return this.selectedChipIds_;
+  MDCChipSetFoundation.prototype.select = function (chipId) {
+    if (this.selectedChipIds_.indexOf(chipId) >= 0) {
+      return;
     }
-    /**
-     * Toggles selection of the chip with the given id.
-     * @private
-     * @param {string} chipId
-     */
 
-  }, {
-    key: "toggleSelect_",
-    value: function toggleSelect_(chipId) {
-      if (this.selectedChipIds_.indexOf(chipId) >= 0) {
-        this.deselect_(chipId);
-      } else {
-        this.select(chipId);
-      }
+    if (this.adapter_.hasClass(cssClasses$1.CHOICE) && this.selectedChipIds_.length > 0) {
+      var previouslySelectedChip = this.selectedChipIds_[0];
+      this.selectedChipIds_.length = 0;
+      this.adapter_.setSelected(previouslySelectedChip, false);
     }
-    /**
-     * Selects the chip with the given id. Deselects all other chips if the chip set is of the choice variant.
-     * @param {string} chipId
-     */
 
-  }, {
-    key: "select",
-    value: function select(chipId) {
-      if (this.selectedChipIds_.indexOf(chipId) >= 0) {
-        return;
-      }
+    this.selectedChipIds_.push(chipId);
+    this.adapter_.setSelected(chipId, true);
+  };
+  /**
+   * Handles a chip interaction event
+   */
 
-      if (this.adapter_.hasClass(cssClasses$1.CHOICE) && this.selectedChipIds_.length > 0) {
-        var previouslySelectedChip = this.selectedChipIds_[0];
-        this.selectedChipIds_.length = 0;
-        this.adapter_.setSelected(previouslySelectedChip, false);
-      }
 
-      this.selectedChipIds_.push(chipId);
-      this.adapter_.setSelected(chipId, true);
+  MDCChipSetFoundation.prototype.handleChipInteraction = function (chipId) {
+    if (this.adapter_.hasClass(cssClasses$1.CHOICE) || this.adapter_.hasClass(cssClasses$1.FILTER)) {
+      this.toggleSelect_(chipId);
     }
-    /**
-     * Deselects the chip with the given id.
-     * @private
-     * @param {string} chipId
-     */
+  };
+  /**
+   * Handles a chip selection event, used to handle discrepancy when selection state is set directly on the Chip.
+   */
 
-  }, {
-    key: "deselect_",
-    value: function deselect_(chipId) {
-      var index = this.selectedChipIds_.indexOf(chipId);
 
-      if (index >= 0) {
-        this.selectedChipIds_.splice(index, 1);
-        this.adapter_.setSelected(chipId, false);
-      }
-    }
-    /**
-     * Handles a chip interaction event
-     * @param {string} chipId
-     */
+  MDCChipSetFoundation.prototype.handleChipSelection = function (chipId, selected) {
+    var chipIsSelected = this.selectedChipIds_.indexOf(chipId) >= 0;
 
-  }, {
-    key: "handleChipInteraction",
-    value: function handleChipInteraction(chipId) {
-      if (this.adapter_.hasClass(cssClasses$1.CHOICE) || this.adapter_.hasClass(cssClasses$1.FILTER)) {
-        this.toggleSelect_(chipId);
-      }
-    }
-    /**
-     * Handles a chip selection event, used to handle discrepancy when selection state is set directly on the Chip.
-     * @param {string} chipId
-     * @param {boolean} selected
-     */
-
-  }, {
-    key: "handleChipSelection",
-    value: function handleChipSelection(chipId, selected) {
-      var chipIsSelected = this.selectedChipIds_.indexOf(chipId) >= 0;
-
-      if (selected && !chipIsSelected) {
-        this.select(chipId);
-      } else if (!selected && chipIsSelected) {
-        this.deselect_(chipId);
-      }
-    }
-    /**
-     * Handles the event when a chip is removed.
-     * @param {string} chipId
-     */
-
-  }, {
-    key: "handleChipRemoval",
-    value: function handleChipRemoval(chipId) {
+    if (selected && !chipIsSelected) {
+      this.select(chipId);
+    } else if (!selected && chipIsSelected) {
       this.deselect_(chipId);
-      this.adapter_.removeChip(chipId);
     }
-  }]);
+  };
+  /**
+   * Handles the event when a chip is removed.
+   */
+
+
+  MDCChipSetFoundation.prototype.handleChipRemoval = function (chipId) {
+    this.deselect_(chipId);
+    this.adapter_.removeChip(chipId);
+  };
+  /**
+   * Deselects the chip with the given id.
+   */
+
+
+  MDCChipSetFoundation.prototype.deselect_ = function (chipId) {
+    var index = this.selectedChipIds_.indexOf(chipId);
+
+    if (index >= 0) {
+      this.selectedChipIds_.splice(index, 1);
+      this.adapter_.setSelected(chipId, false);
+    }
+  };
+  /**
+   * Toggles selection of the chip with the given id.
+   */
+
+
+  MDCChipSetFoundation.prototype.toggleSelect_ = function (chipId) {
+    if (this.selectedChipIds_.indexOf(chipId) >= 0) {
+      this.deselect_(chipId);
+    } else {
+      this.select(chipId);
+    }
+  };
 
   return MDCChipSetFoundation;
 }(MDCFoundation);

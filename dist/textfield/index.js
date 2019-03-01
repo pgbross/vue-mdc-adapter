@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.44.0","material-components-web":"^0.44.0"}
+* @implements {"@material/tabs":"^1.0.0-0","material-components-web":"^1.0.0-0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -82,28 +82,6 @@ function _typeof(obj) {
   return _typeof(obj);
 }
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
 function _extends() {
   _extends = Object.assign || function (target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -120,53 +98,6 @@ function _extends() {
   };
 
   return _extends.apply(this, arguments);
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
 }
 
 /* global CustomEvent */
@@ -247,6 +178,62 @@ var VMAUniqueIdMixin = {
   }
 };
 
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+
+/* global Reflect, Promise */
+var _extendStatics = function extendStatics(d, b) {
+  _extendStatics = Object.setPrototypeOf || {
+    __proto__: []
+  } instanceof Array && function (d, b) {
+    d.__proto__ = b;
+  } || function (d, b) {
+    for (var p in b) {
+      if (b.hasOwnProperty(p)) d[p] = b[p];
+    }
+  };
+
+  return _extendStatics(d, b);
+};
+
+function __extends(d, b) {
+  _extendStatics(d, b);
+
+  function __() {
+    this.constructor = d;
+  }
+
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var _assign = function __assign() {
+  _assign = Object.assign || function __assign(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return _assign.apply(this, arguments);
+};
+
 /**
  * @license
  * Copyright 2016 Google Inc.
@@ -269,177 +256,66 @@ var VMAUniqueIdMixin = {
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/**
- * @template A
- */
 var MDCFoundation =
-/*#__PURE__*/
+/** @class */
 function () {
-  _createClass(MDCFoundation, null, [{
-    key: "cssClasses",
+  function MDCFoundation(adapter) {
+    if (adapter === void 0) {
+      adapter = {};
+    }
 
-    /** @return enum{cssClasses} */
+    this.adapter_ = adapter;
+  }
+
+  Object.defineProperty(MDCFoundation, "cssClasses", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports every
       // CSS class the foundation class needs as a property. e.g. {ACTIVE: 'mdc-component--active'}
       return {};
-    }
-    /** @return enum{strings} */
-
-  }, {
-    key: "strings",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "strings", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // semantic strings as constants. e.g. {ARIA_ROLE: 'tablist'}
       return {};
-    }
-    /** @return enum{numbers} */
-
-  }, {
-    key: "numbers",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "numbers", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // of its semantic numbers as constants. e.g. {ANIMATION_DELAY_MS: 350}
       return {};
-    }
-    /** @return {!Object} */
-
-  }, {
-    key: "defaultAdapter",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "defaultAdapter", {
     get: function get() {
       // Classes extending MDCFoundation may choose to implement this getter in order to provide a convenient
       // way of viewing the necessary methods of an adapter. In the future, this could also be used for adapter
       // validation.
       return {};
-    }
-    /**
-     * @param {A=} adapter
-     */
+    },
+    enumerable: true,
+    configurable: true
+  });
 
-  }]);
+  MDCFoundation.prototype.init = function () {// Subclasses should override this method to perform initialization routines (registering events, etc.)
+  };
 
-  function MDCFoundation() {
-    var adapter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    _classCallCheck(this, MDCFoundation);
-
-    /** @protected {!A} */
-    this.adapter_ = adapter;
-  }
-
-  _createClass(MDCFoundation, [{
-    key: "init",
-    value: function init() {// Subclasses should override this method to perform initialization routines (registering events, etc.)
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
-    }
-  }]);
+  MDCFoundation.prototype.destroy = function () {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
+  };
 
   return MDCFoundation;
 }();
 
 /**
  * @license
- * Copyright 2017 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/* eslint no-unused-vars: [2, {"args": "none"}] */
-
-/**
- * Adapter for MDC Text Field Helper Text.
- *
- * Defines the shape of the adapter expected by the foundation. Implement this
- * adapter to integrate the TextField helper text into your framework. See
- * https://github.com/material-components/material-components-web/blob/master/docs/authoring-components.md
- * for more information.
- *
- * @record
- */
-var MDCTextFieldHelperTextAdapter =
-/*#__PURE__*/
-function () {
-  function MDCTextFieldHelperTextAdapter() {
-    _classCallCheck(this, MDCTextFieldHelperTextAdapter);
-  }
-
-  _createClass(MDCTextFieldHelperTextAdapter, [{
-    key: "addClass",
-
-    /**
-     * Adds a class to the helper text element.
-     * @param {string} className
-     */
-    value: function addClass(className) {}
-    /**
-     * Removes a class from the helper text element.
-     * @param {string} className
-     */
-
-  }, {
-    key: "removeClass",
-    value: function removeClass(className) {}
-    /**
-     * Returns whether or not the helper text element contains the given class.
-     * @param {string} className
-     * @return {boolean}
-     */
-
-  }, {
-    key: "hasClass",
-    value: function hasClass(className) {}
-    /**
-     * Sets an attribute with a given value on the helper text element.
-     * @param {string} attr
-     * @param {string} value
-     */
-
-  }, {
-    key: "setAttr",
-    value: function setAttr(attr, value) {}
-    /**
-     * Removes an attribute from the helper text element.
-     * @param {string} attr
-     */
-
-  }, {
-    key: "removeAttr",
-    value: function removeAttr(attr) {}
-    /**
-     * Sets the text content for the helper text element.
-     * @param {string} content
-     */
-
-  }, {
-    key: "setContent",
-    value: function setContent(content) {}
-  }]);
-
-  return MDCTextFieldHelperTextAdapter;
-}();
-
-/**
- * @license
  * Copyright 2016 Google Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -460,1473 +336,817 @@ function () {
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/** @enum {string} */
-var cssClasses = {
-  ROOT: 'mdc-text-field-helper-text',
-  HELPER_TEXT_PERSISTENT: 'mdc-text-field-helper-text--persistent',
-  HELPER_TEXT_VALIDATION_MSG: 'mdc-text-field-helper-text--validation-msg'
-};
-/** @enum {string} */
-
 var strings = {
-  ARIA_HIDDEN: 'aria-hidden',
-  ROLE: 'role',
-  ROOT_SELECTOR: ".".concat(cssClasses.ROOT)
-};
-
-/**
- * @extends {MDCFoundation<!MDCTextFieldHelperTextAdapter>}
- * @final
- */
-
-var MDCTextFieldHelperTextFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCTextFieldHelperTextFoundation, _MDCFoundation);
-
-  _createClass(MDCTextFieldHelperTextFoundation, null, [{
-    key: "cssClasses",
-
-    /** @return enum {string} */
-    get: function get() {
-      return cssClasses;
-    }
-    /** @return enum {string} */
-
-  }, {
-    key: "strings",
-    get: function get() {
-      return strings;
-    }
-    /**
-     * {@see MDCTextFieldHelperTextAdapter} for typing information on parameters and return
-     * types.
-     * @return {!MDCTextFieldHelperTextAdapter}
-     */
-
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCTextFieldHelperTextAdapter} */
-        {
-          addClass: function addClass() {},
-          removeClass: function removeClass() {},
-          hasClass: function hasClass() {},
-          setAttr: function setAttr() {},
-          removeAttr: function removeAttr() {},
-          setContent: function setContent() {}
-        }
-      );
-    }
-    /**
-     * @param {!MDCTextFieldHelperTextAdapter} adapter
-     */
-
-  }]);
-
-  function MDCTextFieldHelperTextFoundation(adapter) {
-    _classCallCheck(this, MDCTextFieldHelperTextFoundation);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(MDCTextFieldHelperTextFoundation).call(this, _extends(MDCTextFieldHelperTextFoundation.defaultAdapter, adapter)));
-  }
-  /**
-   * Sets the content of the helper text field.
-   * @param {string} content
-   */
-
-
-  _createClass(MDCTextFieldHelperTextFoundation, [{
-    key: "setContent",
-    value: function setContent(content) {
-      this.adapter_.setContent(content);
-    }
-    /** @param {boolean} isPersistent Sets the persistency of the helper text. */
-
-  }, {
-    key: "setPersistent",
-    value: function setPersistent(isPersistent) {
-      if (isPersistent) {
-        this.adapter_.addClass(cssClasses.HELPER_TEXT_PERSISTENT);
-      } else {
-        this.adapter_.removeClass(cssClasses.HELPER_TEXT_PERSISTENT);
-      }
-    }
-    /**
-     * @param {boolean} isValidation True to make the helper text act as an
-     *   error validation message.
-     */
-
-  }, {
-    key: "setValidation",
-    value: function setValidation(isValidation) {
-      if (isValidation) {
-        this.adapter_.addClass(cssClasses.HELPER_TEXT_VALIDATION_MSG);
-      } else {
-        this.adapter_.removeClass(cssClasses.HELPER_TEXT_VALIDATION_MSG);
-      }
-    }
-    /** Makes the helper text visible to the screen reader. */
-
-  }, {
-    key: "showToScreenReader",
-    value: function showToScreenReader() {
-      this.adapter_.removeAttr(strings.ARIA_HIDDEN);
-    }
-    /**
-     * Sets the validity of the helper text based on the input validity.
-     * @param {boolean} inputIsValid
-     */
-
-  }, {
-    key: "setValidity",
-    value: function setValidity(inputIsValid) {
-      var helperTextIsPersistent = this.adapter_.hasClass(cssClasses.HELPER_TEXT_PERSISTENT);
-      var helperTextIsValidationMsg = this.adapter_.hasClass(cssClasses.HELPER_TEXT_VALIDATION_MSG);
-      var validationMsgNeedsDisplay = helperTextIsValidationMsg && !inputIsValid;
-
-      if (validationMsgNeedsDisplay) {
-        this.adapter_.setAttr(strings.ROLE, 'alert');
-      } else {
-        this.adapter_.removeAttr(strings.ROLE);
-      }
-
-      if (!helperTextIsPersistent && !validationMsgNeedsDisplay) {
-        this.hide_();
-      }
-    }
-    /**
-     * Hides the help text from screen readers.
-     * @private
-     */
-
-  }, {
-    key: "hide_",
-    value: function hide_() {
-      this.adapter_.setAttr(strings.ARIA_HIDDEN, 'true');
-    }
-  }]);
-
-  return MDCTextFieldHelperTextFoundation;
-}(MDCFoundation);
-
-/**
- * @license
- * Copyright 2019 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/* eslint no-unused-vars: [2, {"args": "none"}] */
-
-/**
- * Adapter for MDC Text Field Character Counter.
- *
- * Defines the shape of the adapter expected by the foundation. Implement this
- * adapter to integrate the TextField character counter into your framework. See
- * https://github.com/material-components/material-components-web/blob/master/docs/authoring-components.md
- * for more information.
- *
- * @record
- */
-var MDCTextFieldCharacterCounterAdapter =
-/*#__PURE__*/
-function () {
-  function MDCTextFieldCharacterCounterAdapter() {
-    _classCallCheck(this, MDCTextFieldCharacterCounterAdapter);
-  }
-
-  _createClass(MDCTextFieldCharacterCounterAdapter, [{
-    key: "setContent",
-
-    /**
-     * Sets the text content of character counter element.
-     * @param {string} content
-     */
-    value: function setContent(content) {}
-  }]);
-
-  return MDCTextFieldCharacterCounterAdapter;
-}();
-
-/**
- * @license
- * Copyright 2019 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/** @enum {string} */
-var cssClasses$1 = {
-  ROOT: 'mdc-text-field-character-counter'
-};
-/** @enum {string} */
-
-var strings$1 = {
-  ROOT_SELECTOR: ".".concat(cssClasses$1.ROOT)
-};
-
-/**
- * @extends {MDCFoundation<!MDCTextFieldCharacterCounterAdapter>}
- * @final
- */
-
-var MDCTextFieldCharacterCounterFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCTextFieldCharacterCounterFoundation, _MDCFoundation);
-
-  _createClass(MDCTextFieldCharacterCounterFoundation, null, [{
-    key: "cssClasses",
-
-    /** @return enum {string} */
-    get: function get() {
-      return cssClasses$1;
-    }
-    /** @return enum {string} */
-
-  }, {
-    key: "strings",
-    get: function get() {
-      return strings$1;
-    }
-    /**
-     * {@see MDCTextFieldCharacterCounterAdapter} for typing information on parameters and return
-     * types.
-     * @return {!MDCTextFieldCharacterCounterAdapter}
-     */
-
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCTextFieldCharacterCounterAdapter} */
-        {
-          setContent: function setContent() {}
-        }
-      );
-    }
-    /**
-     * @param {!MDCTextFieldCharacterCounterAdapter} adapter
-     */
-
-  }]);
-
-  function MDCTextFieldCharacterCounterFoundation(adapter) {
-    _classCallCheck(this, MDCTextFieldCharacterCounterFoundation);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(MDCTextFieldCharacterCounterFoundation).call(this, _extends(MDCTextFieldCharacterCounterFoundation.defaultAdapter, adapter)));
-  }
-  /**
-   * @param {number} currentLength
-   * @param {number} maxLength
-   */
-
-
-  _createClass(MDCTextFieldCharacterCounterFoundation, [{
-    key: "setCounterValue",
-    value: function setCounterValue(currentLength, maxLength) {
-      currentLength = Math.min(currentLength, maxLength);
-      this.adapter_.setContent("".concat(currentLength, " / ").concat(maxLength));
-    }
-  }]);
-
-  return MDCTextFieldCharacterCounterFoundation;
-}(MDCFoundation);
-
-/**
- * @license
- * Copyright 2017 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/* eslint no-unused-vars: [2, {"args": "none"}] */
-
-/**
- * Adapter for MDC Text Field Icon.
- *
- * Defines the shape of the adapter expected by the foundation. Implement this
- * adapter to integrate the text field icon into your framework. See
- * https://github.com/material-components/material-components-web/blob/master/docs/authoring-components.md
- * for more information.
- *
- * @record
- */
-var MDCTextFieldIconAdapter =
-/*#__PURE__*/
-function () {
-  function MDCTextFieldIconAdapter() {
-    _classCallCheck(this, MDCTextFieldIconAdapter);
-  }
-
-  _createClass(MDCTextFieldIconAdapter, [{
-    key: "getAttr",
-
-    /**
-     * Gets the value of an attribute on the icon element.
-     * @param {string} attr
-     * @return {string}
-     */
-    value: function getAttr(attr) {}
-    /**
-     * Sets an attribute on the icon element.
-     * @param {string} attr
-     * @param {string} value
-     */
-
-  }, {
-    key: "setAttr",
-    value: function setAttr(attr, value) {}
-    /**
-     * Removes an attribute from the icon element.
-     * @param {string} attr
-     */
-
-  }, {
-    key: "removeAttr",
-    value: function removeAttr(attr) {}
-    /**
-     * Sets the text content of the icon element.
-     * @param {string} content
-     */
-
-  }, {
-    key: "setContent",
-    value: function setContent(content) {}
-    /**
-     * Registers an event listener on the icon element for a given event.
-     * @param {string} evtType
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "registerInteractionHandler",
-    value: function registerInteractionHandler(evtType, handler) {}
-    /**
-     * Deregisters an event listener on the icon element for a given event.
-     * @param {string} evtType
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "deregisterInteractionHandler",
-    value: function deregisterInteractionHandler(evtType, handler) {}
-    /**
-     * Emits a custom event "MDCTextField:icon" denoting a user has clicked the icon.
-     */
-
-  }, {
-    key: "notifyIconAction",
-    value: function notifyIconAction() {}
-  }]);
-
-  return MDCTextFieldIconAdapter;
-}();
-
-/**
- * @license
- * Copyright 2016 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/** @enum {string} */
-var strings$2 = {
-  ICON_EVENT: 'MDCTextField:icon',
-  ICON_ROLE: 'button'
-};
-
-/**
- * @extends {MDCFoundation<!MDCTextFieldIconAdapter>}
- * @final
- */
-
-var MDCTextFieldIconFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCTextFieldIconFoundation, _MDCFoundation);
-
-  _createClass(MDCTextFieldIconFoundation, null, [{
-    key: "strings",
-
-    /** @return enum {string} */
-    get: function get() {
-      return strings$2;
-    }
-    /**
-     * {@see MDCTextFieldIconAdapter} for typing information on parameters and return
-     * types.
-     * @return {!MDCTextFieldIconAdapter}
-     */
-
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCTextFieldIconAdapter} */
-        {
-          getAttr: function getAttr() {},
-          setAttr: function setAttr() {},
-          removeAttr: function removeAttr() {},
-          setContent: function setContent() {},
-          registerInteractionHandler: function registerInteractionHandler() {},
-          deregisterInteractionHandler: function deregisterInteractionHandler() {},
-          notifyIconAction: function notifyIconAction() {}
-        }
-      );
-    }
-    /**
-     * @param {!MDCTextFieldIconAdapter} adapter
-     */
-
-  }]);
-
-  function MDCTextFieldIconFoundation(adapter) {
-    var _this;
-
-    _classCallCheck(this, MDCTextFieldIconFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCTextFieldIconFoundation).call(this, _extends(MDCTextFieldIconFoundation.defaultAdapter, adapter)));
-    /** @private {string?} */
-
-    _this.savedTabIndex_ = null;
-    /** @private {function(!Event): undefined} */
-
-    _this.interactionHandler_ = function (evt) {
-      return _this.handleInteraction(evt);
-    };
-
-    return _this;
-  }
-
-  _createClass(MDCTextFieldIconFoundation, [{
-    key: "init",
-    value: function init() {
-      var _this2 = this;
-
-      this.savedTabIndex_ = this.adapter_.getAttr('tabindex');
-      ['click', 'keydown'].forEach(function (evtType) {
-        _this2.adapter_.registerInteractionHandler(evtType, _this2.interactionHandler_);
-      });
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      var _this3 = this;
-
-      ['click', 'keydown'].forEach(function (evtType) {
-        _this3.adapter_.deregisterInteractionHandler(evtType, _this3.interactionHandler_);
-      });
-    }
-    /** @param {boolean} disabled */
-
-  }, {
-    key: "setDisabled",
-    value: function setDisabled(disabled) {
-      if (!this.savedTabIndex_) {
-        return;
-      }
-
-      if (disabled) {
-        this.adapter_.setAttr('tabindex', '-1');
-        this.adapter_.removeAttr('role');
-      } else {
-        this.adapter_.setAttr('tabindex', this.savedTabIndex_);
-        this.adapter_.setAttr('role', strings$2.ICON_ROLE);
-      }
-    }
-    /** @param {string} label */
-
-  }, {
-    key: "setAriaLabel",
-    value: function setAriaLabel(label) {
-      this.adapter_.setAttr('aria-label', label);
-    }
-    /** @param {string} content */
-
-  }, {
-    key: "setContent",
-    value: function setContent(content) {
-      this.adapter_.setContent(content);
-    }
-    /**
-     * Handles an interaction event
-     * @param {!Event} evt
-     */
-
-  }, {
-    key: "handleInteraction",
-    value: function handleInteraction(evt) {
-      if (evt.type === 'click' || evt.key === 'Enter' || evt.keyCode === 13) {
-        this.adapter_.notifyIconAction();
-      }
-    }
-  }]);
-
-  return MDCTextFieldIconFoundation;
-}(MDCFoundation);
-
-/**
- * Adapter for MDC Text Field.
- *
- * Defines the shape of the adapter expected by the foundation. Implement this
- * adapter to integrate the Text Field into your framework. See
- * https://github.com/material-components/material-components-web/blob/master/docs/authoring-components.md
- * for more information.
- *
- * @record
- */
-
-var MDCTextFieldAdapter =
-/*#__PURE__*/
-function () {
-  function MDCTextFieldAdapter() {
-    _classCallCheck(this, MDCTextFieldAdapter);
-  }
-
-  _createClass(MDCTextFieldAdapter, [{
-    key: "addClass",
-
-    /**
-     * Adds a class to the root Element.
-     * @param {string} className
-     */
-    value: function addClass(className) {}
-    /**
-     * Removes a class from the root Element.
-     * @param {string} className
-     */
-
-  }, {
-    key: "removeClass",
-    value: function removeClass(className) {}
-    /**
-     * Returns true if the root element contains the given class name.
-     * @param {string} className
-     * @return {boolean}
-     */
-
-  }, {
-    key: "hasClass",
-    value: function hasClass(className) {}
-    /**
-     * Registers an event handler on the root element for a given event.
-     * @param {string} type
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "registerTextFieldInteractionHandler",
-    value: function registerTextFieldInteractionHandler(type, handler) {}
-    /**
-     * Deregisters an event handler on the root element for a given event.
-     * @param {string} type
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "deregisterTextFieldInteractionHandler",
-    value: function deregisterTextFieldInteractionHandler(type, handler) {}
-    /**
-     * Registers an event listener on the native input element for a given event.
-     * @param {string} evtType
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "registerInputInteractionHandler",
-    value: function registerInputInteractionHandler(evtType, handler) {}
-    /**
-     * Deregisters an event listener on the native input element for a given event.
-     * @param {string} evtType
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "deregisterInputInteractionHandler",
-    value: function deregisterInputInteractionHandler(evtType, handler) {}
-    /**
-     * Registers a validation attribute change listener on the input element.
-     * Handler accepts list of attribute names.
-     * @param {function(!Array<string>): undefined} handler
-     * @return {!MutationObserver}
-     */
-
-  }, {
-    key: "registerValidationAttributeChangeHandler",
-    value: function registerValidationAttributeChangeHandler(handler) {}
-    /**
-     * Disconnects a validation attribute observer on the input element.
-     * @param {!MutationObserver} observer
-     */
-
-  }, {
-    key: "deregisterValidationAttributeChangeHandler",
-    value: function deregisterValidationAttributeChangeHandler(observer) {}
-    /**
-     * Returns an object representing the native text input element, with a
-     * similar API shape. The object returned should include the value, disabled
-     * and badInput properties, as well as the checkValidity() function. We never
-     * alter the value within our code, however we do update the disabled
-     * property, so if you choose to duck-type the return value for this method
-     * in your implementation it's important to keep this in mind. Also note that
-     * this method can return null, which the foundation will handle gracefully.
-     * @return {?Element|?NativeInputType}
-     */
-
-  }, {
-    key: "getNativeInput",
-    value: function getNativeInput() {}
-    /**
-     * Returns true if the textfield is focused.
-     * We achieve this via `document.activeElement === this.root_`.
-     * @return {boolean}
-     */
-
-  }, {
-    key: "isFocused",
-    value: function isFocused() {}
-    /**
-     * Activates the line ripple.
-     */
-
-  }, {
-    key: "activateLineRipple",
-    value: function activateLineRipple() {}
-    /**
-     * Deactivates the line ripple.
-     */
-
-  }, {
-    key: "deactivateLineRipple",
-    value: function deactivateLineRipple() {}
-    /**
-     * Sets the transform origin of the line ripple.
-     * @param {number} normalizedX
-     */
-
-  }, {
-    key: "setLineRippleTransformOrigin",
-    value: function setLineRippleTransformOrigin(normalizedX) {}
-    /**
-     * Only implement if label exists.
-     * Shakes label if shouldShake is true.
-     * @param {boolean} shouldShake
-     */
-
-  }, {
-    key: "shakeLabel",
-    value: function shakeLabel(shouldShake) {}
-    /**
-     * Only implement if label exists.
-     * Floats the label above the input element if shouldFloat is true.
-     * @param {boolean} shouldFloat
-     */
-
-  }, {
-    key: "floatLabel",
-    value: function floatLabel(shouldFloat) {}
-    /**
-     * Returns true if label element exists, false if it doesn't.
-     * @return {boolean}
-     */
-
-  }, {
-    key: "hasLabel",
-    value: function hasLabel() {}
-    /**
-     * Only implement if label exists.
-     * Returns width of label in pixels.
-     * @return {number}
-     */
-
-  }, {
-    key: "getLabelWidth",
-    value: function getLabelWidth() {}
-    /**
-     * Returns true if outline element exists, false if it doesn't.
-     * @return {boolean}
-     */
-
-  }, {
-    key: "hasOutline",
-    value: function hasOutline() {}
-    /**
-     * Only implement if outline element exists.
-     * @param {number} labelWidth
-     */
-
-  }, {
-    key: "notchOutline",
-    value: function notchOutline(labelWidth) {}
-    /**
-     * Only implement if outline element exists.
-     * Closes notch in outline element.
-     */
-
-  }, {
-    key: "closeOutline",
-    value: function closeOutline() {}
-  }]);
-
-  return MDCTextFieldAdapter;
-}();
-
-/**
- * @license
- * Copyright 2016 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
-
-/** @enum {string} */
-var strings$3 = {
   ARIA_CONTROLS: 'aria-controls',
+  ICON_SELECTOR: '.mdc-text-field__icon',
   INPUT_SELECTOR: '.mdc-text-field__input',
   LABEL_SELECTOR: '.mdc-floating-label',
-  ICON_SELECTOR: '.mdc-text-field__icon',
-  OUTLINE_SELECTOR: '.mdc-notched-outline',
-  LINE_RIPPLE_SELECTOR: '.mdc-line-ripple'
+  LINE_RIPPLE_SELECTOR: '.mdc-line-ripple',
+  OUTLINE_SELECTOR: '.mdc-notched-outline'
 };
-/** @enum {string} */
-
-var cssClasses$2 = {
-  ROOT: 'mdc-text-field',
-  DISABLED: 'mdc-text-field--disabled',
+var cssClasses = {
   DENSE: 'mdc-text-field--dense',
+  DISABLED: 'mdc-text-field--disabled',
   FOCUSED: 'mdc-text-field--focused',
+  HELPER_LINE: 'mdc-text-field-helper-line',
   INVALID: 'mdc-text-field--invalid',
-  TEXTAREA: 'mdc-text-field--textarea',
   OUTLINED: 'mdc-text-field--outlined',
-  WITH_LEADING_ICON: 'mdc-text-field--with-leading-icon',
-  HELPER_LINE: 'mdc-text-field-helper-line'
+  ROOT: 'mdc-text-field',
+  TEXTAREA: 'mdc-text-field--textarea',
+  WITH_LEADING_ICON: 'mdc-text-field--with-leading-icon'
 };
-/** @enum {number} */
-
 var numbers = {
-  LABEL_SCALE: 0.75,
-  DENSE_LABEL_SCALE: 0.923
-}; // whitelist based off of https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation
-// under section: `Validation-related attributes`
+  DENSE_LABEL_SCALE: 0.923,
+  LABEL_SCALE: 0.75
+};
+/**
+ * Whitelist based off of https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5/Constraint_validation
+ * under the "Validation-related attributes" section.
+ */
 
-var VALIDATION_ATTR_WHITELIST = ['pattern', 'min', 'max', 'required', 'step', 'minlength', 'maxlength']; // Label should always float for these types as they show some UI even if value is empty.
+var VALIDATION_ATTR_WHITELIST = ['pattern', 'min', 'max', 'required', 'step', 'minlength', 'maxlength'];
+/**
+ * Label should always float for these types as they show some UI even if value is empty.
+ */
 
 var ALWAYS_FLOAT_TYPES = ['color', 'date', 'datetime-local', 'month', 'range', 'time', 'week'];
 
 /**
- * @extends {MDCFoundation<!MDCTextFieldAdapter>}
- * @final
+ * @license
+ * Copyright 2016 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
+var POINTERDOWN_EVENTS = ['mousedown', 'touchstart'];
+var INTERACTION_EVENTS = ['click', 'keydown'];
 
 var MDCTextFieldFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCTextFieldFoundation, _MDCFoundation);
+/** @class */
+function (_super) {
+  __extends(MDCTextFieldFoundation, _super);
+  /**
+   * @param adapter
+   * @param foundationMap Map from subcomponent names to their subfoundations.
+   */
 
-  _createClass(MDCTextFieldFoundation, [{
-    key: "shouldShake",
 
-    /** @return {boolean} */
-    get: function get() {
-      return !this.isValid() && !this.isFocused_ && !!this.getValue();
+  function MDCTextFieldFoundation(adapter, foundationMap) {
+    if (foundationMap === void 0) {
+      foundationMap = {};
     }
-    /**
-     * @return {boolean}
-     * @private
-     */
 
-  }, {
-    key: "shouldAlwaysFloat_",
-    get: function get() {
-      var type = this.getNativeInput_().type;
-      return ALWAYS_FLOAT_TYPES.indexOf(type) >= 0;
-    }
-    /** @return {boolean} */
-
-  }, {
-    key: "shouldFloat",
-    get: function get() {
-      return this.shouldAlwaysFloat_ || this.isFocused_ || !!this.getValue() || this.isBadInput_();
-    }
-    /**
-     * {@see MDCTextFieldAdapter} for typing information on parameters and return
-     * types.
-     * @return {!MDCTextFieldAdapter}
-     */
-
-  }], [{
-    key: "cssClasses",
-
-    /** @return enum {string} */
-    get: function get() {
-      return cssClasses$2;
-    }
-    /** @return enum {string} */
-
-  }, {
-    key: "strings",
-    get: function get() {
-      return strings$3;
-    }
-    /** @return enum {string} */
-
-  }, {
-    key: "numbers",
-    get: function get() {
-      return numbers;
-    }
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCTextFieldAdapter} */
-        {
-          addClass: function addClass() {},
-          removeClass: function removeClass() {},
-          hasClass: function hasClass() {},
-          registerTextFieldInteractionHandler: function registerTextFieldInteractionHandler() {},
-          deregisterTextFieldInteractionHandler: function deregisterTextFieldInteractionHandler() {},
-          registerInputInteractionHandler: function registerInputInteractionHandler() {},
-          deregisterInputInteractionHandler: function deregisterInputInteractionHandler() {},
-          registerValidationAttributeChangeHandler: function registerValidationAttributeChangeHandler() {},
-          deregisterValidationAttributeChangeHandler: function deregisterValidationAttributeChangeHandler() {},
-          getNativeInput: function getNativeInput() {},
-          isFocused: function isFocused() {},
-          activateLineRipple: function activateLineRipple() {},
-          deactivateLineRipple: function deactivateLineRipple() {},
-          setLineRippleTransformOrigin: function setLineRippleTransformOrigin() {},
-          shakeLabel: function shakeLabel() {},
-          floatLabel: function floatLabel() {},
-          hasLabel: function hasLabel() {},
-          getLabelWidth: function getLabelWidth() {},
-          hasOutline: function hasOutline() {},
-          notchOutline: function notchOutline() {},
-          closeOutline: function closeOutline() {}
-        }
-      );
-    }
-    /**
-     * @param {!MDCTextFieldAdapter} adapter
-     * @param {!FoundationMapType=} foundationMap Map from subcomponent names to their subfoundations.
-     */
-
-  }]);
-
-  function MDCTextFieldFoundation(adapter) {
-    var _this;
-
-    var foundationMap = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] :
-    /** @type {!FoundationMapType} */
-    {};
-
-    _classCallCheck(this, MDCTextFieldFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCTextFieldFoundation).call(this, _extends(MDCTextFieldFoundation.defaultAdapter, adapter)));
-    /** @type {!MDCTextFieldHelperTextFoundation|undefined} */
-
-    _this.helperText_ = foundationMap.helperText;
-    /** @type {!MDCTextFieldCharacterCounterFoundation|undefined} */
-
-    _this.characterCounter_ = foundationMap.characterCounter;
-    /** @type {!MDCTextFieldIconFoundation|undefined} */
-
-    _this.leadingIcon_ = foundationMap.leadingIcon;
-    /** @type {!MDCTextFieldIconFoundation|undefined} */
-
-    _this.trailingIcon_ = foundationMap.trailingIcon;
-    /** @private {boolean} */
+    var _this = _super.call(this, _assign({}, MDCTextFieldFoundation.defaultAdapter, adapter)) || this;
 
     _this.isFocused_ = false;
-    /** @private {boolean} */
-
     _this.receivedUserInput_ = false;
-    /** @private {boolean} */
-
-    _this.useCustomValidityChecking_ = false;
-    /** @private {boolean} */
-
     _this.isValid_ = true;
-    /** @private {boolean} */
-
     _this.useNativeValidation_ = true;
-    /** @private {function(): undefined} */
+    _this.helperText_ = foundationMap.helperText;
+    _this.characterCounter_ = foundationMap.characterCounter;
+    _this.leadingIcon_ = foundationMap.leadingIcon;
+    _this.trailingIcon_ = foundationMap.trailingIcon;
 
     _this.inputFocusHandler_ = function () {
       return _this.activateFocus();
     };
-    /** @private {function(): undefined} */
-
 
     _this.inputBlurHandler_ = function () {
       return _this.deactivateFocus();
     };
-    /** @private {function(): undefined} */
-
 
     _this.inputInputHandler_ = function () {
       return _this.handleInput();
     };
-    /** @private {function(!Event): undefined} */
-
 
     _this.setPointerXOffset_ = function (evt) {
       return _this.setTransformOrigin(evt);
     };
-    /** @private {function(!Event): undefined} */
-
 
     _this.textFieldInteractionHandler_ = function () {
       return _this.handleTextFieldInteraction();
     };
-    /** @private {function(!Array): undefined} */
-
 
     _this.validationAttributeChangeHandler_ = function (attributesList) {
       return _this.handleValidationAttributeChange(attributesList);
     };
-    /** @private {!MutationObserver} */
 
-
-    _this.validationObserver_;
     return _this;
   }
 
-  _createClass(MDCTextFieldFoundation, [{
-    key: "init",
-    value: function init() {
-      var _this2 = this;
-
-      if (this.adapter_.isFocused()) {
-        this.inputFocusHandler_();
-      } else if (this.adapter_.hasLabel() && this.shouldFloat) {
-        this.notchOutline(true);
-        this.adapter_.floatLabel(true);
-      }
-
-      this.adapter_.registerInputInteractionHandler('focus', this.inputFocusHandler_);
-      this.adapter_.registerInputInteractionHandler('blur', this.inputBlurHandler_);
-      this.adapter_.registerInputInteractionHandler('input', this.inputInputHandler_);
-      ['mousedown', 'touchstart'].forEach(function (evtType) {
-        _this2.adapter_.registerInputInteractionHandler(evtType, _this2.setPointerXOffset_);
-      });
-      ['click', 'keydown'].forEach(function (evtType) {
-        _this2.adapter_.registerTextFieldInteractionHandler(evtType, _this2.textFieldInteractionHandler_);
-      });
-      this.validationObserver_ = this.adapter_.registerValidationAttributeChangeHandler(this.validationAttributeChangeHandler_);
-      this.setCharacterCounter_(this.getValue().length);
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      var _this3 = this;
-
-      this.adapter_.deregisterInputInteractionHandler('focus', this.inputFocusHandler_);
-      this.adapter_.deregisterInputInteractionHandler('blur', this.inputBlurHandler_);
-      this.adapter_.deregisterInputInteractionHandler('input', this.inputInputHandler_);
-      ['mousedown', 'touchstart'].forEach(function (evtType) {
-        _this3.adapter_.deregisterInputInteractionHandler(evtType, _this3.setPointerXOffset_);
-      });
-      ['click', 'keydown'].forEach(function (evtType) {
-        _this3.adapter_.deregisterTextFieldInteractionHandler(evtType, _this3.textFieldInteractionHandler_);
-      });
-      this.adapter_.deregisterValidationAttributeChangeHandler(this.validationObserver_);
-    }
+  Object.defineProperty(MDCTextFieldFoundation, "cssClasses", {
+    get: function get() {
+      return cssClasses;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCTextFieldFoundation, "strings", {
+    get: function get() {
+      return strings;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCTextFieldFoundation, "numbers", {
+    get: function get() {
+      return numbers;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCTextFieldFoundation.prototype, "shouldShake", {
+    get: function get() {
+      return !this.isFocused_ && !this.isValid() && Boolean(this.getValue());
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCTextFieldFoundation.prototype, "shouldAlwaysFloat_", {
+    get: function get() {
+      var type = this.getNativeInput_().type;
+      return ALWAYS_FLOAT_TYPES.indexOf(type) >= 0;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCTextFieldFoundation.prototype, "shouldFloat", {
+    get: function get() {
+      return this.shouldAlwaysFloat_ || this.isFocused_ || Boolean(this.getValue()) || this.isBadInput_();
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCTextFieldFoundation, "defaultAdapter", {
     /**
-     * Handles user interactions with the Text Field.
+     * See {@link MDCTextFieldAdapter} for typing information on parameters and return types.
      */
-
-  }, {
-    key: "handleTextFieldInteraction",
-    value: function handleTextFieldInteraction() {
-      if (this.adapter_.getNativeInput().disabled) {
-        return;
-      }
-
-      this.receivedUserInput_ = true;
-    }
-    /**
-     * Handles validation attribute changes
-     * @param {!Array<string>} attributesList
-     */
-
-  }, {
-    key: "handleValidationAttributeChange",
-    value: function handleValidationAttributeChange(attributesList) {
-      var _this4 = this;
-
-      attributesList.some(function (attributeName) {
-        if (VALIDATION_ATTR_WHITELIST.indexOf(attributeName) > -1) {
-          _this4.styleValidity_(true);
-
+    get: function get() {
+      // tslint:disable:object-literal-sort-keys Methods should be in the same order as the adapter interface.
+      return {
+        addClass: function addClass() {
+          return undefined;
+        },
+        removeClass: function removeClass() {
+          return undefined;
+        },
+        hasClass: function hasClass() {
           return true;
+        },
+        registerTextFieldInteractionHandler: function registerTextFieldInteractionHandler() {
+          return undefined;
+        },
+        deregisterTextFieldInteractionHandler: function deregisterTextFieldInteractionHandler() {
+          return undefined;
+        },
+        registerInputInteractionHandler: function registerInputInteractionHandler() {
+          return undefined;
+        },
+        deregisterInputInteractionHandler: function deregisterInputInteractionHandler() {
+          return undefined;
+        },
+        registerValidationAttributeChangeHandler: function registerValidationAttributeChangeHandler() {
+          return new MutationObserver(function () {
+            return undefined;
+          });
+        },
+        deregisterValidationAttributeChangeHandler: function deregisterValidationAttributeChangeHandler() {
+          return undefined;
+        },
+        getNativeInput: function getNativeInput() {
+          return null;
+        },
+        isFocused: function isFocused() {
+          return false;
+        },
+        activateLineRipple: function activateLineRipple() {
+          return undefined;
+        },
+        deactivateLineRipple: function deactivateLineRipple() {
+          return undefined;
+        },
+        setLineRippleTransformOrigin: function setLineRippleTransformOrigin() {
+          return undefined;
+        },
+        shakeLabel: function shakeLabel() {
+          return undefined;
+        },
+        floatLabel: function floatLabel() {
+          return undefined;
+        },
+        hasLabel: function hasLabel() {
+          return false;
+        },
+        getLabelWidth: function getLabelWidth() {
+          return 0;
+        },
+        hasOutline: function hasOutline() {
+          return false;
+        },
+        notchOutline: function notchOutline() {
+          return undefined;
+        },
+        closeOutline: function closeOutline() {
+          return undefined;
         }
-      });
+      }; // tslint:enable:object-literal-sort-keys
+    },
+    enumerable: true,
+    configurable: true
+  });
 
-      if (attributesList.indexOf('maxlength') > -1) {
-        this.setCharacterCounter_(this.getValue().length);
-      }
+  MDCTextFieldFoundation.prototype.init = function () {
+    var _this = this;
+
+    if (this.adapter_.isFocused()) {
+      this.inputFocusHandler_();
+    } else if (this.adapter_.hasLabel() && this.shouldFloat) {
+      this.notchOutline(true);
+      this.adapter_.floatLabel(true);
     }
-    /**
-     * Opens/closes the notched outline.
-     * @param {boolean} openNotch
-     */
 
-  }, {
-    key: "notchOutline",
-    value: function notchOutline(openNotch) {
-      if (!this.adapter_.hasOutline()) {
-        return;
-      }
+    this.adapter_.registerInputInteractionHandler('focus', this.inputFocusHandler_);
+    this.adapter_.registerInputInteractionHandler('blur', this.inputBlurHandler_);
+    this.adapter_.registerInputInteractionHandler('input', this.inputInputHandler_);
+    POINTERDOWN_EVENTS.forEach(function (evtType) {
+      _this.adapter_.registerInputInteractionHandler(evtType, _this.setPointerXOffset_);
+    });
+    INTERACTION_EVENTS.forEach(function (evtType) {
+      _this.adapter_.registerTextFieldInteractionHandler(evtType, _this.textFieldInteractionHandler_);
+    });
+    this.validationObserver_ = this.adapter_.registerValidationAttributeChangeHandler(this.validationAttributeChangeHandler_);
+    this.setCharacterCounter_(this.getValue().length);
+  };
 
-      if (openNotch) {
-        var isDense = this.adapter_.hasClass(cssClasses$2.DENSE);
-        var labelScale = isDense ? numbers.DENSE_LABEL_SCALE : numbers.LABEL_SCALE;
-        var labelWidth = this.adapter_.getLabelWidth() * labelScale;
-        this.adapter_.notchOutline(labelWidth);
-      } else {
-        this.adapter_.closeOutline();
-      }
+  MDCTextFieldFoundation.prototype.destroy = function () {
+    var _this = this;
+
+    this.adapter_.deregisterInputInteractionHandler('focus', this.inputFocusHandler_);
+    this.adapter_.deregisterInputInteractionHandler('blur', this.inputBlurHandler_);
+    this.adapter_.deregisterInputInteractionHandler('input', this.inputInputHandler_);
+    POINTERDOWN_EVENTS.forEach(function (evtType) {
+      _this.adapter_.deregisterInputInteractionHandler(evtType, _this.setPointerXOffset_);
+    });
+    INTERACTION_EVENTS.forEach(function (evtType) {
+      _this.adapter_.deregisterTextFieldInteractionHandler(evtType, _this.textFieldInteractionHandler_);
+    });
+    this.adapter_.deregisterValidationAttributeChangeHandler(this.validationObserver_);
+  };
+  /**
+   * Handles user interactions with the Text Field.
+   */
+
+
+  MDCTextFieldFoundation.prototype.handleTextFieldInteraction = function () {
+    var nativeInput = this.adapter_.getNativeInput();
+
+    if (nativeInput && nativeInput.disabled) {
+      return;
     }
-    /**
-     * Activates the text field focus state.
-     */
 
-  }, {
-    key: "activateFocus",
-    value: function activateFocus() {
-      this.isFocused_ = true;
-      this.styleFocused_(this.isFocused_);
-      this.adapter_.activateLineRipple();
+    this.receivedUserInput_ = true;
+  };
+  /**
+   * Handles validation attribute changes
+   */
 
-      if (this.adapter_.hasLabel()) {
-        this.notchOutline(this.shouldFloat);
-        this.adapter_.floatLabel(this.shouldFloat);
-        this.adapter_.shakeLabel(this.shouldShake);
+
+  MDCTextFieldFoundation.prototype.handleValidationAttributeChange = function (attributesList) {
+    var _this = this;
+
+    attributesList.some(function (attributeName) {
+      if (VALIDATION_ATTR_WHITELIST.indexOf(attributeName) > -1) {
+        _this.styleValidity_(true);
+
+        return true;
       }
 
-      if (this.helperText_) {
-        this.helperText_.showToScreenReader();
-      }
-    }
-    /**
-     * Sets the line ripple's transform origin, so that the line ripple activate
-     * animation will animate out from the user's click location.
-     * @param {!Event} evt
-     */
+      return false;
+    });
 
-  }, {
-    key: "setTransformOrigin",
-    value: function setTransformOrigin(evt) {
-      var targetEvent;
-
-      if (evt.touches) {
-        targetEvent = evt.touches[0];
-      } else {
-        targetEvent = evt;
-      }
-
-      var targetClientRect = targetEvent.target.getBoundingClientRect();
-      var normalizedX = targetEvent.clientX - targetClientRect.left;
-      this.adapter_.setLineRippleTransformOrigin(normalizedX);
-    }
-    /**
-     * Handles input change of text input and text area.
-     */
-
-  }, {
-    key: "handleInput",
-    value: function handleInput() {
-      this.autoCompleteFocus();
+    if (attributesList.indexOf('maxlength') > -1) {
       this.setCharacterCounter_(this.getValue().length);
     }
-    /**
-     * Activates the Text Field's focus state in cases when the input value
-     * changes without user input (e.g. programatically).
-     */
+  };
+  /**
+   * Opens/closes the notched outline.
+   */
 
-  }, {
-    key: "autoCompleteFocus",
-    value: function autoCompleteFocus() {
-      if (!this.receivedUserInput_) {
-        this.activateFocus();
-      }
+
+  MDCTextFieldFoundation.prototype.notchOutline = function (openNotch) {
+    if (!this.adapter_.hasOutline()) {
+      return;
     }
-    /**
-     * Deactivates the Text Field's focus state.
-     */
 
-  }, {
-    key: "deactivateFocus",
-    value: function deactivateFocus() {
-      this.isFocused_ = false;
-      this.adapter_.deactivateLineRipple();
-      var isValid = this.isValid();
-      this.styleValidity_(isValid);
-      this.styleFocused_(this.isFocused_);
-
-      if (this.adapter_.hasLabel()) {
-        this.notchOutline(this.shouldFloat);
-        this.adapter_.floatLabel(this.shouldFloat);
-        this.adapter_.shakeLabel(this.shouldShake);
-      }
-
-      if (!this.shouldFloat) {
-        this.receivedUserInput_ = false;
-      }
+    if (openNotch) {
+      var isDense = this.adapter_.hasClass(cssClasses.DENSE);
+      var labelScale = isDense ? numbers.DENSE_LABEL_SCALE : numbers.LABEL_SCALE;
+      var labelWidth = this.adapter_.getLabelWidth() * labelScale;
+      this.adapter_.notchOutline(labelWidth);
+    } else {
+      this.adapter_.closeOutline();
     }
-    /**
-     * @return {string} The value of the input Element.
-     */
+  };
+  /**
+   * Activates the text field focus state.
+   */
 
-  }, {
-    key: "getValue",
-    value: function getValue() {
-      return this.getNativeInput_().value;
+
+  MDCTextFieldFoundation.prototype.activateFocus = function () {
+    this.isFocused_ = true;
+    this.styleFocused_(this.isFocused_);
+    this.adapter_.activateLineRipple();
+
+    if (this.adapter_.hasLabel()) {
+      this.notchOutline(this.shouldFloat);
+      this.adapter_.floatLabel(this.shouldFloat);
+      this.adapter_.shakeLabel(this.shouldShake);
     }
-    /**
-     * @param {string} value The value to set on the input Element.
-     */
 
-  }, {
-    key: "setValue",
-    value: function setValue(value) {
-      // Prevent Safari from moving the caret to the end of the input when the value has not changed.
-      if (this.getValue() !== value) {
-        this.getNativeInput_().value = value;
-      }
-
-      var isValid = this.isValid();
-      this.styleValidity_(isValid);
-
-      if (this.adapter_.hasLabel()) {
-        this.notchOutline(this.shouldFloat);
-        this.adapter_.floatLabel(this.shouldFloat);
-        this.adapter_.shakeLabel(this.shouldShake);
-      }
+    if (this.helperText_) {
+      this.helperText_.showToScreenReader();
     }
-    /**
-     * @return {boolean} If a custom validity is set, returns that value.
-     *     Otherwise, returns the result of native validity checks.
-     */
+  };
+  /**
+   * Sets the line ripple's transform origin, so that the line ripple activate
+   * animation will animate out from the user's click location.
+   */
 
-  }, {
-    key: "isValid",
-    value: function isValid() {
-      return this.useNativeValidation_ ? this.isNativeInputValid_() : this.isValid_;
+
+  MDCTextFieldFoundation.prototype.setTransformOrigin = function (evt) {
+    var touches = evt.touches;
+    var targetEvent = touches ? touches[0] : evt;
+    var targetClientRect = targetEvent.target.getBoundingClientRect();
+    var normalizedX = targetEvent.clientX - targetClientRect.left;
+    this.adapter_.setLineRippleTransformOrigin(normalizedX);
+  };
+  /**
+   * Handles input change of text input and text area.
+   */
+
+
+  MDCTextFieldFoundation.prototype.handleInput = function () {
+    this.autoCompleteFocus();
+    this.setCharacterCounter_(this.getValue().length);
+  };
+  /**
+   * Activates the Text Field's focus state in cases when the input value
+   * changes without user input (e.g. programmatically).
+   */
+
+
+  MDCTextFieldFoundation.prototype.autoCompleteFocus = function () {
+    if (!this.receivedUserInput_) {
+      this.activateFocus();
     }
-    /**
-     * @param {boolean} isValid Sets the validity state of the Text Field.
-     */
+  };
+  /**
+   * Deactivates the Text Field's focus state.
+   */
 
-  }, {
-    key: "setValid",
-    value: function setValid(isValid) {
-      this.isValid_ = isValid;
-      this.styleValidity_(isValid);
-      var shouldShake = !isValid && !this.isFocused_;
 
-      if (this.adapter_.hasLabel()) {
-        this.adapter_.shakeLabel(shouldShake);
-      }
+  MDCTextFieldFoundation.prototype.deactivateFocus = function () {
+    this.isFocused_ = false;
+    this.adapter_.deactivateLineRipple();
+    var isValid = this.isValid();
+    this.styleValidity_(isValid);
+    this.styleFocused_(this.isFocused_);
+
+    if (this.adapter_.hasLabel()) {
+      this.notchOutline(this.shouldFloat);
+      this.adapter_.floatLabel(this.shouldFloat);
+      this.adapter_.shakeLabel(this.shouldShake);
     }
-    /**
-     * Enables or disables the use of native validation. Use this for custom validation.
-     * @param {boolean} useNativeValidation Set this to false to ignore native input validation.
-     */
 
-  }, {
-    key: "setUseNativeValidation",
-    value: function setUseNativeValidation(useNativeValidation) {
-      this.useNativeValidation_ = useNativeValidation;
+    if (!this.shouldFloat) {
+      this.receivedUserInput_ = false;
     }
-    /**
-     * @return {boolean} True if the Text Field is disabled.
-     */
+  };
 
-  }, {
-    key: "isDisabled",
-    value: function isDisabled() {
-      return this.getNativeInput_().disabled;
+  MDCTextFieldFoundation.prototype.getValue = function () {
+    return this.getNativeInput_().value;
+  };
+  /**
+   * @param value The value to set on the input Element.
+   */
+
+
+  MDCTextFieldFoundation.prototype.setValue = function (value) {
+    // Prevent Safari from moving the caret to the end of the input when the value has not changed.
+    if (this.getValue() !== value) {
+      this.getNativeInput_().value = value;
     }
-    /**
-     * @param {boolean} disabled Sets the text-field disabled or enabled.
-     */
 
-  }, {
-    key: "setDisabled",
-    value: function setDisabled(disabled) {
-      this.getNativeInput_().disabled = disabled;
-      this.styleDisabled_(disabled);
+    var isValid = this.isValid();
+    this.styleValidity_(isValid);
+
+    if (this.adapter_.hasLabel()) {
+      this.notchOutline(this.shouldFloat);
+      this.adapter_.floatLabel(this.shouldFloat);
+      this.adapter_.shakeLabel(this.shouldShake);
     }
-    /**
-     * @param {string} content Sets the content of the helper text.
-     */
+  };
+  /**
+   * @return The custom validity state, if set; otherwise, the result of a native validity check.
+   */
 
-  }, {
-    key: "setHelperTextContent",
-    value: function setHelperTextContent(content) {
-      if (this.helperText_) {
-        this.helperText_.setContent(content);
-      }
+
+  MDCTextFieldFoundation.prototype.isValid = function () {
+    return this.useNativeValidation_ ? this.isNativeInputValid_() : this.isValid_;
+  };
+  /**
+   * @param isValid Sets the custom validity state of the Text Field.
+   */
+
+
+  MDCTextFieldFoundation.prototype.setValid = function (isValid) {
+    this.isValid_ = isValid;
+    this.styleValidity_(isValid);
+    var shouldShake = !isValid && !this.isFocused_;
+
+    if (this.adapter_.hasLabel()) {
+      this.adapter_.shakeLabel(shouldShake);
     }
-    /**
-     * Sets character counter values that shows characters used and the total character limit.
-     * @param {number} currentLength
-     * @private
-     */
+  };
+  /**
+   * Enables or disables the use of native validation. Use this for custom validation.
+   * @param useNativeValidation Set this to false to ignore native input validation.
+   */
 
-  }, {
-    key: "setCharacterCounter_",
-    value: function setCharacterCounter_(currentLength) {
-      if (!this.characterCounter_) return;
-      var maxLength = this.getNativeInput_().maxLength;
 
-      if (maxLength === -1) {
-        throw new Error('MDCTextFieldFoundation: Expected maxlength html property on text input or textarea.');
-      }
+  MDCTextFieldFoundation.prototype.setUseNativeValidation = function (useNativeValidation) {
+    this.useNativeValidation_ = useNativeValidation;
+  };
 
-      this.characterCounter_.setCounterValue(currentLength, maxLength);
+  MDCTextFieldFoundation.prototype.isDisabled = function () {
+    return this.getNativeInput_().disabled;
+  };
+  /**
+   * @param disabled Sets the text-field disabled or enabled.
+   */
+
+
+  MDCTextFieldFoundation.prototype.setDisabled = function (disabled) {
+    this.getNativeInput_().disabled = disabled;
+    this.styleDisabled_(disabled);
+  };
+  /**
+   * @param content Sets the content of the helper text.
+   */
+
+
+  MDCTextFieldFoundation.prototype.setHelperTextContent = function (content) {
+    if (this.helperText_) {
+      this.helperText_.setContent(content);
     }
-    /**
-     * Sets the aria label of the leading icon.
-     * @param {string} label
-     */
+  };
+  /**
+   * Sets the aria label of the leading icon.
+   */
 
-  }, {
-    key: "setLeadingIconAriaLabel",
-    value: function setLeadingIconAriaLabel(label) {
-      if (this.leadingIcon_) {
-        this.leadingIcon_.setAriaLabel(label);
-      }
+
+  MDCTextFieldFoundation.prototype.setLeadingIconAriaLabel = function (label) {
+    if (this.leadingIcon_) {
+      this.leadingIcon_.setAriaLabel(label);
     }
-    /**
-     * Sets the text content of the leading icon.
-     * @param {string} content
-     */
+  };
+  /**
+   * Sets the text content of the leading icon.
+   */
 
-  }, {
-    key: "setLeadingIconContent",
-    value: function setLeadingIconContent(content) {
-      if (this.leadingIcon_) {
-        this.leadingIcon_.setContent(content);
-      }
+
+  MDCTextFieldFoundation.prototype.setLeadingIconContent = function (content) {
+    if (this.leadingIcon_) {
+      this.leadingIcon_.setContent(content);
     }
-    /**
-     * Sets the aria label of the trailing icon.
-     * @param {string} label
-     */
+  };
+  /**
+   * Sets the aria label of the trailing icon.
+   */
 
-  }, {
-    key: "setTrailingIconAriaLabel",
-    value: function setTrailingIconAriaLabel(label) {
-      if (this.trailingIcon_) {
-        this.trailingIcon_.setAriaLabel(label);
-      }
+
+  MDCTextFieldFoundation.prototype.setTrailingIconAriaLabel = function (label) {
+    if (this.trailingIcon_) {
+      this.trailingIcon_.setAriaLabel(label);
     }
-    /**
-     * Sets the text content of the trailing icon.
-     * @param {string} content
-     */
+  };
+  /**
+   * Sets the text content of the trailing icon.
+   */
 
-  }, {
-    key: "setTrailingIconContent",
-    value: function setTrailingIconContent(content) {
-      if (this.trailingIcon_) {
-        this.trailingIcon_.setContent(content);
-      }
+
+  MDCTextFieldFoundation.prototype.setTrailingIconContent = function (content) {
+    if (this.trailingIcon_) {
+      this.trailingIcon_.setContent(content);
     }
-    /**
-     * @return {boolean} True if the Text Field input fails in converting the
-     *     user-supplied value.
-     * @private
-     */
+  };
+  /**
+   * Sets character counter values that shows characters used and the total character limit.
+   */
 
-  }, {
-    key: "isBadInput_",
-    value: function isBadInput_() {
-      return this.getNativeInput_().validity.badInput;
+
+  MDCTextFieldFoundation.prototype.setCharacterCounter_ = function (currentLength) {
+    if (!this.characterCounter_) return;
+    var maxLength = this.getNativeInput_().maxLength;
+
+    if (maxLength === -1) {
+      throw new Error('MDCTextFieldFoundation: Expected maxlength html property on text input or textarea.');
     }
-    /**
-     * @return {boolean} The result of native validity checking
-     *     (ValidityState.valid).
-     */
 
-  }, {
-    key: "isNativeInputValid_",
-    value: function isNativeInputValid_() {
-      return this.getNativeInput_().validity.valid;
+    this.characterCounter_.setCounterValue(currentLength, maxLength);
+  };
+  /**
+   * @return True if the Text Field input fails in converting the user-supplied value.
+   */
+
+
+  MDCTextFieldFoundation.prototype.isBadInput_ = function () {
+    // The badInput property is not supported in IE 11 💩.
+    return this.getNativeInput_().validity.badInput || false;
+  };
+  /**
+   * @return The result of native validity checking (ValidityState.valid).
+   */
+
+
+  MDCTextFieldFoundation.prototype.isNativeInputValid_ = function () {
+    return this.getNativeInput_().validity.valid;
+  };
+  /**
+   * Styles the component based on the validity state.
+   */
+
+
+  MDCTextFieldFoundation.prototype.styleValidity_ = function (isValid) {
+    var INVALID = MDCTextFieldFoundation.cssClasses.INVALID;
+
+    if (isValid) {
+      this.adapter_.removeClass(INVALID);
+    } else {
+      this.adapter_.addClass(INVALID);
     }
-    /**
-     * Styles the component based on the validity state.
-     * @param {boolean} isValid
-     * @private
-     */
 
-  }, {
-    key: "styleValidity_",
-    value: function styleValidity_(isValid) {
-      var INVALID = MDCTextFieldFoundation.cssClasses.INVALID;
-
-      if (isValid) {
-        this.adapter_.removeClass(INVALID);
-      } else {
-        this.adapter_.addClass(INVALID);
-      }
-
-      if (this.helperText_) {
-        this.helperText_.setValidity(isValid);
-      }
+    if (this.helperText_) {
+      this.helperText_.setValidity(isValid);
     }
-    /**
-     * Styles the component based on the focused state.
-     * @param {boolean} isFocused
-     * @private
-     */
+  };
+  /**
+   * Styles the component based on the focused state.
+   */
 
-  }, {
-    key: "styleFocused_",
-    value: function styleFocused_(isFocused) {
-      var FOCUSED = MDCTextFieldFoundation.cssClasses.FOCUSED;
 
-      if (isFocused) {
-        this.adapter_.addClass(FOCUSED);
-      } else {
-        this.adapter_.removeClass(FOCUSED);
-      }
+  MDCTextFieldFoundation.prototype.styleFocused_ = function (isFocused) {
+    var FOCUSED = MDCTextFieldFoundation.cssClasses.FOCUSED;
+
+    if (isFocused) {
+      this.adapter_.addClass(FOCUSED);
+    } else {
+      this.adapter_.removeClass(FOCUSED);
     }
-    /**
-     * Styles the component based on the disabled state.
-     * @param {boolean} isDisabled
-     * @private
-     */
+  };
+  /**
+   * Styles the component based on the disabled state.
+   */
 
-  }, {
-    key: "styleDisabled_",
-    value: function styleDisabled_(isDisabled) {
-      var _MDCTextFieldFoundati = MDCTextFieldFoundation.cssClasses,
-          DISABLED = _MDCTextFieldFoundati.DISABLED,
-          INVALID = _MDCTextFieldFoundati.INVALID;
 
-      if (isDisabled) {
-        this.adapter_.addClass(DISABLED);
-        this.adapter_.removeClass(INVALID);
-      } else {
-        this.adapter_.removeClass(DISABLED);
-      }
+  MDCTextFieldFoundation.prototype.styleDisabled_ = function (isDisabled) {
+    var _a = MDCTextFieldFoundation.cssClasses,
+        DISABLED = _a.DISABLED,
+        INVALID = _a.INVALID;
 
-      if (this.leadingIcon_) {
-        this.leadingIcon_.setDisabled(isDisabled);
-      }
-
-      if (this.trailingIcon_) {
-        this.trailingIcon_.setDisabled(isDisabled);
-      }
+    if (isDisabled) {
+      this.adapter_.addClass(DISABLED);
+      this.adapter_.removeClass(INVALID);
+    } else {
+      this.adapter_.removeClass(DISABLED);
     }
-    /**
-     * @return {!Element|!NativeInputType} The native text input from the
-     * host environment, or a dummy if none exists.
-     * @private
-     */
 
-  }, {
-    key: "getNativeInput_",
-    value: function getNativeInput_() {
-      return this.adapter_.getNativeInput() ||
-      /** @type {!NativeInputType} */
-      {
-        value: '',
-        disabled: false,
-        validity: {
-          badInput: false,
-          valid: true
-        }
-      };
+    if (this.leadingIcon_) {
+      this.leadingIcon_.setDisabled(isDisabled);
     }
-  }]);
+
+    if (this.trailingIcon_) {
+      this.trailingIcon_.setDisabled(isDisabled);
+    }
+  };
+  /**
+   * @return The native text input element from the host environment, or an object with the same shape for unit tests.
+   */
+
+
+  MDCTextFieldFoundation.prototype.getNativeInput_ = function () {
+    // this.adapter_ may be undefined in foundation unit tests. This happens when testdouble is creating a mock object
+    // and invokes the shouldShake/shouldFloat getters (which in turn call getValue(), which calls this method) before
+    // init() has been called from the MDCTextField constructor. To work around that issue, we return a dummy object.
+    var nativeInput = this.adapter_ ? this.adapter_.getNativeInput() : null;
+    return nativeInput || {
+      disabled: false,
+      maxLength: -1,
+      type: 'input',
+      validity: {
+        badInput: false,
+        valid: true
+      },
+      value: ''
+    };
+  };
 
   return MDCTextFieldFoundation;
+}(MDCFoundation);
+
+/**
+ * @license
+ * Copyright 2016 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+var cssClasses$1 = {
+  HELPER_TEXT_PERSISTENT: 'mdc-text-field-helper-text--persistent',
+  HELPER_TEXT_VALIDATION_MSG: 'mdc-text-field-helper-text--validation-msg',
+  ROOT: 'mdc-text-field-helper-text'
+};
+var strings$1 = {
+  ARIA_HIDDEN: 'aria-hidden',
+  ROLE: 'role',
+  ROOT_SELECTOR: "." + cssClasses$1.ROOT
+};
+
+/**
+ * @license
+ * Copyright 2017 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+var MDCTextFieldHelperTextFoundation =
+/** @class */
+function (_super) {
+  __extends(MDCTextFieldHelperTextFoundation, _super);
+
+  function MDCTextFieldHelperTextFoundation(adapter) {
+    return _super.call(this, _assign({}, MDCTextFieldHelperTextFoundation.defaultAdapter, adapter)) || this;
+  }
+
+  Object.defineProperty(MDCTextFieldHelperTextFoundation, "cssClasses", {
+    get: function get() {
+      return cssClasses$1;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCTextFieldHelperTextFoundation, "strings", {
+    get: function get() {
+      return strings$1;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCTextFieldHelperTextFoundation, "defaultAdapter", {
+    /**
+     * See {@link MDCTextFieldHelperTextAdapter} for typing information on parameters and return types.
+     */
+    get: function get() {
+      // tslint:disable:object-literal-sort-keys Methods should be in the same order as the adapter interface.
+      return {
+        addClass: function addClass() {
+          return undefined;
+        },
+        removeClass: function removeClass() {
+          return undefined;
+        },
+        hasClass: function hasClass() {
+          return false;
+        },
+        setAttr: function setAttr() {
+          return undefined;
+        },
+        removeAttr: function removeAttr() {
+          return undefined;
+        },
+        setContent: function setContent() {
+          return undefined;
+        }
+      }; // tslint:enable:object-literal-sort-keys
+    },
+    enumerable: true,
+    configurable: true
+  });
+  /**
+   * Sets the content of the helper text field.
+   */
+
+  MDCTextFieldHelperTextFoundation.prototype.setContent = function (content) {
+    this.adapter_.setContent(content);
+  };
+  /**
+   * @param isPersistent Sets the persistency of the helper text.
+   */
+
+
+  MDCTextFieldHelperTextFoundation.prototype.setPersistent = function (isPersistent) {
+    if (isPersistent) {
+      this.adapter_.addClass(cssClasses$1.HELPER_TEXT_PERSISTENT);
+    } else {
+      this.adapter_.removeClass(cssClasses$1.HELPER_TEXT_PERSISTENT);
+    }
+  };
+  /**
+   * @param isValidation True to make the helper text act as an error validation message.
+   */
+
+
+  MDCTextFieldHelperTextFoundation.prototype.setValidation = function (isValidation) {
+    if (isValidation) {
+      this.adapter_.addClass(cssClasses$1.HELPER_TEXT_VALIDATION_MSG);
+    } else {
+      this.adapter_.removeClass(cssClasses$1.HELPER_TEXT_VALIDATION_MSG);
+    }
+  };
+  /**
+   * Makes the helper text visible to the screen reader.
+   */
+
+
+  MDCTextFieldHelperTextFoundation.prototype.showToScreenReader = function () {
+    this.adapter_.removeAttr(strings$1.ARIA_HIDDEN);
+  };
+  /**
+   * Sets the validity of the helper text based on the input validity.
+   */
+
+
+  MDCTextFieldHelperTextFoundation.prototype.setValidity = function (inputIsValid) {
+    var helperTextIsPersistent = this.adapter_.hasClass(cssClasses$1.HELPER_TEXT_PERSISTENT);
+    var helperTextIsValidationMsg = this.adapter_.hasClass(cssClasses$1.HELPER_TEXT_VALIDATION_MSG);
+    var validationMsgNeedsDisplay = helperTextIsValidationMsg && !inputIsValid;
+
+    if (validationMsgNeedsDisplay) {
+      this.adapter_.setAttr(strings$1.ROLE, 'alert');
+    } else {
+      this.adapter_.removeAttr(strings$1.ROLE);
+    }
+
+    if (!helperTextIsPersistent && !validationMsgNeedsDisplay) {
+      this.hide_();
+    }
+  };
+  /**
+   * Hides the help text from screen readers.
+   */
+
+
+  MDCTextFieldHelperTextFoundation.prototype.hide_ = function () {
+    this.adapter_.setAttr(strings$1.ARIA_HIDDEN, 'true');
+  };
+
+  return MDCTextFieldHelperTextFoundation;
 }(MDCFoundation);
 
 var script = {
@@ -2148,6 +1368,165 @@ const __vue_script__ = script;
     undefined,
     undefined
   );
+
+/**
+ * @license
+ * Copyright 2016 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+var strings$2 = {
+  ICON_EVENT: 'MDCTextField:icon',
+  ICON_ROLE: 'button'
+};
+
+/**
+ * @license
+ * Copyright 2017 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+var INTERACTION_EVENTS$1 = ['click', 'keydown'];
+
+var MDCTextFieldIconFoundation =
+/** @class */
+function (_super) {
+  __extends(MDCTextFieldIconFoundation, _super);
+
+  function MDCTextFieldIconFoundation(adapter) {
+    var _this = _super.call(this, _assign({}, MDCTextFieldIconFoundation.defaultAdapter, adapter)) || this;
+
+    _this.savedTabIndex_ = null;
+
+    _this.interactionHandler_ = function (evt) {
+      return _this.handleInteraction(evt);
+    };
+
+    return _this;
+  }
+
+  Object.defineProperty(MDCTextFieldIconFoundation, "strings", {
+    get: function get() {
+      return strings$2;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCTextFieldIconFoundation, "defaultAdapter", {
+    /**
+     * See {@link MDCTextFieldIconAdapter} for typing information on parameters and return types.
+     */
+    get: function get() {
+      // tslint:disable:object-literal-sort-keys Methods should be in the same order as the adapter interface.
+      return {
+        getAttr: function getAttr() {
+          return null;
+        },
+        setAttr: function setAttr() {
+          return undefined;
+        },
+        removeAttr: function removeAttr() {
+          return undefined;
+        },
+        setContent: function setContent() {
+          return undefined;
+        },
+        registerInteractionHandler: function registerInteractionHandler() {
+          return undefined;
+        },
+        deregisterInteractionHandler: function deregisterInteractionHandler() {
+          return undefined;
+        },
+        notifyIconAction: function notifyIconAction() {
+          return undefined;
+        }
+      }; // tslint:enable:object-literal-sort-keys
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  MDCTextFieldIconFoundation.prototype.init = function () {
+    var _this = this;
+
+    this.savedTabIndex_ = this.adapter_.getAttr('tabindex');
+    INTERACTION_EVENTS$1.forEach(function (evtType) {
+      _this.adapter_.registerInteractionHandler(evtType, _this.interactionHandler_);
+    });
+  };
+
+  MDCTextFieldIconFoundation.prototype.destroy = function () {
+    var _this = this;
+
+    INTERACTION_EVENTS$1.forEach(function (evtType) {
+      _this.adapter_.deregisterInteractionHandler(evtType, _this.interactionHandler_);
+    });
+  };
+
+  MDCTextFieldIconFoundation.prototype.setDisabled = function (disabled) {
+    if (!this.savedTabIndex_) {
+      return;
+    }
+
+    if (disabled) {
+      this.adapter_.setAttr('tabindex', '-1');
+      this.adapter_.removeAttr('role');
+    } else {
+      this.adapter_.setAttr('tabindex', this.savedTabIndex_);
+      this.adapter_.setAttr('role', strings$2.ICON_ROLE);
+    }
+  };
+
+  MDCTextFieldIconFoundation.prototype.setAriaLabel = function (label) {
+    this.adapter_.setAttr('aria-label', label);
+  };
+
+  MDCTextFieldIconFoundation.prototype.setContent = function (content) {
+    this.adapter_.setContent(content);
+  };
+
+  MDCTextFieldIconFoundation.prototype.handleInteraction = function (evt) {
+    var isEnterKey = evt.key === 'Enter' || evt.keyCode === 13;
+
+    if (evt.type === 'click' || isEnterKey) {
+      this.adapter_.notifyIconAction();
+    }
+  };
+
+  return MDCTextFieldIconFoundation;
+}(MDCFoundation);
 
 var script$1 = {
   name: 'textfield-icon',

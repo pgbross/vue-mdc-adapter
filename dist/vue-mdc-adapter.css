@@ -224,10 +224,10 @@
 }
 .mdc-button:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 .mdc-button.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 
 .mdc-button__label + .mdc-button__icon, .mdc-button .mdc-button__label + .mdc-icon {
@@ -364,11 +364,11 @@ svg.mdc-button__icon, .mdc-button svg.mdc-icon {
 .mdc-button--raised:not(.mdc-ripple-upgraded):active::after,
 .mdc-button--unelevated:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.32;
+  opacity: 0.24;
 }
 .mdc-button--raised.mdc-ripple-upgraded,
 .mdc-button--unelevated.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.32;
+  --mdc-ripple-fg-opacity: 0.24;
 }
 
 .mdc-button--raised {
@@ -558,10 +558,10 @@ svg.mdc-button__icon, .mdc-button svg.mdc-icon {
 }
 .mdc-button:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 .mdc-button.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 
 .mdc-button__label + .mdc-button__icon, .mdc-button .mdc-button__label + .mdc-icon {
@@ -698,11 +698,11 @@ svg.mdc-button__icon, .mdc-button svg.mdc-icon {
 .mdc-button--raised:not(.mdc-ripple-upgraded):active::after,
 .mdc-button--unelevated:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.32;
+  opacity: 0.24;
 }
 .mdc-button--raised.mdc-ripple-upgraded,
 .mdc-button--unelevated.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.32;
+  --mdc-ripple-fg-opacity: 0.24;
 }
 
 .mdc-button--raised {
@@ -879,10 +879,10 @@ svg.mdc-button__icon, .mdc-button svg.mdc-icon {
 }
 .mdc-card__primary-action:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 .mdc-card__primary-action.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 
 .mdc-card__primary-action:first-child {
@@ -1428,10 +1428,10 @@ svg.mdc-button__icon, .mdc-button svg.mdc-icon {
 }
 .mdc-checkbox:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 .mdc-checkbox.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 .mdc-checkbox::before, .mdc-checkbox::after {
   top: calc(50% - 50%);
@@ -1867,17 +1867,30 @@ svg.mdc-button__icon, .mdc-button svg.mdc-icon {
 }
 .mdc-chip:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 .mdc-chip.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 .mdc-chip:hover {
   color: rgba(0, 0, 0, 0.87);
 }
 .mdc-chip.mdc-chip--selected .mdc-chip__checkmark,
 .mdc-chip .mdc-chip__icon--leading:not(.mdc-chip__icon--leading-hidden) {
-  margin: -4px 4px -4px -4px;
+  /* @noflip */
+  margin-left: -4px;
+  /* @noflip */
+  margin-right: 4px;
+  margin-top: -4px;
+  margin-bottom: -4px;
+}
+[dir=rtl] .mdc-chip.mdc-chip--selected .mdc-chip__checkmark, .mdc-chip.mdc-chip--selected .mdc-chip__checkmark[dir=rtl],
+[dir=rtl] .mdc-chip .mdc-chip__icon--leading:not(.mdc-chip__icon--leading-hidden),
+.mdc-chip .mdc-chip__icon--leading:not(.mdc-chip__icon--leading-hidden)[dir=rtl] {
+  /* @noflip */
+  margin-left: 4px;
+  /* @noflip */
+  margin-right: -4px;
 }
 .mdc-chip:hover {
   color: #000;
@@ -1969,10 +1982,10 @@ svg.mdc-button__icon, .mdc-button svg.mdc-icon {
 }
 .mdc-chip-set--choice .mdc-chip.mdc-chip--selected:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.24;
+  opacity: 0.2;
 }
 .mdc-chip-set--choice .mdc-chip.mdc-chip--selected.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.24;
+  --mdc-ripple-fg-opacity: 0.2;
 }
 .mdc-chip-set--choice .mdc-chip.mdc-chip--selected {
   color: #6200ee;
@@ -2094,10 +2107,10 @@ svg.mdc-button__icon, .mdc-button svg.mdc-icon {
 }
 .mdc-chip.mdc-chip--selected:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.24;
+  opacity: 0.2;
 }
 .mdc-chip.mdc-chip--selected.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.24;
+  --mdc-ripple-fg-opacity: 0.2;
 }
 .mdc-chip.mdc-chip--selected {
   color: #6200ee;
@@ -2932,10 +2945,10 @@ svg.mdc-button__icon, .mdc-button svg.mdc-icon {
 }
 .mdc-fab:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.32;
+  opacity: 0.24;
 }
 .mdc-fab.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.32;
+  --mdc-ripple-fg-opacity: 0.24;
 }
 
 .mdc-fab--mini {
@@ -3369,10 +3382,10 @@ a:active.mdc-fab {
 }
 :not(.mdc-grid-list--non-interactive) > .mdc-grid-tile:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 :not(.mdc-grid-list--non-interactive) > .mdc-grid-tile.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 :not(.mdc-grid-list--non-interactive) > .mdc-grid-tile--activated::before {
   opacity: 0.12;
@@ -3398,10 +3411,10 @@ a:active.mdc-fab {
 }
 :not(.mdc-grid-list--non-interactive) > .mdc-grid-tile--activated:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.28;
+  opacity: 0.24;
 }
 :not(.mdc-grid-list--non-interactive) > .mdc-grid-tile--activated.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.28;
+  --mdc-ripple-fg-opacity: 0.24;
 }
 :not(.mdc-grid-list--non-interactive) > .mdc-grid-tile--selected::before {
   opacity: 0.08;
@@ -3427,10 +3440,10 @@ a:active.mdc-fab {
 }
 :not(.mdc-grid-list--non-interactive) > .mdc-grid-tile--selected:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.24;
+  opacity: 0.2;
 }
 :not(.mdc-grid-list--non-interactive) > .mdc-grid-tile--selected.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.24;
+  --mdc-ripple-fg-opacity: 0.2;
 }
 
 .mdc-icon.mdc-icon--material {
@@ -3560,10 +3573,10 @@ a:active.mdc-fab {
 }
 .mdc-icon-button:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 .mdc-icon-button.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 
 .mdc-icon-button__icon {
@@ -5109,10 +5122,10 @@ a:active.mdc-fab {
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item--activated::before {
   opacity: 0.12;
@@ -5138,10 +5151,10 @@ a:active.mdc-fab {
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item--activated:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.28;
+  opacity: 0.24;
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item--activated.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.28;
+  --mdc-ripple-fg-opacity: 0.24;
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item--selected::before {
   opacity: 0.08;
@@ -5167,10 +5180,10 @@ a:active.mdc-fab {
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item--selected:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.24;
+  opacity: 0.2;
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item--selected.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.24;
+  --mdc-ripple-fg-opacity: 0.2;
 }
 
 a.mdc-list-item {
@@ -5322,10 +5335,10 @@ a.mdc-list-item {
 }
 .material-icons--ripple-surface:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 .material-icons--ripple-surface.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 
 .mdc-list {
@@ -5690,10 +5703,10 @@ a.mdc-list-item {
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item--activated::before {
   opacity: 0.12;
@@ -5719,10 +5732,10 @@ a.mdc-list-item {
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item--activated:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.28;
+  opacity: 0.24;
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item--activated.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.28;
+  --mdc-ripple-fg-opacity: 0.24;
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item--selected::before {
   opacity: 0.08;
@@ -5748,10 +5761,10 @@ a.mdc-list-item {
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item--selected:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.24;
+  opacity: 0.2;
 }
 :not(.mdc-list--non-interactive) > :not(.mdc-list-item--disabled).mdc-list-item--selected.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.24;
+  --mdc-ripple-fg-opacity: 0.2;
 }
 
 a.mdc-list-item {
@@ -5892,6 +5905,9 @@ a.mdc-list-item {
   overflow: auto;
   will-change: transform, opacity;
   z-index: 8;
+  transition: opacity 0.03s linear, -webkit-transform 0.12s cubic-bezier(0, 0, 0.2, 1);
+  transition: opacity 0.03s linear, transform 0.12s cubic-bezier(0, 0, 0.2, 1);
+  transition: opacity 0.03s linear, transform 0.12s cubic-bezier(0, 0, 0.2, 1), -webkit-transform 0.12s cubic-bezier(0, 0, 0.2, 1);
   box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14), 0px 3px 14px 2px rgba(0, 0, 0, 0.12);
   background-color: #fff;
   /* @alternate */
@@ -5919,9 +5935,6 @@ a.mdc-list-item {
   -webkit-transform: scale(0.8);
           transform: scale(0.8);
   opacity: 0;
-  transition: opacity 0.03s linear, -webkit-transform 0.12s cubic-bezier(0, 0, 0.2, 1);
-  transition: opacity 0.03s linear, transform 0.12s cubic-bezier(0, 0, 0.2, 1);
-  transition: opacity 0.03s linear, transform 0.12s cubic-bezier(0, 0, 0.2, 1), -webkit-transform 0.12s cubic-bezier(0, 0, 0.2, 1);
 }
 .mdc-menu-surface--animating-closed {
   display: inline-block;
@@ -6113,10 +6126,10 @@ a.mdc-list-item {
 }
 .mdc-radio:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 .mdc-radio.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 .mdc-radio__background {
   display: inline-block;
@@ -6305,10 +6318,10 @@ a.mdc-list-item {
 }
 .mdc-ripple-surface:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 .mdc-ripple-surface.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 .mdc-ripple-surface::before, .mdc-ripple-surface::after {
   top: calc(50% - 100%);
@@ -6363,10 +6376,10 @@ a.mdc-list-item {
 }
 .mdc-ripple-surface--primary:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 .mdc-ripple-surface--primary.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 .mdc-ripple-surface--accent::before, .mdc-ripple-surface--accent::after {
   background-color: #018786;
@@ -6389,10 +6402,10 @@ a.mdc-list-item {
 }
 .mdc-ripple-surface--accent:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 .mdc-ripple-surface--accent.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 
 .mdc-ripple-upgraded.mdc-ripple-upgraded--background-focused::before {
@@ -7304,10 +7317,10 @@ a.mdc-list-item {
 }
 .mdc-select__menu .mdc-list .mdc-list-item--selected:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 .mdc-select__menu .mdc-list .mdc-list-item--selected.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 
 @-webkit-keyframes mdc-floating-label-shake-float-above-select-outlined-leading-icon {
@@ -7802,10 +7815,10 @@ a.mdc-list-item {
 }
 .mdc-snackbar__action:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.32;
+  opacity: 0.24;
 }
 .mdc-snackbar__action.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.32;
+  --mdc-ripple-fg-opacity: 0.24;
 }
 
 .mdc-snackbar__dismiss {
@@ -7826,10 +7839,10 @@ a.mdc-list-item {
 }
 .mdc-snackbar__dismiss:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.32;
+  opacity: 0.24;
 }
 .mdc-snackbar__dismiss.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.32;
+  --mdc-ripple-fg-opacity: 0.24;
 }
 
 .mdc-snackbar__dismiss.mdc-snackbar__dismiss {
@@ -7950,10 +7963,10 @@ a.mdc-list-item {
 }
 .mdc-switch:not(.mdc-switch--checked) .mdc-switch__thumb-underlay:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.32;
+  opacity: 0.24;
 }
 .mdc-switch:not(.mdc-switch--checked) .mdc-switch__thumb-underlay.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.32;
+  --mdc-ripple-fg-opacity: 0.24;
 }
 
 .mdc-switch__native-control {
@@ -8091,10 +8104,10 @@ a.mdc-list-item {
 }
 .mdc-switch__thumb-underlay:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 .mdc-switch__thumb-underlay.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 [dir=rtl] .mdc-switch__thumb-underlay, .mdc-switch__thumb-underlay[dir=rtl] {
   /* @noflip */
@@ -8189,8 +8202,6 @@ a.mdc-list-item {
   outline: none;
   background: none;
   text-align: center;
-  text-decoration: none;
-  text-transform: uppercase;
   white-space: nowrap;
   cursor: pointer;
   -webkit-appearance: none;
@@ -8298,10 +8309,10 @@ a.mdc-list-item {
 }
 .mdc-tab__ripple:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.16;
+  opacity: 0.12;
 }
 .mdc-tab__ripple.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.16;
+  --mdc-ripple-fg-opacity: 0.12;
 }
 
 .mdc-tab__content {
@@ -8672,6 +8683,7 @@ a.mdc-list-item {
   padding-left: 16px;
   /* @noflip */
   padding-right: 0;
+  white-space: nowrap;
 }
 .mdc-text-field-character-counter::before {
   display: inline-block;
@@ -8721,6 +8733,7 @@ a.mdc-list-item {
   box-sizing: border-box;
   height: 56px;
   overflow: hidden;
+  /* @alternate */
   will-change: opacity, transform, color;
 }
 .mdc-text-field::before, .mdc-text-field::after {
@@ -8932,22 +8945,22 @@ a.mdc-list-item {
 .mdc-text-field__input:-ms-input-placeholder {
   color: rgba(0, 0, 0, 0.54) !important;
 }
-.mdc-text-field--no-label .mdc-text-field__input::-webkit-input-placeholder, .mdc-text-field--focused .mdc-text-field__input::-webkit-input-placeholder {
+.mdc-text-field--fullwidth .mdc-text-field__input::-webkit-input-placeholder, .mdc-text-field--no-label .mdc-text-field__input::-webkit-input-placeholder, .mdc-text-field--focused .mdc-text-field__input::-webkit-input-placeholder {
   transition-delay: 40ms;
   transition-duration: 110ms;
   opacity: 1;
 }
-.mdc-text-field--no-label .mdc-text-field__input:-ms-input-placeholder, .mdc-text-field--focused .mdc-text-field__input:-ms-input-placeholder {
+.mdc-text-field--fullwidth .mdc-text-field__input:-ms-input-placeholder, .mdc-text-field--no-label .mdc-text-field__input:-ms-input-placeholder, .mdc-text-field--focused .mdc-text-field__input:-ms-input-placeholder {
   transition-delay: 40ms;
   transition-duration: 110ms;
   opacity: 1;
 }
-.mdc-text-field--no-label .mdc-text-field__input::-ms-input-placeholder, .mdc-text-field--focused .mdc-text-field__input::-ms-input-placeholder {
+.mdc-text-field--fullwidth .mdc-text-field__input::-ms-input-placeholder, .mdc-text-field--no-label .mdc-text-field__input::-ms-input-placeholder, .mdc-text-field--focused .mdc-text-field__input::-ms-input-placeholder {
   transition-delay: 40ms;
   transition-duration: 110ms;
   opacity: 1;
 }
-.mdc-text-field--no-label .mdc-text-field__input::placeholder, .mdc-text-field--focused .mdc-text-field__input::placeholder {
+.mdc-text-field--fullwidth .mdc-text-field__input::placeholder, .mdc-text-field--no-label .mdc-text-field__input::placeholder, .mdc-text-field--focused .mdc-text-field__input::placeholder {
   transition-delay: 40ms;
   transition-duration: 110ms;
   opacity: 1;
@@ -9767,6 +9780,7 @@ a.mdc-list-item {
 
 .mdc-text-field--textarea.mdc-text-field--disabled {
   background-color: transparent;
+  /* @alternate */
   background-color: #f9f9f9;
 }
 .mdc-text-field--textarea.mdc-text-field--disabled .mdc-notched-outline__leading,
@@ -10186,10 +10200,10 @@ a.mdc-list-item {
 }
 .mdc-toolbar .mdc-toolbar__icon:not(.mdc-ripple-upgraded):active::after, .mdc-toolbar .mdc-icon:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.32;
+  opacity: 0.24;
 }
 .mdc-toolbar .mdc-toolbar__icon.mdc-ripple-upgraded, .mdc-toolbar .mdc-ripple-upgraded.mdc-icon {
-  --mdc-ripple-fg-opacity: 0.32;
+  --mdc-ripple-fg-opacity: 0.24;
 }
 .mdc-toolbar__row {
   display: flex;
@@ -10602,11 +10616,11 @@ a.mdc-list-item {
 .mdc-top-app-bar .mdc-top-app-bar__action-item:not(.mdc-ripple-upgraded):active::after,
 .mdc-top-app-bar .mdc-top-app-bar__navigation-icon:not(.mdc-ripple-upgraded):active::after {
   transition-duration: 75ms;
-  opacity: 0.32;
+  opacity: 0.24;
 }
 .mdc-top-app-bar .mdc-top-app-bar__action-item.mdc-ripple-upgraded,
 .mdc-top-app-bar .mdc-top-app-bar__navigation-icon.mdc-ripple-upgraded {
-  --mdc-ripple-fg-opacity: 0.32;
+  --mdc-ripple-fg-opacity: 0.24;
 }
 .mdc-top-app-bar__row {
   display: flex;

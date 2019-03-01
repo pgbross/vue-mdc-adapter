@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.44.0","material-components-web":"^0.44.0"}
+* @implements {"@material/tabs":"^1.0.0-0","material-components-web":"^1.0.0-0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -21,93 +21,6 @@ function BasePlugin(components) {
     },
     components: components
   };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
 }
 
 /* global CustomEvent */
@@ -172,6 +85,62 @@ var VMAUniqueIdMixin = {
   }
 };
 
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+
+/* global Reflect, Promise */
+var _extendStatics = function extendStatics(d, b) {
+  _extendStatics = Object.setPrototypeOf || {
+    __proto__: []
+  } instanceof Array && function (d, b) {
+    d.__proto__ = b;
+  } || function (d, b) {
+    for (var p in b) {
+      if (b.hasOwnProperty(p)) d[p] = b[p];
+    }
+  };
+
+  return _extendStatics(d, b);
+};
+
+function __extends(d, b) {
+  _extendStatics(d, b);
+
+  function __() {
+    this.constructor = d;
+  }
+
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var _assign = function __assign() {
+  _assign = Object.assign || function __assign(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return _assign.apply(this, arguments);
+};
+
 /**
  * @license
  * Copyright 2016 Google Inc.
@@ -194,74 +163,60 @@ var VMAUniqueIdMixin = {
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/**
- * @template A
- */
 var MDCFoundation =
-/*#__PURE__*/
+/** @class */
 function () {
-  _createClass(MDCFoundation, null, [{
-    key: "cssClasses",
+  function MDCFoundation(adapter) {
+    if (adapter === void 0) {
+      adapter = {};
+    }
 
-    /** @return enum{cssClasses} */
+    this.adapter_ = adapter;
+  }
+
+  Object.defineProperty(MDCFoundation, "cssClasses", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports every
       // CSS class the foundation class needs as a property. e.g. {ACTIVE: 'mdc-component--active'}
       return {};
-    }
-    /** @return enum{strings} */
-
-  }, {
-    key: "strings",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "strings", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // semantic strings as constants. e.g. {ARIA_ROLE: 'tablist'}
       return {};
-    }
-    /** @return enum{numbers} */
-
-  }, {
-    key: "numbers",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "numbers", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // of its semantic numbers as constants. e.g. {ANIMATION_DELAY_MS: 350}
       return {};
-    }
-    /** @return {!Object} */
-
-  }, {
-    key: "defaultAdapter",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "defaultAdapter", {
     get: function get() {
       // Classes extending MDCFoundation may choose to implement this getter in order to provide a convenient
       // way of viewing the necessary methods of an adapter. In the future, this could also be used for adapter
       // validation.
       return {};
-    }
-    /**
-     * @param {A=} adapter
-     */
+    },
+    enumerable: true,
+    configurable: true
+  });
 
-  }]);
+  MDCFoundation.prototype.init = function () {// Subclasses should override this method to perform initialization routines (registering events, etc.)
+  };
 
-  function MDCFoundation() {
-    var adapter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    _classCallCheck(this, MDCFoundation);
-
-    /** @protected {!A} */
-    this.adapter_ = adapter;
-  }
-
-  _createClass(MDCFoundation, [{
-    key: "init",
-    value: function init() {// Subclasses should override this method to perform initialization routines (registering events, etc.)
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
-    }
-  }]);
+  MDCFoundation.prototype.destroy = function () {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
+  };
 
   return MDCFoundation;
 }();
@@ -289,54 +244,23 @@ function () {
  * THE SOFTWARE.
  */
 
-/* eslint no-unused-vars: [2, {"args": "none"}] */
+/** CSS classes used by the switch. */
+var cssClasses = {
+  /** Class used for a switch that is in the "checked" (on) position. */
+  CHECKED: 'mdc-switch--checked',
 
-/**
- * Adapter for MDC Switch. Provides an interface for managing
- * - classes
- * - dom
- *
- * Additionally, provides type information for the adapter to the Closure
- * compiler.
- *
- * Implement this adapter for your framework of choice to delegate updates to
- * the component in your framework of choice. See architecture documentation
- * for more details.
- * https://github.com/material-components/material-components-web/blob/master/docs/code/architecture.md
- *
- * @record
- */
-var MDCSwitchAdapter =
-/*#__PURE__*/
-function () {
-  function MDCSwitchAdapter() {
-    _classCallCheck(this, MDCSwitchAdapter);
-  }
+  /** Class used for a switch that is disabled. */
+  DISABLED: 'mdc-switch--disabled'
+};
+/** String constants used by the switch. */
 
-  _createClass(MDCSwitchAdapter, [{
-    key: "addClass",
+var strings = {
+  /** A CSS selector used to locate the native HTML control for the switch.  */
+  NATIVE_CONTROL_SELECTOR: '.mdc-switch__native-control',
 
-    /** @param {string} className */
-    value: function addClass(className) {}
-    /** @param {string} className */
-
-  }, {
-    key: "removeClass",
-    value: function removeClass(className) {}
-    /** @param {boolean} checked */
-
-  }, {
-    key: "setNativeControlChecked",
-    value: function setNativeControlChecked(checked) {}
-    /** @param {boolean} disabled */
-
-  }, {
-    key: "setNativeControlDisabled",
-    value: function setNativeControlDisabled(disabled) {}
-  }]);
-
-  return MDCSwitchAdapter;
-}();
+  /** A CSS selector used to locate the ripple surface element for the switch. */
+  RIPPLE_SURFACE_SELECTOR: '.mdc-switch__thumb-underlay'
+};
 
 /**
  * @license
@@ -360,120 +284,94 @@ function () {
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/** @enum {string} */
-var cssClasses = {
-  CHECKED: 'mdc-switch--checked',
-  DISABLED: 'mdc-switch--disabled'
-};
-/** @enum {string} */
-
-var strings = {
-  NATIVE_CONTROL_SELECTOR: '.mdc-switch__native-control',
-  RIPPLE_SURFACE_SELECTOR: '.mdc-switch__thumb-underlay'
-};
-
 /**
- * @extends {MDCFoundation<!MDCSwitchAdapter>}
+ * Foundation for the MDC Switch. Encapsulates business logic for the switch.
+ *
+ * See architecture documentation for more details.
+ * https://github.com/material-components/material-components-web/blob/master/docs/code/architecture.md
  */
 
 var MDCSwitchFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCSwitchFoundation, _MDCFoundation);
-
-  _createClass(MDCSwitchFoundation, null, [{
-    key: "strings",
-
-    /** @return enum {string} */
-    get: function get() {
-      return strings;
-    }
-    /** @return enum {string} */
-
-  }, {
-    key: "cssClasses",
-    get: function get() {
-      return cssClasses;
-    }
-    /** @return {!MDCSwitchAdapter} */
-
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCSwitchAdapter} */
-        {
-          addClass: function addClass()
-          /* className: string */
-          {},
-          removeClass: function removeClass()
-          /* className: string */
-          {},
-          setNativeControlChecked: function setNativeControlChecked()
-          /* checked: boolean */
-          {},
-          setNativeControlDisabled: function setNativeControlDisabled()
-          /* disabled: boolean */
-          {}
-        }
-      );
-    }
-  }]);
+/** @class */
+function (_super) {
+  __extends(MDCSwitchFoundation, _super);
 
   function MDCSwitchFoundation(adapter) {
-    _classCallCheck(this, MDCSwitchFoundation);
-
-    return _possibleConstructorReturn(this, _getPrototypeOf(MDCSwitchFoundation).call(this, _extends(MDCSwitchFoundation.defaultAdapter, adapter)));
+    return _super.call(this, _assign({}, MDCSwitchFoundation.defaultAdapter, adapter)) || this;
   }
-  /** @param {boolean} checked */
+
+  Object.defineProperty(MDCSwitchFoundation, "strings", {
+    /** The string constants used by the switch. */
+    get: function get() {
+      return strings;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCSwitchFoundation, "cssClasses", {
+    /** The CSS classes used by the switch. */
+    get: function get() {
+      return cssClasses;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCSwitchFoundation, "defaultAdapter", {
+    /** The default Adapter for the switch. */
+    get: function get() {
+      return {
+        addClass: function addClass() {
+          return undefined;
+        },
+        removeClass: function removeClass() {
+          return undefined;
+        },
+        setNativeControlChecked: function setNativeControlChecked() {
+          return undefined;
+        },
+        setNativeControlDisabled: function setNativeControlDisabled() {
+          return undefined;
+        }
+      };
+    },
+    enumerable: true,
+    configurable: true
+  });
+  /** Sets the checked state of the switch. */
+
+  MDCSwitchFoundation.prototype.setChecked = function (checked) {
+    this.adapter_.setNativeControlChecked(checked);
+    this.updateCheckedStyling_(checked);
+  };
+  /** Sets the disabled state of the switch. */
 
 
-  _createClass(MDCSwitchFoundation, [{
-    key: "setChecked",
-    value: function setChecked(checked) {
-      this.adapter_.setNativeControlChecked(checked);
-      this.updateCheckedStyling_(checked);
+  MDCSwitchFoundation.prototype.setDisabled = function (disabled) {
+    this.adapter_.setNativeControlDisabled(disabled);
+
+    if (disabled) {
+      this.adapter_.addClass(cssClasses.DISABLED);
+    } else {
+      this.adapter_.removeClass(cssClasses.DISABLED);
     }
-    /** @param {boolean} disabled */
+  };
+  /** Handles the change event for the switch native control. */
 
-  }, {
-    key: "setDisabled",
-    value: function setDisabled(disabled) {
-      this.adapter_.setNativeControlDisabled(disabled);
 
-      if (disabled) {
-        this.adapter_.addClass(cssClasses.DISABLED);
-      } else {
-        this.adapter_.removeClass(cssClasses.DISABLED);
-      }
+  MDCSwitchFoundation.prototype.handleChange = function (evt) {
+    var nativeControl = evt.target;
+    this.updateCheckedStyling_(nativeControl.checked);
+  };
+  /** Updates the styling of the switch based on its checked state. */
+
+
+  MDCSwitchFoundation.prototype.updateCheckedStyling_ = function (checked) {
+    if (checked) {
+      this.adapter_.addClass(cssClasses.CHECKED);
+    } else {
+      this.adapter_.removeClass(cssClasses.CHECKED);
     }
-    /**
-     * Handles the change event for the switch native control.
-     * @param {!Event} evt
-     */
-
-  }, {
-    key: "handleChange",
-    value: function handleChange(evt) {
-      this.updateCheckedStyling_(evt.target.checked);
-    }
-    /**
-     * Updates the styling of the switch based on its checked state.
-     * @param {boolean} checked
-     * @private
-     */
-
-  }, {
-    key: "updateCheckedStyling_",
-    value: function updateCheckedStyling_(checked) {
-      if (checked) {
-        this.adapter_.addClass(cssClasses.CHECKED);
-      } else {
-        this.adapter_.removeClass(cssClasses.CHECKED);
-      }
-    }
-  }]);
+  };
 
   return MDCSwitchFoundation;
 }(MDCFoundation);

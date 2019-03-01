@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.44.0","material-components-web":"^0.44.0"}
+* @implements {"@material/tabs":"^1.0.0-0","material-components-web":"^1.0.0-0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -19,28 +19,6 @@ function BasePlugin(components) {
     },
     components: components
   };
-}
-
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
 }
 
 function _extends() {
@@ -61,56 +39,65 @@ function _extends() {
   return _extends.apply(this, arguments);
 }
 
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
 /* global CustomEvent */
 
 var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+
+/* global Reflect, Promise */
+var _extendStatics = function extendStatics(d, b) {
+  _extendStatics = Object.setPrototypeOf || {
+    __proto__: []
+  } instanceof Array && function (d, b) {
+    d.__proto__ = b;
+  } || function (d, b) {
+    for (var p in b) {
+      if (b.hasOwnProperty(p)) d[p] = b[p];
+    }
+  };
+
+  return _extendStatics(d, b);
+};
+
+function __extends(d, b) {
+  _extendStatics(d, b);
+
+  function __() {
+    this.constructor = d;
+  }
+
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var _assign = function __assign() {
+  _assign = Object.assign || function __assign(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return _assign.apply(this, arguments);
+};
 
 /**
  * @license
@@ -134,74 +121,60 @@ var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/**
- * @template A
- */
 var MDCFoundation =
-/*#__PURE__*/
+/** @class */
 function () {
-  _createClass(MDCFoundation, null, [{
-    key: "cssClasses",
+  function MDCFoundation(adapter) {
+    if (adapter === void 0) {
+      adapter = {};
+    }
 
-    /** @return enum{cssClasses} */
+    this.adapter_ = adapter;
+  }
+
+  Object.defineProperty(MDCFoundation, "cssClasses", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports every
       // CSS class the foundation class needs as a property. e.g. {ACTIVE: 'mdc-component--active'}
       return {};
-    }
-    /** @return enum{strings} */
-
-  }, {
-    key: "strings",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "strings", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // semantic strings as constants. e.g. {ARIA_ROLE: 'tablist'}
       return {};
-    }
-    /** @return enum{numbers} */
-
-  }, {
-    key: "numbers",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "numbers", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // of its semantic numbers as constants. e.g. {ANIMATION_DELAY_MS: 350}
       return {};
-    }
-    /** @return {!Object} */
-
-  }, {
-    key: "defaultAdapter",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "defaultAdapter", {
     get: function get() {
       // Classes extending MDCFoundation may choose to implement this getter in order to provide a convenient
       // way of viewing the necessary methods of an adapter. In the future, this could also be used for adapter
       // validation.
       return {};
-    }
-    /**
-     * @param {A=} adapter
-     */
+    },
+    enumerable: true,
+    configurable: true
+  });
 
-  }]);
+  MDCFoundation.prototype.init = function () {// Subclasses should override this method to perform initialization routines (registering events, etc.)
+  };
 
-  function MDCFoundation() {
-    var adapter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    _classCallCheck(this, MDCFoundation);
-
-    /** @protected {!A} */
-    this.adapter_ = adapter;
-  }
-
-  _createClass(MDCFoundation, [{
-    key: "init",
-    value: function init() {// Subclasses should override this method to perform initialization routines (registering events, etc.)
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
-    }
-  }]);
+  MDCFoundation.prototype.destroy = function () {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
+  };
 
   return MDCFoundation;
 }();
@@ -228,81 +201,10 @@ function () {
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/* eslint no-unused-vars: [2, {"args": "none"}] */
-
-/**
- * Adapter for MDC TextField Line Ripple.
- *
- * Defines the shape of the adapter expected by the foundation. Implement this
- * adapter to integrate the line ripple into your framework. See
- * https://github.com/material-components/material-components-web/blob/master/docs/authoring-components.md
- * for more information.
- *
- * @record
- */
-var MDCLineRippleAdapter =
-/*#__PURE__*/
-function () {
-  function MDCLineRippleAdapter() {
-    _classCallCheck(this, MDCLineRippleAdapter);
-  }
-
-  _createClass(MDCLineRippleAdapter, [{
-    key: "addClass",
-
-    /**
-     * Adds a class to the line ripple element.
-     * @param {string} className
-     */
-    value: function addClass(className) {}
-    /**
-     * Removes a class from the line ripple element.
-     * @param {string} className
-     */
-
-  }, {
-    key: "removeClass",
-    value: function removeClass(className) {}
-    /**
-     * @param {string} className
-     * @return {boolean}
-     */
-
-  }, {
-    key: "hasClass",
-    value: function hasClass(className) {}
-    /**
-     * Sets the style property with propertyName to value on the root element.
-     * @param {string} propertyName
-     * @param {string} value
-     */
-
-  }, {
-    key: "setStyle",
-    value: function setStyle(propertyName, value) {}
-    /**
-     * Registers an event listener on the line ripple element for a given event.
-     * @param {string} evtType
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "registerEventHandler",
-    value: function registerEventHandler(evtType, handler) {}
-    /**
-     * Deregisters an event listener on the line ripple element for a given event.
-     * @param {string} evtType
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "deregisterEventHandler",
-    value: function deregisterEventHandler(evtType, handler) {}
-  }]);
-
-  return MDCLineRippleAdapter;
-}();
+var cssClasses = {
+  LINE_RIPPLE_ACTIVE: 'mdc-line-ripple--active',
+  LINE_RIPPLE_DEACTIVATING: 'mdc-line-ripple--deactivating'
+};
 
 /**
  * @license
@@ -327,63 +229,13 @@ function () {
  * THE SOFTWARE.
  */
 
-/** @enum {string} */
-var cssClasses = {
-  LINE_RIPPLE_ACTIVE: 'mdc-line-ripple--active',
-  LINE_RIPPLE_DEACTIVATING: 'mdc-line-ripple--deactivating'
-};
-
-/**
- * @extends {MDCFoundation<!MDCLineRippleAdapter>}
- * @final
- */
-
 var MDCLineRippleFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCLineRippleFoundation, _MDCFoundation);
-
-  _createClass(MDCLineRippleFoundation, null, [{
-    key: "cssClasses",
-
-    /** @return enum {string} */
-    get: function get() {
-      return cssClasses;
-    }
-    /**
-     * {@see MDCLineRippleAdapter} for typing information on parameters and return
-     * types.
-     * @return {!MDCLineRippleAdapter}
-     */
-
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCLineRippleAdapter} */
-        {
-          addClass: function addClass() {},
-          removeClass: function removeClass() {},
-          hasClass: function hasClass() {},
-          setStyle: function setStyle() {},
-          registerEventHandler: function registerEventHandler() {},
-          deregisterEventHandler: function deregisterEventHandler() {}
-        }
-      );
-    }
-    /**
-     * @param {!MDCLineRippleAdapter=} adapter
-     */
-
-  }]);
+/** @class */
+function (_super) {
+  __extends(MDCLineRippleFoundation, _super);
 
   function MDCLineRippleFoundation(adapter) {
-    var _this;
-
-    _classCallCheck(this, MDCLineRippleFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCLineRippleFoundation).call(this, _extends(MDCLineRippleFoundation.defaultAdapter, adapter)));
-    /** @private {function(!Event): undefined} */
+    var _this = _super.call(this, _assign({}, MDCLineRippleFoundation.defaultAdapter, adapter)) || this;
 
     _this.transitionEndHandler_ = function (evt) {
       return _this.handleTransitionEnd(evt);
@@ -392,65 +244,77 @@ function (_MDCFoundation) {
     return _this;
   }
 
-  _createClass(MDCLineRippleFoundation, [{
-    key: "init",
-    value: function init() {
-      this.adapter_.registerEventHandler('transitionend', this.transitionEndHandler_);
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      this.adapter_.deregisterEventHandler('transitionend', this.transitionEndHandler_);
-    }
+  Object.defineProperty(MDCLineRippleFoundation, "cssClasses", {
+    get: function get() {
+      return cssClasses;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCLineRippleFoundation, "defaultAdapter", {
     /**
-     * Activates the line ripple
+     * See {@link MDCLineRippleAdapter} for typing information on parameters and return types.
      */
-
-  }, {
-    key: "activate",
-    value: function activate() {
-      this.adapter_.removeClass(cssClasses.LINE_RIPPLE_DEACTIVATING);
-      this.adapter_.addClass(cssClasses.LINE_RIPPLE_ACTIVE);
-    }
-    /**
-     * Sets the center of the ripple animation to the given X coordinate.
-     * @param {number} xCoordinate
-     */
-
-  }, {
-    key: "setRippleCenter",
-    value: function setRippleCenter(xCoordinate) {
-      this.adapter_.setStyle('transform-origin', "".concat(xCoordinate, "px center"));
-    }
-    /**
-     * Deactivates the line ripple
-     */
-
-  }, {
-    key: "deactivate",
-    value: function deactivate() {
-      this.adapter_.addClass(cssClasses.LINE_RIPPLE_DEACTIVATING);
-    }
-    /**
-     * Handles a transition end event
-     * @param {!Event} evt
-     */
-
-  }, {
-    key: "handleTransitionEnd",
-    value: function handleTransitionEnd(evt) {
-      // Wait for the line ripple to be either transparent or opaque
-      // before emitting the animation end event
-      var isDeactivating = this.adapter_.hasClass(cssClasses.LINE_RIPPLE_DEACTIVATING);
-
-      if (evt.propertyName === 'opacity') {
-        if (isDeactivating) {
-          this.adapter_.removeClass(cssClasses.LINE_RIPPLE_ACTIVE);
-          this.adapter_.removeClass(cssClasses.LINE_RIPPLE_DEACTIVATING);
+    get: function get() {
+      // tslint:disable:object-literal-sort-keys Methods should be in the same order as the adapter interface.
+      return {
+        addClass: function addClass() {
+          return undefined;
+        },
+        removeClass: function removeClass() {
+          return undefined;
+        },
+        hasClass: function hasClass() {
+          return false;
+        },
+        setStyle: function setStyle() {
+          return undefined;
+        },
+        registerEventHandler: function registerEventHandler() {
+          return undefined;
+        },
+        deregisterEventHandler: function deregisterEventHandler() {
+          return undefined;
         }
+      }; // tslint:enable:object-literal-sort-keys
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  MDCLineRippleFoundation.prototype.init = function () {
+    this.adapter_.registerEventHandler('transitionend', this.transitionEndHandler_);
+  };
+
+  MDCLineRippleFoundation.prototype.destroy = function () {
+    this.adapter_.deregisterEventHandler('transitionend', this.transitionEndHandler_);
+  };
+
+  MDCLineRippleFoundation.prototype.activate = function () {
+    this.adapter_.removeClass(cssClasses.LINE_RIPPLE_DEACTIVATING);
+    this.adapter_.addClass(cssClasses.LINE_RIPPLE_ACTIVE);
+  };
+
+  MDCLineRippleFoundation.prototype.setRippleCenter = function (xCoordinate) {
+    this.adapter_.setStyle('transform-origin', xCoordinate + "px center");
+  };
+
+  MDCLineRippleFoundation.prototype.deactivate = function () {
+    this.adapter_.addClass(cssClasses.LINE_RIPPLE_DEACTIVATING);
+  };
+
+  MDCLineRippleFoundation.prototype.handleTransitionEnd = function (evt) {
+    // Wait for the line ripple to be either transparent or opaque
+    // before emitting the animation end event
+    var isDeactivating = this.adapter_.hasClass(cssClasses.LINE_RIPPLE_DEACTIVATING);
+
+    if (evt.propertyName === 'opacity') {
+      if (isDeactivating) {
+        this.adapter_.removeClass(cssClasses.LINE_RIPPLE_ACTIVE);
+        this.adapter_.removeClass(cssClasses.LINE_RIPPLE_DEACTIVATING);
       }
     }
-  }]);
+  };
 
   return MDCLineRippleFoundation;
 }(MDCFoundation);

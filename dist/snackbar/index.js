@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.44.0","material-components-web":"^0.44.0"}
+* @implements {"@material/tabs":"^1.0.0-0","material-components-web":"^1.0.0-0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -21,96 +21,65 @@ function BasePlugin(components) {
   };
 }
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
 /* global CustomEvent */
 
 var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+
+/* global Reflect, Promise */
+var _extendStatics = function extendStatics(d, b) {
+  _extendStatics = Object.setPrototypeOf || {
+    __proto__: []
+  } instanceof Array && function (d, b) {
+    d.__proto__ = b;
+  } || function (d, b) {
+    for (var p in b) {
+      if (b.hasOwnProperty(p)) d[p] = b[p];
+    }
+  };
+
+  return _extendStatics(d, b);
+};
+
+function __extends(d, b) {
+  _extendStatics(d, b);
+
+  function __() {
+    this.constructor = d;
+  }
+
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
+
+var _assign = function __assign() {
+  _assign = Object.assign || function __assign(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return _assign.apply(this, arguments);
+};
 
 /**
  * @license
@@ -134,74 +103,60 @@ var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/**
- * @template A
- */
 var MDCFoundation =
-/*#__PURE__*/
+/** @class */
 function () {
-  _createClass(MDCFoundation, null, [{
-    key: "cssClasses",
+  function MDCFoundation(adapter) {
+    if (adapter === void 0) {
+      adapter = {};
+    }
 
-    /** @return enum{cssClasses} */
+    this.adapter_ = adapter;
+  }
+
+  Object.defineProperty(MDCFoundation, "cssClasses", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports every
       // CSS class the foundation class needs as a property. e.g. {ACTIVE: 'mdc-component--active'}
       return {};
-    }
-    /** @return enum{strings} */
-
-  }, {
-    key: "strings",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "strings", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // semantic strings as constants. e.g. {ARIA_ROLE: 'tablist'}
       return {};
-    }
-    /** @return enum{numbers} */
-
-  }, {
-    key: "numbers",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "numbers", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // of its semantic numbers as constants. e.g. {ANIMATION_DELAY_MS: 350}
       return {};
-    }
-    /** @return {!Object} */
-
-  }, {
-    key: "defaultAdapter",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "defaultAdapter", {
     get: function get() {
       // Classes extending MDCFoundation may choose to implement this getter in order to provide a convenient
       // way of viewing the necessary methods of an adapter. In the future, this could also be used for adapter
       // validation.
       return {};
-    }
-    /**
-     * @param {A=} adapter
-     */
+    },
+    enumerable: true,
+    configurable: true
+  });
 
-  }]);
+  MDCFoundation.prototype.init = function () {// Subclasses should override this method to perform initialization routines (registering events, etc.)
+  };
 
-  function MDCFoundation() {
-    var adapter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    _classCallCheck(this, MDCFoundation);
-
-    /** @protected {!A} */
-    this.adapter_ = adapter;
-  }
-
-  _createClass(MDCFoundation, [{
-    key: "init",
-    value: function init() {// Subclasses should override this method to perform initialization routines (registering events, etc.)
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
-    }
-  }]);
+  MDCFoundation.prototype.destroy = function () {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
+  };
 
   return MDCFoundation;
 }();
@@ -228,68 +183,39 @@ function () {
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
+var cssClasses = {
+  CLOSING: 'mdc-snackbar--closing',
+  OPEN: 'mdc-snackbar--open',
+  OPENING: 'mdc-snackbar--opening'
+};
+var strings = {
+  ACTION_SELECTOR: '.mdc-snackbar__action',
+  ARIA_LIVE_LABEL_TEXT_ATTR: 'data-mdc-snackbar-label-text',
+  CLOSED_EVENT: 'MDCSnackbar:closed',
+  CLOSING_EVENT: 'MDCSnackbar:closing',
+  DISMISS_SELECTOR: '.mdc-snackbar__dismiss',
+  LABEL_SELECTOR: '.mdc-snackbar__label',
+  OPENED_EVENT: 'MDCSnackbar:opened',
+  OPENING_EVENT: 'MDCSnackbar:opening',
+  REASON_ACTION: 'action',
+  REASON_DISMISS: 'dismiss',
+  SURFACE_SELECTOR: '.mdc-snackbar__surface'
+};
+var numbers = {
+  DEFAULT_AUTO_DISMISS_TIMEOUT_MS: 5000,
+  MAX_AUTO_DISMISS_TIMEOUT_MS: 10000,
+  MIN_AUTO_DISMISS_TIMEOUT_MS: 4000,
+  // These variables need to be kept in sync with the values in _variables.scss.
+  SNACKBAR_ANIMATION_CLOSE_TIME_MS: 75,
+  SNACKBAR_ANIMATION_OPEN_TIME_MS: 150,
 
-/* eslint no-unused-vars: [2, {"args": "none"}] */
-
-/**
- * Adapter for MDC Snackbar. Provides an interface for managing:
- * - CSS classes
- * - Event handlers
- *
- * Additionally, provides type information for the adapter to the Closure
- * compiler.
- *
- * Implement this adapter for your framework of choice to delegate updates to
- * the component in your framework of choice. See architecture documentation
- * for more details.
- * https://github.com/material-components/material-components-web/blob/master/docs/code/architecture.md
- *
- * @record
- */
-var MDCSnackbarAdapter =
-/*#__PURE__*/
-function () {
-  function MDCSnackbarAdapter() {
-    _classCallCheck(this, MDCSnackbarAdapter);
-  }
-
-  _createClass(MDCSnackbarAdapter, [{
-    key: "addClass",
-
-    /** @param {string} className */
-    value: function addClass(className) {}
-    /** @param {string} className */
-
-  }, {
-    key: "removeClass",
-    value: function removeClass(className) {}
-  }, {
-    key: "announce",
-    value: function announce() {}
-  }, {
-    key: "notifyOpening",
-    value: function notifyOpening() {}
-  }, {
-    key: "notifyOpened",
-    value: function notifyOpened() {}
-    /**
-     * @param {string} reason
-     */
-
-  }, {
-    key: "notifyClosing",
-    value: function notifyClosing(reason) {}
-    /**
-     * @param {string} reason
-     */
-
-  }, {
-    key: "notifyClosed",
-    value: function notifyClosed(reason) {}
-  }]);
-
-  return MDCSnackbarAdapter;
-}();
+  /**
+   * Number of milliseconds to wait between temporarily clearing the label text
+   * in the DOM and subsequently restoring it. This is necessary to force IE 11
+   * to pick up the `aria-live` content change and announce it to the user.
+   */
+  ARIA_LIVE_DELAY_MS: 1000
+};
 
 /**
  * @license
@@ -313,40 +239,6 @@ function () {
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-var cssClasses = {
-  OPENING: 'mdc-snackbar--opening',
-  OPEN: 'mdc-snackbar--open',
-  CLOSING: 'mdc-snackbar--closing'
-};
-var strings = {
-  SURFACE_SELECTOR: '.mdc-snackbar__surface',
-  LABEL_SELECTOR: '.mdc-snackbar__label',
-  ACTION_SELECTOR: '.mdc-snackbar__action',
-  DISMISS_SELECTOR: '.mdc-snackbar__dismiss',
-  OPENING_EVENT: 'MDCSnackbar:opening',
-  OPENED_EVENT: 'MDCSnackbar:opened',
-  CLOSING_EVENT: 'MDCSnackbar:closing',
-  CLOSED_EVENT: 'MDCSnackbar:closed',
-  REASON_ACTION: 'action',
-  REASON_DISMISS: 'dismiss',
-  ARIA_LIVE_LABEL_TEXT_ATTR: 'data-mdc-snackbar-label-text'
-};
-var numbers = {
-  MIN_AUTO_DISMISS_TIMEOUT_MS: 4000,
-  MAX_AUTO_DISMISS_TIMEOUT_MS: 10000,
-  DEFAULT_AUTO_DISMISS_TIMEOUT_MS: 5000,
-  // These variables need to be kept in sync with the values in _variables.scss.
-  SNACKBAR_ANIMATION_OPEN_TIME_MS: 150,
-  SNACKBAR_ANIMATION_CLOSE_TIME_MS: 75,
-
-  /**
-   * Number of milliseconds to wait between temporarily clearing the label text
-   * in the DOM and subsequently restoring it. This is necessary to force IE 11
-   * to pick up the `aria-live` content change and announce it to the user.
-   */
-  ARIA_LIVE_DELAY_MS: 1000
-};
-
 var OPENING = cssClasses.OPENING,
     OPEN = cssClasses.OPEN,
     CLOSING = cssClasses.CLOSING;
@@ -354,275 +246,212 @@ var REASON_ACTION = strings.REASON_ACTION,
     REASON_DISMISS = strings.REASON_DISMISS;
 
 var MDCSnackbarFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCSnackbarFoundation, _MDCFoundation);
-
-  _createClass(MDCSnackbarFoundation, null, [{
-    key: "cssClasses",
-    get: function get() {
-      return cssClasses;
-    }
-  }, {
-    key: "strings",
-    get: function get() {
-      return strings;
-    }
-  }, {
-    key: "numbers",
-    get: function get() {
-      return numbers;
-    }
-    /**
-     * @return {!MDCSnackbarAdapter}
-     */
-
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCSnackbarAdapter} */
-        {
-          addClass: function addClass()
-          /* className: string */
-          {},
-          removeClass: function removeClass()
-          /* className: string */
-          {},
-          announce: function announce() {},
-          notifyOpening: function notifyOpening() {},
-          notifyOpened: function notifyOpened() {},
-          notifyClosing: function notifyClosing()
-          /* reason: string */
-          {},
-          notifyClosed: function notifyClosed()
-          /* reason: string */
-          {}
-        }
-      );
-    }
-    /**
-     * @param {!MDCSnackbarAdapter=} adapter
-     */
-
-  }]);
+/** @class */
+function (_super) {
+  __extends(MDCSnackbarFoundation, _super);
 
   function MDCSnackbarFoundation(adapter) {
-    var _this;
-
-    _classCallCheck(this, MDCSnackbarFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCSnackbarFoundation).call(this, _extends(MDCSnackbarFoundation.defaultAdapter, adapter)));
-    /** @private {boolean} */
+    var _this = _super.call(this, _assign({}, MDCSnackbarFoundation.defaultAdapter, adapter)) || this;
 
     _this.isOpen_ = false;
-    /** @private {number} */
-
     _this.animationFrame_ = 0;
-    /** @private {number} */
-
     _this.animationTimer_ = 0;
-    /** @private {number} */
-
     _this.autoDismissTimer_ = 0;
-    /** @private {number} */
-
     _this.autoDismissTimeoutMs_ = numbers.DEFAULT_AUTO_DISMISS_TIMEOUT_MS;
-    /** @private {boolean} */
-
     _this.closeOnEscape_ = true;
     return _this;
   }
 
-  _createClass(MDCSnackbarFoundation, [{
-    key: "destroy",
-    value: function destroy() {
-      this.clearAutoDismissTimer_();
-      cancelAnimationFrame(this.animationFrame_);
-      this.animationFrame_ = 0;
-      clearTimeout(this.animationTimer_);
-      this.animationTimer_ = 0;
-      this.adapter_.removeClass(OPENING);
-      this.adapter_.removeClass(OPEN);
-      this.adapter_.removeClass(CLOSING);
+  Object.defineProperty(MDCSnackbarFoundation, "cssClasses", {
+    get: function get() {
+      return cssClasses;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCSnackbarFoundation, "strings", {
+    get: function get() {
+      return strings;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCSnackbarFoundation, "numbers", {
+    get: function get() {
+      return numbers;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCSnackbarFoundation, "defaultAdapter", {
+    get: function get() {
+      return {
+        addClass: function addClass() {
+          return undefined;
+        },
+        announce: function announce() {
+          return undefined;
+        },
+        notifyClosed: function notifyClosed() {
+          return undefined;
+        },
+        notifyClosing: function notifyClosing() {
+          return undefined;
+        },
+        notifyOpened: function notifyOpened() {
+          return undefined;
+        },
+        notifyOpening: function notifyOpening() {
+          return undefined;
+        },
+        removeClass: function removeClass() {
+          return undefined;
+        }
+      };
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  MDCSnackbarFoundation.prototype.destroy = function () {
+    this.clearAutoDismissTimer_();
+    cancelAnimationFrame(this.animationFrame_);
+    this.animationFrame_ = 0;
+    clearTimeout(this.animationTimer_);
+    this.animationTimer_ = 0;
+    this.adapter_.removeClass(OPENING);
+    this.adapter_.removeClass(OPEN);
+    this.adapter_.removeClass(CLOSING);
+  };
+
+  MDCSnackbarFoundation.prototype.open = function () {
+    var _this = this;
+
+    this.clearAutoDismissTimer_();
+    this.isOpen_ = true;
+    this.adapter_.notifyOpening();
+    this.adapter_.removeClass(CLOSING);
+    this.adapter_.addClass(OPENING);
+    this.adapter_.announce(); // Wait a frame once display is no longer "none", to establish basis for animation
+
+    this.runNextAnimationFrame_(function () {
+      _this.adapter_.addClass(OPEN);
+
+      _this.animationTimer_ = setTimeout(function () {
+        _this.handleAnimationTimerEnd_();
+
+        _this.adapter_.notifyOpened();
+
+        _this.autoDismissTimer_ = setTimeout(function () {
+          _this.close(REASON_DISMISS);
+        }, _this.getTimeoutMs());
+      }, numbers.SNACKBAR_ANIMATION_OPEN_TIME_MS);
+    });
+  };
+  /**
+   * @param reason Why the snackbar was closed. Value will be passed to CLOSING_EVENT and CLOSED_EVENT via the
+   *     `event.detail.reason` property. Standard values are REASON_ACTION and REASON_DISMISS, but custom
+   *     client-specific values may also be used if desired.
+   */
+
+
+  MDCSnackbarFoundation.prototype.close = function (reason) {
+    var _this = this;
+
+    if (reason === void 0) {
+      reason = '';
     }
-  }, {
-    key: "open",
-    value: function open() {
-      var _this2 = this;
 
-      this.clearAutoDismissTimer_();
-      this.isOpen_ = true;
-      this.adapter_.notifyOpening();
-      this.adapter_.removeClass(CLOSING);
-      this.adapter_.addClass(OPENING);
-      this.adapter_.announce(); // Wait a frame once display is no longer "none", to establish basis for animation
-
-      this.runNextAnimationFrame_(function () {
-        _this2.adapter_.addClass(OPEN);
-
-        _this2.animationTimer_ = setTimeout(function () {
-          _this2.handleAnimationTimerEnd_();
-
-          _this2.adapter_.notifyOpened();
-
-          _this2.autoDismissTimer_ = setTimeout(function () {
-            _this2.close(REASON_DISMISS);
-          }, _this2.getTimeoutMs());
-        }, numbers.SNACKBAR_ANIMATION_OPEN_TIME_MS);
-      });
+    if (!this.isOpen_) {
+      // Avoid redundant close calls (and events), e.g. repeated interactions as the snackbar is animating closed
+      return;
     }
-    /**
-     * @param {string=} reason Why the snackbar was closed. Value will be passed to CLOSING_EVENT and CLOSED_EVENT via the
-     *     `event.detail.reason` property. Standard values are REASON_ACTION and REASON_DISMISS, but custom
-     *     client-specific values may also be used if desired.
-     */
 
-  }, {
-    key: "close",
-    value: function close() {
-      var _this3 = this;
+    cancelAnimationFrame(this.animationFrame_);
+    this.animationFrame_ = 0;
+    this.clearAutoDismissTimer_();
+    this.isOpen_ = false;
+    this.adapter_.notifyClosing(reason);
+    this.adapter_.addClass(cssClasses.CLOSING);
+    this.adapter_.removeClass(cssClasses.OPEN);
+    this.adapter_.removeClass(cssClasses.OPENING);
+    clearTimeout(this.animationTimer_);
+    this.animationTimer_ = setTimeout(function () {
+      _this.handleAnimationTimerEnd_();
 
-      var reason = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      _this.adapter_.notifyClosed(reason);
+    }, numbers.SNACKBAR_ANIMATION_CLOSE_TIME_MS);
+  };
 
-      if (!this.isOpen_) {
-        // Avoid redundant close calls (and events), e.g. repeated interactions as the snackbar is animating closed
-        return;
-      }
+  MDCSnackbarFoundation.prototype.isOpen = function () {
+    return this.isOpen_;
+  };
 
-      cancelAnimationFrame(this.animationFrame_);
-      this.animationFrame_ = 0;
-      this.clearAutoDismissTimer_();
-      this.isOpen_ = false;
-      this.adapter_.notifyClosing(reason);
-      this.adapter_.addClass(cssClasses.CLOSING);
-      this.adapter_.removeClass(cssClasses.OPEN);
-      this.adapter_.removeClass(cssClasses.OPENING);
-      clearTimeout(this.animationTimer_);
-      this.animationTimer_ = setTimeout(function () {
-        _this3.handleAnimationTimerEnd_();
+  MDCSnackbarFoundation.prototype.getTimeoutMs = function () {
+    return this.autoDismissTimeoutMs_;
+  };
 
-        _this3.adapter_.notifyClosed(reason);
-      }, numbers.SNACKBAR_ANIMATION_CLOSE_TIME_MS);
+  MDCSnackbarFoundation.prototype.setTimeoutMs = function (timeoutMs) {
+    // Use shorter variable names to make the code more readable
+    var minValue = numbers.MIN_AUTO_DISMISS_TIMEOUT_MS;
+    var maxValue = numbers.MAX_AUTO_DISMISS_TIMEOUT_MS;
+
+    if (timeoutMs <= maxValue && timeoutMs >= minValue) {
+      this.autoDismissTimeoutMs_ = timeoutMs;
+    } else {
+      throw new Error("timeoutMs must be an integer in the range " + minValue + "\u2013" + maxValue + ", but got '" + timeoutMs + "'");
     }
-    /**
-     * @return {boolean}
-     */
+  };
 
-  }, {
-    key: "isOpen",
-    value: function isOpen() {
-      return this.isOpen_;
-    }
-    /**
-     * @return {number}
-     */
+  MDCSnackbarFoundation.prototype.getCloseOnEscape = function () {
+    return this.closeOnEscape_;
+  };
 
-  }, {
-    key: "getTimeoutMs",
-    value: function getTimeoutMs() {
-      return this.autoDismissTimeoutMs_;
-    }
-    /**
-     * @param {number} timeoutMs
-     */
+  MDCSnackbarFoundation.prototype.setCloseOnEscape = function (closeOnEscape) {
+    this.closeOnEscape_ = closeOnEscape;
+  };
 
-  }, {
-    key: "setTimeoutMs",
-    value: function setTimeoutMs(timeoutMs) {
-      // Use shorter variable names to make the code more readable
-      var minValue = numbers.MIN_AUTO_DISMISS_TIMEOUT_MS;
-      var maxValue = numbers.MAX_AUTO_DISMISS_TIMEOUT_MS;
+  MDCSnackbarFoundation.prototype.handleKeyDown = function (evt) {
+    var isEscapeKey = evt.key === 'Escape' || evt.keyCode === 27;
 
-      if (timeoutMs <= maxValue && timeoutMs >= minValue) {
-        this.autoDismissTimeoutMs_ = timeoutMs;
-      } else {
-        throw new Error("timeoutMs must be an integer in the range ".concat(minValue, "\u2013").concat(maxValue, ", but got '").concat(timeoutMs, "'"));
-      }
-    }
-    /**
-     * @return {boolean}
-     */
-
-  }, {
-    key: "getCloseOnEscape",
-    value: function getCloseOnEscape() {
-      return this.closeOnEscape_;
-    }
-    /**
-     * @param {boolean} closeOnEscape
-     */
-
-  }, {
-    key: "setCloseOnEscape",
-    value: function setCloseOnEscape(closeOnEscape) {
-      this.closeOnEscape_ = closeOnEscape;
-    }
-    /**
-     * @param {!KeyboardEvent} evt
-     */
-
-  }, {
-    key: "handleKeyDown",
-    value: function handleKeyDown(evt) {
-      if (this.getCloseOnEscape() && (evt.key === 'Escape' || evt.keyCode === 27)) {
-        this.close(REASON_DISMISS);
-      }
-    }
-    /**
-     * @param {!MouseEvent} evt
-     */
-
-  }, {
-    key: "handleActionButtonClick",
-    value: function handleActionButtonClick(evt) {
-      this.close(REASON_ACTION);
-    }
-    /**
-     * @param {!MouseEvent} evt
-     */
-
-  }, {
-    key: "handleActionIconClick",
-    value: function handleActionIconClick(evt) {
+    if (isEscapeKey && this.getCloseOnEscape()) {
       this.close(REASON_DISMISS);
     }
-    /** @private */
+  };
 
-  }, {
-    key: "clearAutoDismissTimer_",
-    value: function clearAutoDismissTimer_() {
-      clearTimeout(this.autoDismissTimer_);
-      this.autoDismissTimer_ = 0;
-    }
-    /** @private */
+  MDCSnackbarFoundation.prototype.handleActionButtonClick = function (_evt) {
+    this.close(REASON_ACTION);
+  };
 
-  }, {
-    key: "handleAnimationTimerEnd_",
-    value: function handleAnimationTimerEnd_() {
-      this.animationTimer_ = 0;
-      this.adapter_.removeClass(cssClasses.OPENING);
-      this.adapter_.removeClass(cssClasses.CLOSING);
-    }
-    /**
-     * Runs the given logic on the next animation frame, using setTimeout to factor in Firefox reflow behavior.
-     * @param {Function} callback
-     * @private
-     */
+  MDCSnackbarFoundation.prototype.handleActionIconClick = function (_evt) {
+    this.close(REASON_DISMISS);
+  };
 
-  }, {
-    key: "runNextAnimationFrame_",
-    value: function runNextAnimationFrame_(callback) {
-      var _this4 = this;
+  MDCSnackbarFoundation.prototype.clearAutoDismissTimer_ = function () {
+    clearTimeout(this.autoDismissTimer_);
+    this.autoDismissTimer_ = 0;
+  };
 
-      cancelAnimationFrame(this.animationFrame_);
-      this.animationFrame_ = requestAnimationFrame(function () {
-        _this4.animationFrame_ = 0;
-        clearTimeout(_this4.animationTimer_);
-        _this4.animationTimer_ = setTimeout(callback, 0);
-      });
-    }
-  }]);
+  MDCSnackbarFoundation.prototype.handleAnimationTimerEnd_ = function () {
+    this.animationTimer_ = 0;
+    this.adapter_.removeClass(cssClasses.OPENING);
+    this.adapter_.removeClass(cssClasses.CLOSING);
+  };
+  /**
+   * Runs the given logic on the next animation frame, using setTimeout to factor in Firefox reflow behavior.
+   */
+
+
+  MDCSnackbarFoundation.prototype.runNextAnimationFrame_ = function (callback) {
+    var _this = this;
+
+    cancelAnimationFrame(this.animationFrame_);
+    this.animationFrame_ = requestAnimationFrame(function () {
+      _this.animationFrame_ = 0;
+      clearTimeout(_this.animationTimer_);
+      _this.animationTimer_ = setTimeout(callback, 0);
+    });
+  };
 
   return MDCSnackbarFoundation;
 }(MDCFoundation);
@@ -652,6 +481,30 @@ function (_MDCFoundation) {
 
 /**
  * @license
+ * Copyright 2019 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+ // Old namespace for backward compatibility
+
+/**
+ * @license
  * Copyright 2018 Google Inc.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -677,12 +530,6 @@ function (_MDCFoundation) {
  * @fileoverview A "ponyfill" is a polyfill that doesn't modify the global prototype chain.
  * This makes ponyfills safer than traditional polyfills, especially for libraries like MDC.
  */
-
-/**
- * @param {!Element} element
- * @param {string} selector
- * @return {?Element}
- */
 function closest(element, selector) {
   if (element.closest) {
     return element.closest(selector);
@@ -700,13 +547,6 @@ function closest(element, selector) {
 
   return null;
 }
-/**
- * @param {!Element} element
- * @param {string} selector
- * @return {boolean}
- */
-
-
 function matches(element, selector) {
   var nativeMatches = element.matches || element.webkitMatchesSelector || element.msMatchesSelector;
   return nativeMatches.call(element, selector);

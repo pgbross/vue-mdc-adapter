@@ -3,7 +3,7 @@
 * @exports default
 * @copyright (c) 2017-present, Sebastien Tasson
 * @license https://opensource.org/licenses/MIT
-* @implements {"@material/tabs":"^0.44.0","material-components-web":"^0.44.0"}
+* @implements {"@material/tabs":"^1.0.0-0","material-components-web":"^1.0.0-0"}
 * @requires {"vue":"^2.5.6"}
 * @see https://github.com/stasson/vue-mdc-adapter
 */
@@ -23,28 +23,6 @@ function BasePlugin(components) {
   };
 }
 
-function _classCallCheck(instance, Constructor) {
-  if (!(instance instanceof Constructor)) {
-    throw new TypeError("Cannot call a class as a function");
-  }
-}
-
-function _defineProperties(target, props) {
-  for (var i = 0; i < props.length; i++) {
-    var descriptor = props[i];
-    descriptor.enumerable = descriptor.enumerable || false;
-    descriptor.configurable = true;
-    if ("value" in descriptor) descriptor.writable = true;
-    Object.defineProperty(target, descriptor.key, descriptor);
-  }
-}
-
-function _createClass(Constructor, protoProps, staticProps) {
-  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-  if (staticProps) _defineProperties(Constructor, staticProps);
-  return Constructor;
-}
-
 function _defineProperty(obj, key, value) {
   if (key in obj) {
     Object.defineProperty(obj, key, {
@@ -58,24 +36,6 @@ function _defineProperty(obj, key, value) {
   }
 
   return obj;
-}
-
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
 }
 
 function _objectSpread(target) {
@@ -95,83 +55,6 @@ function _objectSpread(target) {
   }
 
   return target;
-}
-
-function _inherits(subClass, superClass) {
-  if (typeof superClass !== "function" && superClass !== null) {
-    throw new TypeError("Super expression must either be null or a function");
-  }
-
-  subClass.prototype = Object.create(superClass && superClass.prototype, {
-    constructor: {
-      value: subClass,
-      writable: true,
-      configurable: true
-    }
-  });
-  if (superClass) _setPrototypeOf(subClass, superClass);
-}
-
-function _getPrototypeOf(o) {
-  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) {
-    return o.__proto__ || Object.getPrototypeOf(o);
-  };
-  return _getPrototypeOf(o);
-}
-
-function _setPrototypeOf(o, p) {
-  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
-    o.__proto__ = p;
-    return o;
-  };
-
-  return _setPrototypeOf(o, p);
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
-}
-
-function _possibleConstructorReturn(self, call) {
-  if (call && (typeof call === "object" || typeof call === "function")) {
-    return call;
-  }
-
-  return _assertThisInitialized(self);
-}
-
-function _superPropBase(object, property) {
-  while (!Object.prototype.hasOwnProperty.call(object, property)) {
-    object = _getPrototypeOf(object);
-    if (object === null) break;
-  }
-
-  return object;
-}
-
-function _get(target, property, receiver) {
-  if (typeof Reflect !== "undefined" && Reflect.get) {
-    _get = Reflect.get;
-  } else {
-    _get = function _get(target, property, receiver) {
-      var base = _superPropBase(target, property);
-
-      if (!base) return;
-      var desc = Object.getOwnPropertyDescriptor(base, property);
-
-      if (desc.get) {
-        return desc.get.call(receiver);
-      }
-
-      return desc.value;
-    };
-  }
-
-  return _get(target, property, receiver || target);
 }
 
 function _toConsumableArray(arr) {
@@ -228,149 +111,61 @@ var DispatchEventMixin = {
 
 var scope = Math.floor(Math.random() * Math.floor(0x10000000)).toString() + '-';
 
-/**
- * @license
- * Copyright 2018 Google Inc.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
 
-/* eslint no-unused-vars: [2, {"args": "none"}] */
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
 
-/**
- * Adapter for MDC Top App Bar
- *
- * Defines the shape of the adapter expected by the foundation. Implement this
- * adapter to integrate the Top App Bar into your framework. See
- * https://github.com/material-components/material-components-web/blob/master/docs/authoring-components.md
- * for more information.
- *
- * @record
- */
-var MDCTopAppBarAdapter =
-/*#__PURE__*/
-function () {
-  function MDCTopAppBarAdapter() {
-    _classCallCheck(this, MDCTopAppBarAdapter);
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+
+/* global Reflect, Promise */
+var _extendStatics = function extendStatics(d, b) {
+  _extendStatics = Object.setPrototypeOf || {
+    __proto__: []
+  } instanceof Array && function (d, b) {
+    d.__proto__ = b;
+  } || function (d, b) {
+    for (var p in b) {
+      if (b.hasOwnProperty(p)) d[p] = b[p];
+    }
+  };
+
+  return _extendStatics(d, b);
+};
+
+function __extends(d, b) {
+  _extendStatics(d, b);
+
+  function __() {
+    this.constructor = d;
   }
 
-  _createClass(MDCTopAppBarAdapter, [{
-    key: "addClass",
+  d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+}
 
-    /**
-     * Adds a class to the root Element.
-     * @param {string} className
-     */
-    value: function addClass(className) {}
-    /**
-     * Removes a class from the root Element.
-     * @param {string} className
-     */
+var _assign = function __assign() {
+  _assign = Object.assign || function __assign(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
 
-  }, {
-    key: "removeClass",
-    value: function removeClass(className) {}
-    /**
-     * Returns true if the root Element contains the given class.
-     * @param {string} className
-     * @return {boolean}
-     */
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
 
-  }, {
-    key: "hasClass",
-    value: function hasClass(className) {}
-    /**
-     * Sets the specified inline style property on the root Element to the given value.
-     * @param {string} property
-     * @param {string} value
-     */
+    return t;
+  };
 
-  }, {
-    key: "setStyle",
-    value: function setStyle(property, value) {}
-    /**
-     * Gets the height of the top app bar.
-     * @return {number}
-     */
-
-  }, {
-    key: "getTopAppBarHeight",
-    value: function getTopAppBarHeight() {}
-    /**
-     * Registers an event handler on the navigation icon element for a given event.
-     * @param {string} type
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "registerNavigationIconInteractionHandler",
-    value: function registerNavigationIconInteractionHandler(type, handler) {}
-    /**
-     * Deregisters an event handler on the navigation icon element for a given event.
-     * @param {string} type
-     * @param {function(!Event): undefined} handler
-     */
-
-  }, {
-    key: "deregisterNavigationIconInteractionHandler",
-    value: function deregisterNavigationIconInteractionHandler(type, handler) {}
-    /**
-     * Emits an event when the navigation icon is clicked.
-     */
-
-  }, {
-    key: "notifyNavigationIconClicked",
-    value: function notifyNavigationIconClicked() {}
-    /** @param {function(!Event)} handler */
-
-  }, {
-    key: "registerScrollHandler",
-    value: function registerScrollHandler(handler) {}
-    /** @param {function(!Event)} handler */
-
-  }, {
-    key: "deregisterScrollHandler",
-    value: function deregisterScrollHandler(handler) {}
-    /** @param {function(!Event)} handler */
-
-  }, {
-    key: "registerResizeHandler",
-    value: function registerResizeHandler(handler) {}
-    /** @param {function(!Event)} handler */
-
-  }, {
-    key: "deregisterResizeHandler",
-    value: function deregisterResizeHandler(handler) {}
-    /** @return {number} */
-
-  }, {
-    key: "getViewportScrollY",
-    value: function getViewportScrollY() {}
-    /** @return {number} */
-
-  }, {
-    key: "getTotalActionItems",
-    value: function getTotalActionItems() {}
-  }]);
-
-  return MDCTopAppBarAdapter;
-}();
+  return _assign.apply(this, arguments);
+};
 
 /**
  * @license
@@ -394,23 +189,17 @@ function () {
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/** @enum {string} */
 var cssClasses = {
   FIXED_CLASS: 'mdc-top-app-bar--fixed',
   FIXED_SCROLLED_CLASS: 'mdc-top-app-bar--fixed-scrolled',
   SHORT_CLASS: 'mdc-top-app-bar--short',
-  SHORT_HAS_ACTION_ITEM_CLASS: 'mdc-top-app-bar--short-has-action-item',
-  SHORT_COLLAPSED_CLASS: 'mdc-top-app-bar--short-collapsed'
+  SHORT_COLLAPSED_CLASS: 'mdc-top-app-bar--short-collapsed',
+  SHORT_HAS_ACTION_ITEM_CLASS: 'mdc-top-app-bar--short-has-action-item'
 };
-/** @enum {number} */
-
 var numbers = {
   DEBOUNCE_THROTTLE_RESIZE_TIME_MS: 100,
   MAX_TOP_APP_BAR_HEIGHT: 128
 };
-/** @enum {string} */
-
 var strings = {
   ACTION_ITEM_SELECTOR: '.mdc-top-app-bar__action-item',
   NAVIGATION_EVENT: 'MDCTopAppBar:nav',
@@ -441,285 +230,285 @@ var strings = {
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-/**
- * @template A
- */
 var MDCFoundation =
-/*#__PURE__*/
+/** @class */
 function () {
-  _createClass(MDCFoundation, null, [{
-    key: "cssClasses",
+  function MDCFoundation(adapter) {
+    if (adapter === void 0) {
+      adapter = {};
+    }
 
-    /** @return enum{cssClasses} */
+    this.adapter_ = adapter;
+  }
+
+  Object.defineProperty(MDCFoundation, "cssClasses", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports every
       // CSS class the foundation class needs as a property. e.g. {ACTIVE: 'mdc-component--active'}
       return {};
-    }
-    /** @return enum{strings} */
-
-  }, {
-    key: "strings",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "strings", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // semantic strings as constants. e.g. {ARIA_ROLE: 'tablist'}
       return {};
-    }
-    /** @return enum{numbers} */
-
-  }, {
-    key: "numbers",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "numbers", {
     get: function get() {
       // Classes extending MDCFoundation should implement this method to return an object which exports all
       // of its semantic numbers as constants. e.g. {ANIMATION_DELAY_MS: 350}
       return {};
-    }
-    /** @return {!Object} */
-
-  }, {
-    key: "defaultAdapter",
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCFoundation, "defaultAdapter", {
     get: function get() {
       // Classes extending MDCFoundation may choose to implement this getter in order to provide a convenient
       // way of viewing the necessary methods of an adapter. In the future, this could also be used for adapter
       // validation.
       return {};
-    }
-    /**
-     * @param {A=} adapter
-     */
+    },
+    enumerable: true,
+    configurable: true
+  });
 
-  }]);
+  MDCFoundation.prototype.init = function () {// Subclasses should override this method to perform initialization routines (registering events, etc.)
+  };
 
-  function MDCFoundation() {
-    var adapter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-    _classCallCheck(this, MDCFoundation);
-
-    /** @protected {!A} */
-    this.adapter_ = adapter;
-  }
-
-  _createClass(MDCFoundation, [{
-    key: "init",
-    value: function init() {// Subclasses should override this method to perform initialization routines (registering events, etc.)
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
-    }
-  }]);
+  MDCFoundation.prototype.destroy = function () {// Subclasses should override this method to perform de-initialization routines (de-registering events, etc.)
+  };
 
   return MDCFoundation;
 }();
 
 /**
- * @extends {MDCFoundation<!MDCTopAppBarAdapter>}
+ * @license
+ * Copyright 2018 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 var MDCTopAppBarBaseFoundation =
-/*#__PURE__*/
-function (_MDCFoundation) {
-  _inherits(MDCTopAppBarBaseFoundation, _MDCFoundation);
+/** @class */
+function (_super) {
+  __extends(MDCTopAppBarBaseFoundation, _super);
+  /* istanbul ignore next: optional argument is not a branch statement */
 
-  _createClass(MDCTopAppBarBaseFoundation, null, [{
-    key: "strings",
 
-    /** @return enum {string} */
-    get: function get() {
-      return strings;
-    }
-    /** @return enum {string} */
-
-  }, {
-    key: "cssClasses",
-    get: function get() {
-      return cssClasses;
-    }
-    /** @return enum {number} */
-
-  }, {
-    key: "numbers",
-    get: function get() {
-      return numbers;
-    }
-    /**
-     * {@see MDCTopAppBarAdapter} for typing information on parameters and return
-     * types.
-     * @return {!MDCTopAppBarAdapter}
-     */
-
-  }, {
-    key: "defaultAdapter",
-    get: function get() {
-      return (
-        /** @type {!MDCTopAppBarAdapter} */
-        {
-          hasClass: function hasClass()
-          /* className: string */
-          {},
-          addClass: function addClass()
-          /* className: string */
-          {},
-          removeClass: function removeClass()
-          /* className: string */
-          {},
-          setStyle: function setStyle()
-          /* property: string, value: string */
-          {},
-          getTopAppBarHeight: function getTopAppBarHeight() {},
-          registerNavigationIconInteractionHandler: function registerNavigationIconInteractionHandler()
-          /* type: string, handler: EventListener */
-          {},
-          deregisterNavigationIconInteractionHandler: function deregisterNavigationIconInteractionHandler()
-          /* type: string, handler: EventListener */
-          {},
-          notifyNavigationIconClicked: function notifyNavigationIconClicked() {},
-          registerScrollHandler: function registerScrollHandler()
-          /* handler: EventListener */
-          {},
-          deregisterScrollHandler: function deregisterScrollHandler()
-          /* handler: EventListener */
-          {},
-          registerResizeHandler: function registerResizeHandler()
-          /* handler: EventListener */
-          {},
-          deregisterResizeHandler: function deregisterResizeHandler()
-          /* handler: EventListener */
-          {},
-          getViewportScrollY: function getViewportScrollY() {
-            return (
-              /* number */
-              0
-            );
-          },
-          getTotalActionItems: function getTotalActionItems() {
-            return (
-              /* number */
-              0
-            );
-          }
-        }
-      );
-    }
-    /**
-     * @param {!MDCTopAppBarAdapter} adapter
-     */
-
-  }]);
-
-  function MDCTopAppBarBaseFoundation(
-  /** @type {!MDCTopAppBarAdapter} */
-  adapter) {
-    var _this;
-
-    _classCallCheck(this, MDCTopAppBarBaseFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCTopAppBarBaseFoundation).call(this, _extends(MDCTopAppBarBaseFoundation.defaultAdapter, adapter)));
+  function MDCTopAppBarBaseFoundation(adapter) {
+    var _this = _super.call(this, _assign({}, MDCTopAppBarBaseFoundation.defaultAdapter, adapter)) || this;
 
     _this.navClickHandler_ = function () {
       return _this.adapter_.notifyNavigationIconClicked();
     };
 
-    _this.scrollHandler_ = function () {};
-
     return _this;
   }
 
-  _createClass(MDCTopAppBarBaseFoundation, [{
-    key: "init",
-    value: function init() {
-      this.adapter_.registerNavigationIconInteractionHandler('click', this.navClickHandler_);
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      this.adapter_.deregisterNavigationIconInteractionHandler('click', this.navClickHandler_);
-    }
-  }, {
-    key: "initScrollHandler",
-    value: function initScrollHandler() {
+  Object.defineProperty(MDCTopAppBarBaseFoundation, "strings", {
+    get: function get() {
+      return strings;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCTopAppBarBaseFoundation, "cssClasses", {
+    get: function get() {
+      return cssClasses;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCTopAppBarBaseFoundation, "numbers", {
+    get: function get() {
+      return numbers;
+    },
+    enumerable: true,
+    configurable: true
+  });
+  Object.defineProperty(MDCTopAppBarBaseFoundation, "defaultAdapter", {
+    /**
+     * See {@link MDCTopAppBarAdapter} for typing information on parameters and return types.
+     */
+    get: function get() {
+      // tslint:disable:object-literal-sort-keys Methods should be in the same order as the adapter interface.
+      return {
+        addClass: function addClass() {
+          return undefined;
+        },
+        removeClass: function removeClass() {
+          return undefined;
+        },
+        hasClass: function hasClass() {
+          return false;
+        },
+        setStyle: function setStyle() {
+          return undefined;
+        },
+        getTopAppBarHeight: function getTopAppBarHeight() {
+          return 0;
+        },
+        registerNavigationIconInteractionHandler: function registerNavigationIconInteractionHandler() {
+          return undefined;
+        },
+        deregisterNavigationIconInteractionHandler: function deregisterNavigationIconInteractionHandler() {
+          return undefined;
+        },
+        notifyNavigationIconClicked: function notifyNavigationIconClicked() {
+          return undefined;
+        },
+        registerScrollHandler: function registerScrollHandler() {
+          return undefined;
+        },
+        deregisterScrollHandler: function deregisterScrollHandler() {
+          return undefined;
+        },
+        registerResizeHandler: function registerResizeHandler() {
+          return undefined;
+        },
+        deregisterResizeHandler: function deregisterResizeHandler() {
+          return undefined;
+        },
+        getViewportScrollY: function getViewportScrollY() {
+          return 0;
+        },
+        getTotalActionItems: function getTotalActionItems() {
+          return 0;
+        }
+      }; // tslint:enable:object-literal-sort-keys
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  MDCTopAppBarBaseFoundation.prototype.init = function () {
+    this.initScrollHandler();
+    this.initResizeHandler_();
+    this.adapter_.registerNavigationIconInteractionHandler('click', this.navClickHandler_);
+  };
+
+  MDCTopAppBarBaseFoundation.prototype.destroy = function () {
+    this.destroyScrollHandler();
+    this.destroyResizeHandler_();
+    this.adapter_.deregisterNavigationIconInteractionHandler('click', this.navClickHandler_);
+  };
+
+  MDCTopAppBarBaseFoundation.prototype.initScrollHandler = function () {
+    if (this.scrollHandler_) {
       this.adapter_.registerScrollHandler(this.scrollHandler_);
     }
-  }, {
-    key: "destroyScrollHandler",
-    value: function destroyScrollHandler() {
+  };
+
+  MDCTopAppBarBaseFoundation.prototype.destroyScrollHandler = function () {
+    if (this.scrollHandler_) {
       this.adapter_.deregisterScrollHandler(this.scrollHandler_);
     }
-  }]);
+  };
+
+  MDCTopAppBarBaseFoundation.prototype.initResizeHandler_ = function () {
+    if (this.resizeHandler_) {
+      this.adapter_.registerResizeHandler(this.resizeHandler_);
+    }
+  };
+
+  MDCTopAppBarBaseFoundation.prototype.destroyResizeHandler_ = function () {
+    if (this.resizeHandler_) {
+      this.adapter_.deregisterResizeHandler(this.resizeHandler_);
+    }
+  };
 
   return MDCTopAppBarBaseFoundation;
 }(MDCFoundation);
 
-var INITIAL_VALUE = 0;
 /**
- * @extends {MDCTopAppBarBaseFoundation<!MDCTopAppBarFoundation>}
- * @final
+ * @license
+ * Copyright 2018 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
+var INITIAL_VALUE = 0;
 
 var MDCTopAppBarFoundation =
-/*#__PURE__*/
-function (_MDCTopAppBarBaseFoun) {
-  _inherits(MDCTopAppBarFoundation, _MDCTopAppBarBaseFoun);
+/** @class */
+function (_super) {
+  __extends(MDCTopAppBarFoundation, _super);
+  /* istanbul ignore next: optional argument is not a branch statement */
 
-  /**
-   * @param {!MDCTopAppBarAdapter} adapter
-   */
+
   function MDCTopAppBarFoundation(adapter) {
-    var _this;
-
-    _classCallCheck(this, MDCTopAppBarFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCTopAppBarFoundation).call(this, adapter));
+    var _this = _super.call(this, adapter) || this;
     /**
-     * Used for diffs of current scroll position vs previous scroll position
-     * @private {number}
+     * Indicates if the top app bar was docked in the previous scroll handler iteration.
      */
 
-    _this.lastScrollPosition_ = _this.adapter_.getViewportScrollY();
-    /**
-     * Used to verify when the top app bar is completely showing or completely hidden
-     * @private {number}
-     */
-
-    _this.topAppBarHeight_ = _this.adapter_.getTopAppBarHeight();
-    /**
-     * wasDocked_ is used to indicate if the top app bar was docked in the previous
-     * scroll handler iteration.
-     * @private {boolean}
-     */
 
     _this.wasDocked_ = true;
     /**
-     * isDockedShowing_ is used to indicate if the top app bar is docked in the fully
-     * shown position.
-     * @private {boolean}
+     * Indicates if the top app bar is docked in the fully shown position.
      */
 
     _this.isDockedShowing_ = true;
     /**
      * Variable for current scroll position of the top app bar
-     * @private {number}
      */
 
     _this.currentAppBarOffsetTop_ = 0;
     /**
      * Used to prevent the top app bar from being scrolled out of view during resize events
-     * @private {boolean} */
+     */
 
     _this.isCurrentlyBeingResized_ = false;
     /**
      * The timeout that's used to throttle the resize events
-     * @private {number}
      */
 
     _this.resizeThrottleId_ = INITIAL_VALUE;
     /**
      * The timeout that's used to debounce toggling the isCurrentlyBeingResized_ variable after a resize
-     * @private {number}
      */
 
     _this.resizeDebounceId_ = INITIAL_VALUE;
+    _this.lastScrollPosition_ = _this.adapter_.getViewportScrollY();
+    _this.topAppBarHeight_ = _this.adapter_.getTopAppBarHeight();
 
     _this.scrollHandler_ = function () {
       return _this.topAppBarScrollHandler_();
@@ -732,256 +521,255 @@ function (_MDCTopAppBarBaseFoun) {
     return _this;
   }
 
-  _createClass(MDCTopAppBarFoundation, [{
-    key: "init",
-    value: function init() {
-      _get(_getPrototypeOf(MDCTopAppBarFoundation.prototype), "init", this).call(this);
+  MDCTopAppBarFoundation.prototype.destroy = function () {
+    _super.prototype.destroy.call(this);
 
-      this.adapter_.registerScrollHandler(this.scrollHandler_);
-      this.adapter_.registerResizeHandler(this.resizeHandler_);
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      _get(_getPrototypeOf(MDCTopAppBarFoundation.prototype), "destroy", this).call(this);
+    this.adapter_.setStyle('top', '');
+  };
+  /**
+   * Function to determine if the DOM needs to update.
+   */
 
-      this.adapter_.deregisterScrollHandler(this.scrollHandler_);
-      this.adapter_.deregisterResizeHandler(this.resizeHandler_);
-      this.adapter_.setStyle('top', '');
-    }
-    /**
-     * Function to determine if the DOM needs to update.
-     * @return {boolean}
-     * @private
-     */
 
-  }, {
-    key: "checkForUpdate_",
-    value: function checkForUpdate_() {
-      var offscreenBoundaryTop = -this.topAppBarHeight_;
-      var hasAnyPixelsOffscreen = this.currentAppBarOffsetTop_ < 0;
-      var hasAnyPixelsOnscreen = this.currentAppBarOffsetTop_ > offscreenBoundaryTop;
-      var partiallyShowing = hasAnyPixelsOffscreen && hasAnyPixelsOnscreen; // If it's partially showing, it can't be docked.
+  MDCTopAppBarFoundation.prototype.checkForUpdate_ = function () {
+    var offscreenBoundaryTop = -this.topAppBarHeight_;
+    var hasAnyPixelsOffscreen = this.currentAppBarOffsetTop_ < 0;
+    var hasAnyPixelsOnscreen = this.currentAppBarOffsetTop_ > offscreenBoundaryTop;
+    var partiallyShowing = hasAnyPixelsOffscreen && hasAnyPixelsOnscreen; // If it's partially showing, it can't be docked.
 
-      if (partiallyShowing) {
-        this.wasDocked_ = false;
-      } else {
-        // Not previously docked and not partially showing, it's now docked.
-        if (!this.wasDocked_) {
-          this.wasDocked_ = true;
-          return true;
-        } else if (this.isDockedShowing_ !== hasAnyPixelsOnscreen) {
-          this.isDockedShowing_ = hasAnyPixelsOnscreen;
-          return true;
-        }
-      }
-
-      return partiallyShowing;
-    }
-    /**
-     * Function to move the top app bar if needed.
-     * @private
-     */
-
-  }, {
-    key: "moveTopAppBar_",
-    value: function moveTopAppBar_() {
-      if (this.checkForUpdate_()) {
-        // Once the top app bar is fully hidden we use the max potential top app bar height as our offset
-        // so the top app bar doesn't show if the window resizes and the new height > the old height.
-        var offset = this.currentAppBarOffsetTop_;
-
-        if (Math.abs(offset) >= this.topAppBarHeight_) {
-          offset = -numbers.MAX_TOP_APP_BAR_HEIGHT;
-        }
-
-        this.adapter_.setStyle('top', offset + 'px');
+    if (partiallyShowing) {
+      this.wasDocked_ = false;
+    } else {
+      // Not previously docked and not partially showing, it's now docked.
+      if (!this.wasDocked_) {
+        this.wasDocked_ = true;
+        return true;
+      } else if (this.isDockedShowing_ !== hasAnyPixelsOnscreen) {
+        this.isDockedShowing_ = hasAnyPixelsOnscreen;
+        return true;
       }
     }
-    /**
-     * Scroll handler for the default scroll behavior of the top app bar.
-     * @private
-     */
 
-  }, {
-    key: "topAppBarScrollHandler_",
-    value: function topAppBarScrollHandler_() {
-      var currentScrollPosition = Math.max(this.adapter_.getViewportScrollY(), 0);
-      var diff = currentScrollPosition - this.lastScrollPosition_;
-      this.lastScrollPosition_ = currentScrollPosition; // If the window is being resized the lastScrollPosition_ needs to be updated but the
-      // current scroll of the top app bar should stay in the same position.
+    return partiallyShowing;
+  };
+  /**
+   * Function to move the top app bar if needed.
+   */
 
-      if (!this.isCurrentlyBeingResized_) {
-        this.currentAppBarOffsetTop_ -= diff;
 
-        if (this.currentAppBarOffsetTop_ > 0) {
-          this.currentAppBarOffsetTop_ = 0;
-        } else if (Math.abs(this.currentAppBarOffsetTop_) > this.topAppBarHeight_) {
-          this.currentAppBarOffsetTop_ = -this.topAppBarHeight_;
-        }
+  MDCTopAppBarFoundation.prototype.moveTopAppBar_ = function () {
+    if (this.checkForUpdate_()) {
+      // Once the top app bar is fully hidden we use the max potential top app bar height as our offset
+      // so the top app bar doesn't show if the window resizes and the new height > the old height.
+      var offset = this.currentAppBarOffsetTop_;
 
-        this.moveTopAppBar_();
+      if (Math.abs(offset) >= this.topAppBarHeight_) {
+        offset = -numbers.MAX_TOP_APP_BAR_HEIGHT;
       }
+
+      this.adapter_.setStyle('top', offset + 'px');
     }
-    /**
-     * Top app bar resize handler that throttle/debounce functions that execute updates.
-     * @private
-     */
+  };
+  /**
+   * Scroll handler for the default scroll behavior of the top app bar.
+   */
 
-  }, {
-    key: "topAppBarResizeHandler_",
-    value: function topAppBarResizeHandler_() {
-      var _this2 = this;
 
-      // Throttle resize events 10 p/s
-      if (!this.resizeThrottleId_) {
-        this.resizeThrottleId_ = setTimeout(function () {
-          _this2.resizeThrottleId_ = INITIAL_VALUE;
+  MDCTopAppBarFoundation.prototype.topAppBarScrollHandler_ = function () {
+    var currentScrollPosition = Math.max(this.adapter_.getViewportScrollY(), 0);
+    var diff = currentScrollPosition - this.lastScrollPosition_;
+    this.lastScrollPosition_ = currentScrollPosition; // If the window is being resized the lastScrollPosition_ needs to be updated but the
+    // current scroll of the top app bar should stay in the same position.
 
-          _this2.throttledResizeHandler_();
-        }, numbers.DEBOUNCE_THROTTLE_RESIZE_TIME_MS);
+    if (!this.isCurrentlyBeingResized_) {
+      this.currentAppBarOffsetTop_ -= diff;
+
+      if (this.currentAppBarOffsetTop_ > 0) {
+        this.currentAppBarOffsetTop_ = 0;
+      } else if (Math.abs(this.currentAppBarOffsetTop_) > this.topAppBarHeight_) {
+        this.currentAppBarOffsetTop_ = -this.topAppBarHeight_;
       }
 
-      this.isCurrentlyBeingResized_ = true;
+      this.moveTopAppBar_();
+    }
+  };
+  /**
+   * Top app bar resize handler that throttle/debounce functions that execute updates.
+   */
 
-      if (this.resizeDebounceId_) {
-        clearTimeout(this.resizeDebounceId_);
-      }
 
-      this.resizeDebounceId_ = setTimeout(function () {
-        _this2.topAppBarScrollHandler_();
+  MDCTopAppBarFoundation.prototype.topAppBarResizeHandler_ = function () {
+    var _this = this; // Throttle resize events 10 p/s
 
-        _this2.isCurrentlyBeingResized_ = false;
-        _this2.resizeDebounceId_ = INITIAL_VALUE;
+
+    if (!this.resizeThrottleId_) {
+      this.resizeThrottleId_ = setTimeout(function () {
+        _this.resizeThrottleId_ = INITIAL_VALUE;
+
+        _this.throttledResizeHandler_();
       }, numbers.DEBOUNCE_THROTTLE_RESIZE_TIME_MS);
     }
-    /**
-     * Throttled function that updates the top app bar scrolled values if the
-     * top app bar height changes.
-     * @private
-     */
 
-  }, {
-    key: "throttledResizeHandler_",
-    value: function throttledResizeHandler_() {
-      var currentHeight = this.adapter_.getTopAppBarHeight();
+    this.isCurrentlyBeingResized_ = true;
 
-      if (this.topAppBarHeight_ !== currentHeight) {
-        this.wasDocked_ = false; // Since the top app bar has a different height depending on the screen width, this
-        // will ensure that the top app bar remains in the correct location if
-        // completely hidden and a resize makes the top app bar a different height.
-
-        this.currentAppBarOffsetTop_ -= this.topAppBarHeight_ - currentHeight;
-        this.topAppBarHeight_ = currentHeight;
-      }
-
-      this.topAppBarScrollHandler_();
+    if (this.resizeDebounceId_) {
+      clearTimeout(this.resizeDebounceId_);
     }
-  }]);
+
+    this.resizeDebounceId_ = setTimeout(function () {
+      _this.topAppBarScrollHandler_();
+
+      _this.isCurrentlyBeingResized_ = false;
+      _this.resizeDebounceId_ = INITIAL_VALUE;
+    }, numbers.DEBOUNCE_THROTTLE_RESIZE_TIME_MS);
+  };
+  /**
+   * Throttled function that updates the top app bar scrolled values if the
+   * top app bar height changes.
+   */
+
+
+  MDCTopAppBarFoundation.prototype.throttledResizeHandler_ = function () {
+    var currentHeight = this.adapter_.getTopAppBarHeight();
+
+    if (this.topAppBarHeight_ !== currentHeight) {
+      this.wasDocked_ = false; // Since the top app bar has a different height depending on the screen width, this
+      // will ensure that the top app bar remains in the correct location if
+      // completely hidden and a resize makes the top app bar a different height.
+
+      this.currentAppBarOffsetTop_ -= this.topAppBarHeight_ - currentHeight;
+      this.topAppBarHeight_ = currentHeight;
+    }
+
+    this.topAppBarScrollHandler_();
+  };
 
   return MDCTopAppBarFoundation;
 }(MDCTopAppBarBaseFoundation);
 
 /**
- * @extends {MDCTopAppBarBaseFoundation<!MDCShortTopAppBarFoundation>}
- * @final
+ * @license
+ * Copyright 2018 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 var MDCShortTopAppBarFoundation =
-/*#__PURE__*/
-function (_MDCTopAppBarBaseFoun) {
-  _inherits(MDCShortTopAppBarFoundation, _MDCTopAppBarBaseFoun);
+/** @class */
+function (_super) {
+  __extends(MDCShortTopAppBarFoundation, _super);
+  /* istanbul ignore next: optional argument is not a branch statement */
 
-  /**
-   * @param {!MDCTopAppBarAdapter} adapter
-   */
+
   function MDCShortTopAppBarFoundation(adapter) {
-    var _this;
+    var _this = _super.call(this, adapter) || this;
+    /**
+     * State variable for the current top app bar state
+     */
 
-    _classCallCheck(this, MDCShortTopAppBarFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCShortTopAppBarFoundation).call(this, adapter)); // State variable for the current top app bar state
 
     _this.isCollapsed = false;
-
-    _this.scrollHandler_ = function () {
-      return _this.shortAppBarScrollHandler_();
-    };
-
     return _this;
   }
 
-  _createClass(MDCShortTopAppBarFoundation, [{
-    key: "init",
-    value: function init() {
-      _get(_getPrototypeOf(MDCShortTopAppBarFoundation.prototype), "init", this).call(this);
+  MDCShortTopAppBarFoundation.prototype.init = function () {
+    var _this = this;
 
-      var isAlwaysCollapsed = this.adapter_.hasClass(cssClasses.SHORT_COLLAPSED_CLASS);
+    _super.prototype.init.call(this);
 
-      if (this.adapter_.getTotalActionItems() > 0) {
-        this.adapter_.addClass(cssClasses.SHORT_HAS_ACTION_ITEM_CLASS);
-      }
-
-      if (!isAlwaysCollapsed) {
-        this.adapter_.registerScrollHandler(this.scrollHandler_);
-        this.shortAppBarScrollHandler_();
-      }
+    if (this.adapter_.getTotalActionItems() > 0) {
+      this.adapter_.addClass(cssClasses.SHORT_HAS_ACTION_ITEM_CLASS);
     }
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      _get(_getPrototypeOf(MDCShortTopAppBarFoundation.prototype), "destroy", this).call(this);
 
-      this.adapter_.deregisterScrollHandler(this.scrollHandler_);
+    if (!this.adapter_.hasClass(cssClasses.SHORT_COLLAPSED_CLASS)) {
+      this.scrollHandler_ = function () {
+        return _this.shortAppBarScrollHandler_();
+      };
+
+      this.adapter_.registerScrollHandler(this.scrollHandler_);
+      this.shortAppBarScrollHandler_();
     }
-    /**
-     * Scroll handler for applying/removing the collapsed modifier class
-     * on the short top app bar.
-     * @private
-     */
+  };
 
-  }, {
-    key: "shortAppBarScrollHandler_",
-    value: function shortAppBarScrollHandler_() {
-      var currentScroll = this.adapter_.getViewportScrollY();
+  MDCShortTopAppBarFoundation.prototype.destroy = function () {
+    _super.prototype.destroy.call(this);
+  };
+  /**
+   * Scroll handler for applying/removing the collapsed modifier class on the short top app bar.
+   */
 
-      if (currentScroll <= 0) {
-        if (this.isCollapsed) {
-          this.adapter_.removeClass(cssClasses.SHORT_COLLAPSED_CLASS);
-          this.isCollapsed = false;
-        }
-      } else {
-        if (!this.isCollapsed) {
-          this.adapter_.addClass(cssClasses.SHORT_COLLAPSED_CLASS);
-          this.isCollapsed = true;
-        }
+
+  MDCShortTopAppBarFoundation.prototype.shortAppBarScrollHandler_ = function () {
+    var currentScroll = this.adapter_.getViewportScrollY();
+
+    if (currentScroll <= 0) {
+      if (this.isCollapsed) {
+        this.adapter_.removeClass(cssClasses.SHORT_COLLAPSED_CLASS);
+        this.isCollapsed = false;
+      }
+    } else {
+      if (!this.isCollapsed) {
+        this.adapter_.addClass(cssClasses.SHORT_COLLAPSED_CLASS);
+        this.isCollapsed = true;
       }
     }
-  }]);
+  };
 
   return MDCShortTopAppBarFoundation;
 }(MDCTopAppBarBaseFoundation);
 
 /**
- * @extends {MDCTopAppBarFoundation<!MDCFixedTopAppBarFoundation>}
- * @final
+ * @license
+ * Copyright 2018 Google Inc.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 var MDCFixedTopAppBarFoundation =
-/*#__PURE__*/
-function (_MDCTopAppBarFoundati) {
-  _inherits(MDCFixedTopAppBarFoundation, _MDCTopAppBarFoundati);
+/** @class */
+function (_super) {
+  __extends(MDCFixedTopAppBarFoundation, _super);
+  /* istanbul ignore next: optional argument is not a branch statement */
 
-  /**
-   * @param {!MDCTopAppBarAdapter} adapter
-   */
+
   function MDCFixedTopAppBarFoundation(adapter) {
-    var _this;
+    var _this = _super.call(this, adapter) || this;
+    /**
+     * State variable for the previous scroll iteration top app bar state
+     */
 
-    _classCallCheck(this, MDCFixedTopAppBarFoundation);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(MDCFixedTopAppBarFoundation).call(this, adapter));
-    /** State variable for the previous scroll iteration top app bar state */
 
     _this.wasScrolled_ = false;
 
@@ -991,47 +779,29 @@ function (_MDCTopAppBarFoundati) {
 
     return _this;
   }
+  /**
+   * Scroll handler for applying/removing the modifier class on the fixed top app bar.
+   */
 
-  _createClass(MDCFixedTopAppBarFoundation, [{
-    key: "init",
-    value: function init() {
-      _get(_getPrototypeOf(MDCFixedTopAppBarFoundation.prototype), "init", this).call(this);
 
-      this.adapter_.registerScrollHandler(this.scrollHandler_);
-    }
-  }, {
-    key: "destroy",
-    value: function destroy() {
-      _get(_getPrototypeOf(MDCFixedTopAppBarFoundation.prototype), "destroy", this).call(this);
+  MDCFixedTopAppBarFoundation.prototype.fixedScrollHandler_ = function () {
+    var currentScroll = this.adapter_.getViewportScrollY();
 
-      this.adapter_.deregisterScrollHandler(this.scrollHandler_);
-    }
-    /**
-     * Scroll handler for applying/removing the modifier class
-     * on the fixed top app bar.
-     */
-
-  }, {
-    key: "fixedScrollHandler_",
-    value: function fixedScrollHandler_() {
-      var currentScroll = this.adapter_.getViewportScrollY();
-
-      if (currentScroll <= 0) {
-        if (this.wasScrolled_) {
-          this.adapter_.removeClass(cssClasses.FIXED_SCROLLED_CLASS);
-          this.wasScrolled_ = false;
-        }
-      } else {
-        if (!this.wasScrolled_) {
-          this.adapter_.addClass(cssClasses.FIXED_SCROLLED_CLASS);
-          this.wasScrolled_ = true;
-        }
+    if (currentScroll <= 0) {
+      if (this.wasScrolled_) {
+        this.adapter_.removeClass(cssClasses.FIXED_SCROLLED_CLASS);
+        this.wasScrolled_ = false;
+      }
+    } else {
+      if (!this.wasScrolled_) {
+        this.adapter_.addClass(cssClasses.FIXED_SCROLLED_CLASS);
+        this.wasScrolled_ = true;
       }
     }
-  }]);
+  };
 
   return MDCFixedTopAppBarFoundation;
-}(MDCTopAppBarBaseFoundation);
+}(MDCTopAppBarFoundation);
 
 var script = {
   name: 'mdc-top-app-bar',
